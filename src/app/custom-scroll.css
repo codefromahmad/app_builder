@@ -30,3 +30,11 @@
 .rotate-180 {
   transform: rotate(180deg);
 }
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
