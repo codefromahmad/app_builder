@@ -1,4 +1,3 @@
-// Filename: src/pages/app.js
 'use client'
 import { useState } from 'react'
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md'
@@ -10,6 +9,7 @@ import { MdDeleteOutline } from 'react-icons/md'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { FaCircleCheck } from 'react-icons/fa6'
 import { sidebarData } from './data'
+import { PhoneFrame } from '@/components/PhoneFrame'
 
 export default function App () {
   const [selectedFeature, setSelectedFeature] = useState(null)
@@ -164,52 +164,58 @@ export default function App () {
       {/* Playground Area */}
       <div className='flex-1 overflow-y-hidden bg-slate-100 duration-1000'>
         {selectedFeature ? (
-          <div
-            className={`flex justify-center ${
-              selectedFeatures?.length > 0 ? 'h-3/4' : 'h-full'
-            } items-center gap-x-6`}
-          >
-            <div className='bg-white p-3 rounded-3xl border-4 border-slate-200 w-48 h-96'>
-              <img
-                src={selectedFeature.mobile}
-                alt='icon'
-                className=' object-fill w-full h-full rounded-md'
-              />
-            </div>
+          <>
+            <div
+              className={`flex justify-center ${
+                selectedFeatures?.length > 0
+                  ? 'h-3/4 animate-moveUp duration-300'
+                  : 'h-full'
+              } items-center gap-x-6`}
+            >
+              <div className='w-48 h-96'>
+                <PhoneFrame>
+                  <img
+                    src={selectedFeature.mobile}
+                    alt='icon'
+                    className=' object-fill w-full h-full rounded-xl'
+                  />
+                </PhoneFrame>
+              </div>
 
-            <div className='w-1/3'>
-              <div className='flex items-center gap-2'>
-                <p className='text-black text-lg'>{selectedFeature.name}</p>
-                <div
-                  onClick={() => handleFeaturesSelection(selectedFeature)}
-                  className='bg-white w-7 h-7 items-center justify-center flex border-[1px] cursor-pointer'
-                >
-                  {isFeatureSelected(selectedFeature) ? (
-                    <MdDeleteOutline className='text-black' />
-                  ) : (
-                    <FiPlus className='text-black' />
-                  )}
+              <div className='w-1/3'>
+                <div className='flex items-center gap-2'>
+                  <p className='text-black text-lg'>{selectedFeature.name}</p>
+                  <div
+                    onClick={() => handleFeaturesSelection(selectedFeature)}
+                    className='bg-white w-7 h-7 items-center justify-center flex border-[1px] cursor-pointer'
+                  >
+                    {isFeatureSelected(selectedFeature) ? (
+                      <MdDeleteOutline className='text-black' />
+                    ) : (
+                      <FiPlus className='text-black' />
+                    )}
+                  </div>
+                </div>
+                <p className='text-gray-500 py-1 text-xs'>
+                  {selectedFeature.category}
+                </p>
+                <div className='py-2'>
+                  <p className='text-gray-400 text-xs py-1'>
+                    {selectedFeature.cost}
+                  </p>
+                  <p className='text-gray-400 text-xs py-[1px]'>
+                    {selectedFeature.time}
+                  </p>
+                </div>
+                <p className='text-black text-sm py-2'>
+                  {selectedFeature.details}
+                </p>
+                <div className='bg-white w-24 h-8 items-center justify-center flex border-[1px] cursor-pointer'>
+                  <p className='text-black text-xs'>Add note</p>
                 </div>
               </div>
-              <p className='text-gray-500 py-1 text-xs'>
-                {selectedFeature.category}
-              </p>
-              <div className='py-2'>
-                <p className='text-gray-400 text-xs py-1'>
-                  {selectedFeature.cost}
-                </p>
-                <p className='text-gray-400 text-xs py-[1px]'>
-                  {selectedFeature.time}
-                </p>
-              </div>
-              <p className='text-black text-sm py-2'>
-                {selectedFeature.details}
-              </p>
-              <div className='bg-white w-24 h-8 items-center justify-center flex border-[1px] cursor-pointer'>
-                <p className='text-black text-xs'>Add note</p>
-              </div>
             </div>
-          </div>
+          </>
         ) : (
           <div className='flex flex-col relative justify-center items-center h-full'>
             <div className='absolute left-4'>
