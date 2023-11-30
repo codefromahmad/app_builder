@@ -1,19 +1,22 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 import "./custom-scroll.css";
 import { AiOutlineEye } from "react-icons/ai";
 import { FiPlus } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
 import { MdDeleteOutline } from "react-icons/md";
-import { FaArrowLeftLong } from "react-icons/fa6";
-import { FaCircleCheck } from "react-icons/fa6";
+import { FaArrowLeftLong, FaCircleCheck } from "react-icons/fa6";
+import { BsArrowsAngleExpand, BsArrowsAngleContract } from "react-icons/bs";
 import { sidebarData } from "./data";
 import { PhoneFrame } from "@/components/PhoneFrame";
 
 export default function App() {
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedFeatures, setSelectedFeatures] = useState([]);
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [expand, setExpand] = useState(false);
+  console.log("selectedFeatures", selectedFeatures);
 
   const handleFeaturesSelection = (feature) => {
     console.log("feature", feature.name);
@@ -31,13 +34,11 @@ export default function App() {
       setSelectedFeatures(updatedFeatures);
     } else {
       // If not selected, add it to the array
-      setSelectedFeatures((prevFeatures) => [...prevFeatures, feature]);
+      setSelectedFeatures((prevFeatures) => [feature, ...prevFeatures]);
     }
 
     setSelectedFeature(feature);
   };
-
-  const [activeDropdown, setActiveDropdown] = useState(null);
 
   const toggleDropdown = (index) => {
     if (!sidebarData[index].dropDown) {
@@ -56,10 +57,87 @@ export default function App() {
     return selectedFeatures.some((selected) => selected.name === feature.name);
   };
 
+  const handleRemoveAll = () => {
+    setExpand(false);
+    setSelectedFeature(null);
+    setSelectedFeatures([]);
+  };
+
+  const handleExpand = () => {
+    setExpand(!expand);
+  };
+
+  const countSelectedFeatures = (features) => {
+    const selectedFeaturesCount = features.filter((feature) =>
+      selectedFeatures.some((selected) => selected.name === feature.name)
+    ).length;
+
+    return selectedFeaturesCount;
+  };
+
+  const handleAddMultipleFeatures = (newFeatures) => {
+    // Filter out features that are already present in selectedFeatures
+    const filteredNewFeatures = newFeatures.filter(
+      (newFeature) =>
+        !selectedFeatures.some(
+          (selectedFeature) => selectedFeature.name === newFeature.name
+        )
+    );
+
+    // Update selectedFeature state
+    setSelectedFeature(filteredNewFeatures[0]);
+    setSelectedFeatures((prevFeatures) => [
+      ...prevFeatures,
+      ...filteredNewFeatures,
+    ]);
+  };
+
+  const duration = Math.floor(
+    selectedFeatures?.reduce(
+      (acc, item) => acc + parseFloat(item.time?.replace(/,/g, "")),
+      0
+    ) / 7
+  );
+
+  const fixedCost = selectedFeatures
+    ?.reduce((acc, item) => acc + parseFloat(item.cost?.replace(/,/g, "")), 0)
+    .toFixed(2);
+
+  const customisationCost = selectedFeatures?.length * 50;
+
+  const totalCost = customisationCost + parseFloat(fixedCost);
+
+  // const containerRef = useRef(null);
+  // const [isScrolling, setScrolling] = useState(false);
+
+  // const handleScroll = () => {
+  //   setScrolling(true);
+  //   console.log("scrolling");
+  // };
+
+  // const handleMouseEnter = () => {
+  //   setScrolling(true);
+  //   console.log("mouse enter");
+  // };
+
+  // const handleMouseLeave = () => {
+  //   setScrolling(false);
+  //   console.log("mouse leave");
+  // };
+
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
-      <div className="w-1/5 bg-white max-h-screen custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
+      {/* <div
+        className={`w-1/5 bg-white max-h-screen relative ${
+          isScrolling ? "overflow-y-auto custom-scrollbar" : "overflow-y-hidden"
+        } duration-300`}
+        ref={containerRef}
+        onScroll={handleScroll}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      > */}
+      <div className="w-1/5 bg-white max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
         {sidebarData.map((item, index) => (
           <>
             <div
@@ -84,10 +162,24 @@ export default function App() {
                 )}
               </div>
               {activeDropdown === index && (
-                <div className="pt-3">
-                  <p className="text-gray-500 text-xs">
-                    {item.dropDown && item.dropDown.length} features
-                  </p>
+                <div className="flex flex-row items-center justify-between">
+                  <div className="pt-3">
+                    <p className="text-gray-500 text-xs">
+                      {countSelectedFeatures(item.dropDown)}/
+                      {item.dropDown && item.dropDown.length} features
+                    </p>
+                  </div>
+                  <div
+                    className="pt-3"
+                    onClick={() => handleAddMultipleFeatures(item.dropDown)}
+                  >
+                    <p className="text-gray-500 text-xs">
+                      {countSelectedFeatures(item.dropDown) ===
+                      item.dropDown.length
+                        ? "Unselect All"
+                        : "Select All"}
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
@@ -124,10 +216,10 @@ export default function App() {
                         <div>
                           <p className="text-sm">{item.name}</p>
                           <p className="text-gray-500 text-xs">
-                            from {item.cost}
+                            from ${item.cost}
                           </p>
                           <p className="text-gray-500 text-xs">
-                            from {item.time}
+                            from {item.time} days
                           </p>
                         </div>
                       </div>
@@ -163,11 +255,20 @@ export default function App() {
 
       {/* Playground Area */}
       <div className="overflow-y-hidden h-full w-4/5 bg-slate-100">
+        {/* <div
+            className={`flex justify-center ${
+              selectedFeatures?.length > 0
+                ? "h-3/5 animate-moveUp duration-300"
+                : "h-full"
+            } items-center gap-x-6`}
+          > */}
         {selectedFeature ? (
           <div
             className={`flex justify-center ${
               selectedFeatures?.length > 0
-                ? "h-3/5 animate-moveUp duration-300"
+                ? expand
+                  ? "h-0 animate-moveDown hidden"
+                  : "h-4/6 animate-moveUp duration-300"
                 : "h-full"
             } items-center gap-x-6`}
           >
@@ -186,7 +287,7 @@ export default function App() {
                 <p className="text-black text-lg">{selectedFeature.name}</p>
                 <div
                   onClick={() => handleFeaturesSelection(selectedFeature)}
-                  className="bg-white w-7 h-7 items-center justify-center flex border-[1px] cursor-pointer"
+                  className="bg-white w-7 h-7 rounded-md items-center justify-center flex border-[1px] cursor-pointer"
                 >
                   {isFeatureSelected(selectedFeature) ? (
                     <MdDeleteOutline className="text-black" />
@@ -195,7 +296,7 @@ export default function App() {
                   )}
                 </div>
               </div>
-              <p className="text-gray-500 py-1 text-xs">
+              <p className="text-gray-500 py-1 duration-300 text-xs">
                 {selectedFeature.category}
               </p>
               <div className="py-2">
@@ -209,7 +310,7 @@ export default function App() {
               <p className="text-black text-sm py-2">
                 {selectedFeature.details}
               </p>
-              <div className="bg-white w-24 h-8 items-center justify-center flex border-[1px] cursor-pointer">
+              <div className="bg-white w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
                 <p className="text-black text-xs">Add note</p>
               </div>
             </div>
@@ -232,12 +333,40 @@ export default function App() {
           <div
             className={`${
               selectedFeatures?.length > 0
-                ? "animate-moveUp h-2/5"
+                ? "animate-moveUp h-2/6"
                 : "animate-moveDown h-0"
-            } duration-300 border-t-[1px] border-black `}
+            } duration-300 relative ${expand ? "h-full animate-moveUp" : ""}`}
           >
-            <div className="h-full p-5 w-full custom-scrollbar overflow-y-hidden hover:overflow-y-auto">
-              <div className="grid grid-cols-4 gap-10">
+            <div className="h-full bg-gray-100 relative custom-scrollbar overflow-y-auto">
+              <div className="h-12 border-t-2 border-gray-300 sticky top-0 bg-white z-10">
+                <div className="flex flex-row justify-between items-center h-full px-5">
+                  <div className="flex gap-2 items-center">
+                    <p className="text-gray-400 text-xs">SELECTED FEATURES</p>
+                    <span className="bg-gray-300 px-3 py-1 rounded-full text-xs">
+                      <p>{selectedFeatures.length}</p>
+                    </span>
+                  </div>
+                  <div className="flex gap-2">
+                    <div
+                      onClick={handleRemoveAll}
+                      className="bg-white w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer"
+                    >
+                      <p className="text-black text-xs">Remove all</p>
+                    </div>
+                    <div
+                      onClick={handleExpand}
+                      className="bg-white w-8 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer"
+                    >
+                      {expand ? (
+                        <BsArrowsAngleContract className="text-black" />
+                      ) : (
+                        <BsArrowsAngleExpand className="text-black" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-4 gap-10 p-5 w-full">
                 {selectedFeatures.map((item, index) => (
                   <div
                     onClick={() => handleFeatureSelection(item)}
@@ -246,7 +375,7 @@ export default function App() {
                   >
                     <div
                       onClick={() => handleFeaturesSelection(item)}
-                      className="z-10 absolute top-2 hover:bg-red-300 right-2 bg-white w-7 h-7 items-center rounded-full justify-center flex border-[1px] cursor-pointer"
+                      className="z-1 absolute top-2 hover:bg-red-300 right-2 bg-white w-7 h-7 items-center rounded-full justify-center flex border-[1px] cursor-pointer"
                     >
                       {isFeatureSelected(item) && (
                         <MdDeleteOutline className="text-black" />
@@ -285,6 +414,49 @@ export default function App() {
                     </div>
                   </div>
                 ))}
+              </div>
+              <div className="h-16 border-t-2 border-gray-300 sticky bottom-0 bg-white z-10">
+                <div className="flex flex-row justify-between items-center h-full">
+                  <div className="flex pl-5">
+                    <div className="flex flex-col px-2 gap-2 items-center">
+                      <p className="text-gray-400 text-xs">
+                        CUSTOMISATION COST
+                      </p>
+                      <p className="text-black font-extrabold text-xl">
+                        ${customisationCost}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <p className="text-gray-300 text-2xl">+</p>
+                    </div>
+                    <div className="flex flex-col px-2 gap-2 items-center">
+                      <p className="text-gray-400 text-xs">FIXED COST</p>
+                      <p className="text-black font-extrabold text-xl">
+                        ${fixedCost}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <p className="text-gray-300 text-2xl">=</p>
+                    </div>
+                    <div className="flex flex-col px-2 gap-2 items-center">
+                      <p className="text-gray-400 text-xs">TOTAL COST</p>
+                      <p className="text-black font-extrabold text-xl">
+                        ${totalCost}
+                      </p>
+                    </div>
+                    <div className="flex border-l-2 border-gray-300 flex-col px-2 gap-2 items-center">
+                      <p className="text-gray-400 text-xs">
+                        INDICATIVE DURATION
+                      </p>
+                      <p className="text-black font-extrabold text-xl">
+                        {duration} weeks
+                      </p>
+                    </div>
+                  </div>
+                  <div className="bg-green-500 h-full w-40 flex items-center justify-center">
+                    <p className="text-black">Plan Delievery</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

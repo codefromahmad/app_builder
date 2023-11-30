@@ -1,31 +1,39 @@
 .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-    width:4px;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #888;
-    position: absolute;
-  } 
+  width: 4px;
+  position: absolute;
+  z-index: 999;
+}
 
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+  /* width: 4px; */
+  position: absolute;
+  z-index: 5;
+}
 
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  opacity: 0;
+  position: absolute;
+  z-index: 5;
+}
 
-  /* app.css */
-  .dropdown {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Add opacity transition */
-    opacity: 0; /* Set initial opacity to 0 */
-  }
-  
-  .dropdown.open {
-    max-height: 200px; /* Set your desired max height */
-    opacity: 1; /* Set opacity to 1 when open */
-  }
+.custom-scrollbar:hover::-webkit-scrollbar-thumb {
+  background-color: #888; /* Set your hover thumb color */
+}
+
+/* app.css */
+.dropdown {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Add opacity transition */
+  opacity: 0; /* Set initial opacity to 0 */
+}
+
+.dropdown.open {
+  max-height: 200px; /* Set your desired max height */
+  opacity: 1; /* Set opacity to 1 when open */
+}
 
 .rotate-180 {
   transform: rotate(180deg);
