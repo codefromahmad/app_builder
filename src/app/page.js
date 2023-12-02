@@ -16,28 +16,27 @@ export default function App() {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [expand, setExpand] = useState(false);
-  console.log("selectedFeatures", selectedFeatures);
+  const [confirm, setConfirm] = useState(false);
+
+  const isFeatureSelected = (feature) => {
+    return selectedFeatures.some((selected) => selected.name === feature.name);
+  };
 
   const handleFeaturesSelection = (feature) => {
-    console.log("feature", feature.name);
+    console.log("handleFeaturesSelection", feature.name);
 
-    // Check if the feature is already selected
-    const isSelected = selectedFeatures.some(
-      (selected) => selected.name === feature.name
-    );
-
-    if (isSelected) {
+    if (isFeatureSelected(feature)) {
       // If selected, remove it from the array
       const updatedFeatures = selectedFeatures.filter(
         (selected) => selected.name !== feature.name
       );
       setSelectedFeatures(updatedFeatures);
+      setSelectedFeature(updatedFeatures[0]);
     } else {
       // If not selected, add it to the array
       setSelectedFeatures((prevFeatures) => [feature, ...prevFeatures]);
+      setSelectedFeature(feature);
     }
-
-    setSelectedFeature(feature);
   };
 
   const toggleDropdown = (index) => {
@@ -49,18 +48,15 @@ export default function App() {
   };
 
   const handleFeatureSelection = (feature) => {
-    console.log("feature", feature.name);
+    console.log("handleFeatureSelection", feature.name);
     setSelectedFeature(feature);
-  };
-
-  const isFeatureSelected = (feature) => {
-    return selectedFeatures.some((selected) => selected.name === feature.name);
   };
 
   const handleRemoveAll = () => {
     setExpand(false);
     setSelectedFeature(null);
     setSelectedFeatures([]);
+    setConfirm(false);
   };
 
   const handleExpand = () => {
@@ -75,7 +71,9 @@ export default function App() {
     return selectedFeaturesCount;
   };
 
-  const handleAddMultipleFeatures = (newFeatures) => {
+  const handleAddMultipleFeatures = (newFeatures, index) => {
+    setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
+
     // Filter out features that are already present in selectedFeatures
     const filteredNewFeatures = newFeatures.filter(
       (newFeature) =>
@@ -87,9 +85,25 @@ export default function App() {
     // Update selectedFeature state
     setSelectedFeature(filteredNewFeatures[0]);
     setSelectedFeatures((prevFeatures) => [
-      ...prevFeatures,
       ...filteredNewFeatures,
+      ...prevFeatures,
     ]);
+  };
+
+  const handleRemoveAllFeatures = (featuresToRemove, index) => {
+    setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
+
+    const updatedSelectedFeatures = selectedFeatures.filter(
+      (selectedFeature) =>
+        !featuresToRemove.some(
+          (featureToRemove) => featureToRemove.name === selectedFeature.name
+        )
+    );
+
+    setSelectedFeatures(updatedSelectedFeatures);
+
+    // Optionally, reset the selectedFeature state
+    setSelectedFeature(updatedSelectedFeatures[0]);
   };
 
   const duration = Math.floor(
@@ -137,6 +151,49 @@ export default function App() {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       > */}
+
+      <div
+        className={`fixed top-0 left-0 w-full inset-0 bg-gray-300/20 backdrop-blur h-full z-30 ${
+          confirm
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        } transition-opacity duration-300 ease-in-out`}
+        onClick={() => setConfirm(false)}
+      />
+
+      {confirm && (
+        <div
+          class={`fixed z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+            confirm
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          } w-72 h-48 rounded-lg bg-white p-4 transition-opacity duration-1000 ease-in-out`}
+        >
+          <p class="font-bold mb-2 text-center text-black p-y-4">
+            Are you sure you want to remove all features?
+          </p>
+          <p class="text-center text-black text-xs py-2">
+            You will lose the selected template and you will have to start from
+            scratch selecting features one by one.
+          </p>
+
+          <div class="flex justify-between w-full p-2 gap-3">
+            <div
+              className="border-[1px] px-2 py-1 border-gray-400 rounded-md"
+              onClick={() => setConfirm(false)}
+            >
+              <p class="cursor-pointer text-xs text-black">No, keep them</p>
+            </div>
+            <div
+              className="px-2 py-1 bg-red-400 rounded-md"
+              onClick={() => handleRemoveAll()}
+            >
+              <p class="cursor-pointer text-xs text-white">Yes, remove them</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="w-1/5 bg-white max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
         {sidebarData.map((item, index) => (
           <>
@@ -169,17 +226,26 @@ export default function App() {
                       {item.dropDown && item.dropDown.length} features
                     </p>
                   </div>
-                  <div
-                    className="pt-3"
-                    onClick={() => handleAddMultipleFeatures(item.dropDown)}
-                  >
-                    <p className="text-gray-500 text-xs">
-                      {countSelectedFeatures(item.dropDown) ===
-                      item.dropDown.length
-                        ? "Unselect All"
-                        : "Select All"}
-                    </p>
-                  </div>
+                  {countSelectedFeatures(item.dropDown) ===
+                  item.dropDown.length ? (
+                    <div
+                      className="pt-3"
+                      onClick={() =>
+                        handleRemoveAllFeatures(item.dropDown, index)
+                      }
+                    >
+                      <p className="text-gray-500 text-xs">Unselect All</p>
+                    </div>
+                  ) : (
+                    <div
+                      className="pt-3"
+                      onClick={() =>
+                        handleAddMultipleFeatures(item.dropDown, index)
+                      }
+                    >
+                      <p className="text-gray-500 text-xs">Select All</p>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -252,7 +318,6 @@ export default function App() {
           </>
         ))}
       </div>
-
       {/* Playground Area */}
       <div className="overflow-y-hidden h-full w-4/5 bg-slate-100">
         {/* <div
@@ -269,7 +334,7 @@ export default function App() {
                 ? expand
                   ? "h-0 animate-moveDown hidden"
                   : "h-4/6 animate-moveUp duration-300"
-                : "h-full"
+                : "h-full animate-moveUp duration-300"
             } items-center gap-x-6`}
           >
             <div className="w-48 h-96">
@@ -287,7 +352,7 @@ export default function App() {
                 <p className="text-black text-lg">{selectedFeature.name}</p>
                 <div
                   onClick={() => handleFeaturesSelection(selectedFeature)}
-                  className="bg-white w-7 h-7 rounded-md items-center justify-center flex border-[1px] cursor-pointer"
+                  className="bg-white hover:bg-slate-50 duration-300 w-7 h-7 rounded-md items-center justify-center flex border-[1px] cursor-pointer"
                 >
                   {isFeatureSelected(selectedFeature) ? (
                     <MdDeleteOutline className="text-black" />
@@ -301,16 +366,16 @@ export default function App() {
               </p>
               <div className="py-2">
                 <p className="text-gray-400 text-xs py-1">
-                  {selectedFeature.cost}
+                  from ${selectedFeature.cost}
                 </p>
                 <p className="text-gray-400 text-xs py-[1px]">
-                  {selectedFeature.time}
+                  {selectedFeature.time} days
                 </p>
               </div>
               <p className="text-black text-sm py-2">
                 {selectedFeature.details}
               </p>
-              <div className="bg-white w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
+              <div className="bg-white hover:bg-slate-50 duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
                 <p className="text-black text-xs">Add note</p>
               </div>
             </div>
@@ -333,29 +398,35 @@ export default function App() {
           <div
             className={`${
               selectedFeatures?.length > 0
-                ? "animate-moveUp h-2/6"
-                : "animate-moveDown h-0"
-            } duration-300 relative ${expand ? "h-full animate-moveUp" : ""}`}
+                ? expand
+                  ? "animate-moveUp h-full duration-300"
+                  : "animate-moveUp h-2/6 duration-300"
+                : "animate-moveDown h-0 duration-300"
+            } relative `}
           >
             <div className="h-full bg-gray-100 relative custom-scrollbar overflow-y-auto">
-              <div className="h-12 border-t-2 border-gray-300 sticky top-0 bg-white z-10">
+              <div className="h-12 border-t-2 border-gray-300 sticky top-0 bg-white z-20">
                 <div className="flex flex-row justify-between items-center h-full px-5">
                   <div className="flex gap-2 items-center">
-                    <p className="text-gray-400 text-xs">SELECTED FEATURES</p>
+                    <p className="text-gray-400 text-xs">
+                      {selectedFeatures.length > 1
+                        ? "SELECTED FEATURES"
+                        : "SELECTED FEATURE"}
+                    </p>
                     <span className="bg-gray-300 px-3 py-1 rounded-full text-xs">
                       <p>{selectedFeatures.length}</p>
                     </span>
                   </div>
                   <div className="flex gap-2">
                     <div
-                      onClick={handleRemoveAll}
-                      className="bg-white w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer"
+                      onClick={() => setConfirm(true)}
+                      className="bg-white hover:bg-slate-100 duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer"
                     >
                       <p className="text-black text-xs">Remove all</p>
                     </div>
                     <div
                       onClick={handleExpand}
-                      className="bg-white w-8 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer"
+                      className="hover:bg-slate-100 duration-300 w-8 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer"
                     >
                       {expand ? (
                         <BsArrowsAngleContract className="text-black" />
@@ -368,54 +439,56 @@ export default function App() {
               </div>
               <div className="grid grid-cols-4 gap-10 p-5 w-full">
                 {selectedFeatures.map((item, index) => (
-                  <div
-                    onClick={() => handleFeatureSelection(item)}
-                    key={index}
-                    className={`bg-slate-200 hover:bg-slate-300 duration-300 cursor-pointer relative p-2 rounded-lg h-full w-full flex justify-center items-center gap-x-3`}
-                  >
+                  <div className="relative">
                     <div
                       onClick={() => handleFeaturesSelection(item)}
-                      className="z-1 absolute top-2 hover:bg-red-300 right-2 bg-white w-7 h-7 items-center rounded-full justify-center flex border-[1px] cursor-pointer"
+                      className="top-2 z-10 absolute hover:bg-red-400 group right-2 bg-white w-7 h-7 items-center rounded-full justify-center flex border-[1px] cursor-pointer"
                     >
-                      {isFeatureSelected(item) && (
-                        <MdDeleteOutline className="text-black" />
-                      )}
+                      {/* {isFeatureSelected(item) && ( */}
+                      <MdDeleteOutline className="text-black group-hover:text-white duration-300" />
+                      {/* )} */}
                     </div>
                     <div
-                      className={`w-20 h-38 ${
-                        selectedFeature.name === item.name
-                          ? "border-blue-500"
-                          : "border-transparent"
-                      } group border-2 duration-500 rounded-xl`}
+                      onClick={() => handleFeatureSelection(item)}
+                      key={index}
+                      className={`bg-slate-200 hover:bg-slate-300 duration-300 cursor-pointer relative p-2 rounded-lg h-full w-full flex justify-center items-center gap-x-3`}
                     >
-                      <PhoneFrame>
-                        <img
-                          src={item.mobile}
-                          alt="icon"
-                          className=" object-fill w-full h-full"
-                        />
-                      </PhoneFrame>
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <p className="text-black text-sm">{item.name}</p>
+                      <div
+                        className={`w-20 h-38 ${
+                          selectedFeature?.name === item.name
+                            ? "border-blue-500"
+                            : "border-transparent"
+                        } group border-2 duration-500 rounded-xl`}
+                      >
+                        <PhoneFrame>
+                          <img
+                            src={item.mobile}
+                            alt="icon"
+                            className=" object-fill w-full h-full"
+                          />
+                        </PhoneFrame>
                       </div>
-                      <p className="text-gray-500 py-1 text-xs">
-                        {item.category}
-                      </p>
-                      <div className="py-2">
-                        <p className="text-gray-400 text-xs py-1">
-                          {item.cost}
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className="text-black text-sm">{item.name}</p>
+                        </div>
+                        <p className="text-gray-500 py-1 text-xs">
+                          {item.category}
                         </p>
-                        <p className="text-gray-400 text-xs py-[1px]">
-                          {item.time}
-                        </p>
+                        <div className="py-2">
+                          <p className="text-gray-400 text-xs py-1">
+                            from ${item.cost}
+                          </p>
+                          <p className="text-gray-400 text-xs py-[1px]">
+                            {item.time} days
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="h-16 border-t-2 border-gray-300 sticky bottom-0 bg-white z-10">
+              <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
                 <div className="flex flex-row justify-between items-center h-full">
                   <div className="flex pl-5">
                     <div className="flex flex-col px-2 gap-2 items-center">
