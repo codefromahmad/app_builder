@@ -446,7 +446,7 @@ export default function App() {
               </div>
               <div className="grid grid-cols-4 gap-10 p-5 w-full">
                 {selectedFeatures.map((item, index) => (
-                  <div className="relative">
+                  <div key={index} className="relative">
                     <div
                       onClick={() => handleFeaturesSelection(item)}
                       className="top-2 z-10 absolute hover:bg-red-400 group right-2 bg-white w-7 h-7 items-center rounded-full justify-center flex border-[1px] cursor-pointer"
