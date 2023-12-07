@@ -10,6 +10,7 @@ import { FaArrowLeftLong, FaCircleCheck } from "react-icons/fa6";
 import { BsArrowsAngleExpand, BsArrowsAngleContract } from "react-icons/bs";
 import { sidebarData } from "./data";
 import { PhoneFrame } from "@/components/PhoneFrame";
+import Image from "next/image";
 
 export default function App() {
   const [selectedFeature, setSelectedFeature] = useState(null);
@@ -204,9 +205,11 @@ export default function App() {
             >
               <div className="flex justify-between items-center text-black">
                 <div className="flex items-center gap-3">
-                  <img
+                  <Image
+                    width={100}
+                    height={100}
                     className="w-5 h-5 opacity-50 group-hover:opacity-100"
-                    src={item.img}
+                    src={item?.img}
                     alt="Healthcare Icon"
                   />
                   <p className="text-sm">{item.name}</p>
@@ -273,9 +276,11 @@ export default function App() {
                         {isFeatureSelected(item) ? (
                           <FaCircleCheck className="text-blue-500 mt-1 text-sm" />
                         ) : (
-                          <img
+                          <Image
+                            width={100}
+                            height={100}
                             className="w-5 h-5 mt-2 opacity-50"
-                            src={item.icon}
+                            src={item?.icon}
                             alt="Healthcare Icon"
                           />
                         )}
@@ -339,8 +344,10 @@ export default function App() {
           >
             <div className="w-48 h-96">
               <PhoneFrame>
-                <img
-                  src={selectedFeature.mobile}
+                <Image
+                  width={100}
+                  height={100}
+                  src={selectedFeature?.mobile}
                   alt="icon"
                   className=" object-fill w-full h-full"
                 />
@@ -461,8 +468,10 @@ export default function App() {
                         } group border-2 duration-500 rounded-xl`}
                       >
                         <PhoneFrame>
-                          <img
-                            src={item.mobile}
+                          <Image
+                            width={100}
+                            height={100}
+                            src={item?.mobile}
                             alt="icon"
                             className=" object-fill w-full h-full"
                           />
