@@ -11,6 +11,7 @@ import { BsArrowsAngleExpand, BsArrowsAngleContract } from "react-icons/bs";
 import { sidebarData } from "./data";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function App() {
   const [selectedFeature, setSelectedFeature] = useState(null);
@@ -403,15 +404,15 @@ export default function App() {
         )}
         {selectedFeatures?.length > 0 && (
           <div
-            className={`${
-              selectedFeatures?.length > 0
-                ? expand
-                  ? "animate-moveUp h-full duration-300"
-                  : "animate-moveUp h-2/6 duration-300"
-                : "animate-moveDown h-0 duration-300"
-            } relative `}
+          // className={`${
+          //   selectedFeatures?.length > 0
+          //     ? expand
+          //       ? "animate-moveUp h-full duration-300"
+          //       : "animate-moveUp h-2/6 duration-300"
+          //     : "animate-moveDown h-0 duration-300"
+          // } relative `}
           >
-            <div className="h-full bg-gray-100 relative custom-scrollbar overflow-y-auto">
+            <div className="h-full bg-gray-100 relative">
               <div className="h-12 border-t-2 border-gray-300 sticky top-0 bg-white z-20">
                 <div className="flex flex-row justify-between items-center h-full px-5">
                   <div className="flex gap-2 items-center">
@@ -444,58 +445,65 @@ export default function App() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-4 gap-10 p-5 w-full">
-                {selectedFeatures.map((item, index) => (
-                  <div key={index} className="relative">
-                    <div
-                      onClick={() => handleFeaturesSelection(item)}
-                      className="top-2 z-10 absolute hover:bg-red-400 group right-2 bg-white w-7 h-7 items-center rounded-full justify-center flex border-[1px] cursor-pointer"
-                    >
-                      {/* {isFeatureSelected(item) && ( */}
-                      <MdDeleteOutline className="text-black group-hover:text-white duration-300" />
-                      {/* )} */}
-                    </div>
-                    <div
-                      onClick={() => handleFeatureSelection(item)}
-                      key={index}
-                      className={`bg-slate-200 hover:bg-slate-300 duration-300 cursor-pointer relative p-2 rounded-lg h-full w-full flex justify-center items-center gap-x-3`}
-                    >
+              <div
+                className="overflow-y-auto custom-scrollbar"
+                style={{ height: expand ? "calc(100vh - 112px)" : "160px" }}
+              >
+                <div className="grid grid-cols-5 gap-3 p-5">
+                  {selectedFeatures.map((item, index) => (
+                    <div key={index} className="relative h-38">
                       <div
-                        className={`w-20 h-38 ${
-                          selectedFeature?.name === item.name
-                            ? "border-blue-500"
-                            : "border-transparent"
-                        } group border-2 duration-500 rounded-xl`}
+                        onClick={() => handleFeaturesSelection(item)}
+                        className="top-2 z-10 absolute hover:bg-red-400 group right-2 bg-white w-7 h-7 items-center rounded-full justify-center flex border-[1px] cursor-pointer"
                       >
-                        <PhoneFrame>
-                          <Image
-                            width={100}
-                            height={100}
-                            src={item?.mobile}
-                            alt="icon"
-                            className=" object-fill w-full h-full"
-                          />
-                        </PhoneFrame>
+                        {/* {isFeatureSelected(item) && ( */}
+                        <MdDeleteOutline className="text-black group-hover:text-white duration-300" />
+                        {/* )} */}
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <p className="text-black text-sm">{item.name}</p>
+                      <div
+                        onClick={() => handleFeatureSelection(item)}
+                        key={index}
+                        className={`bg-slate-200 hover:bg-slate-300 duration-300 cursor-pointer relative p-2 rounded-lg h-full w-full flex justify-center items-center gap-x-3`}
+                      >
+                        <div
+                          className={`w-12 ${
+                            selectedFeature?.name === item.name
+                              ? "border-blue-500"
+                              : "border-transparent"
+                          } group border-2 duration-500 rounded-lg`}
+                        >
+                          <PhoneFrame>
+                            <Image
+                              width={100}
+                              height={100}
+                              src={item?.mobile}
+                              alt="icon"
+                              className=" object-fill w-full h-full"
+                            />
+                          </PhoneFrame>
                         </div>
-                        <p className="text-gray-500 py-1 text-xs">
-                          {item.category}
-                        </p>
-                        <div className="py-2">
-                          <p className="text-gray-400 text-xs py-1">
-                            from ${item.cost}
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <p className="text-black w-20 text-sm">
+                              {item.name}
+                            </p>
+                          </div>
+                          <p className="text-gray-500 py-1 text-xs">
+                            {item.category}
                           </p>
-                          <p className="text-gray-400 text-xs py-[1px]">
-                            {item.time} days
-                          </p>
+                          <div className="py-1">
+                            <p className="text-gray-400 text-xs">
+                              from ${item.cost}
+                            </p>
+                            <p className="text-gray-400 text-xs py-[1px]">
+                              {item.time} days
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
               <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
                 <div className="flex flex-row justify-between items-center h-full">
@@ -536,7 +544,9 @@ export default function App() {
                     </div>
                   </div>
                   <div className="bg-green-500 h-full w-40 flex items-center justify-center">
-                    <p className="text-black">Plan Delievery</p>
+                    <Link href="/delivery">
+                      <p className="text-black">Plan Delivery</p>
+                    </Link>
                   </div>
                 </div>
               </div>
