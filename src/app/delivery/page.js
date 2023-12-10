@@ -18,6 +18,7 @@ import { IoCodeSlashOutline } from "react-icons/io5";
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
+  const [sameSpeed, setSameSpeed] = useState(false);
   const [phases, setPhases] = useState([
     {
       name: "Product Roadmap",
@@ -25,6 +26,9 @@ export default function Dahsboard() {
       delivery: "27-Dec-2023",
       icon: <GoChecklist className="text-4xl text-black" />,
       selected: true,
+      advanced: {
+        sliderValue: 2,
+      },
     },
     {
       name: "Design",
@@ -32,6 +36,9 @@ export default function Dahsboard() {
       delivery: "12-Feb-2024",
       icon: <SiStyledcomponents className="text-4xl text-black" />,
       selected: false,
+      advanced: {
+        sliderValue: 1,
+      },
     },
     {
       name: "Professional Prototype",
@@ -39,6 +46,9 @@ export default function Dahsboard() {
       delivery: "26-Feb-2024",
       icon: <PiShootingStarThin className="text-4xl text-black" />,
       selected: true,
+      advanced: {
+        sliderValue: 3,
+      },
     },
     {
       name: "MVP",
@@ -48,20 +58,19 @@ export default function Dahsboard() {
       selected: false,
       platform: ["Android", "iOS", "Web"],
       features: 32,
+      advanced: {
+        sliderValue: 4,
+      },
     },
-    // {
-    //   name: "Beta",
-    //   duration: "7 Weeks",
-    //   delivery: "11-May-2024",
-    //   icon: <GoChecklist className="text-4xl text-black" />,
-    //   selected: true,
-    // },
     {
       name: "Full Build",
       duration: "4 Weeks",
       delivery: "12-Jun-2024",
       icon: <GoRocket className="text-4xl text-black" />,
       selected: true,
+      advanced: {
+        sliderValue: 5,
+      },
     },
   ]);
 
@@ -81,6 +90,51 @@ export default function Dahsboard() {
 
     console.log("After toggle:", newPhases[index].selected);
     setPhases(newPhases);
+  };
+
+  const speedLabels = ["Relaxed", "Slow", "Standard", "Fast", "Speedy"];
+
+  const selectedLabel = speedLabels[sliderValue - 1]; // Adjust the index based on your min value
+
+  const calculateLabelPosition = (value) => {
+    const totalSteps = 5; // Adjust based on your max value
+    let position = 0;
+    if (value === 4) {
+      position = 68;
+    } else position = ((value - 1) / (totalSteps - 1)) * 80;
+    return `${position}%`;
+  };
+
+  const makeSliderValueSimilar = (newValue) => {
+    if (sameSpeed) {
+      setSameSpeed(false);
+      return;
+    } else {
+      setSameSpeed(true);
+      setPhases((prevPhases) =>
+        prevPhases.map((phase) => ({
+          ...phase,
+          advanced: {
+            ...phase.advanced,
+            sliderValue: newValue,
+          },
+        }))
+      );
+    }
+  };
+
+  const updateSliderValue = (index, newValue) => {
+    setPhases((prevPhases) => {
+      const newPhases = [...prevPhases];
+      newPhases[index] = {
+        ...newPhases[index],
+        advanced: {
+          ...newPhases[index].advanced,
+          sliderValue: newValue,
+        },
+      };
+      return newPhases;
+    });
   };
 
   return (
@@ -152,7 +206,7 @@ export default function Dahsboard() {
             </div>
             {isSwitchOn ? (
               <div>
-                <div className="rounded-md p-5 bg-slate-200">
+                <div className="rounded-md rounded-b-none p-5 bg-slate-200">
                   <div className="flex p-5 gap-1 py-1">
                     {phase.icon}
                     <p
@@ -163,6 +217,84 @@ export default function Dahsboard() {
                       {phase.name}{" "}
                     </p>
                     <HiOutlineInformationCircle className="text-xl text-gray-400" />
+                  </div>
+                </div>
+
+                <div className="flex p-5 justify-between pt-5">
+                  <p className="text-black text-xs font-bold">Platform</p>
+                  <p className="text-purple-500 text-xs font-normal cursor-pointer">
+                    Change
+                  </p>
+                </div>
+                <div className="flex px-5 justify-start py-4 gap-4">
+                  <div className="flex flex-col items-center">
+                    <BsAndroid2 className="text-3xl text-black" />
+                    <p className="text-gray-400 pt-2 text-xs">Android</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <FaApple className="text-3xl text-black" />
+                    <p className="text-gray-400 pt-2 text-xs">iOS</p>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <IoDesktop className="text-3xl text-black" />
+                    <p className="text-gray-400 pt-2 text-xs">Web</p>
+                  </div>
+                </div>
+                <hr />
+                <div className="p-5">
+                  <div className="flex justify-between">
+                    <p className="text-black text-xs font-bold">Features</p>
+                    <p className="text-purple-500 text-xs font-normal cursor-pointer">
+                      Change
+                    </p>
+                  </div>
+                  <p className="text-gray-400 pt-2 text-xs">
+                    32 features selected
+                  </p>
+                </div>
+                <hr />
+                <div className="p-5 relative">
+                  <div className="flex justify-between">
+                    <p className="text-black text-xs font-bold">
+                      Working Speed
+                    </p>
+                  </div>
+                  <input
+                    className="h-2 w-full my-4 appearance-none accent-purple-500 rounded-md cursor-pointer bg-gray-300 relative"
+                    id="steps-range"
+                    type="range"
+                    min="1"
+                    max="5"
+                    value={phase.advanced.sliderValue}
+                    step="1"
+                    onChange={(e) =>
+                      updateSliderValue(index, parseInt(e.target.value, 10))
+                    }
+                  />
+                  <div
+                    className="text-xs text-black"
+                    style={{
+                      paddingLeft: calculateLabelPosition(
+                        phase.advanced.sliderValue
+                      ),
+                    }}
+                  >
+                    {speedLabels[phase.advanced.sliderValue - 1]}
+                  </div>
+                  <div
+                    className="flex gap-2 py-2 items-center cursor-pointer"
+                    onClick={() =>
+                      makeSliderValueSimilar(phase.advanced.sliderValue)
+                    }
+                  >
+                    {sameSpeed ? (
+                      <GoCheckCircleFill className="text-2xl text-purple-600" />
+                    ) : (
+                      <GoCircle className="text-2xl text-gray-400 cursor-pointer" />
+                    )}
+                    <p className="text-black text-xs">
+                      Same speed for all the phases
+                    </p>
                   </div>
                 </div>
               </div>
@@ -177,7 +309,7 @@ export default function Dahsboard() {
                       <p
                         className={`${
                           phase.selected ? "text-purple-600" : "text-black"
-                        } font-bold text-sm max-w-[130px]`}
+                        } font-bold text-sm max-w-[100px]`}
                       >
                         {phase.name}{" "}
                       </p>
