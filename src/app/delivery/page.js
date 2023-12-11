@@ -138,8 +138,8 @@ export default function Dahsboard() {
   };
 
   return (
-    <div className="p-10">
-      <div className="flex justify-between">
+    <div className="py-10">
+      <div className="flex px-10 justify-between">
         <div className="flex flex-col gap-2">
           <p className="text-black text-2xl font-bold">
             Decide your deliverables
@@ -153,21 +153,21 @@ export default function Dahsboard() {
           <p className="text-black text-xs">9 Dec 2023 (Today)</p>
         </div>
       </div>
-      <div className="flex justify-start py-4 gap-4">
-        <div className="p-5 border-[1px] rounded-md cursor-pointer border-purple-600">
+      <div className="flex px-10 justify-start py-4 gap-4">
+        <div className="p-5 border-[1px] rounded-md cursor-pointer border-purple-700">
           <BsAndroid2 className="text-3xl text-black" />
         </div>
-        <div className="p-5 border-[1px] rounded-md cursor-pointer border-purple-600">
+        <div className="p-5 border-[1px] rounded-md cursor-pointer border-purple-700">
           <FaApple className="text-3xl text-black" />
         </div>
-        <div className="p-5 border-[1px] rounded-md cursor-pointer border-purple-600">
+        <div className="p-5 border-[1px] rounded-md cursor-pointer border-purple-700">
           <IoDesktop className="text-3xl text-black" />
         </div>
-        <div className="p-5 border-[1px] rounded-md cursor-pointer border-gray-300 duration-200 hover:border-purple-600">
+        <div className="p-5 border-[1px] rounded-md cursor-pointer border-gray-300 duration-200 hover:border-purple-700">
           <FiPlus className="text-3xl text-black" />
         </div>
       </div>
-      <div className="flex justify-between pt-6">
+      <div className="flex px-10 justify-between pt-6">
         <p className="text-black font-medium">Select phases for your product</p>
         <div className="flex gap-2 items-center">
           <p className="text-black font-medium">Advanced</p>
@@ -185,13 +185,12 @@ export default function Dahsboard() {
           </button>
         </div>
       </div>
-
-      <div className="grid grid-cols-5 gap-5 py-5">
+      <div className="grid px-10 grid-cols-5 gap-5 py-5">
         {phases.map((phase, index) => (
           <div
             key={index}
             className={`relative border-[1px] rounded-md h-fit ${
-              phase.selected ? "border-purple-600" : "border-gray-400"
+              phase.selected ? "border-purple-700" : "border-gray-400"
             }`}
           >
             <div
@@ -199,7 +198,7 @@ export default function Dahsboard() {
               className="absolute top-2 right-2 cursor-pointer"
             >
               {phase.selected ? (
-                <GoCheckCircleFill className="text-2xl text-purple-600" />
+                <GoCheckCircleFill className="text-2xl text-purple-700" />
               ) : (
                 <GoCircle className="text-2xl text-gray-400 cursor-pointer" />
               )}
@@ -211,7 +210,7 @@ export default function Dahsboard() {
                     {phase.icon}
                     <p
                       className={`${
-                        phase.selected ? "text-purple-600" : "text-black"
+                        phase.selected ? "text-purple-700" : "text-black"
                       } font-bold text-sm max-w-[130px]`}
                     >
                       {phase.name}{" "}
@@ -222,7 +221,7 @@ export default function Dahsboard() {
 
                 <div className="flex p-5 justify-between pt-5">
                   <p className="text-black text-xs font-bold">Platform</p>
-                  <p className="text-purple-500 text-xs font-normal cursor-pointer">
+                  <p className="text-purple-700 text-xs font-normal cursor-pointer">
                     Change
                   </p>
                 </div>
@@ -244,7 +243,7 @@ export default function Dahsboard() {
                 <div className="p-5">
                   <div className="flex justify-between">
                     <p className="text-black text-xs font-bold">Features</p>
-                    <p className="text-purple-500 text-xs font-normal cursor-pointer">
+                    <p className="text-purple-700 text-xs font-normal cursor-pointer">
                       Change
                     </p>
                   </div>
@@ -259,20 +258,29 @@ export default function Dahsboard() {
                       Working Speed
                     </p>
                   </div>
-                  <input
-                    className="h-2 w-full my-4 appearance-none accent-purple-500 rounded-md cursor-pointer bg-gray-300 relative"
-                    id="steps-range"
-                    type="range"
-                    min="1"
-                    max="5"
-                    value={phase.advanced.sliderValue}
-                    step="1"
-                    onChange={(e) =>
-                      updateSliderValue(index, parseInt(e.target.value, 10))
-                    }
-                  />
+                  {phase.selected && (
+                    <input
+                      className="h-2 w-full mt-4 appearance-none accent-purple-700 rounded-md cursor-pointer bg-gray-300 relative"
+                      id="steps-range"
+                      type="range"
+                      min="1"
+                      max="5"
+                      value={phase.advanced.sliderValue}
+                      step="1"
+                      onChange={(e) =>
+                        updateSliderValue(index, parseInt(e.target.value, 10))
+                      }
+                      style={{
+                        background: `linear-gradient(to right, #7E22CE 0%, #7E22CE ${
+                          (phase.advanced.sliderValue - 1) * 25
+                        }%, #E5E7EB ${
+                          (phase.advanced.sliderValue - 1) * 25
+                        }%, #E5E7EB 100%)`,
+                      }}
+                    />
+                  )}
                   <div
-                    className="text-xs text-black"
+                    className="text-xs text-black mt-4"
                     style={{
                       paddingLeft: calculateLabelPosition(
                         phase.advanced.sliderValue
@@ -281,21 +289,38 @@ export default function Dahsboard() {
                   >
                     {speedLabels[phase.advanced.sliderValue - 1]}
                   </div>
-                  <div
-                    className="flex gap-2 py-2 items-center cursor-pointer"
-                    onClick={() =>
-                      makeSliderValueSimilar(phase.advanced.sliderValue)
-                    }
-                  >
-                    {sameSpeed ? (
-                      <GoCheckCircleFill className="text-2xl text-purple-600" />
-                    ) : (
-                      <GoCircle className="text-2xl text-gray-400 cursor-pointer" />
-                    )}
-                    <p className="text-black text-xs">
-                      Same speed for all the phases
-                    </p>
-                  </div>
+                  {phase.selected && (
+                    <div
+                      className="flex gap-2 py-2 items-center cursor-pointer"
+                      onClick={() =>
+                        makeSliderValueSimilar(phase.advanced.sliderValue)
+                      }
+                    >
+                      {sameSpeed ? (
+                        <GoCheckCircleFill className="text-2xl text-purple-700" />
+                      ) : (
+                        <GoCircle className="text-2xl text-gray-400 cursor-pointer" />
+                      )}
+                      <p className="text-black text-xs">
+                        Same speed for all the phases
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <hr />
+                <div className="p-5">
+                  <p className="text-black text-xs font-bold pb-1">
+                    Estimated Duration:{" "}
+                  </p>
+                  <p className="text-black text-xs font-normal">
+                    {phase.selected ? phase.duration : "---"}
+                  </p>
+                  <p className="text-black text-xs font-bold pt-2">
+                    Estimated Delivery Date:{" "}
+                  </p>
+                  <p className="text-black text-xs font-normal">
+                    {phase.selected ? phase.delivery : "---"}
+                  </p>
                 </div>
               </div>
             ) : (
@@ -308,7 +333,7 @@ export default function Dahsboard() {
                     <div className="flex gap-1 py-1">
                       <p
                         className={`${
-                          phase.selected ? "text-purple-600" : "text-black"
+                          phase.selected ? "text-purple-700" : "text-black"
                         } font-bold text-sm max-w-[100px]`}
                       >
                         {phase.name}{" "}
@@ -337,7 +362,7 @@ export default function Dahsboard() {
                   <>
                     <div className="flex justify-between pt-5">
                       <p className="text-black text-xs font-bold">Platform</p>
-                      <p className="text-purple-500 text-xs font-normal cursor-pointer">
+                      <p className="text-purple-700 text-xs font-normal cursor-pointer">
                         Change
                       </p>
                     </div>
@@ -361,7 +386,7 @@ export default function Dahsboard() {
                   <>
                     <div className="flex justify-between py-2 border-t-[1px] border-gray-300">
                       <p className="text-black text-xs font-bold">Features</p>
-                      <p className="text-purple-500 text-xs font-normal cursor-pointer">
+                      <p className="text-purple-700 text-xs font-normal cursor-pointer">
                         Change
                       </p>
                     </div>
@@ -374,6 +399,31 @@ export default function Dahsboard() {
             )}
           </div>
         ))}
+      </div>
+      <div className="bg-gray-200 mt-10">
+        <div className="p-10 flex flex-row justify-between">
+          <div className="flex flex-col gap-2">
+            <p className="text-black text-2xl font-bold">
+              Decide your deliverables
+            </p>
+            <p className="text-black font-medium">
+              Select platform for your product
+            </p>
+          </div>
+          <div className="bg-white p-5 rounded-md">
+            <p className="text-black font-medium">
+              Select platform for your product
+            </p>
+            <p className="text-gray-400 text-sm pt-2">
+              Estimated First delivery:{" "}
+              <span className="font-bold text-purple-700">14-Mar-2024</span>
+            </p>
+            <p className="text-gray-400 text-sm pt-1">
+              Estimated First delivery:{" "}
+              <span className="font-bold text-black">14-Mar-2024</span>
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* <div class="relative w-full">
