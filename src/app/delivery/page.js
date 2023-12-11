@@ -14,11 +14,13 @@ import {
 import { SiStyledcomponents } from "react-icons/si";
 import { PiShootingStarThin } from "react-icons/pi";
 import { IoCodeSlashOutline } from "react-icons/io5";
+import TimezoneSelect, { allTimezones } from "react-timezone-select";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
   const [sameSpeed, setSameSpeed] = useState(false);
+  const [selectedTimezone, setSelectedTimezone] = useState();
   const [phases, setPhases] = useState([
     {
       name: "Product Roadmap",
@@ -404,11 +406,39 @@ export default function Dahsboard() {
         <div className="p-10 flex flex-row justify-between">
           <div className="flex flex-col gap-2">
             <p className="text-black text-2xl font-bold">
-              Decide your deliverables
+              When do you want the delivery?
             </p>
-            <p className="text-black font-medium">
+            <div className="bg-white p-5 rounded-md relative">
+              <input
+                id="steps-range"
+                type="range"
+                min="1"
+                max="5"
+                value={sliderValue}
+                step="1"
+                className="min-w-full z-10 h-1 accent-purple-700 appearance-none cursor-pointer bg-gray-300"
+                onChange={handleSliderChange}
+              />
+              <div className="flex justify-between -mt-3 -z-10">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={`w-3 h-3 bg-gray-400 rounded-full ${
+                      sliderValue === index + 1 ? "bg-purple-700" : ""
+                    }`}
+                  ></div>
+                ))}
+              </div>
+            </div>
+
+            {/* <p className="text-black font-medium">
               Select platform for your product
             </p>
+            <TimezoneSelect
+              value={selectedTimezone}
+              onChange={(timezone) => setSelectedTimezone(timezone)}
+              timezones={allTimezones}
+            /> */}
           </div>
           <div className="bg-white p-5 rounded-md">
             <p className="text-black font-medium">
@@ -425,26 +455,6 @@ export default function Dahsboard() {
           </div>
         </div>
       </div>
-
-      {/* <div class="relative w-full">
-        <input
-          id="steps-range"
-          type="range"
-          min="1"
-          max="5"
-          value={sliderValue}
-          step="1"
-          className="w-full h-1 absolute z-10 accent-purple-400 appearance-none cursor-pointer bg-gray-300"
-          onChange={handleSliderChange}
-        />
-        <div class="flex justify-between -mt-3 -z-1">
-          <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
-          <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
-          <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
-          <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
-          <div class="w-3 h-3 bg-gray-400 rounded-full"></div>
-        </div>
-      </div> */}
     </div>
   );
 }
