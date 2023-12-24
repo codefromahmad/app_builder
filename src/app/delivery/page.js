@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { FaApple } from "react-icons/fa";
 import { BsAndroid2 } from "react-icons/bs";
 import { IoDesktop } from "react-icons/io5";
@@ -17,6 +17,8 @@ import { IoCodeSlashOutline } from "react-icons/io5";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import "./custom-style.css";
 import { useSelector } from "react-redux";
+import Image from "next/image";
+import buildercloud from "../../images/buildercloud.png";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
@@ -457,7 +459,7 @@ export default function Dahsboard() {
                 <div className="bg-white p-5 h-40 rounded-md relative">
                   <div className="relative h-10 flex justify-between">
                     {priceDuration.map((label, index) => (
-                      <div className="text-xs mt-4">
+                      <div key={index} className="text-xs mt-4">
                         <p
                           key={index}
                           className={`${
@@ -483,7 +485,7 @@ export default function Dahsboard() {
                   />
                   <div className="relative h-10 flex justify-between">
                     {priceDuration.map((label, index) => (
-                      <div className="text-xs mt-4 text-center">
+                      <div key={index} className="text-xs mt-4 text-center">
                         <p
                           key={index}
                           className={`text-center ${
@@ -549,10 +551,10 @@ export default function Dahsboard() {
       </div>
       <div className="p-10">
         <div className="w-1/2 border-[1px] rounded-md p-5 border-purple-700">
-          <img
-            src={
-              "https://studio.builder.ai/assets/images/buildercloud_logo.png"
-            }
+          <Image
+            src={buildercloud}
+            width={100}
+            height={100}
             alt="builder cloud logo"
           />
           <div>
@@ -593,7 +595,7 @@ export default function Dahsboard() {
             />
             <div className="relative h-8 flex justify-between">
               {numOfUsers.map((range, index) => (
-                <div className="text-xs mt-4 text-center">
+                <div key={index} className="text-xs mt-4 text-center">
                   <p
                     className={`text-center pt-1 ${
                       sliderValue === index + 1
