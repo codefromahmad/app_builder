@@ -543,9 +543,9 @@ export default function App() {
                       </p>
                     </div>
                   </div>
-                  <div className="bg-green-500 h-full w-40 flex items-center justify-center">
+                  <div className="bg-green-500 h-full w-48 flex items-center justify-center">
                     <Link href="/delivery">
-                      <p className="text-black">Plan Delivery</p>
+                      <p className="text-black font-semibold">Plan Delivery</p>
                     </Link>
                   </div>
                 </div>

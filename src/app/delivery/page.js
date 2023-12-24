@@ -15,12 +15,14 @@ import { SiStyledcomponents } from "react-icons/si";
 import { PiShootingStarThin } from "react-icons/pi";
 import { IoCodeSlashOutline } from "react-icons/io5";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
+import "./custom-style.css";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [sliderValue, setSliderValue] = useState(2);
+  const [rangeSliderValue, setRangeSliderValue] = useState(2);
   const [sameSpeed, setSameSpeed] = useState(false);
-  const [selectedTimezone, setSelectedTimezone] = useState();
+  const [selectedTimezone, setSelectedTimezone] = useState(1);
   const [phases, setPhases] = useState([
     {
       name: "Product Roadmap",
@@ -84,6 +86,10 @@ export default function Dahsboard() {
     setSliderValue(parseInt(event.target.value, 10));
   };
 
+  const handleRangeSliderChange = (event) => {
+    setRangeSliderValue(parseInt(event.target.value, 10));
+  };
+
   const togglePhaseSelection = (index) => {
     console.log("Before toggle:", phases[index].selected);
 
@@ -95,6 +101,35 @@ export default function Dahsboard() {
   };
 
   const speedLabels = ["Relaxed", "Slow", "Standard", "Fast", "Speedy"];
+  const priceDuration = [
+    {
+      name: "Relaxed",
+      duration: "20 weeks",
+      price: "$ 20,000",
+    },
+    {
+      name: "Slow",
+      duration: "18 weeks",
+      price: "$ 20,000",
+    },
+    {
+      name: "Standard",
+      duration: "16 weeks",
+      price: "$ 20,000",
+    },
+    {
+      name: "Fast",
+      duration: "14 weeks",
+      price: "$ 20,000",
+    },
+    {
+      name: "Speedy",
+      duration: "12 weeks",
+      price: "$ 20,000",
+    },
+  ];
+
+  const numOfUsers = ["0-500", "500-5k", "5k-50k", "50k+"];
 
   const selectedLabel = speedLabels[sliderValue - 1]; // Adjust the index based on your min value
 
@@ -104,6 +139,13 @@ export default function Dahsboard() {
     if (value === 4) {
       position = 68;
     } else position = ((value - 1) / (totalSteps - 1)) * 80;
+    return `${position}%`;
+  };
+  const calculateLabelPosition1 = (value) => {
+    const totalSteps = 5; // Adjust based on your max value
+    let position = 0;
+    // if (value === 0) return `${position}%`;
+    position = ((value - 1) / (totalSteps - 1)) * 100;
     return `${position}%`;
   };
 
@@ -140,7 +182,7 @@ export default function Dahsboard() {
   };
 
   return (
-    <div className="py-10">
+    <div className="pt-10">
       <div className="flex px-10 justify-between">
         <div className="flex flex-col gap-2">
           <p className="text-black text-2xl font-bold">
@@ -402,35 +444,83 @@ export default function Dahsboard() {
           </div>
         ))}
       </div>
-      <div className="bg-gray-200 mt-10">
-        <div className="p-10 flex flex-row justify-between">
-          <div className="flex flex-col gap-2">
-            <p className="text-black text-2xl font-bold">
-              When do you want the delivery?
-            </p>
-            <div className="bg-white p-5 rounded-md relative">
-              <input
-                id="steps-range"
-                type="range"
-                min="1"
-                max="5"
-                value={sliderValue}
-                step="1"
-                className="min-w-full z-10 h-1 accent-purple-700 appearance-none cursor-pointer bg-gray-300"
-                onChange={handleSliderChange}
-              />
-              <div className="flex justify-between -mt-3 -z-10">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className={`w-3 h-3 bg-gray-400 rounded-full ${
-                      sliderValue === index + 1 ? "bg-purple-700" : ""
-                    }`}
-                  ></div>
-                ))}
+      <div className="bg-slate-100 mt-10">
+        <div className="p-10">
+          <p className="text-black text-2xl font-bold">
+            When do you want the delivery?
+          </p>
+          <div className="pt-5 flex flex-row justify-between items-center">
+            <div className="flex flex-row w-2/3 items-center gap-2">
+              <div className="w-2/3">
+                <div className="bg-white p-5 h-40 rounded-md relative">
+                  <div className="relative h-10 flex justify-between">
+                    {priceDuration.map((label, index) => (
+                      <div className="text-xs mt-4">
+                        <p
+                          key={index}
+                          className={`${
+                            sliderValue === index + 1
+                              ? "text-purple-700"
+                              : "text-black"
+                          }`}
+                        >
+                          {label.name}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  <input
+                    id="steps-range"
+                    type="range"
+                    min="1"
+                    max="5"
+                    value={sliderValue}
+                    step="1"
+                    className="slider my-3"
+                    onChange={handleSliderChange}
+                  />
+                  <div className="relative h-10 flex justify-between">
+                    {priceDuration.map((label, index) => (
+                      <div className="text-xs mt-4 text-center">
+                        <p
+                          key={index}
+                          className={`text-center ${
+                            sliderValue === index + 1
+                              ? "text-purple-700"
+                              : "text-black"
+                          }`}
+                        >
+                          {label.price}
+                        </p>
+                        <p
+                          className={`text-center pt-1 ${
+                            sliderValue === index + 1
+                              ? "text-purple-700"
+                              : "text-black"
+                          }`}
+                        >
+                          {label.duration}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="w-1/3">
+                <div className="transform bg-gray-300 w-48 p-2 rounded">
+                  <div className="tooltip-arrow absolute w-0 h-0 border-solid border-[transparent #ffffff transparent transparent] top-1/2 -left-2 transform:translate(-50%)"></div>
+                  <div className="flex flex-col items-center p-3 justify-center">
+                    <p className="text-xs font-semibold text-black">
+                      {priceDuration[sliderValue - 1].name}
+                    </p>
+                    <p className="text-xs text-black text-center pt-1">
+                      We build your app at the speed of light for a premium
+                      price
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-
             {/* <p className="text-black font-medium">
               Select platform for your product
             </p>
@@ -439,19 +529,123 @@ export default function Dahsboard() {
               onChange={(timezone) => setSelectedTimezone(timezone)}
               timezones={allTimezones}
             /> */}
+            <div className="bg-white p-5 rounded-md h-28">
+              <p className="text-black font-medium">
+                Select platform for your product
+              </p>
+              <p className="text-gray-400 text-sm pt-2">
+                Estimated First delivery:{" "}
+                <span className="font-bold text-purple-700">14-Mar-2024</span>
+              </p>
+              <p className="text-gray-400 text-sm pt-1">
+                Estimated First delivery:{" "}
+                <span className="font-bold text-black">14-Mar-2024</span>
+              </p>
+            </div>
           </div>
-          <div className="bg-white p-5 rounded-md">
-            <p className="text-black font-medium">
-              Select platform for your product
+        </div>
+      </div>
+      <div className="p-10">
+        <div className="w-1/2 border-[1px] rounded-md p-5 border-purple-700">
+          <img
+            src={
+              "https://studio.builder.ai/assets/images/buildercloud_logo.png"
+            }
+            alt="builder cloud logo"
+          />
+          <div>
+            <p className="text-black font-medium pt-4">
+              Builder Cloud helps you scale your business
             </p>
-            <p className="text-gray-400 text-sm pt-2">
-              Estimated First delivery:{" "}
-              <span className="font-bold text-purple-700">14-Mar-2024</span>
+            <ul className=" list-disc pl-4">
+              <li className="py-1 text-black text-xs">
+                <span className="font-bold">Commitment-free savings:</span> our
+                customers saved over $4.5m, last year.
+              </li>
+              <li className="py-1 text-black text-xs">
+                <span className="font-bold">World-class analytics:</span>{" "}
+                Optimise your software and infrastructure.
+              </li>
+              <li className="py-1 text-black text-xs">
+                <span className="font-bold">Best-in-class multi-cloud:</span>{" "}
+                Azure, AWS, and more. Just one bill (for a lot less).
+              </li>
+            </ul>
+          </div>
+          <div className="bg-slate-200 mt-3 p-5 h-30 w-80 rounded-md relative">
+            <div className="relative h-8 flex justify-between">
+              <p className="text-black font-bold">Number of users</p>
+              <p className="text-black font-bold">
+                {numOfUsers[rangeSliderValue - 1]}
+              </p>
+            </div>
+            <input
+              id="steps-range"
+              type="range"
+              min="1"
+              max="4"
+              value={rangeSliderValue}
+              step="1"
+              className="slider my-3"
+              onChange={handleRangeSliderChange}
+            />
+            <div className="relative h-8 flex justify-between">
+              {numOfUsers.map((range, index) => (
+                <div className="text-xs mt-4 text-center">
+                  <p
+                    className={`text-center pt-1 ${
+                      sliderValue === index + 1
+                        ? "text-purple-700"
+                        : "text-black"
+                    }`}
+                  >
+                    {range}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-4">
+            <p className="text-black text-2xl">
+              <span className="font-bold">₹97,685.58 + *</span> /month
             </p>
-            <p className="text-gray-400 text-sm pt-1">
-              Estimated First delivery:{" "}
-              <span className="font-bold text-black">14-Mar-2024</span>
+            <p className="text-xs text-gray-600 pt-5 font-thin">
+              *This is an estimated price for cloud hosting and will vary
+              according to usage.
             </p>
+          </div>
+        </div>
+      </div>
+      <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
+        <div className="flex flex-row justify-between items-center h-full">
+          <div className="flex pl-5">
+            <div className="flex flex-col px-2 gap-2 items-center">
+              <p className="text-gray-400 text-xs">CUSTOMISATION COST</p>
+              <p className="text-black font-extrabold text-xl">$10000</p>
+            </div>
+            <div className="flex items-center justify-center">
+              <p className="text-gray-300 text-2xl">+</p>
+            </div>
+            <div className="flex flex-col px-2 gap-2 items-center">
+              <p className="text-gray-400 text-xs">FIXED COST</p>
+              <p className="text-black font-extrabold text-xl">$1000</p>
+            </div>
+            <div className="flex items-center justify-center">
+              <p className="text-gray-300 text-2xl">=</p>
+            </div>
+            <div className="flex flex-col px-2 gap-2 items-center">
+              <p className="text-gray-400 text-xs">TOTAL COST</p>
+              <p className="text-black font-extrabold text-xl">$10000</p>
+            </div>
+            <div className="flex border-l-2 border-gray-300 flex-col px-2 gap-2 items-center">
+              <p className="text-gray-400 text-xs">INDICATIVE DURATION</p>
+              <p className="text-black font-extrabold text-xl">20 weeks</p>
+            </div>
+          </div>
+          <div className="bg-green-500 h-full w-48 flex items-center justify-center">
+            {/* <Link href="/delivery"> */}
+            <p className="text-black font-semibold">Done</p>
+            {/* </Link> */}
           </div>
         </div>
       </div>
