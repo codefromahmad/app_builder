@@ -16,6 +16,7 @@ import { PiShootingStarThin } from "react-icons/pi";
 import { IoCodeSlashOutline } from "react-icons/io5";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import "./custom-style.css";
+import { useSelector } from "react-redux";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(false);
@@ -23,6 +24,7 @@ export default function Dahsboard() {
   const [rangeSliderValue, setRangeSliderValue] = useState(2);
   const [sameSpeed, setSameSpeed] = useState(false);
   const [selectedTimezone, setSelectedTimezone] = useState(1);
+  const features = useSelector((state) => state.features.features);
   const [phases, setPhases] = useState([
     {
       name: "Product Roadmap",
@@ -304,7 +306,7 @@ export default function Dahsboard() {
                   </div>
                   {phase.selected && (
                     <input
-                      className="h-2 w-full mt-4 appearance-none accent-purple-700 rounded-md cursor-pointer bg-gray-300 relative"
+                      className="small-slider h-2 w-full mt-4 appearance-none accent-purple-700 rounded-md cursor-pointer bg-gray-300 relative"
                       id="steps-range"
                       type="range"
                       min="1"
