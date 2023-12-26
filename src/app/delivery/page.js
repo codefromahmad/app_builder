@@ -20,6 +20,7 @@ import "./custom-style.css";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import buildercloud from "../../images/buildercloud.png";
+import { MdWeb } from "react-icons/md";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
@@ -278,6 +279,11 @@ export default function Dahsboard() {
     {
       name: "Web",
       details: "Web App",
+      icon: <MdWeb className="text-4xl text-black" />,
+    },
+    {
+      name: "Desktop",
+      details: "Desktop application",
       icon: <IoDesktop className="text-4xl text-black" />,
     },
   ];
@@ -493,8 +499,16 @@ export default function Dahsboard() {
                         )}
                         {phase.platform.includes("web") && (
                           <div className="flex flex-col items-center">
-                            <IoDesktop className="text-2xl text-black" />
+                            <MdWeb className="text-2xl text-black" />
                             <p className="text-gray-400 pt-2 text-xs">Web</p>
+                          </div>
+                        )}
+                        {phase.platform.includes("desktop") && (
+                          <div className="flex flex-col items-center">
+                            <IoDesktop className="text-2xl text-black" />
+                            <p className="text-gray-400 pt-2 text-xs">
+                              Desktop
+                            </p>
                           </div>
                         )}
                       </div>
@@ -653,8 +667,16 @@ export default function Dahsboard() {
                           )}
                           {phase.platform.includes("web") && (
                             <div className="flex flex-col items-center">
-                              <IoDesktop className="text-3xl text-black" />
+                              <MdWeb className="text-3xl text-black" />
                               <p className="text-gray-400 pt-2 text-xs">Web</p>
+                            </div>
+                          )}
+                          {phase.platform.includes("desktop") && (
+                            <div className="flex flex-col items-center">
+                              <IoDesktop className="text-3xl text-black" />
+                              <p className="text-gray-400 pt-2 text-xs">
+                                Desktop
+                              </p>
                             </div>
                           )}
                         </div>
