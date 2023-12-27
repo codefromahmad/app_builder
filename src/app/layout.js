@@ -2,6 +2,7 @@
 import "./globals.css";
 import { Provider } from "react-redux";
 import store from "@/store/store";
+import Header from "@/components/Header";
 
 const metadata = {
   title: "App Builder",
@@ -12,7 +13,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          <Header />
+          {children}
+        </Provider>
       </body>
     </html>
   );

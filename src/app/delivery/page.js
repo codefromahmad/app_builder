@@ -21,68 +21,18 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import buildercloud from "../../images/buildercloud.png";
 import { MdWeb } from "react-icons/md";
+import moment from "moment";
+import ReactDatePicker from "react-datepicker";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
   const [sliderValue, setSliderValue] = useState(2);
   const [rangeSliderValue, setRangeSliderValue] = useState(2);
   const [sameSpeed, setSameSpeed] = useState(false);
-  const [selectedTimezone, setSelectedTimezone] = useState(1);
   const [infoPopup, setInfoPopup] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
   const features = useSelector((state) => state.features.features);
-
-  const checkAllContain = (text) => {
-    // Check if every phase contains "android" in its platform array
-    return phases.every((phase) => phase.platform.includes(text));
-  };
-
-  const removePlatformFromPhases = (platformText) => {
-    console.log("removePlatformFromPhases", platformText);
-    setPhases((prevPhases) => {
-      // Update all phases by removing the platformText from the platform array
-      return prevPhases.map((phase) => {
-        const phaseToUpdate = { ...phase };
-
-        // Check if the platformText exists in the platform array
-        const platformIndex = phaseToUpdate.platform.indexOf(platformText);
-
-        if (platformIndex !== -1) {
-          // If the platformText exists, remove it from the array
-          phaseToUpdate.platform.splice(platformIndex, 1);
-        }
-
-        return phaseToUpdate;
-      });
-    });
-  };
-
-  const addPlatformToPhase = (platformText) => {
-    setPhases((prevPhases) => {
-      // Check if all phases contain the platformText
-      // const allContainText = checkAllContain(platformText);
-
-      // Update all phases based on the check result
-      return prevPhases.map((phase) => {
-        const phaseToUpdate = { ...phase };
-
-        if (checkAllContain(platformText)) {
-          // If all phases contain the platformText, remove it
-          // const platformIndex = phaseToUpdate.platform.indexOf(platformText);
-          // if (platformIndex !== -1) {
-          //   console.log("Removing", platformIndex);
-          //   phaseToUpdate.platform.splice(platformIndex, 1);
-          // }
-          removePlatformFromPhases(platformText);
-        } else {
-          // If not all phases contain the platformText, add it
-          phaseToUpdate.platform = [...phaseToUpdate.platform, platformText];
-        }
-
-        return phaseToUpdate;
-      });
-    });
-  };
-
+  const [weeks, setWeeks] = useState(20);
   const [phases, setPhases] = useState([
     {
       name: "Product Roadmap",
@@ -157,6 +107,136 @@ export default function Dahsboard() {
       },
     },
   ]);
+  const speedLabels = ["Relaxed", "Slow", "Standard", "Fast", "Speedy"];
+  const priceDuration = [
+    {
+      name: "Relaxed",
+      duration: 20,
+      price: "$ 20,000",
+      details: `Our most budget-friendly option for those who aren't in a hurry`,
+    },
+    {
+      name: "Slow",
+      duration: 18,
+      price: "$ 20,000",
+      details: `For those with a fixed long-term plan who want to keep costs down`,
+    },
+    {
+      name: "Standard",
+      duration: 16,
+      price: "$ 20,000",
+      details: `The perfect middle ground for anyone with a modest budget and medium-term deadlines`,
+    },
+    {
+      name: "Fast",
+      duration: 14,
+      price: "$ 20,000",
+      details: `We put your app build on turbo charge for a few extra bucks`,
+    },
+    {
+      name: "Speedy",
+      duration: 12,
+      price: "$ 20,000",
+      details: `We build your app at the speed of light for a premium price`,
+    },
+  ];
+
+  const numOfUsers = [
+    { users: "0-500", minPrice: 150, maxPrice: 230 },
+    { users: "500-5k", minPrice: 225, maxPrice: 340 },
+    { users: "5k-50k", minPrice: 490, maxPrice: 735 },
+    { users: "50k+", minPrice: 1000 },
+  ];
+
+  const deliveryDate = moment().add(
+    priceDuration[sliderValue - 1].duration,
+    "weeks"
+  );
+
+  const checkAllContain = (text) => {
+    return phases.every((phase) => phase?.platform.includes(text));
+  };
+
+  const platforms = [
+    {
+      name: "Android",
+      details: "Mobile App for android",
+      icon: <BsAndroid2 className="text-4xl text-black" />,
+      selected: checkAllContain("android"),
+    },
+    {
+      name: "iOS",
+      details: "Mobile App for iOS",
+      icon: <FaApple className="text-4xl text-black" />,
+      selected: checkAllContain("ios"),
+    },
+    {
+      name: "Web",
+      details: "Web App",
+      icon: <MdWeb className="text-4xl text-black" />,
+      selected: checkAllContain("web"),
+    },
+    {
+      name: "Desktop",
+      details: "Desktop application",
+      icon: <IoDesktop className="text-4xl text-black" />,
+      selected: checkAllContain("desktop"),
+    },
+  ];
+
+  const removePlatformFromPhases = (platformText) => {
+    console.log("removePlatformFromPhases", platformText);
+    const selectedPhasesCount = platforms.filter(
+      (platform) => platform.selected
+    ).length;
+
+    console.log("Only one phase left", selectedPhasesCount);
+    if (selectedPhasesCount === 1) {
+      return phases;
+    }
+    setPhases((prevPhases) => {
+      return prevPhases.map((phase) => {
+        const phaseToUpdate = { ...phase };
+
+        // Check if the platformText exists in the platform array
+        const platformIndex = phaseToUpdate.platform.indexOf(platformText);
+
+        if (platformIndex !== -1) {
+          // If the platformText exists, remove it from the array
+          phaseToUpdate.platform.splice(platformIndex, 1);
+        }
+
+        return phaseToUpdate;
+      });
+    });
+  };
+
+  const addPlatformToPhase = (platformText) => {
+    setPhases((prevPhases) => {
+      // Check if all phases contain the platformText
+      // const allContainText = checkAllContain(platformText);
+
+      // Update all phases based on the check result
+      return prevPhases.map((phase) => {
+        const phaseToUpdate = { ...phase };
+
+        if (checkAllContain(platformText)) {
+          // If all phases contain the platformText, remove it
+          // const platformIndex = phaseToUpdate.platform.indexOf(platformText);
+          // if (platformIndex !== -1) {
+          //   console.log("Removing", platformIndex);
+          //   phaseToUpdate.platform.splice(platformIndex, 1);
+          // }
+          removePlatformFromPhases(platformText);
+        } else {
+          // If not all phases contain the platformText, add it
+          phaseToUpdate.platform = [...phaseToUpdate.platform, platformText];
+        }
+
+        return phaseToUpdate;
+      });
+    });
+  };
 
   const handleToggleSwitch = () => {
     setIsSwitchOn((prevValue) => !prevValue);
@@ -183,37 +263,6 @@ export default function Dahsboard() {
     console.log("After toggle:", newPhases[index].selected);
     setPhases(newPhases);
   };
-
-  const speedLabels = ["Relaxed", "Slow", "Standard", "Fast", "Speedy"];
-  const priceDuration = [
-    {
-      name: "Relaxed",
-      duration: "20 weeks",
-      price: "$ 20,000",
-    },
-    {
-      name: "Slow",
-      duration: "18 weeks",
-      price: "$ 20,000",
-    },
-    {
-      name: "Standard",
-      duration: "16 weeks",
-      price: "$ 20,000",
-    },
-    {
-      name: "Fast",
-      duration: "14 weeks",
-      price: "$ 20,000",
-    },
-    {
-      name: "Speedy",
-      duration: "12 weeks",
-      price: "$ 20,000",
-    },
-  ];
-
-  const numOfUsers = ["0-500", "500-5k", "5k-50k", "50k+"];
 
   const selectedLabel = speedLabels[sliderValue - 1]; // Adjust the index based on your min value
 
@@ -265,31 +314,8 @@ export default function Dahsboard() {
     });
   };
 
-  const platforms = [
-    {
-      name: "Android",
-      details: "Mobile App for android",
-      icon: <BsAndroid2 className="text-4xl text-black" />,
-    },
-    {
-      name: "iOS",
-      details: "Mobile App for iOS",
-      icon: <FaApple className="text-4xl text-black" />,
-    },
-    {
-      name: "Web",
-      details: "Web App",
-      icon: <MdWeb className="text-4xl text-black" />,
-    },
-    {
-      name: "Desktop",
-      details: "Desktop application",
-      icon: <IoDesktop className="text-4xl text-black" />,
-    },
-  ];
-
   return (
-    <div>
+    <div className="mt-12">
       {infoPopup === "platforms" ? (
         <div
           class={`fixed z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
@@ -381,8 +407,29 @@ export default function Dahsboard() {
             </div>
           </div>
           <div className="flex flex-col gap-2 items-end">
-            <p className="text-black font-medium">Expected kick-off date</p>
-            <p className="text-black text-xs">9 Dec 2023 (Today)</p>
+            <div className="">
+              {/* <ReactDatePicker
+                selected={startDate}
+                onChange={(date) => setStartDate(date)}
+                customInput={ */}
+              <div className="flex items-center gap-2">
+                <p className="text-black font-medium">Expected kick-off date</p>
+                <HiOutlineInformationCircle
+                  onClick={() =>
+                    setInfoPopup({
+                      name: null,
+                      details: `Essential meeting that kicks off your project. We set everyone's roles, understand your objectives and make sure the app will be exactly how you want it.`,
+                    })
+                  }
+                  className="text-xl cursor-pointer text-gray-400"
+                />
+              </div>
+              {/* }
+              /> */}
+            </div>
+            <p className="text-black text-xs">
+              {moment().format("D MMM YYYY")} (Today)
+            </p>
           </div>
         </div>
         <div className="flex px-10 justify-start py-4 gap-4">
@@ -478,9 +525,9 @@ export default function Dahsboard() {
                     <>
                       <div className="flex p-5 justify-between pt-5">
                         <p className="text-black text-xs font-bold">Platform</p>
-                        <p className="text-purple-700 text-xs font-normal cursor-pointer">
+                        {/* <p className="text-purple-700 text-xs font-normal cursor-pointer">
                           Change
-                        </p>
+                        </p> */}
                       </div>
                       <div className="flex px-5 justify-start py-4 gap-4">
                         {phase.platform.includes("android") && (
@@ -646,9 +693,9 @@ export default function Dahsboard() {
                           <p className="text-black text-xs font-bold">
                             Platform
                           </p>
-                          <p className="text-purple-700 text-xs font-normal cursor-pointer">
+                          {/* <p className="text-purple-700 text-xs font-normal cursor-pointer">
                             Change
-                          </p>
+                          </p> */}
                         </div>
                         <div className="flex px-5 justify-start pt-4 pb-2 gap-4">
                           {phase.platform.includes("android") && (
@@ -755,7 +802,7 @@ export default function Dahsboard() {
                                 : "text-black"
                             }`}
                           >
-                            {label.duration}
+                            {label.duration} weeks
                           </p>
                         </div>
                       ))}
@@ -770,8 +817,7 @@ export default function Dahsboard() {
                         {priceDuration[sliderValue - 1].name}
                       </p>
                       <p className="text-xs text-black text-center pt-1">
-                        We build your app at the speed of light for a premium
-                        price
+                        {priceDuration[sliderValue - 1].details}
                       </p>
                     </div>
                   </div>
@@ -791,18 +837,22 @@ export default function Dahsboard() {
                 </p>
                 <p className="text-gray-400 text-sm pt-2">
                   Estimated First delivery:{" "}
-                  <span className="font-bold text-purple-700">14-Mar-2024</span>
+                  <span className="font-bold text-purple-700">
+                    {moment().format("DD-MMM-YYYY")}
+                  </span>
                 </p>
                 <p className="text-gray-400 text-sm pt-1">
                   Estimated First delivery:{" "}
-                  <span className="font-bold text-black">14-Mar-2024</span>
+                  <span className="font-bold text-black">
+                    {deliveryDate.format("DD-MMM-YYYY")}
+                  </span>
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="p-10">
-          <div className="w-1/2 border-[1px] rounded-md p-5 border-purple-700">
+        <div className="m-10 flex border-[1px] border-purple-700 rounded-md p-5">
+          <div className="w-1/2 ">
             <Image
               src={buildercloud}
               width={100}
@@ -828,11 +878,13 @@ export default function Dahsboard() {
                 </li>
               </ul>
             </div>
-            <div className="bg-slate-200 mt-3 p-5 h-30 w-80 rounded-md relative">
+          </div>
+          <div className="w-1/2">
+            <div className="bg-slate-200 mt-3 p-5 h-30 w-96 rounded-md relative">
               <div className="relative h-8 flex justify-between">
                 <p className="text-black font-bold">Number of users</p>
                 <p className="text-black font-bold">
-                  {numOfUsers[rangeSliderValue - 1]}
+                  {numOfUsers[rangeSliderValue - 1].users}
                 </p>
               </div>
               <input
@@ -855,7 +907,7 @@ export default function Dahsboard() {
                           : "text-black"
                       }`}
                     >
-                      {range}
+                      {range.users}
                     </p>
                   </div>
                 ))}
@@ -863,7 +915,17 @@ export default function Dahsboard() {
             </div>
             <div className="mt-4">
               <p className="text-black text-2xl">
-                <span className="font-bold">₹97,685.58 + *</span> /month
+                {rangeSliderValue != numOfUsers.length ? (
+                  <span className="font-bold">
+                    ${numOfUsers[rangeSliderValue - 1].minPrice} - $
+                    {numOfUsers[rangeSliderValue - 1].maxPrice}
+                  </span>
+                ) : (
+                  <span className="font-bold">
+                    ${numOfUsers[rangeSliderValue - 1].minPrice} + *
+                  </span>
+                )}{" "}
+                /month
               </p>
               <p className="text-xs text-gray-600 pt-5 font-thin">
                 *This is an estimated price for cloud hosting and will vary
