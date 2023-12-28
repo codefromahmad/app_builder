@@ -20,9 +20,10 @@ import "./custom-style.css";
 import { useSelector } from "react-redux";
 import Image from "next/image";
 import buildercloud from "../../images/buildercloud.png";
-import { MdWeb } from "react-icons/md";
+import { MdDeleteOutline, MdWeb } from "react-icons/md";
 import moment from "moment";
 import ReactDatePicker from "react-datepicker";
+import { FaThumbsUp } from "react-icons/fa6";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
@@ -33,6 +34,9 @@ export default function Dahsboard() {
   const [startDate, setStartDate] = useState(new Date());
   const features = useSelector((state) => state.features.features);
   const [weeks, setWeeks] = useState(20);
+  const [buildCard, setBuildCard] = useState(false);
+  const [name, setName] = useState("");
+  const [sidebar, setSidebar] = useState(false);
   const [phases, setPhases] = useState([
     {
       name: "Product Roadmap",
@@ -43,7 +47,7 @@ export default function Dahsboard() {
       details:
         "Why do you need a product roadmap? Add it and we help you define the use cases for every feature in your Buildcard. If you skip it, you’ll need to know exactly what you expect each feature to do before we can start building your app.It also gives you an in-depth view of where your product is going. Includes a product timeline so everyone can see all the key dates on the way to get you there.",
       more: "Can help you secure funding, improve collaboration and streamline the whole app building process. Also useful for making long-term strategic decisions and planning a successful launch.",
-      platform: ["android"],
+      platform: ["ios"],
       advanced: {
         sliderValue: 2,
       },
@@ -57,7 +61,7 @@ export default function Dahsboard() {
       details:
         "Trust us to do the wireframing of your concept and design a seamless experience. Get a fully scalable UI/UX",
       more: "We combine visual principles, data, color psychology, and decades worth of experience to create aesthetic interfaces that will drive the growth of your product. We are experts in creating human-centric designs that allow customers to intuitively use your product and have a great product experience.",
-      platform: ["android"],
+      platform: ["ios"],
       advanced: {
         sliderValue: 1,
       },
@@ -71,7 +75,7 @@ export default function Dahsboard() {
       details:
         "Get a fully functional design prototype to test the design hypothesis and end-user journey. This includes designs for prototypes.",
       more: "Prototypes are realistic design representations of your ideas. We design interactive prototypes for iPhone, iPad, Android, and Web. Creation of prototypes is more specific, measurable, quick, and intensive than just describing the design. Test how the user will interact with an environment comparable to the final product.",
-      platform: ["android"],
+      platform: ["ios"],
       advanced: {
         sliderValue: 3,
       },
@@ -85,7 +89,7 @@ export default function Dahsboard() {
       details:
         "Ship the first build of your idea and get early adopters to try out your product",
       more: "We help design a Minimum Viable Product as a proof of concept to satisfy early customers and provide feedback for future development. It’s an easy way to build a product with a minimum set of features to test the market. Collect the maximum amount of validated learning about your customers with the least effort.",
-      platform: ["android"],
+      platform: ["ios"],
       showPlatform: true,
       features: 32,
       advanced: {
@@ -101,7 +105,7 @@ export default function Dahsboard() {
       details:
         "We will do end to end designing and development of your idea. Get a market-ready product",
       more: "We build a full-fledged product based on the product roadmap and the features laid out in the specification document. We will also perfect the product based on user feedback received on the Minimum Viable Product. We will ship a fully mature, responsive, scalable, business-ready and a user-friendly product.",
-      platform: ["android"],
+      platform: ["ios"],
       advanced: {
         sliderValue: 5,
       },
@@ -250,8 +254,10 @@ export default function Dahsboard() {
     setRangeSliderValue(parseInt(event.target.value, 10));
   };
 
-  const handleCloseInfoPopup = () => {
+  const handleClose = () => {
     setInfoPopup(null);
+    setBuildCard(false);
+    setName("");
   };
 
   const togglePhaseSelection = (index) => {
@@ -325,7 +331,7 @@ export default function Dahsboard() {
           } w-96 h-auto rounded-lg bg-gray-700 p-4 transition-opacity duration-1000 ease-in-out`}
         >
           <IoMdClose
-            onClick={handleCloseInfoPopup}
+            onClick={handleClose}
             className="text-xl absolute cursor-pointer right-3 text-white"
           />
           <p class="font-bold text-white pt-4">Devices</p>
@@ -371,7 +377,7 @@ export default function Dahsboard() {
             } w-80 h-auto rounded-lg bg-gray-700 p-4 transition-opacity duration-1000 ease-in-out`}
           >
             <IoMdClose
-              onClick={handleCloseInfoPopup}
+              onClick={handleClose}
               className="text-xl absolute cursor-pointer right-3 text-white"
             />
             <p class="font-bold mb-2 text-center text-white p-y-4">
@@ -382,6 +388,104 @@ export default function Dahsboard() {
           </div>
         )
       )}
+      {buildCard && (
+        <div
+          class={`fixed shadow-2xl py-10 z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+            buildCard
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          } w-96 h-auto rounded-lg bg-white items-center justify-center flex flex-col p-4 transition-opacity duration-1000 ease-in-out`}
+        >
+          <div className="bg-green-500 rounded-full w-20 h-20 flex items-center justify-center">
+            <FaThumbsUp className="text-white text-3xl" />
+          </div>
+          <p class="my-2 text-center text-black py-4">
+            Time to create your Buildcard® (It describes exactly what you want
+            to build)
+          </p>
+          <p class="my-2 font-bold text-center text-black">
+            First, please name your Buildcard®
+          </p>
+          {/* <p class="text-center text-black text-xs py-2">
+            You will lose the selected template and you will have to start from
+            scratch selecting features one by one.
+          </p> */}
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="my-2 w-full outline-none border-[1px] text-black border-gray-300 rounded-md p-2"
+            placeholder="eg. Booking.com"
+            type="text"
+          />
+          <div
+            className={`px-2 py-1 ${
+              name.length > 2 ? "bg-green-500" : "bg-gray-400"
+            } w-full h-10 items-center flex justify-center rounded-md ${
+              name.length > 2 ? "cursor-pointer" : "cursor-not-allowed"
+            }`}
+            onClick={name.length > 2 ? handleClose : null}
+          >
+            <p class="text-sm text-white">SAVE</p>
+          </div>
+        </div>
+      )}
+      {/* <div
+          onClick={() => setSidebar(false)}
+          class={`fixed shadow-2xl py-10 z-40 top-0 left-0 w-64 h-screen ${
+            sidebar
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          } w-96 h-auto rounded-lg bg-white mt-10 flex-col transition-opacity duration-1000 ease-in-out`}
+        /> */}
+      {sidebar && (
+        <div className="absolute w-full h-full z-35 hidden bg-black/60 bg-opacity-60 top-0 left-0" />
+      )}
+
+      {sidebar && (
+        <div
+          class={`fixed shadow-2xl py-10 z-40 top-0 left-0 w-64 h-screen ${
+            sidebar
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          } w-96 h-auto rounded-lg bg-white mt-10 flex-col transition-opacity duration-1000 ease-in-out`}
+        >
+          <div className="flex flex-col w-ful">
+            {features.map((feature, index) => (
+              <div
+                key={index}
+                className="flex w-full px-4 py-2 items-center hover:bg-red-300 justify-between"
+              >
+                <div className="flex py-2 items-center gap-5">
+                  {console.log(feature)}
+                  <Image
+                    width={100}
+                    height={100}
+                    className="w-5 h-5"
+                    src={feature?.icon}
+                    alt="Healthcare Icon"
+                  />
+                  <p className="text-black text-sm font-thin">{feature.name}</p>
+                </div>
+                <div className="bg-gray-300 w-8 h-8 p-2 rounded-md">
+                  {true ? (
+                    <MdDeleteOutline className="text-white" />
+                  ) : (
+                    <FiPlus className="text-white" />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <div
+        className={`fixed top-0 left-0 w-full inset-0 bg-gray-300/20 backdrop-blur h-full z-30 ${
+          buildCard
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        } transition-opacity duration-300 ease-in-out`}
+        onClick={handleClose}
+      />
       <div
         className={`fixed top-0 left-0 w-full inset-0 bg-gray-300/20 backdrop-blur h-full z-30 ${
           infoPopup
@@ -562,17 +666,22 @@ export default function Dahsboard() {
                     </>
                   )}
                   <hr />
-                  <div className="p-5">
-                    <div className="flex justify-between">
-                      <p className="text-black text-xs font-bold">Features</p>
-                      <p className="text-purple-700 text-xs font-normal cursor-pointer">
-                        Change
+                  {features.length > 0 && (
+                    <div className="p-5">
+                      <div className="flex justify-between">
+                        <p className="text-black text-xs font-bold">Features</p>
+                        <p
+                          onClick={() => setSidebar(true)}
+                          className="text-purple-700 text-xs font-normal cursor-pointer"
+                        >
+                          Change
+                        </p>
+                      </div>
+                      <p className="text-gray-400 pt-2 text-xs">
+                        {features.length} features selected
                       </p>
                     </div>
-                    <p className="text-gray-400 pt-2 text-xs">
-                      32 features selected
-                    </p>
-                  </div>
+                  )}
                   <hr />
                   <div className="p-5 relative">
                     <div className="flex justify-between">
@@ -593,7 +702,7 @@ export default function Dahsboard() {
                           updateSliderValue(index, parseInt(e.target.value, 10))
                         }
                         style={{
-                          background: `linear-gradient(to right, #7E22CE 0%, #7E22CE ${
+                          background: `linear-gradient(to right, #7e22ce 0%, #7e22ce ${
                             (phase.advanced.sliderValue - 1) * 25
                           }%, #E5E7EB ${
                             (phase.advanced.sliderValue - 1) * 25
@@ -781,6 +890,11 @@ export default function Dahsboard() {
                       step="1"
                       className="slider my-3"
                       onChange={handleSliderChange}
+                      style={{
+                        background: `linear-gradient(to right, #7e22ce 0%, #7e22ce ${
+                          (sliderValue - 1) * 25
+                        }%, #E5E7EB ${(sliderValue - 1) * 25}%, #E5E7EB 100%)`,
+                      }}
                     />
                     <div className="relative h-10 flex justify-between">
                       {priceDuration.map((label, index) => (
@@ -902,7 +1016,7 @@ export default function Dahsboard() {
                   <div key={index} className="text-xs mt-4 text-center">
                     <p
                       className={`text-center pt-1 ${
-                        sliderValue === index + 1
+                        rangeSliderValue === index + 1
                           ? "text-purple-700"
                           : "text-black"
                       }`}
@@ -960,7 +1074,10 @@ export default function Dahsboard() {
                 <p className="text-black font-extrabold text-xl">20 weeks</p>
               </div>
             </div>
-            <div className="bg-green-500 h-full w-48 flex items-center justify-center">
+            <div
+              onClick={() => setBuildCard(true)}
+              className="bg-green-500 cursor-pointer h-full w-48 flex items-center justify-center"
+            >
               {/* <Link href="/delivery"> */}
               <p className="text-black font-semibold">Done</p>
               {/* </Link> */}

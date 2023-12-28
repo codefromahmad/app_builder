@@ -12,6 +12,8 @@ import { sidebarData } from "./data";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import Image from "next/image";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 export default function App() {
   const [selectedFeature, setSelectedFeature] = useState(null);
@@ -19,6 +21,16 @@ export default function App() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [expand, setExpand] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const handlePlanDelivery = () => {
+    dispatch({
+      type: "setFeatures",
+      payload: selectedFeatures,
+    });
+    router.push("/delivery");
+  };
 
   const isFeatureSelected = (feature) => {
     return selectedFeatures.some((selected) => selected.name === feature.name);
@@ -123,37 +135,8 @@ export default function App() {
 
   const totalCost = customisationCost + parseFloat(fixedCost);
 
-  // const containerRef = useRef(null);
-  // const [isScrolling, setScrolling] = useState(false);
-
-  // const handleScroll = () => {
-  //   setScrolling(true);
-  //   console.log("scrolling");
-  // };
-
-  // const handleMouseEnter = () => {
-  //   setScrolling(true);
-  //   console.log("mouse enter");
-  // };
-
-  // const handleMouseLeave = () => {
-  //   setScrolling(false);
-  //   console.log("mouse leave");
-  // };
-
   return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      {/* <div
-        className={`w-1/5 bg-white max-h-screen relative ${
-          isScrolling ? "overflow-y-auto custom-scrollbar" : "overflow-y-hidden"
-        } duration-300`}
-        ref={containerRef}
-        onScroll={handleScroll}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      > */}
-
+    <div className="flex h-[calc(100vh-4rem)] mt-16">
       <div
         className={`fixed top-0 left-0 w-full inset-0 bg-gray-300/20 backdrop-blur h-full z-30 ${
           confirm
@@ -543,10 +526,12 @@ export default function App() {
                       </p>
                     </div>
                   </div>
-                  <div className="bg-green-500 h-full w-48 flex items-center justify-center">
-                    <Link href="/delivery">
-                      <p className="text-black font-semibold">Plan Delivery</p>
-                    </Link>
+                  <div
+                    // href={"/delivery"}
+                    onClick={handlePlanDelivery}
+                    className="bg-green-500 h-full cursor-pointer w-48 flex items-center justify-center"
+                  >
+                    <p className="text-black font-semibold">Plan Delivery</p>
                   </div>
                 </div>
               </div>

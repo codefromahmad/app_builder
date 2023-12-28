@@ -1,5 +1,5 @@
 const initialState = {
-  features: ["feature1", "feature2", "feature3"],
+  features: [],
 };
 
 const features = (state = initialState, action) => {

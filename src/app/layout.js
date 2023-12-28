@@ -3,6 +3,7 @@ import "./globals.css";
 import { Provider } from "react-redux";
 import store from "@/store/store";
 import Header from "@/components/Header";
+import { useState } from "react";
 
 const metadata = {
   title: "App Builder",
@@ -10,12 +11,17 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
   return (
     <html lang="en">
       <body>
         <Provider store={store}>
-          <Header />
-          {children}
+          <Header
+            dropdownOpen={dropdownOpen}
+            setDropdownOpen={setDropdownOpen}
+          />
+          <div onClick={() => setDropdownOpen(false)}>{children}</div>
         </Provider>
       </body>
     </html>

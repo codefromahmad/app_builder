@@ -6,6 +6,7 @@
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
+  accent-color: #7e22ce;
   /* -webkit-transition: 0.2s; */
   /* transition: opacity 0.2s; */
 }
@@ -16,7 +17,7 @@
   width: 30px;
   height: 30px;
   border-radius: 25px;
-  background: #5c00c8;
+  background: #7e22ce;
   cursor: pointer;
   box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
 }
@@ -24,7 +25,7 @@
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  background: #5c00c8;
+  background: #7e22ce;
   cursor: pointer;
 }
 
@@ -36,6 +37,7 @@
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
+  accent-color: #7e22ce;
   /* -webkit-transition: 0.2s; */
   /* transition: opacity 0.2s; */
 }
@@ -54,7 +56,7 @@
 .small-slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
-  background: #5c00c8;
+  background: #7e22ce;
   cursor: pointer;
 }
 
