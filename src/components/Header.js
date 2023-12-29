@@ -9,7 +9,7 @@ import Link from "next/link";
 
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
   return (
-    <div className="h-16 bg-white z-50 w-full fixed top-0 left-0 right-0 border-b-2 border-b-gray-200">
+    <div className="h-16 bg-white z-30 w-full fixed top-0 left-0 right-0 border-b-2 border-b-gray-200">
       <div className="h-full flex">
         <Link
           href={"/"}

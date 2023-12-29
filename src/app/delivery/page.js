@@ -5,7 +5,7 @@ import { BsAndroid2 } from "react-icons/bs";
 import { IoDesktop } from "react-icons/io5";
 import { FiPlus } from "react-icons/fi";
 import { HiOutlineInformationCircle } from "react-icons/hi2";
-import { IoMdClose } from "react-icons/io";
+import { IoIosSearch, IoMdClose } from "react-icons/io";
 import {
   GoCheckCircleFill,
   GoRocket,
@@ -17,13 +17,15 @@ import { PiShootingStarThin } from "react-icons/pi";
 import { IoCodeSlashOutline } from "react-icons/io5";
 import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import "./custom-style.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import buildercloud from "../../images/buildercloud.png";
 import { MdDeleteOutline, MdWeb } from "react-icons/md";
 import moment from "moment";
 import ReactDatePicker from "react-datepicker";
 import { FaThumbsUp } from "react-icons/fa6";
+import { sidebarData } from "../data";
+import "../custom-scroll.css";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
@@ -37,6 +39,8 @@ export default function Dahsboard() {
   const [buildCard, setBuildCard] = useState(false);
   const [name, setName] = useState("");
   const [sidebar, setSidebar] = useState(false);
+  const [search, setSearch] = useState("");
+  const dispatch = useDispatch();
   const [phases, setPhases] = useState([
     {
       name: "Product Roadmap",
@@ -144,6 +148,27 @@ export default function Dahsboard() {
       details: `We build your app at the speed of light for a premium price`,
     },
   ];
+
+  const allDropDowns = sidebarData
+    .filter((item) => item.dropDown)
+    .flatMap((item) => item.dropDown);
+
+  const filteredItems = allDropDowns.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const { inFeatures, notInFeatures } = filteredItems.reduce(
+    (acc, item) => {
+      if (features.some((feature) => feature.name === item.name)) {
+        acc.inFeatures.push(item);
+      } else {
+        acc.notInFeatures.push(item);
+      }
+      return acc;
+    },
+    { inFeatures: [], notInFeatures: [] }
+  );
+  const sortedAllDropDowns = [...inFeatures, ...notInFeatures];
 
   const numOfUsers = [
     { users: "0-500", minPrice: 150, maxPrice: 230 },
@@ -257,7 +282,9 @@ export default function Dahsboard() {
   const handleClose = () => {
     setInfoPopup(null);
     setBuildCard(false);
+    setSidebar(false);
     setName("");
+    setSearch("");
   };
 
   const togglePhaseSelection = (index) => {
@@ -318,6 +345,31 @@ export default function Dahsboard() {
       };
       return newPhases;
     });
+  };
+
+  const isFeatureSelected = (feature) => {
+    return features.some((selected) => selected.name === feature.name);
+  };
+
+  const handleFeaturesSelection = (feature) => {
+    console.log("handleFeaturesSelection", feature.name);
+
+    if (isFeatureSelected(feature)) {
+      // If selected, remove it from the array
+      const updatedFeatures = features.filter(
+        (selected) => selected.name !== feature.name
+      );
+      dispatch({
+        type: "setFeatures",
+        payload: updatedFeatures,
+      });
+    } else {
+      // If not selected, add it to the array
+      dispatch({
+        type: "addFeature",
+        payload: feature,
+      });
+    }
   };
 
   return (
@@ -430,52 +482,67 @@ export default function Dahsboard() {
         </div>
       )}
       {/* <div
-          onClick={() => setSidebar(false)}
-          class={`fixed shadow-2xl py-10 z-40 top-0 left-0 w-64 h-screen ${
-            sidebar
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          } w-96 h-auto rounded-lg bg-white mt-10 flex-col transition-opacity duration-1000 ease-in-out`}
-        /> */}
+        onClick={() => setSidebar(false)}
+        class={`fixed shadow-2xl py-10 z-40 top-0 left-0 w-64 h-screen ${
+          sidebar
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        } w-96 h-auto rounded-lg bg-white mt-10 flex-col transition-opacity duration-1000 ease-in-out`}
+      /> */}
       {sidebar && (
-        <div className="absolute w-full h-full z-35 hidden bg-black/60 bg-opacity-60 top-0 left-0" />
+        <div
+          onClick={handleClose}
+          className="absolute overflow-y-hidden w-full h-full z-40 bg-black/60 bg-opacity-60 top-0 left-0"
+        />
       )}
 
       {sidebar && (
-        <div
-          class={`fixed shadow-2xl py-10 z-40 top-0 left-0 w-64 h-screen ${
-            sidebar
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          } w-96 h-auto rounded-lg bg-white mt-10 flex-col transition-opacity duration-1000 ease-in-out`}
-        >
-          <div className="flex flex-col w-ful">
-            {features.map((feature, index) => (
-              <div
-                key={index}
-                className="flex w-full px-4 py-2 items-center hover:bg-red-300 justify-between"
-              >
-                <div className="flex py-2 items-center gap-5">
-                  {console.log(feature)}
-                  <Image
-                    width={100}
-                    height={100}
-                    className="w-5 h-5"
-                    src={feature?.icon}
-                    alt="Healthcare Icon"
-                  />
-                  <p className="text-black text-sm font-thin">{feature.name}</p>
-                </div>
-                <div className="bg-gray-300 w-8 h-8 p-2 rounded-md">
-                  {true ? (
-                    <MdDeleteOutline className="text-white" />
-                  ) : (
-                    <FiPlus className="text-white" />
-                  )}
-                </div>
-              </div>
-            ))}
+        <div className="flex flex-col overflow-y-auto h-full bg-white absolute top-0 left-0 z-50 w-1/5 custom-scrollbar">
+          <div className="flex justify-between items-center px-4 pt-4 pb-1">
+            <p className="text-gray-400">Features</p>
+            <div
+              onClick={handleClose}
+              className="border-gray-300 group border-[1px] p-2 cursor-pointer hover:bg-slate-200 duration-200 rounded-full"
+            >
+              <IoMdClose className="text-gray-300 group-hover:text-gray-600" />
+            </div>
           </div>
+          <div className="mx-4 my-2 py-1 px-2 border-gray-300 flex items-center border-[1px] rounded-full">
+            <IoIosSearch className="text-black text-xl mx-1" />
+            <input
+              placeholder="Search"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full text-black text-xs outline-none border-none"
+            />
+          </div>
+          {sortedAllDropDowns.map((feature, index) => (
+            <div
+              key={index}
+              className="flex w-full px-4 py-2 items-center justify-between"
+            >
+              <div className="flex py-2 items-center gap-5">
+                <Image
+                  width={100}
+                  height={100}
+                  className="w-5 h-5"
+                  src={feature?.icon}
+                  alt="Healthcare Icon"
+                />
+                <p className="text-black text-sm font-thin">{feature.name}</p>
+              </div>
+              <div
+                onClick={() => handleFeaturesSelection(feature)}
+                className="hover:bg-gray-200 flex items-center justify-center border-[1px] border-gray-300 w-8 h-8 p-2 cursor-pointer rounded-md"
+              >
+                {isFeatureSelected(feature) ? (
+                  <MdDeleteOutline className="text-gray-400" />
+                ) : (
+                  <FiPlus className="text-gray-400" />
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       )}
       <div

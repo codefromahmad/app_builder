@@ -9,6 +9,11 @@ const features = (state = initialState, action) => {
         ...state,
         features: action.payload,
       };
+    case "addFeature":
+      return {
+        ...state,
+        features: [...state.features, action.payload],
+      };
 
     default:
       return state;
