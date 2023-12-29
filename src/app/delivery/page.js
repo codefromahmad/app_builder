@@ -502,7 +502,7 @@ export default function Dahsboard() {
             <p className="text-gray-400">Features</p>
             <div
               onClick={handleClose}
-              className="border-gray-300 group border-[1px] p-2 cursor-pointer hover:bg-slate-200 duration-200 rounded-full"
+              className="border-gray-300 group border-[1px] p-[6px] cursor-pointer hover:bg-slate-200 duration-200 rounded-full"
             >
               <IoMdClose className="text-gray-300 group-hover:text-gray-600" />
             </div>
@@ -533,12 +533,12 @@ export default function Dahsboard() {
               </div>
               <div
                 onClick={() => handleFeaturesSelection(feature)}
-                className="hover:bg-gray-200 flex items-center justify-center border-[1px] border-gray-300 w-8 h-8 p-2 cursor-pointer rounded-md"
+                className="hover:bg-gray-200 group flex items-center justify-center border-[1px] border-gray-300 w-8 h-8 p-2 cursor-pointer rounded-md"
               >
                 {isFeatureSelected(feature) ? (
-                  <MdDeleteOutline className="text-gray-400" />
+                  <MdDeleteOutline className="text-gray-400 group-hover:text-gray-600" />
                 ) : (
-                  <FiPlus className="text-gray-400" />
+                  <FiPlus className="text-gray-400 group-hover:text-gray-600" />
                 )}
               </div>
             </div>
@@ -758,7 +758,7 @@ export default function Dahsboard() {
                     </div>
                     {phase.selected && (
                       <input
-                        className="small-slider h-2 w-full mt-4 appearance-none accent-purple-700 rounded-md cursor-pointer bg-gray-300 relative"
+                        className="small-slider h-2 w-full mt-4 appearance-none rounded-md !accent-purple-700 cursor-pointer bg-gray-300 relative"
                         id="steps-range"
                         type="range"
                         min="1"
