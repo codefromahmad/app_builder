@@ -65,3 +65,7 @@
   border-color: transparent #d1d5db transparent transparent;
   transform: translateY(-50%);
 }
+
+.no-scroll {
+  overflow: hidden;
+}

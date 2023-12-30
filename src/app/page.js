@@ -12,28 +12,27 @@ import { sidebarData } from "./data";
 import { PhoneFrame } from "@/components/PhoneFrame";
 import Image from "next/image";
 import Link from "next/link";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
 export default function App() {
-  const [selectedFeature, setSelectedFeature] = useState(null);
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [expand, setExpand] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const features = useSelector((state) => state.features.features);
+  const [selectedFeature, setSelectedFeature] = useState(
+    features.length > 0 ? features[0] : null
+  );
 
   const handlePlanDelivery = () => {
-    dispatch({
-      type: "setFeatures",
-      payload: selectedFeatures,
-    });
     router.push("/delivery");
   };
 
   const isFeatureSelected = (feature) => {
-    return selectedFeatures.some((selected) => selected.name === feature.name);
+    return features.some((selected) => selected.name === feature.name);
   };
 
   const handleFeaturesSelection = (feature) => {
@@ -41,14 +40,22 @@ export default function App() {
 
     if (isFeatureSelected(feature)) {
       // If selected, remove it from the array
-      const updatedFeatures = selectedFeatures.filter(
+      const updatedFeatures = features.filter(
         (selected) => selected.name !== feature.name
       );
-      setSelectedFeatures(updatedFeatures);
+      // setSelectedFeatures(updatedFeatures);
+      dispatch({
+        type: "setFeatures",
+        payload: updatedFeatures,
+      });
       setSelectedFeature(updatedFeatures[0]);
     } else {
       // If not selected, add it to the array
-      setSelectedFeatures((prevFeatures) => [feature, ...prevFeatures]);
+      // setSelectedFeatures((prevFeatures) => [feature, ...prevFeatures]);
+      dispatch({
+        type: "addFeature",
+        payload: feature,
+      });
       setSelectedFeature(feature);
     }
   };
@@ -69,17 +76,21 @@ export default function App() {
   const handleRemoveAll = () => {
     setExpand(false);
     setSelectedFeature(null);
-    setSelectedFeatures([]);
+    // setSelectedFeatures([]);
     setConfirm(false);
+    dispatch({
+      type: "setFeatures",
+      payload: [],
+    });
   };
 
   const handleExpand = () => {
     setExpand(!expand);
   };
 
-  const countSelectedFeatures = (features) => {
-    const selectedFeaturesCount = features.filter((feature) =>
-      selectedFeatures.some((selected) => selected.name === feature.name)
+  const countSelectedFeatures = (items) => {
+    const selectedFeaturesCount = items.filter((feature) =>
+      features.some((selected) => selected.name === feature.name)
     ).length;
 
     return selectedFeaturesCount;
@@ -91,47 +102,55 @@ export default function App() {
     // Filter out features that are already present in selectedFeatures
     const filteredNewFeatures = newFeatures.filter(
       (newFeature) =>
-        !selectedFeatures.some(
+        !features.some(
           (selectedFeature) => selectedFeature.name === newFeature.name
         )
     );
 
     // Update selectedFeature state
+    // setSelectedFeatures((prevFeatures) => [
+    //   ...filteredNewFeatures,
+    //   ...prevFeatures,
+    // ]);
+    dispatch({
+      type: "addFeatures",
+      payload: filteredNewFeatures,
+    });
     setSelectedFeature(filteredNewFeatures[0]);
-    setSelectedFeatures((prevFeatures) => [
-      ...filteredNewFeatures,
-      ...prevFeatures,
-    ]);
   };
 
   const handleRemoveAllFeatures = (featuresToRemove, index) => {
     setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
 
-    const updatedSelectedFeatures = selectedFeatures.filter(
+    const updatedSelectedFeatures = features.filter(
       (selectedFeature) =>
         !featuresToRemove.some(
           (featureToRemove) => featureToRemove.name === selectedFeature.name
         )
     );
 
-    setSelectedFeatures(updatedSelectedFeatures);
+    // setSelectedFeatures(updatedSelectedFeatures);
+    dispatch({
+      type: "setFeatures",
+      payload: updatedSelectedFeatures,
+    });
 
     // Optionally, reset the selectedFeature state
     setSelectedFeature(updatedSelectedFeatures[0]);
   };
 
   const duration = Math.floor(
-    selectedFeatures?.reduce(
+    features?.reduce(
       (acc, item) => acc + parseFloat(item.time?.replace(/,/g, "")),
       0
     ) / 7
   );
 
-  const fixedCost = selectedFeatures
+  const fixedCost = features
     ?.reduce((acc, item) => acc + parseFloat(item.cost?.replace(/,/g, "")), 0)
     .toFixed(2);
 
-  const customisationCost = selectedFeatures?.length * 50;
+  const customisationCost = features?.length * 50;
 
   const totalCost = customisationCost + parseFloat(fixedCost);
 
@@ -319,7 +338,7 @@ export default function App() {
         {selectedFeature ? (
           <div
             className={`flex justify-center ${
-              selectedFeatures?.length > 0
+              features?.length > 0
                 ? expand
                   ? "h-0 animate-moveDown hidden"
                   : "h-4/6 animate-moveUp duration-300"
@@ -385,10 +404,10 @@ export default function App() {
             </p>
           </div>
         )}
-        {selectedFeatures?.length > 0 && (
+        {features?.length > 0 && (
           <div
           // className={`${
-          //   selectedFeatures?.length > 0
+          //   features?.length > 0
           //     ? expand
           //       ? "animate-moveUp h-full duration-300"
           //       : "animate-moveUp h-2/6 duration-300"
@@ -400,12 +419,12 @@ export default function App() {
                 <div className="flex flex-row justify-between items-center h-full px-5">
                   <div className="flex gap-2 items-center">
                     <p className="text-gray-400 text-xs">
-                      {selectedFeatures.length > 1
+                      {features.length > 1
                         ? "SELECTED FEATURES"
                         : "SELECTED FEATURE"}
                     </p>
                     <span className="bg-gray-300 px-3 py-1 rounded-full text-xs">
-                      <p>{selectedFeatures.length}</p>
+                      <p>{features.length}</p>
                     </span>
                   </div>
                   <div className="flex gap-2">
@@ -433,7 +452,7 @@ export default function App() {
                 style={{ height: expand ? "calc(100vh - 112px)" : "160px" }}
               >
                 <div className="grid grid-cols-5 gap-3 p-5">
-                  {selectedFeatures.map((item, index) => (
+                  {features.map((item, index) => (
                     <div key={index} className="relative h-38">
                       <div
                         onClick={() => handleFeaturesSelection(item)}
@@ -526,13 +545,13 @@ export default function App() {
                       </p>
                     </div>
                   </div>
-                  <div
-                    // href={"/delivery"}
-                    onClick={handlePlanDelivery}
+                  <Link
+                    href={"/delivery"}
+                    // onClick={handlePlanDelivery}
                     className="bg-green-500 h-full cursor-pointer w-48 flex items-center justify-center"
                   >
                     <p className="text-black font-semibold">Plan Delivery</p>
-                  </div>
+                  </Link>
                 </div>
               </div>
             </div>

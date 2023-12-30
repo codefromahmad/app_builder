@@ -1,5 +1,5 @@
 const initialState = {
-  features: ["Feature 1"],
+  features: [],
 };
 
 const features = (state = initialState, action) => {
@@ -12,7 +12,13 @@ const features = (state = initialState, action) => {
     case "addFeature":
       return {
         ...state,
-        features: [...state.features, action.payload],
+        features: [action.payload, ...state.features],
+      };
+
+    case "addFeatures":
+      return {
+        ...state,
+        features: [...action.payload, ...state.features],
       };
 
     default:

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaApple } from "react-icons/fa";
 import { BsAndroid2 } from "react-icons/bs";
 import { IoDesktop } from "react-icons/io5";
@@ -148,6 +148,20 @@ export default function Dahsboard() {
       details: `We build your app at the speed of light for a premium price`,
     },
   ];
+
+  useEffect(() => {
+    // Add or remove the "no-scroll" class based on sidebar and buildCard values
+    if (sidebar || buildCard) {
+      document.body.classList.add("no-scroll");
+    } else {
+      document.body.classList.remove("no-scroll");
+    }
+
+    // Cleanup effect
+    return () => {
+      document.body.classList.remove("no-scroll");
+    };
+  }, [sidebar, buildCard]);
 
   const allDropDowns = sidebarData
     .filter((item) => item.dropDown)
