@@ -506,12 +506,12 @@ export default function Dahsboard() {
       {sidebar && (
         <div
           onClick={handleClose}
-          className="absolute overflow-y-hidden w-full h-full z-40 bg-black/60 bg-opacity-60 top-0 left-0"
+          className="fixed inset-0 w-full h-full z-40 bg-black/60 bg-opacity-60 top-0 left-0"
         />
       )}
 
       {sidebar && (
-        <div className="flex flex-col overflow-y-auto h-full bg-white absolute top-0 left-0 z-50 w-1/5 custom-scrollbar">
+        <div className="flex flex-col overflow-y-auto h-full bg-white fixed top-0 left-0 z-50 w-1/5 custom-scrollbar">
           <div className="flex justify-between items-center px-4 pt-4 pb-1">
             <p className="text-gray-400">Features</p>
             <div
