@@ -772,7 +772,7 @@ export default function Dahsboard() {
                     </div>
                     {phase.selected && (
                       <input
-                        className="small-slider h-2 w-full mt-4 appearance-none rounded-md !accent-purple-700 cursor-pointer bg-gray-300 relative"
+                        className="h-[2px] !accent-purple-700 w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
                         id="steps-range"
                         type="range"
                         min="1"
@@ -969,7 +969,7 @@ export default function Dahsboard() {
                       max="5"
                       value={sliderValue}
                       step="1"
-                      className="slider my-3"
+                      className="slider h-[2px] !accent-purple-700 w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
                       onChange={handleSliderChange}
                       style={{
                         background: `linear-gradient(to right, #7e22ce 0%, #7e22ce ${
@@ -1089,7 +1089,7 @@ export default function Dahsboard() {
                 max="4"
                 value={rangeSliderValue}
                 step="1"
-                className="slider my-3"
+                className="my-3 h-[2px] !accent-purple-700 w-full mt-4 rounded-md cursor-pointer bg-gray-300 relative"
                 onChange={handleRangeSliderChange}
               />
               <div className="relative h-8 flex justify-between">
