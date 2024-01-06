@@ -69,3 +69,45 @@
   border-radius: 50%;
   cursor: pointer;
 }
+
+.signin:before {
+  content: "";
+  display: block;
+  width: 35%;
+  height: 1px;
+  background: #dfe0e6;
+  left: 0;
+  top: 50%;
+  position: absolute;
+}
+.signin:after {
+  content: "";
+  display: block;
+  width: 35%;
+  height: 1px;
+  background: #dfe0e6;
+  right: 0;
+  top: 50%;
+  position: absolute;
+}
+
+.email:before {
+  content: "";
+  display: block;
+  width: 30%;
+  height: 1px;
+  background: #dfe0e6;
+  left: 0;
+  top: 50%;
+  position: absolute;
+}
+.email:after {
+  content: "";
+  display: block;
+  width: 30%;
+  height: 1px;
+  background: #dfe0e6;
+  right: 0;
+  top: 50%;
+  position: absolute;
+}

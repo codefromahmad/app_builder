@@ -14,6 +14,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import loginImage from "../images/login_image.png";
+import google from "../images/google_logo.svg";
+import facebook from "../images/facebook_logo.svg";
+import linkedin from "../images/linkedin_logo.svg";
+import { IoCloseOutline } from "react-icons/io5";
 
 export default function App() {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
@@ -23,6 +28,7 @@ export default function App() {
   const dispatch = useDispatch();
   const router = useRouter();
   const features = useSelector((state) => state.features.features);
+  const [login, setLogin] = useState(true);
   const [selectedFeature, setSelectedFeature] = useState(
     features.length > 0 ? features[0] : null
   );
@@ -164,6 +170,87 @@ export default function App() {
         } transition-opacity duration-300 ease-in-out`}
         onClick={() => setConfirm(false)}
       />
+
+      {login && (
+        <div
+          // onClick={handleClose}
+          className="fixed inset-0 w-full h-full z-40 bg-black/60 bg-opacity-60 top-0 left-0"
+        />
+      )}
+
+      {login && (
+        <div className="absolute w-4/6 h-3/4 z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+          <div className="grid grid-cols-2 relative">
+            <div
+              class="bg-cover"
+              style={{ backgroundImage: `url(${loginImage})` }}
+            ></div>
+            <div className="p-16 w-full h-full">
+              <h1 className="text-black font-semibold text-2xl">Sign In</h1>
+              <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
+                Sign in using
+              </p>
+              <div className="flex py-3 row justify-between ">
+                <div
+                  onClick={() => setLogin(false)}
+                  className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300"
+                >
+                  <Image src={google} className="cover" />
+                </div>
+                <div
+                  onClick={() => setLogin(false)}
+                  className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300"
+                >
+                  <Image src={facebook} className="cover" />
+                </div>
+                <div
+                  onClick={() => setLogin(false)}
+                  className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300"
+                >
+                  <Image src={linkedin} className="cover" />
+                </div>
+              </div>
+              <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm email">
+                Sign in with email
+              </p>
+              <div className="flex flex-col gap-1">
+                <p className="text-black font-bold text-sm">Company email</p>
+                <input
+                  type="text"
+                  placeholder="Company email"
+                  className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
+                />
+              </div>
+              <div className="flex flex-col gap-1 pt-5">
+                <div className="flex row justify-between">
+                  <p className="text-black font-bold text-sm">Password</p>
+                  <p className="text-purple-700 cursor-pointer text-sm">
+                    Forgot Password?
+                  </p>
+                </div>
+                <input
+                  type="password"
+                  placeholder="Enter password"
+                  className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
+                />
+              </div>
+              <button
+                type="password"
+                placeholder="Enter password"
+                className="bg-purple-700 mt-5 w-full rounded p-3"
+              >
+                Sign in
+              </button>
+            </div>
+            <div
+              onClick={() => setLogin(false)}
+              className="absolute top-5 right-5 border-[1px] flex justify-center items-center cursor-pointer rounded-full border-gray-300 w-8 h-8"
+            >
+              <IoCloseOutline className="text-gray-500 text-2xl" />
+            </div>
+          </div>
+        </div>
+      )}
 
       {confirm && (
         <div

@@ -472,10 +472,6 @@ export default function Dahsboard() {
           <p class="my-2 font-bold text-center text-black">
             First, please name your Buildcard®
           </p>
-          {/* <p class="text-center text-black text-xs py-2">
-            You will lose the selected template and you will have to start from
-            scratch selecting features one by one.
-          </p> */}
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
