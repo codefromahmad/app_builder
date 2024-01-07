@@ -25,7 +25,6 @@ import moment from "moment";
 import ReactDatePicker from "react-datepicker";
 import { FaThumbsUp } from "react-icons/fa6";
 import { sidebarData } from "../data";
-import "../custom-scroll.css";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);

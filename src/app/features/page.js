@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import "./custom-scroll.css";
 import { AiOutlineEye } from "react-icons/ai";
 import { FiPlus } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
