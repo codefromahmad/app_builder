@@ -70,7 +70,7 @@ export default function App() {
               className="bg-cover px-16 bg-green-200"
               style={{ backgroundImage: `url(${loginImage})`, height: "100%" }}
             ></div> */}
-            <Image src={loginImage} className="bg-cover" />
+            <Image src={loginImage} className="bg-cover" alt="login image" />
 
             {showSignin ? (
               <div className="py-10 w-full h-full">
@@ -83,13 +83,13 @@ export default function App() {
                   </p>
                   <div className="flex py-3 row justify-between ">
                     <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={google} className="cover" />
+                      <Image src={google} className="cover" alt="google" />
                     </div>
                     <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={facebook} className="cover" />
+                      <Image src={facebook} className="cover" alt="facebook" />
                     </div>
                     <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={linkedin} className="cover" />
+                      <Image src={linkedin} className="cover" alt="linkedin" />
                     </div>
                   </div>
                   <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm email">
@@ -156,13 +156,13 @@ export default function App() {
                   </p>
                   <div className="flex py-3 row justify-between ">
                     <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={google} className="cover" />
+                      <Image src={google} className="cover" alt="google1" />
                     </div>
                     <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={facebook} className="cover" />
+                      <Image src={facebook} className="cover" alt="facebook1" />
                     </div>
                     <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={linkedin} className="cover" />
+                      <Image src={linkedin} className="cover" alt="linkedin1" />
                     </div>
                   </div>
                   <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm email">
