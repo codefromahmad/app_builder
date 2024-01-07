@@ -134,7 +134,7 @@ export default function App() {
                   </button>
                   <div className="flex row gap-2 pt-2 items-center justify-center">
                     <p className="text-black font-thin">
-                      Don't have and account?
+                      {`Don't have and account?`}
                     </p>
                     <p
                       onClick={() => setShowSignin(false)}
