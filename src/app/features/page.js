@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
-export default function App() {
+export default function Features() {
   const [selectedFeatures, setSelectedFeatures] = useState([]);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [expand, setExpand] = useState(false);

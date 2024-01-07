@@ -14,7 +14,7 @@ import { auth } from "./firebase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const page = () => {
+export default function App() {
   const [login, setLogin] = useState(true);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -251,6 +251,4 @@ const page = () => {
       )}
     </div>
   );
-};
-
-export default page;
+}
