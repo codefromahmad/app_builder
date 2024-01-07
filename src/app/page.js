@@ -1,176 +1,61 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import "./custom-scroll.css";
-import { AiOutlineEye } from "react-icons/ai";
-import { FiPlus } from "react-icons/fi";
-import { IoMdAdd } from "react-icons/io";
-import { MdDeleteOutline } from "react-icons/md";
-import { FaArrowLeftLong, FaCircleCheck } from "react-icons/fa6";
-import { BsArrowsAngleExpand, BsArrowsAngleContract } from "react-icons/bs";
-import { sidebarData } from "./data";
-import { PhoneFrame } from "@/components/PhoneFrame";
-import Image from "next/image";
-import Link from "next/link";
-import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import loginImage from "../images/login_image.png";
 import google from "../images/google_logo.svg";
 import facebook from "../images/facebook_logo.svg";
 import linkedin from "../images/linkedin_logo.svg";
 import { IoCloseOutline } from "react-icons/io5";
+import Image from "next/image";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "./firebase";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
-export default function App() {
-  const [selectedFeatures, setSelectedFeatures] = useState([]);
-  const [activeDropdown, setActiveDropdown] = useState(null);
-  const [expand, setExpand] = useState(false);
-  const [confirm, setConfirm] = useState(false);
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const features = useSelector((state) => state.features.features);
+const page = () => {
   const [login, setLogin] = useState(true);
-  const [selectedFeature, setSelectedFeature] = useState(
-    features.length > 0 ? features[0] : null
-  );
+  const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [currency, setCurrency] = useState("US Dollar");
+  const [error, setError] = useState(null);
+  const [password, setPassword] = useState("");
+  const [showSignin, setShowSignin] = useState(false);
+  const router = useRouter();
 
-  const handlePlanDelivery = () => {
-    router.push("/delivery");
-  };
-
-  const isFeatureSelected = (feature) => {
-    return features.some((selected) => selected.name === feature.name);
-  };
-
-  const handleFeaturesSelection = (feature) => {
-    console.log("handleFeaturesSelection", feature.name);
-
-    if (isFeatureSelected(feature)) {
-      // If selected, remove it from the array
-      const updatedFeatures = features.filter(
-        (selected) => selected.name !== feature.name
-      );
-      // setSelectedFeatures(updatedFeatures);
-      dispatch({
-        type: "setFeatures",
-        payload: updatedFeatures,
+  const handleSignup = (event) => {
+    setError(null);
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((authUser) => {
+        console.log("Success. The user is created in Firebase", authUser);
+        router.push("/features");
+      })
+      .catch((error) => {
+        // An error occurred. Set error message to be displayed to user
+        setError(error.message);
       });
-      setSelectedFeature(updatedFeatures[0]);
-    } else {
-      // If not selected, add it to the array
-      // setSelectedFeatures((prevFeatures) => [feature, ...prevFeatures]);
-      dispatch({
-        type: "addFeature",
-        payload: feature,
+    // else setError("Password do not match");
+    event.preventDefault();
+  };
+
+  const handleSignIn = (event) => {
+    setError(null);
+    signInWithEmailAndPassword(auth, email, password)
+      .then((authUser) => {
+        console.log("Success. The user logged in", authUser);
+        router.push("/features");
+      })
+      .catch((error) => {
+        // An error occurred. Set error message to be displayed to user
+        setError(error.message);
       });
-      setSelectedFeature(feature);
-    }
+    // else setError("Password do not match");
+    event.preventDefault();
   };
-
-  const toggleDropdown = (index) => {
-    if (!sidebarData[index].dropDown) {
-      setActiveDropdown(null);
-    } else {
-      setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
-    }
-  };
-
-  const handleFeatureSelection = (feature) => {
-    console.log("handleFeatureSelection", feature.name);
-    setSelectedFeature(feature);
-  };
-
-  const handleRemoveAll = () => {
-    setExpand(false);
-    setSelectedFeature(null);
-    // setSelectedFeatures([]);
-    setConfirm(false);
-    dispatch({
-      type: "setFeatures",
-      payload: [],
-    });
-  };
-
-  const handleExpand = () => {
-    setExpand(!expand);
-  };
-
-  const countSelectedFeatures = (items) => {
-    const selectedFeaturesCount = items.filter((feature) =>
-      features.some((selected) => selected.name === feature.name)
-    ).length;
-
-    return selectedFeaturesCount;
-  };
-
-  const handleAddMultipleFeatures = (newFeatures, index) => {
-    setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
-
-    // Filter out features that are already present in selectedFeatures
-    const filteredNewFeatures = newFeatures.filter(
-      (newFeature) =>
-        !features.some(
-          (selectedFeature) => selectedFeature.name === newFeature.name
-        )
-    );
-
-    // Update selectedFeature state
-    // setSelectedFeatures((prevFeatures) => [
-    //   ...filteredNewFeatures,
-    //   ...prevFeatures,
-    // ]);
-    dispatch({
-      type: "addFeatures",
-      payload: filteredNewFeatures,
-    });
-    setSelectedFeature(filteredNewFeatures[0]);
-  };
-
-  const handleRemoveAllFeatures = (featuresToRemove, index) => {
-    setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
-
-    const updatedSelectedFeatures = features.filter(
-      (selectedFeature) =>
-        !featuresToRemove.some(
-          (featureToRemove) => featureToRemove.name === selectedFeature.name
-        )
-    );
-
-    // setSelectedFeatures(updatedSelectedFeatures);
-    dispatch({
-      type: "setFeatures",
-      payload: updatedSelectedFeatures,
-    });
-
-    // Optionally, reset the selectedFeature state
-    setSelectedFeature(updatedSelectedFeatures[0]);
-  };
-
-  const duration = Math.floor(
-    features?.reduce(
-      (acc, item) => acc + parseFloat(item.time?.replace(/,/g, "")),
-      0
-    ) / 7
-  );
-
-  const fixedCost = features
-    ?.reduce((acc, item) => acc + parseFloat(item.cost?.replace(/,/g, "")), 0)
-    .toFixed(2);
-
-  const customisationCost = features?.length * 50;
-
-  const totalCost = customisationCost + parseFloat(fixedCost);
 
   return (
-    <div className="flex h-[calc(100vh-4rem)] mt-16">
-      <div
-        className={`fixed top-0 left-0 w-full inset-0 bg-gray-300/20 backdrop-blur h-full z-30 ${
-          confirm
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        } transition-opacity duration-300 ease-in-out`}
-        onClick={() => setConfirm(false)}
-      />
-
+    <div>
       {login && (
         <div
           // onClick={handleClose}
@@ -179,69 +64,182 @@ export default function App() {
       )}
 
       {login && (
-        <div className="absolute w-4/6 h-3/4 z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-          <div className="grid grid-cols-2 relative">
-            <div
-              class="bg-cover"
-              style={{ backgroundImage: `url(${loginImage})` }}
-            ></div>
-            <div className="p-16 w-full h-full">
-              <h1 className="text-black font-semibold text-2xl">Sign In</h1>
-              <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
-                Sign in using
-              </p>
-              <div className="flex py-3 row justify-between ">
-                <div
-                  onClick={() => setLogin(false)}
-                  className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300"
-                >
-                  <Image src={google} className="cover" />
-                </div>
-                <div
-                  onClick={() => setLogin(false)}
-                  className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300"
-                >
-                  <Image src={facebook} className="cover" />
-                </div>
-                <div
-                  onClick={() => setLogin(false)}
-                  className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300"
-                >
-                  <Image src={linkedin} className="cover" />
-                </div>
-              </div>
-              <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm email">
-                Sign in with email
-              </p>
-              <div className="flex flex-col gap-1">
-                <p className="text-black font-bold text-sm">Company email</p>
-                <input
-                  type="text"
-                  placeholder="Company email"
-                  className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-                />
-              </div>
-              <div className="flex flex-col gap-1 pt-5">
-                <div className="flex row justify-between">
-                  <p className="text-black font-bold text-sm">Password</p>
-                  <p className="text-purple-700 cursor-pointer text-sm">
-                    Forgot Password?
+        <div className="absolute w-4/6 h-3/4 z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden">
+          <div className="grid w-full h-full grid-cols-2">
+            {/* <div
+              className="bg-cover px-16 bg-green-200"
+              style={{ backgroundImage: `url(${loginImage})`, height: "100%" }}
+            ></div> */}
+            <Image src={loginImage} className="bg-cover" />
+
+            {showSignin ? (
+              <div className="py-10 w-full h-full">
+                <h1 className="text-black px-16 font-semibold text-2xl pb-3">
+                  Sign In
+                </h1>
+                <div className="overflow-y-auto h-[50%] px-16 flex flex-col justify-center bg-white scrollbar-hidden">
+                  <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
+                    Sign in using
                   </p>
+                  <div className="flex py-3 row justify-between ">
+                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
+                      <Image src={google} className="cover" />
+                    </div>
+                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
+                      <Image src={facebook} className="cover" />
+                    </div>
+                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
+                      <Image src={linkedin} className="cover" />
+                    </div>
+                  </div>
+                  <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm email">
+                    Sign in with email
+                  </p>
+                  {error && (
+                    <div className="bg-red-200 p-3 rounded-md">
+                      <p className="text-red-700 text-sm">{error}</p>
+                    </div>
+                  )}
+                  <div className="flex flex-col gap-1 pt-3">
+                    <p className="text-black font-bold text-sm">
+                      Company email
+                    </p>
+                    <input
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      type="text"
+                      placeholder="Company email"
+                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1 pt-3">
+                    <p className="text-black font-bold text-sm">Password</p>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      placeholder="Enter password"
+                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
+                    />
+                  </div>
                 </div>
-                <input
-                  type="password"
-                  placeholder="Enter password"
-                  className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-                />
+                <div className="flex flex-col px-16">
+                  <button
+                    type="password"
+                    placeholder="Enter password"
+                    className="bg-purple-700 mt-5 border-gray-300 border-t-[1px] w-full rounded p-3"
+                    onClick={handleSignIn}
+                  >
+                    Sign In
+                  </button>
+                  <div className="flex row gap-2 pt-2 items-center justify-center">
+                    <p className="text-black font-thin">
+                      Don't have and account?
+                    </p>
+                    <p
+                      onClick={() => setShowSignin(false)}
+                      className="text-purple-700 cursor-pointer text-sm"
+                    >
+                      Sign Up
+                    </p>
+                  </div>
+                </div>
               </div>
-              <button
-                type="password"
-                placeholder="Enter password"
-                className="bg-purple-700 mt-5 w-full rounded p-3"
-              >
-                Sign in
-              </button>
-            </div>
+            ) : (
+              <div className="py-10 w-full h-full">
+                <h1 className="text-black px-16 font-semibold text-2xl pb-3">
+                  Sign Up
+                </h1>
+                <div className="overflow-y-auto h-[50%] px-16 pb-5 flex flex-col bg-white scrollbar-hidden">
+                  <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
+                    Sign up using
+                  </p>
+                  <div className="flex py-3 row justify-between ">
+                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
+                      <Image src={google} className="cover" />
+                    </div>
+                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
+                      <Image src={facebook} className="cover" />
+                    </div>
+                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
+                      <Image src={linkedin} className="cover" />
+                    </div>
+                  </div>
+                  <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm email">
+                    Sign up with email
+                  </p>
+                  {error && (
+                    <div className="bg-red-200 p-3 rounded-md">
+                      <p className="text-red-700 text-sm">{error}</p>
+                    </div>
+                  )}
+                  <div className="flex flex-col gap-1 pt-3">
+                    <p className="text-black font-bold text-sm">
+                      Company email
+                    </p>
+                    <input
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      type="text"
+                      placeholder="Company email"
+                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1  pt-3">
+                    <p className="text-black font-bold text-sm">Name</p>
+                    <input
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                      type="text"
+                      placeholder="Name"
+                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1  pt-3">
+                    <p className="text-black font-bold text-sm">Currency</p>
+                    <input
+                      value={currency}
+                      onChange={(event) => setCurrency(event.target.value)}
+                      type="text"
+                      readOnly
+                      placeholder="Currency"
+                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
+                    />
+                  </div>
+                  <div className="flex flex-col gap-1 pt-3">
+                    <p className="text-black font-bold text-sm">Password</p>
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      placeholder="Enter password"
+                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col px-16 border-gray-300 border-t-[1px]">
+                  <button
+                    type="password"
+                    placeholder="Enter password"
+                    className="bg-purple-700 mt-5 border-gray-300 border-t-[1px] w-full rounded p-3"
+                    onClick={handleSignup}
+                  >
+                    Create Account
+                  </button>
+                  <div className="flex row gap-2 pt-2 items-center justify-center">
+                    <p className="text-black font-thin">
+                      Already have and account?
+                    </p>
+                    <p
+                      onClick={() => setShowSignin(true)}
+                      className="text-purple-700 cursor-pointer text-sm"
+                    >
+                      Sign In
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
             <div
               onClick={() => setLogin(false)}
               className="absolute top-5 right-5 border-[1px] flex justify-center items-center cursor-pointer rounded-full border-gray-300 w-8 h-8"
@@ -251,400 +249,8 @@ export default function App() {
           </div>
         </div>
       )}
-
-      {confirm && (
-        <div
-          class={`fixed z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
-            confirm
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-          } w-72 h-48 rounded-lg bg-white p-4 transition-opacity duration-1000 ease-in-out`}
-        >
-          <p class="font-bold mb-2 text-center text-black p-y-4">
-            Are you sure you want to remove all features?
-          </p>
-          <p class="text-center text-black text-xs py-2">
-            You will lose the selected template and you will have to start from
-            scratch selecting features one by one.
-          </p>
-
-          <div class="flex justify-between w-full p-2 gap-3">
-            <div
-              className="border-[1px] px-2 py-1 border-gray-400 rounded-md"
-              onClick={() => setConfirm(false)}
-            >
-              <p class="cursor-pointer text-xs text-black">No, keep them</p>
-            </div>
-            <div
-              className="px-2 py-1 bg-red-400 rounded-md"
-              onClick={() => handleRemoveAll()}
-            >
-              <p class="cursor-pointer text-xs text-white">Yes, remove them</p>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <div className="w-1/5 bg-white max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
-        {sidebarData.map((item, index) => (
-          <>
-            <div
-              key={index}
-              onClick={() => toggleDropdown(index)}
-              className="group hover:bg-slate-100 border-b-2 p-4 cursor-pointer transition duration-500 ease-in-out"
-            >
-              <div className="flex justify-between items-center text-black">
-                <div className="flex items-center gap-3">
-                  <Image
-                    width={100}
-                    height={100}
-                    className="w-5 h-5 opacity-50 group-hover:opacity-100"
-                    src={item?.img}
-                    alt="Healthcare Icon"
-                  />
-                  <p className="text-sm">{item.name}</p>
-                </div>
-                {item.dropDown && activeDropdown != index && (
-                  <MdKeyboardArrowDown className="group-hover:text-black text-xl text-transparent" />
-                )}
-                {activeDropdown === index && (
-                  <MdKeyboardArrowUp className="text-black text-xl" />
-                )}
-              </div>
-              {activeDropdown === index && (
-                <div className="flex flex-row items-center justify-between">
-                  <div className="pt-3">
-                    <p className="text-gray-500 text-xs">
-                      {countSelectedFeatures(item.dropDown)}/
-                      {item.dropDown && item.dropDown.length} features
-                    </p>
-                  </div>
-                  {countSelectedFeatures(item.dropDown) ===
-                  item.dropDown.length ? (
-                    <div
-                      className="pt-3"
-                      onClick={() =>
-                        handleRemoveAllFeatures(item.dropDown, index)
-                      }
-                    >
-                      <p className="text-gray-500 text-xs">Unselect All</p>
-                    </div>
-                  ) : (
-                    <div
-                      className="pt-3"
-                      onClick={() =>
-                        handleAddMultipleFeatures(item.dropDown, index)
-                      }
-                    >
-                      <p className="text-gray-500 text-xs">Select All</p>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-            <div
-              className={`dropdown max-h-40 custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300 ${
-                activeDropdown === index ? "open" : ""
-              }`}
-            >
-              {item.dropDown &&
-                activeDropdown === index &&
-                item.dropDown.map((item, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleFeatureSelection(item)}
-                    className={`flex flex-grow w-full cursor-pointer ${
-                      isFeatureSelected(item)
-                        ? "border-l-blue-500"
-                        : selectedFeature?.name === item.name
-                        ? "border-l-gray-500"
-                        : "hover:border-l-gray-500"
-                    } border-l-4 duration-300 hover:border-l-4 justify-between items-center p-4 border-b-[1px] bg-slate-100 text-black `}
-                  >
-                    <div className="flex w-full justify-between items-center">
-                      <div className="flex gap-2">
-                        {isFeatureSelected(item) ? (
-                          <FaCircleCheck className="text-blue-500 mt-1 text-sm" />
-                        ) : (
-                          <Image
-                            width={100}
-                            height={100}
-                            className="w-5 h-5 mt-2 opacity-50"
-                            src={item?.icon}
-                            alt="Healthcare Icon"
-                          />
-                        )}
-                        <div>
-                          <p className="text-sm">{item.name}</p>
-                          <p className="text-gray-500 text-xs">
-                            from ${item.cost}
-                          </p>
-                          <p className="text-gray-500 text-xs">
-                            from {item.time} days
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex gap-x-2">
-                        <div
-                          onClick={() => handleFeatureSelection(item)}
-                          className={`${
-                            selectedFeature?.name === item.name
-                              ? "bg-blue-500"
-                              : "bg-gray-300"
-                          } p-2 rounded-md duration-300`}
-                        >
-                          <AiOutlineEye className="text-white" />
-                        </div>
-                        <div
-                          onClick={() => handleFeaturesSelection(item)}
-                          className="bg-gray-300 p-2 rounded-md"
-                        >
-                          {isFeatureSelected(item) ? (
-                            <MdDeleteOutline className="text-white" />
-                          ) : (
-                            <FiPlus className="text-white" />
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-            </div>
-          </>
-        ))}
-      </div>
-      {/* Playground Area */}
-      <div className="overflow-y-hidden h-full w-4/5 bg-slate-100">
-        {/* <div
-            className={`flex justify-center ${
-              selectedFeatures?.length > 0
-                ? "h-3/5 animate-moveUp duration-300"
-                : "h-full"
-            } items-center gap-x-6`}
-          > */}
-        {selectedFeature ? (
-          <div
-            className={`flex justify-center ${
-              features?.length > 0
-                ? expand
-                  ? "h-0 animate-moveDown hidden"
-                  : "h-4/6 animate-moveUp duration-300"
-                : "h-full animate-moveUp duration-300"
-            } items-center gap-x-6`}
-          >
-            <div className="w-48 h-96">
-              <PhoneFrame>
-                <Image
-                  width={100}
-                  height={100}
-                  src={selectedFeature?.mobile}
-                  alt="icon"
-                  className=" object-fill w-full h-full"
-                />
-              </PhoneFrame>
-            </div>
-
-            <div className="w-1/3">
-              <div className="flex items-center gap-2">
-                <p className="text-black text-lg">{selectedFeature.name}</p>
-                <div
-                  onClick={() => handleFeaturesSelection(selectedFeature)}
-                  className="bg-white hover:bg-slate-50 duration-300 w-7 h-7 rounded-md items-center justify-center flex border-[1px] cursor-pointer"
-                >
-                  {isFeatureSelected(selectedFeature) ? (
-                    <MdDeleteOutline className="text-black" />
-                  ) : (
-                    <FiPlus className="text-black" />
-                  )}
-                </div>
-              </div>
-              <p className="text-gray-500 py-1 duration-300 text-xs">
-                {selectedFeature.category}
-              </p>
-              <div className="py-2">
-                <p className="text-gray-400 text-xs py-1">
-                  from ${selectedFeature.cost}
-                </p>
-                <p className="text-gray-400 text-xs py-[1px]">
-                  {selectedFeature.time} days
-                </p>
-              </div>
-              <p className="text-black text-sm py-2">
-                {selectedFeature.details}
-              </p>
-              <div className="bg-white hover:bg-slate-50 duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
-                <p className="text-black text-xs">Add note</p>
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div className="flex flex-col relative justify-center items-center h-full">
-            <div className="absolute left-4">
-              <FaArrowLeftLong className="text-black text-xl" />
-            </div>
-
-            <p className="text-black text-2xl font-bold">
-              No features selected
-            </p>
-            <p className="text-black text-sm">
-              Select feature to preview from left
-            </p>
-          </div>
-        )}
-        {features?.length > 0 && (
-          <div
-          // className={`${
-          //   features?.length > 0
-          //     ? expand
-          //       ? "animate-moveUp h-full duration-300"
-          //       : "animate-moveUp h-2/6 duration-300"
-          //     : "animate-moveDown h-0 duration-300"
-          // } relative `}
-          >
-            <div className="h-full bg-gray-100 relative">
-              <div className="h-12 border-t-2 border-gray-300 sticky top-0 bg-white z-20">
-                <div className="flex flex-row justify-between items-center h-full px-5">
-                  <div className="flex gap-2 items-center">
-                    <p className="text-gray-400 text-xs">
-                      {features.length > 1
-                        ? "SELECTED FEATURES"
-                        : "SELECTED FEATURE"}
-                    </p>
-                    <span className="bg-gray-300 px-3 py-1 rounded-full text-xs">
-                      <p>{features.length}</p>
-                    </span>
-                  </div>
-                  <div className="flex gap-2">
-                    <div
-                      onClick={() => setConfirm(true)}
-                      className="bg-white hover:bg-slate-100 duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer"
-                    >
-                      <p className="text-black text-xs">Remove all</p>
-                    </div>
-                    <div
-                      onClick={handleExpand}
-                      className="hover:bg-slate-100 duration-300 w-8 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer"
-                    >
-                      {expand ? (
-                        <BsArrowsAngleContract className="text-black" />
-                      ) : (
-                        <BsArrowsAngleExpand className="text-black" />
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="overflow-y-auto custom-scrollbar"
-                style={{ height: expand ? "calc(100vh - 112px)" : "160px" }}
-              >
-                <div className="grid grid-cols-5 gap-3 p-5">
-                  {features.map((item, index) => (
-                    <div key={index} className="relative h-38">
-                      <div
-                        onClick={() => handleFeaturesSelection(item)}
-                        className="top-2 z-10 absolute hover:bg-red-400 group right-2 bg-white w-7 h-7 items-center rounded-full justify-center flex border-[1px] cursor-pointer"
-                      >
-                        {/* {isFeatureSelected(item) && ( */}
-                        <MdDeleteOutline className="text-black group-hover:text-white duration-300" />
-                        {/* )} */}
-                      </div>
-                      <div
-                        onClick={() => handleFeatureSelection(item)}
-                        key={index}
-                        className={`bg-slate-200 hover:bg-slate-300 duration-300 cursor-pointer relative p-2 rounded-lg h-full w-full flex justify-center items-center gap-x-3`}
-                      >
-                        <div
-                          className={`w-12 ${
-                            selectedFeature?.name === item.name
-                              ? "border-blue-500"
-                              : "border-transparent"
-                          } group border-2 duration-500 rounded-lg`}
-                        >
-                          <PhoneFrame>
-                            <Image
-                              width={100}
-                              height={100}
-                              src={item?.mobile}
-                              alt="icon"
-                              className=" object-fill w-full h-full"
-                            />
-                          </PhoneFrame>
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <p className="text-black w-20 text-sm">
-                              {item.name}
-                            </p>
-                          </div>
-                          <p className="text-gray-500 py-1 text-xs">
-                            {item.category}
-                          </p>
-                          <div className="py-1">
-                            <p className="text-gray-400 text-xs">
-                              from ${item.cost}
-                            </p>
-                            <p className="text-gray-400 text-xs py-[1px]">
-                              {item.time} days
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
-                <div className="flex flex-row justify-between items-center h-full">
-                  <div className="flex pl-5">
-                    <div className="flex flex-col px-2 gap-2 items-center">
-                      <p className="text-gray-400 text-xs">
-                        CUSTOMISATION COST
-                      </p>
-                      <p className="text-black font-extrabold text-xl">
-                        ${customisationCost}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <p className="text-gray-300 text-2xl">+</p>
-                    </div>
-                    <div className="flex flex-col px-2 gap-2 items-center">
-                      <p className="text-gray-400 text-xs">FIXED COST</p>
-                      <p className="text-black font-extrabold text-xl">
-                        ${fixedCost}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-center">
-                      <p className="text-gray-300 text-2xl">=</p>
-                    </div>
-                    <div className="flex flex-col px-2 gap-2 items-center">
-                      <p className="text-gray-400 text-xs">TOTAL COST</p>
-                      <p className="text-black font-extrabold text-xl">
-                        ${totalCost}
-                      </p>
-                    </div>
-                    <div className="flex border-l-2 border-gray-300 flex-col px-2 gap-2 items-center">
-                      <p className="text-gray-400 text-xs">
-                        INDICATIVE DURATION
-                      </p>
-                      <p className="text-black font-extrabold text-xl">
-                        {duration} weeks
-                      </p>
-                    </div>
-                  </div>
-                  <Link
-                    href={"/delivery"}
-                    // onClick={handlePlanDelivery}
-                    className="bg-green-500 h-full cursor-pointer w-48 flex items-center justify-center"
-                  >
-                    <p className="text-black font-semibold">Plan Delivery</p>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
     </div>
   );
-}
+};
+
+export default page;

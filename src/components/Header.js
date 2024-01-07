@@ -6,8 +6,25 @@ import { IoIosLink } from "react-icons/io";
 import Avatar from "react-avatar";
 import { FaAngleDown } from "react-icons/fa6";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signOut } from "firebase/auth";
+import { auth } from "@/app/firebase";
 
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        router.push("/");
+        console.log("Signed out successfully");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
   return (
     <div className="h-16 bg-white z-30 w-full fixed top-0 left-0 right-0 border-b-2 border-b-gray-200">
       <div className="h-full flex">
@@ -88,6 +105,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                   </Link>
                   <Link
                     href="#"
+                    onClick={handleLogout}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Log Out

@@ -20,3 +20,18 @@ body {
   color: rgb(var(--foreground-rgb));
   background: white;
 }
+
+.scrollbar-hidden {
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+
+  /* Webkit (Chrome, Safari) */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+}
