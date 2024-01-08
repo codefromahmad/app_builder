@@ -25,6 +25,13 @@ import moment from "moment";
 import ReactDatePicker from "react-datepicker";
 import { FaThumbsUp } from "react-icons/fa6";
 import { sidebarData } from "../data";
+import {
+  doc,
+  getDoc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
@@ -40,6 +47,9 @@ export default function Dahsboard() {
   const [sidebar, setSidebar] = useState(false);
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
+  const db = getFirestore();
+  const user = useSelector((state) => state.user.user);
+  console.log("features", features);
   const [phases, setPhases] = useState([
     {
       name: "Product Roadmap",
@@ -241,7 +251,7 @@ export default function Dahsboard() {
         const phaseToUpdate = { ...phase };
 
         // Check if the platformText exists in the platform array
-        const platformIndex = phaseToUpdate.platform.indexOf(platformText);
+        const platformIndex = phaseToUpdate.platform?.indexOf(platformText);
 
         if (platformIndex !== -1) {
           // If the platformText exists, remove it from the array
@@ -385,11 +395,52 @@ export default function Dahsboard() {
     }
   };
 
+  const addBuildCard = () => {
+    const userRef = doc(db, "users", user.uid);
+    const newBuildCard = {
+      name: "New Card",
+      features: features,
+    };
+
+    console.log("newBuildCard", newBuildCard);
+
+    getDoc(userRef)
+      .then((docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          console.log("User document data:", userData);
+
+          // Ensure buildCards exists and is an array
+          userData.buildCards = Array.isArray(userData.buildCards)
+            ? userData.buildCards
+            : [];
+
+          // Assuming buildCards is an array, push the new item
+          userData.buildCards.push(newBuildCard);
+
+          // Update the document with the modified buildCards array
+          updateDoc(userRef, userData)
+            .then(() => {
+              console.log("Build card added successfully");
+              dispatch(setUser(userData));
+            })
+            .catch((error) => {
+              console.error("Error updating document: ", error);
+            });
+        } else {
+          console.error("User document does not exist");
+        }
+      })
+      .catch((error) => {
+        console.error("Error getting document:", error);
+      });
+  };
+
   return (
     <div className="mt-12">
       {infoPopup === "platforms" ? (
         <div
-          class={`fixed z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+          className={`fixed z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
             infoPopup
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"
@@ -399,35 +450,35 @@ export default function Dahsboard() {
             onClick={handleClose}
             className="text-xl absolute cursor-pointer right-3 text-white"
           />
-          <p class="font-bold text-white pt-4">Devices</p>
-          <p class="text-white text-sm py-2">
+          <p className="font-bold text-white pt-4">Devices</p>
+          <p className="text-white text-sm py-2">
             Our apps are designed for the last 3 versions of iOS & Android (at
             the time your project kicks off). We test on flagship Apple, Samsung
             & Google devices.
           </p>
-          <p class="text-white text-sm py-2">
+          <p className="text-white text-sm py-2">
             (Need testing for a specific device? Ask your delivery team.)
           </p>
-          <p class="font-bold text-white pt-4">Browsers</p>
-          <p class="text-white text-sm py-2">
+          <p className="font-bold text-white pt-4">Browsers</p>
+          <p className="text-white text-sm py-2">
             For web apps, our testing process covers the last 3 major versions
             of these browsers:
           </p>
           <ul className="pl-5 list-disc">
-            <li class="text-white text-sm">Chrome</li>
-            <li class="text-white text-sm">Safari</li>
-            <li class="text-white text-sm">Firefox</li>
-            <li class="text-white text-sm">Edge</li>
+            <li className="text-white text-sm">Chrome</li>
+            <li className="text-white text-sm">Safari</li>
+            <li className="text-white text-sm">Firefox</li>
+            <li className="text-white text-sm">Edge</li>
           </ul>
-          <p class="font-bold text-white pt-4">Responsiveness</p>
+          <p className="font-bold text-white pt-4">Responsiveness</p>
           <ul className="pl-5 list-disc py-2">
-            <li class="text-white text-sm">
+            <li className="text-white text-sm">
               Desktop displays: (1280 x 720) to (1920 x 1080)
             </li>
-            <li class="text-white text-sm">
+            <li className="text-white text-sm">
               Mobile displays: (360 x 640) to (414 x 896)
             </li>
-            <li class="text-white text-sm">
+            <li className="text-white text-sm">
               Tablet displays: (601 x 962) to (1280 x 800)
             </li>
           </ul>
@@ -445,17 +496,17 @@ export default function Dahsboard() {
               onClick={handleClose}
               className="text-xl absolute cursor-pointer right-3 text-white"
             />
-            <p class="font-bold mb-2 text-center text-white p-y-4">
+            <p className="font-bold mb-2 text-center text-white p-y-4">
               {infoPopup.name}
             </p>
-            <p class="text-white text-sm py-2">{infoPopup.details}</p>
-            <p class="text-gray-400 text-xs py-2">{infoPopup.more}</p>
+            <p className="text-white text-sm py-2">{infoPopup.details}</p>
+            <p className="text-gray-400 text-xs py-2">{infoPopup.more}</p>
           </div>
         )
       )}
       {buildCard && (
         <div
-          class={`fixed shadow-2xl py-10 z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+          className={`fixed shadow-2xl py-10 z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
             buildCard
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"
@@ -464,11 +515,11 @@ export default function Dahsboard() {
           <div className="bg-green-500 rounded-full w-20 h-20 flex items-center justify-center">
             <FaThumbsUp className="text-white text-3xl" />
           </div>
-          <p class="my-2 text-center text-black py-4">
+          <p className="my-2 text-center text-black py-4">
             Time to create your Buildcard® (It describes exactly what you want
             to build)
           </p>
-          <p class="my-2 font-bold text-center text-black">
+          <p className="my-2 font-bold text-center text-black">
             First, please name your Buildcard®
           </p>
           <input
@@ -484,15 +535,15 @@ export default function Dahsboard() {
             } w-full h-10 items-center flex justify-center rounded-md ${
               name.length > 2 ? "cursor-pointer" : "cursor-not-allowed"
             }`}
-            onClick={name.length > 2 ? handleClose : null}
+            onClick={name.length > 2 ? addBuildCard : null}
           >
-            <p class="text-sm text-white">SAVE</p>
+            <p className="text-sm text-white">SAVE</p>
           </div>
         </div>
       )}
       {/* <div
         onClick={() => setSidebar(false)}
-        class={`fixed shadow-2xl py-10 z-40 top-0 left-0 w-64 h-screen ${
+        className={`fixed shadow-2xl py-10 z-40 top-0 left-0 w-64 h-screen ${
           sidebar
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"

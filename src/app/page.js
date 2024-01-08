@@ -13,6 +13,15 @@ import {
 import { auth } from "./firebase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  setDoc,
+  doc,
+} from "firebase/firestore";
+import { setUser } from "@/store/reducers/user";
+import { useDispatch } from "react-redux";
 
 export default function App() {
   const [login, setLogin] = useState(true);
@@ -23,19 +32,38 @@ export default function App() {
   const [password, setPassword] = useState("");
   const [showSignin, setShowSignin] = useState(false);
   const router = useRouter();
+  const dispatch = useDispatch();
+  const db = getFirestore();
+
+  const createUser = (user) => {
+    const userData = {
+      uid: user.uid,
+      name: name,
+      email: email,
+      currency: currency,
+      buildCards: [],
+    };
+
+    setDoc(doc(db, "users", user.uid), userData) // Use setDoc for setting a document
+      .then(() => {
+        console.log("Success");
+        dispatch(setUser(userData));
+        router.push("/features");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const handleSignup = (event) => {
     setError(null);
     createUserWithEmailAndPassword(auth, email, password)
-      .then((authUser) => {
-        console.log("Success. The user is created in Firebase", authUser);
-        router.push("/features");
+      .then(async (authUser) => {
+        createUser({ uid: authUser.user.uid });
       })
       .catch((error) => {
-        // An error occurred. Set error message to be displayed to user
         setError(error.message);
       });
-    // else setError("Password do not match");
     event.preventDefault();
   };
 

@@ -9,19 +9,21 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase";
+import { useSelector } from "react-redux";
 
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
   const router = useRouter();
+  const user = useSelector((state) => state.user.user);
+  console.log(user);
 
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
-        // Sign-out successful.
         router.push("/");
         console.log("Signed out successfully");
       })
       .catch((error) => {
-        // An error happened.
+        console.log(error);
       });
   };
 
@@ -77,13 +79,13 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                 className="cursor-pointer relative flex items-center gap-1 ml-3"
               >
                 <Avatar
-                  name={`Wim Mostmans`}
+                  name={user?.name || "BB"}
                   size="35"
                   round={true}
                   //   textSizeRatio={3}
                   color="#7e22ce"
                   fgColor="#ffffff"
-                  text={"AA"}
+                  // text={"AA"}
                 />
                 <FaAngleDown className="text-black text-sm" />
                 <div

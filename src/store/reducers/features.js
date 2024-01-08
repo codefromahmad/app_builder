@@ -1,5 +1,7 @@
 const initialState = {
   features: [],
+  cost: null,
+  duration: null,
 };
 
 const features = (state = initialState, action) => {
@@ -19,6 +21,18 @@ const features = (state = initialState, action) => {
       return {
         ...state,
         features: [...action.payload, ...state.features],
+      };
+
+    case "setCost":
+      return {
+        ...state,
+        cost: action.payload,
+      };
+
+    case "setDuration":
+      return {
+        ...state,
+        duration: action.payload,
       };
 
     default:

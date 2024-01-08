@@ -22,6 +22,36 @@ export default function Features() {
   const dispatch = useDispatch();
   const router = useRouter();
   const features = useSelector((state) => state.features.features);
+  const cost = useSelector((state) => state.features.cost);
+  const duration = useSelector((state) => state.features.duration);
+
+  const durationLocal = Math.ceil(
+    features?.reduce(
+      (acc, item) => acc + parseFloat(item.time?.replace(/,/g, "")),
+      0
+    ) / 7
+  );
+
+  const fixedCost = features
+    ?.reduce((acc, item) => acc + parseFloat(item.cost?.replace(/,/g, "")), 0)
+    .toFixed(2);
+
+  const customizationCost = features?.length * 50;
+
+  const totalCost = customizationCost + parseFloat(fixedCost);
+
+  useEffect(() => {
+    dispatch({
+      type: "setCost",
+      payload: totalCost,
+    });
+    dispatch({
+      type: "setDuration",
+      payload: durationLocal,
+    });
+    console.log("const & duration", cost, duration);
+  }, [totalCost, durationLocal]);
+
   const [selectedFeature, setSelectedFeature] = useState(
     features.length > 0 ? features[0] : null
   );
@@ -81,6 +111,14 @@ export default function Features() {
       type: "setFeatures",
       payload: [],
     });
+    dispatch({
+      type: "setCost",
+      payload: null,
+    });
+    dispatch({
+      type: "setDuration",
+      payload: null,
+    });
   };
 
   const handleExpand = () => {
@@ -138,21 +176,6 @@ export default function Features() {
     setSelectedFeature(updatedSelectedFeatures[0]);
   };
 
-  const duration = Math.floor(
-    features?.reduce(
-      (acc, item) => acc + parseFloat(item.time?.replace(/,/g, "")),
-      0
-    ) / 7
-  );
-
-  const fixedCost = features
-    ?.reduce((acc, item) => acc + parseFloat(item.cost?.replace(/,/g, "")), 0)
-    .toFixed(2);
-
-  const customisationCost = features?.length * 50;
-
-  const totalCost = customisationCost + parseFloat(fixedCost);
-
   return (
     <div className="flex h-[calc(100vh-4rem)] mt-16">
       <div
@@ -166,32 +189,34 @@ export default function Features() {
 
       {confirm && (
         <div
-          class={`fixed z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
+          className={`fixed z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
             confirm
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"
           } w-72 h-48 rounded-lg bg-white p-4 transition-opacity duration-1000 ease-in-out`}
         >
-          <p class="font-bold mb-2 text-center text-black p-y-4">
+          <p className="font-bold mb-2 text-center text-black p-y-4">
             Are you sure you want to remove all features?
           </p>
-          <p class="text-center text-black text-xs py-2">
+          <p className="text-center text-black text-xs py-2">
             You will lose the selected template and you will have to start from
             scratch selecting features one by one.
           </p>
 
-          <div class="flex justify-between w-full p-2 gap-3">
+          <div className="flex justify-between w-full p-2 gap-3">
             <div
               className="border-[1px] px-2 py-1 border-gray-400 rounded-md"
               onClick={() => setConfirm(false)}
             >
-              <p class="cursor-pointer text-xs text-black">No, keep them</p>
+              <p className="cursor-pointer text-xs text-black">No, keep them</p>
             </div>
             <div
               className="px-2 py-1 bg-red-400 rounded-md"
               onClick={() => handleRemoveAll()}
             >
-              <p class="cursor-pointer text-xs text-white">Yes, remove them</p>
+              <p className="cursor-pointer text-xs text-white">
+                Yes, remove them
+              </p>
             </div>
           </div>
         </div>
@@ -199,7 +224,7 @@ export default function Features() {
 
       <div className="w-1/5 bg-white max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
         {sidebarData.map((item, index) => (
-          <>
+          <div key={index}>
             <div
               key={index}
               onClick={() => toggleDropdown(index)}
@@ -322,7 +347,7 @@ export default function Features() {
                   </div>
                 ))}
             </div>
-          </>
+          </div>
         ))}
       </div>
       {/* Playground Area */}
@@ -514,7 +539,7 @@ export default function Features() {
                         CUSTOMISATION COST
                       </p>
                       <p className="text-black font-extrabold text-xl">
-                        ${customisationCost}
+                        ${customizationCost}
                       </p>
                     </div>
                     <div className="flex items-center justify-center">
@@ -532,7 +557,7 @@ export default function Features() {
                     <div className="flex flex-col px-2 gap-2 items-center">
                       <p className="text-gray-400 text-xs">TOTAL COST</p>
                       <p className="text-black font-extrabold text-xl">
-                        ${totalCost}
+                        ${cost}
                       </p>
                     </div>
                     <div className="flex border-l-2 border-gray-300 flex-col px-2 gap-2 items-center">
