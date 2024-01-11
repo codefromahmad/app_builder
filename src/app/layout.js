@@ -11,17 +11,11 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-
   return (
     <html lang="en">
       <body>
         <Provider store={store}>
-          <Header
-            dropdownOpen={dropdownOpen}
-            setDropdownOpen={setDropdownOpen}
-          />
-          <div onClick={() => setDropdownOpen(false)}>{children}</div>
+          <div>{children}</div>
         </Provider>
       </body>
     </html>

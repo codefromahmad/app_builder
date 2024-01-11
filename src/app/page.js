@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import loginImage from "../images/login_image.png";
 import google from "../images/google_logo.svg";
 import facebook from "../images/facebook_logo.svg";
@@ -22,18 +22,38 @@ import {
 } from "firebase/firestore";
 import { setUser } from "@/store/reducers/user";
 import { useDispatch } from "react-redux";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Signin from "@/components/Signin";
+import Signup from "@/components/Signup";
 
 export default function App() {
-  const [login, setLogin] = useState(true);
+  const [login, setLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [currency, setCurrency] = useState("US Dollar");
   const [error, setError] = useState(null);
   const [password, setPassword] = useState("");
   const [showSignin, setShowSignin] = useState(false);
+  const [user, setUser] = useState(null);
   const router = useRouter();
   const dispatch = useDispatch();
   const db = getFirestore();
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        console.log("authUser", authUser);
+        setUser(authUser);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+  if (user) {
+    router.push("/features");
+  }
 
   const createUser = (user) => {
     const userData = {
@@ -55,14 +75,33 @@ export default function App() {
       });
   };
 
+  const clearAllFields = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+  };
+
   const handleSignup = (event) => {
     setError(null);
     createUserWithEmailAndPassword(auth, email, password)
       .then(async (authUser) => {
+        clearAllFields();
         createUser({ uid: authUser.user.uid });
       })
       .catch((error) => {
-        setError(error.message);
+        switch (error.code) {
+          case "auth/invalid-email":
+            setError("Invalid email address");
+            break;
+
+          case "auth/weak-password":
+            setError("Weak password");
+            break;
+
+          default:
+            setError("Error creating user:", error.message);
+        }
+        s;
       });
     event.preventDefault();
   };
@@ -72,13 +111,34 @@ export default function App() {
     signInWithEmailAndPassword(auth, email, password)
       .then((authUser) => {
         console.log("Success. The user logged in", authUser);
+        clearAllFields();
         router.push("/features");
       })
       .catch((error) => {
-        // An error occurred. Set error message to be displayed to user
-        setError(error.message);
+        console.log(error);
+        switch (error.code) {
+          case "auth/user-not-found":
+            setError("User not found");
+            // Show user-friendly error message for user not found
+            break;
+
+          case "auth/invalid-email":
+            setError("Please enter valid email");
+            // Show user-friendly error message for incorrect password
+            break;
+
+          case "auth/wrong-password":
+            setError("Please enter correct password");
+            // Show user-friendly error message for incorrect password
+            break;
+
+          // Add more cases for other error codes as needed
+
+          default:
+            setError("Error signing in");
+          // Show a generic error message for other cases
+        }
       });
-    // else setError("Password do not match");
     event.preventDefault();
   };
 
@@ -86,7 +146,7 @@ export default function App() {
     <div>
       {login && (
         <div
-          // onClick={handleClose}
+          onClick={() => setLogin(false)}
           className="fixed inset-0 w-full h-full z-40 bg-black/60 bg-opacity-60 top-0 left-0"
         />
       )}
@@ -94,179 +154,32 @@ export default function App() {
       {login && (
         <div className="absolute w-4/6 h-3/4 z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden">
           <div className="grid w-full h-full grid-cols-2">
-            {/* <div
-              className="bg-cover px-16 bg-green-200"
-              style={{ backgroundImage: `url(${loginImage})`, height: "100%" }}
-            ></div> */}
             <Image src={loginImage} className="bg-cover" alt="login image" />
 
             {showSignin ? (
-              <div className="py-10 w-full h-full">
-                <h1 className="text-black px-16 font-semibold text-2xl pb-3">
-                  Sign In
-                </h1>
-                <div className="overflow-y-auto h-[50%] px-16 flex flex-col justify-center bg-white scrollbar-hidden">
-                  <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
-                    Sign in using
-                  </p>
-                  <div className="flex py-3 row justify-between ">
-                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={google} className="cover" alt="google" />
-                    </div>
-                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={facebook} className="cover" alt="facebook" />
-                    </div>
-                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={linkedin} className="cover" alt="linkedin" />
-                    </div>
-                  </div>
-                  <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm email">
-                    Sign in with email
-                  </p>
-                  {error && (
-                    <div className="bg-red-200 p-3 rounded-md">
-                      <p className="text-red-700 text-sm">{error}</p>
-                    </div>
-                  )}
-                  <div className="flex flex-col gap-1 pt-3">
-                    <p className="text-black font-bold text-sm">
-                      Company email
-                    </p>
-                    <input
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      type="text"
-                      placeholder="Company email"
-                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1 pt-3">
-                    <p className="text-black font-bold text-sm">Password</p>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(event) => setPassword(event.target.value)}
-                      placeholder="Enter password"
-                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col px-16">
-                  <button
-                    type="password"
-                    placeholder="Enter password"
-                    className="bg-purple-700 mt-5 border-gray-300 border-t-[1px] w-full rounded p-3"
-                    onClick={handleSignIn}
-                  >
-                    Sign In
-                  </button>
-                  <div className="flex row gap-2 pt-2 items-center justify-center">
-                    <p className="text-black font-thin">
-                      {`Don't have and account?`}
-                    </p>
-                    <p
-                      onClick={() => setShowSignin(false)}
-                      className="text-purple-700 cursor-pointer text-sm"
-                    >
-                      Sign Up
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <Signin
+                handleSignIn={handleSignIn}
+                error={error}
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                setShowSignin={setShowSignin}
+              />
             ) : (
-              <div className="py-10 w-full h-full">
-                <h1 className="text-black px-16 font-semibold text-2xl pb-3">
-                  Sign Up
-                </h1>
-                <div className="overflow-y-auto h-[50%] px-16 pb-5 flex flex-col bg-white scrollbar-hidden">
-                  <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
-                    Sign up using
-                  </p>
-                  <div className="flex py-3 row justify-between ">
-                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={google} className="cover" alt="google1" />
-                    </div>
-                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={facebook} className="cover" alt="facebook1" />
-                    </div>
-                    <div className="border-[1px] p-3 hover:bg-slate-100 duration-200 rounded flex justify-center items-center cursor-pointer border-gray-300">
-                      <Image src={linkedin} className="cover" alt="linkedin1" />
-                    </div>
-                  </div>
-                  <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm email">
-                    Sign up with email
-                  </p>
-                  {error && (
-                    <div className="bg-red-200 p-3 rounded-md">
-                      <p className="text-red-700 text-sm">{error}</p>
-                    </div>
-                  )}
-                  <div className="flex flex-col gap-1 pt-3">
-                    <p className="text-black font-bold text-sm">
-                      Company email
-                    </p>
-                    <input
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                      type="text"
-                      placeholder="Company email"
-                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1  pt-3">
-                    <p className="text-black font-bold text-sm">Name</p>
-                    <input
-                      value={name}
-                      onChange={(event) => setName(event.target.value)}
-                      type="text"
-                      placeholder="Name"
-                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1  pt-3">
-                    <p className="text-black font-bold text-sm">Currency</p>
-                    <input
-                      value={currency}
-                      onChange={(event) => setCurrency(event.target.value)}
-                      type="text"
-                      readOnly
-                      placeholder="Currency"
-                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-                    />
-                  </div>
-                  <div className="flex flex-col gap-1 pt-3">
-                    <p className="text-black font-bold text-sm">Password</p>
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(event) => setPassword(event.target.value)}
-                      placeholder="Enter password"
-                      className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col px-16 border-gray-300 border-t-[1px]">
-                  <button
-                    type="password"
-                    placeholder="Enter password"
-                    className="bg-purple-700 mt-5 border-gray-300 border-t-[1px] w-full rounded p-3"
-                    onClick={handleSignup}
-                  >
-                    Create Account
-                  </button>
-                  <div className="flex row gap-2 pt-2 items-center justify-center">
-                    <p className="text-black font-thin">
-                      Already have and account?
-                    </p>
-                    <p
-                      onClick={() => setShowSignin(true)}
-                      className="text-purple-700 cursor-pointer text-sm"
-                    >
-                      Sign In
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <Signup
+                handleSignup={handleSignup}
+                error={error}
+                name={name}
+                setName={setName}
+                email={email}
+                setEmail={setEmail}
+                currency={currency}
+                setCurrency={setCurrency}
+                password={password}
+                setPassword={setPassword}
+                setShowSignin={setShowSignin}
+              />
             )}
             <div
               onClick={() => setLogin(false)}
@@ -277,6 +190,17 @@ export default function App() {
           </div>
         </div>
       )}
+      <div className="flex justify-center items-center h-screen">
+        <div
+          onClick={() => {
+            setLogin(true);
+            setShowSignin(true);
+          }}
+          className="cursor-pointer bg-purple-700 px-5 py-4 rounded-md"
+        >
+          <p className="text-white">Sign in</p>
+        </div>
+      </div>
     </div>
   );
 }

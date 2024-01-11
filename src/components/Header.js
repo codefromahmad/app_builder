@@ -3,7 +3,7 @@ import logo from "../images/builderlogo.svg";
 import person from "../images/person.jpeg";
 import Image from "next/image";
 import { IoIosLink } from "react-icons/io";
-import Avatar from "react-avatar";
+// import Avatar from "react-avatar";
 import { FaAngleDown } from "react-icons/fa6";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -78,7 +78,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="cursor-pointer relative flex items-center gap-1 ml-3"
               >
-                <Avatar
+                {/* <Avatar
                   name={user?.name || "BB"}
                   size="35"
                   round={true}
@@ -86,7 +86,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                   color="#7e22ce"
                   fgColor="#ffffff"
                   // text={"AA"}
-                />
+                /> */}
                 <FaAngleDown className="text-black text-sm" />
                 <div
                   className={`${
