@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import logo from "../images/builderlogo.svg";
-import person from "../images/person.jpeg";
+import logo from "../images/logo.svg";
+import person from "../images/user-image.svg";
 import Image from "next/image";
 import { IoIosLink } from "react-icons/io";
-// import Avatar from "react-avatar";
 import { FaAngleDown } from "react-icons/fa6";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -28,12 +27,9 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
   };
 
   return (
-    <div className="h-16 bg-white z-30 w-full fixed top-0 left-0 right-0 border-b-2 border-b-gray-200">
-      <div className="h-full flex">
-        <Link
-          href={"/"}
-          className="w-1/5 pl-5 cursor-pointer border-r-2 border-r-gray-200"
-        >
+    <div className="h-24 bg-primary z-30 w-full fixed top-0 left-0 right-0 border-b-2 border-b-gray-200">
+      <div className="h-full flex items-center">
+        <Link href={"/"} className="w-1/5 pl-5 cursor-pointer">
           <Image
             src={logo}
             alt=""
@@ -41,53 +37,32 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
             unoptimized
           />
         </Link>
-        <div className="w-4/5 p-3">
-          <div className="flex justify-between">
-            <div className="flex flex-col">
-              <div>
-                <span className="text-gray-700 text-xs">1. Choose a base</span>
-                <span className="text-gray-700 text-xs">
-                  {" "}
-                  2. Refine features
-                </span>
-                <span className="text-gray-700 text-xs"> 3. Plan delivery</span>
-              </div>
-              <div>
-                <p className="text-gray-700 text-lg font-bold">
-                  My Builder Project
-                </p>
-              </div>
-            </div>
+        <div className="w-4/5 h-full px-5">
+          <div className="flex h-full justify-between items-center">
+            <p className="text-white text-lg font-bold">My Project Name</p>
             <div className="flex justify-evenly gap-2 items-center">
-              <div className="border-[1px] flex items-center cursor-pointer border-gray-200 rounded">
-                <Image
-                  src={person}
-                  alt="person"
-                  className="w-8 h-8 rounded-tl rounded-bl"
-                  unoptimized
-                />
-                <p className="text-gray-700 text-xs p-2">Talk to our experts</p>
-              </div>
-              <div className="border-[1px] cursor-pointer border-gray-200 p-2 rounded">
-                <p className="text-gray-700 text-xs">View Prototype</p>
-              </div>
-              <div className="border-[1px] cursor-pointer border-gray-200 p-2 rounded">
-                <IoIosLink className="text-gray-700 text-base" />
-              </div>
               <div
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="cursor-pointer relative flex items-center gap-1 ml-3"
               >
-                {/* <Avatar
-                  name={user?.name || "BB"}
-                  size="35"
-                  round={true}
-                  //   textSizeRatio={3}
-                  color="#7e22ce"
-                  fgColor="#ffffff"
-                  // text={"AA"}
-                /> */}
-                <FaAngleDown className="text-black text-sm" />
+                <div className="flex gap-2">
+                  <div className="flex flex-col items-end">
+                    <p className="text-white font-semibold text-lg">
+                      Kristin Watson
+                    </p>
+                    <p className="text-white font-medium text-sm">Admin</p>
+                  </div>
+                  <Image
+                    src={person}
+                    alt=""
+                    className="rounded-full"
+                    width={40}
+                    height={40}
+                  />
+                  <div className="w-[11px] h-[11px] absolute flex items-center justify-center right-0 top-[5px] z-[4] rounded-full bg-primary">
+                    <div className="w-2 h-2 rounded-full bg-[#00FF47]" />
+                  </div>
+                </div>
                 <div
                   className={`${
                     dropdownOpen ? "block" : "hidden"
