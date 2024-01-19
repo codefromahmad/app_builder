@@ -428,12 +428,12 @@ export default function Features() {
                 </div>
                 <div className="grid grid-cols-1 gap-3 p-5">
                   {features.map((item, index) => (
-                    <div key={index} className="relative h-38">
+                    <div key={index} className="relative group h-38">
                       <div
                         onClick={() => handleFeaturesSelection(item)}
-                        className="top-2 z-10 absolute hover:bg-red-400 group right-2 bg-white w-7 h-7 items-center rounded-full justify-center flex border-[1px] cursor-pointer"
+                        className="top-2 group-hover:flex hidden z-10 absolute hover:bg-slate-200 group right-2 bg-white w-7 h-7 items-center rounded-full justify-center border-[1px] cursor-pointer"
                       >
-                        <MdDeleteOutline className="text-black group-hover:text-white duration-300" />
+                        <MdDeleteOutline className="text-black duration-300" />
                       </div>
                       <div
                         onClick={() => handleFeatureSelection(item)}
@@ -463,10 +463,9 @@ export default function Features() {
                             className={`w-20 h-12 ${
                               selectedFeature?.name === item.name
                                 ? "border-secondary"
-                                : "border-transparent"
+                                : "border-gray-300"
                             } group border-2 rounded-lg`}
                           >
-                            {/* <PhoneFrame> */}
                             <Image
                               width={100}
                               height={100}
@@ -474,7 +473,6 @@ export default function Features() {
                               alt="icon"
                               className="object-fill rounded-lg w-full h-full"
                             />
-                            {/* </PhoneFrame> */}
                           </div>
                         )}
                         <div>
