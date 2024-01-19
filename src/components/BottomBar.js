@@ -8,9 +8,9 @@ const BottomBar = ({
   durationLocal,
 }) => {
   return (
-    <div className="h-16 border-t-2 items-end border-gray-300 w-full bg-white">
+    <div className="h-16 items-end w-full bg-white">
       <div className="flex flex-row justify-between items-center h-full">
-        <div className="grid grid-cols-5 gap-4">
+        <div className="flex px-5 items-center justify-between w-3/4 gap-4">
           <div className="flex justify-center">
             <p className="text-2xl font-bold text-black">Plan</p>
           </div>
@@ -20,15 +20,21 @@ const BottomBar = ({
               ${customizationCost}
             </p>
           </div>
+          <div>
+            <p className="text-[#A6A6A6] text-2xl">+</p>
+          </div>
           <div className="flex flex-col px-2 gap-2 items-start">
             <p className="text-black text-xs">Fixed Cost</p>
             <p className="text-black font-extrabold text-xl">${fixedCost}</p>
+          </div>
+          <div>
+            <p className="text-[#A6A6A6] text-2xl">+</p>
           </div>
           <div className="flex flex-col px-2 gap-2 items-start">
             <p className="text-black text-xs">Total Cost</p>
             <p className="text-black font-extrabold text-xl">${totalCost}</p>
           </div>
-          <div className="flex flex-col px-2 gap-2 items-start">
+          <div className="flex border-l-[3px] border-[#A6A6A6] pl-10 flex-col px-2 gap-2 items-start">
             <p className="text-black text-xs">Indicative Duration</p>
             <p className="text-black font-extrabold text-xl">
               {durationLocal} weeks
@@ -37,7 +43,7 @@ const BottomBar = ({
         </div>
         <Link
           href={"/delivery"}
-          className="bg-green-500 h-full cursor-pointer w-48 flex items-center justify-center"
+          className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
         >
           <p className="text-black font-semibold">Plan Delivery</p>
         </Link>

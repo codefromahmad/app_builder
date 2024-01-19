@@ -8,6 +8,7 @@ export const sidebarData = [
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd145e88f3ac61106b2fa0/Activity_20Log.png",
         cost: "150",
         time: "4.0",
+        web: "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1032/8307b387-f681-4365-b119-6a06c2b8e041.png",
         mobile:
           "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1031/3100e295-6ea2-4979-a36d-fb0ae986d628.png",
         category: "Healthcare compliance",
@@ -19,6 +20,7 @@ export const sidebarData = [
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/icon/59fd164788f3ac61106b3545/Admin_Console.svg",
         cost: "15,075.55",
         time: "5.0",
+        web: "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1746/11774206-74f8-4e43-a907-8e773b157c2a.png",
         mobile:
           "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1745/2d25fafc-11ba-4843-8667-95254d618cdb.png",
         category: "Healthcare compliance",
@@ -30,6 +32,7 @@ export const sidebarData = [
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/57e0aff95cba2a27d6af2784/Analytics.png",
         cost: "20,564.26",
         time: "3.0",
+        web: "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/54/e763d4d5-ee4c-42e2-85f0-a064c49b902b.png",
         mobile:
           "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/53/1a760b16-496c-4e71-b389-83eeffd74e60.png",
         category: "Healthcare compliance",
@@ -41,6 +44,7 @@ export const sidebarData = [
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/5af2d4a40b82ec3ee3c8cb9f/Camera_20access.png",
         cost: "58,174.28",
         time: "3.0",
+        web: "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/584/f500e98e-e9b7-4145-87e7-7f4910b5e6c6.png",
         mobile:
           "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/583/2e5115cf-3cce-4c84-8727-4214ea1d5978.png",
         category: "Healthcare compliance",
@@ -52,6 +56,7 @@ export const sidebarData = [
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/583e717d5cba2a4656829cf7/Content_20Management.png",
         cost: "52,584.21",
         time: "2.0",
+        web: "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/44/b1856bce-fe00-42dc-b2ce-0c430011361d.png",
         mobile:
           "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/43/aa8c8db8-538d-4607-b5ea-65240baeef53.png",
         category: "Healthcare compliance",

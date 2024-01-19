@@ -27,7 +27,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
   };
 
   return (
-    <div className="h-24 bg-primary z-30 w-full fixed top-0 left-0 right-0 border-b-2 border-b-gray-200">
+    <div className="h-[4.5rem] bg-primary z-30 w-full fixed top-0 left-0 right-0 border-b-2 border-b-gray-200">
       <div className="h-full flex items-center">
         <Link href={"/"} className="w-1/5 pl-5 cursor-pointer">
           <Image
@@ -39,7 +39,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
         </Link>
         <div className="w-4/5 h-full px-5">
           <div className="flex h-full justify-between items-center">
-            <p className="text-white text-lg font-bold">My Project Name</p>
+            <p className="text-white font-bold">My Project Name</p>
             <div className="flex justify-evenly gap-2 items-center">
               <div
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -47,10 +47,8 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
               >
                 <div className="flex gap-2">
                   <div className="flex flex-col items-end">
-                    <p className="text-white font-semibold text-lg">
-                      Kristin Watson
-                    </p>
-                    <p className="text-white font-medium text-sm">Admin</p>
+                    <p className="text-white font-semibold">Kristin Watson</p>
+                    <p className="text-white font-medium text-xs">Admin</p>
                   </div>
                   <Image
                     src={person}

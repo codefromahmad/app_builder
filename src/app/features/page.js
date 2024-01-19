@@ -21,6 +21,7 @@ import { IoDesktopOutline } from "react-icons/io5";
 import { TbApps } from "react-icons/tb";
 import RemoveAllPopup from "@/components/RemoveAllPopup";
 import { IoMdSearch } from "react-icons/io";
+import ShowFeature from "@/components/ShowFeature";
 
 export default function Features() {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -171,7 +172,7 @@ export default function Features() {
 
   return (
     <HeaderLayout>
-      <div className="flex h-[calc(100vh-6rem)] mt-24">
+      <div className="flex h-[calc(100vh-4.5rem)] mt-[4.5rem]">
         <RemoveAllPopup
           confirm={confirm}
           setConfirm={setConfirm}
@@ -179,7 +180,7 @@ export default function Features() {
         />
 
         <div className="w-1/5 bg-slate-100 max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
-          <div className="flex bg-white border-slate-400 border m-3 p-2 rounded-xl">
+          <div className="flex bg-white my-2 border-[#C7C7C7] border p-2">
             <IoMdSearch className="text-gray-600 mr-2 text-xl" />
             <input
               placeholder="Search for a feature"
@@ -289,20 +290,26 @@ export default function Features() {
                             onClick={() => handleFeatureSelection(item)}
                             className={`${
                               selectedFeature?.name === item.name
-                                ? "bg-secondary"
-                                : "bg-gray-300"
-                            } p-2 rounded-md duration-300`}
+                                ? "bg-secondary border-[1px] border-secondary"
+                                : "border-[1px] border-gray-600"
+                            } p-1 rounded-full group hover:border-secondary hover:bg-secondary duration-300`}
                           >
-                            <AiOutlineEye className="text-white" />
+                            <AiOutlineEye
+                              className={`group-hover:text-white ${
+                                selectedFeature?.name === item.name
+                                  ? "text-white"
+                                  : "text-black"
+                              }`}
+                            />
                           </div>
                           <div
                             onClick={() => handleFeaturesSelection(item)}
-                            className="bg-gray-300 p-2 rounded-md"
+                            className={`border-[1px] hover:bg-secondary group hover:border-secondary border-gray-600 p-1 rounded-full`}
                           >
                             {isFeatureSelected(item) ? (
-                              <MdDeleteOutline className="text-white" />
+                              <MdDeleteOutline className="text-black group-hover:text-white" />
                             ) : (
-                              <FiPlus className="text-white" />
+                              <FiPlus className="text-black group-hover:text-white" />
                             )}
                           </div>
                         </div>
@@ -314,12 +321,12 @@ export default function Features() {
           ))}
         </div>
         {/* Playground Area */}
-        <div className="w-4/5 h-[calc(100vh-10rem)] bg-white">
+        <div className="w-4/5 h-[calc(100vh-8.5rem)] bg-white">
           <div className={`flex w-full h-full`}>
             <div
               className={`${
                 features?.length > 0 ? "w-3/4" : "w-full"
-              } h-[calc(100vh-12rem)]`}
+              } h-[calc(100vh-10.5rem)]`}
             >
               {selectedFeature ? (
                 <>
@@ -371,72 +378,28 @@ export default function Features() {
                                 : "text-black"
                             } text-sm`}
                           >
-                            Desktop
+                            Web
                           </p>
                         </div>
                       </div>
-                      <div
+                      {/* <div
                         className={`flex justify-center cursor-pointer rounded-md items-center gap-2 bg-[#00191D] px-3 py-2 rounded-m`}
                       >
                         <TbApps className="text-white" />
                         <p className="text-white text-sm">Custom Feature</p>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
-                  <div
-                    className={`flex justify-center ${
-                      features?.length > 0 && "animate-moveUp duration-300"
-                    } items-center bg-slate-100 h-[calc(100vh-16rem)] mb-6 mx-6 rounded-lg gap-x-6`}
-                  >
-                    <div className="w-48 h-96">
-                      <PhoneFrame>
-                        <Image
-                          width={100}
-                          height={100}
-                          src={selectedFeature?.mobile}
-                          alt="icon"
-                          className=" object-fill w-full h-full"
-                        />
-                      </PhoneFrame>
-                    </div>
-
-                    <div className="w-1/3">
-                      <div className="flex items-center gap-2">
-                        <p className="text-black text-lg">
-                          {selectedFeature.name}
-                        </p>
-                        <div
-                          onClick={() =>
-                            handleFeaturesSelection(selectedFeature)
-                          }
-                          className="bg-white hover:bg-slate-50 duration-300 w-7 h-7 rounded-md items-center justify-center flex border-[1px] cursor-pointer"
-                        >
-                          {isFeatureSelected(selectedFeature) ? (
-                            <MdDeleteOutline className="text-black" />
-                          ) : (
-                            <FiPlus className="text-black" />
-                          )}
-                        </div>
-                      </div>
-                      <p className="text-gray-500 py-1 duration-300 text-xs">
-                        {selectedFeature.category}
-                      </p>
-                      <div className="py-2">
-                        <p className="text-gray-400 text-xs py-1">
-                          from ${selectedFeature.cost}
-                        </p>
-                        <p className="text-gray-400 text-xs py-[1px]">
-                          {selectedFeature.time} days
-                        </p>
-                      </div>
-                      <p className="text-black text-sm py-2">
-                        {selectedFeature.details}
-                      </p>
-                      <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
-                        <p className="text-white text-xs">Add note</p>
-                      </div>
-                    </div>
-                  </div>
+                  {/* Show Feature */}
+                  <ShowFeature
+                    platform={platform}
+                    features={features}
+                    selectedFeature={selectedFeature}
+                    handleFeaturesSelection={(feature) =>
+                      handleFeaturesSelection(feature)
+                    }
+                    isFeatureSelected={(feature) => isFeatureSelected(feature)}
+                  />
                 </>
               ) : (
                 <div className="flex flex-col relative justify-center items-center h-full">
@@ -454,7 +417,7 @@ export default function Features() {
               )}
             </div>
             {features?.length > 0 && (
-              <div className="w-1/4 bg-white relative h-[calc(100vh-10rem)] overflow-y-auto custom-scrollbar">
+              <div className="w-1/4 bg-white relative h-[calc(100vh-8.5rem)] overflow-y-auto custom-scrollbar">
                 <div className="flex px-5 py-3 gap-2 items-center">
                   <p className="text-black text-xl">
                     {features.length > 1
@@ -477,23 +440,43 @@ export default function Features() {
                         key={index}
                         className={`duration-300 cursor-pointer relative p-2 rounded-lg h-full w-full flex items-center gap-3`}
                       >
-                        <div
-                          className={`w-12 ${
-                            selectedFeature?.name === item.name
-                              ? "border-secondary"
-                              : "border-transparent"
-                          } group border-2 duration-500 rounded-lg`}
-                        >
-                          <PhoneFrame>
+                        {platform === "mobile" ? (
+                          <div
+                            className={`w-12 ${
+                              selectedFeature?.name === item.name
+                                ? "border-secondary"
+                                : "border-transparent"
+                            } group border-2 rounded-lg`}
+                          >
+                            <PhoneFrame>
+                              <Image
+                                width={100}
+                                height={100}
+                                src={item?.mobile}
+                                alt="icon"
+                                className="object-fill w-full h-full"
+                              />
+                            </PhoneFrame>
+                          </div>
+                        ) : (
+                          <div
+                            className={`w-20 h-12 ${
+                              selectedFeature?.name === item.name
+                                ? "border-secondary"
+                                : "border-transparent"
+                            } group border-2 rounded-lg`}
+                          >
+                            {/* <PhoneFrame> */}
                             <Image
                               width={100}
                               height={100}
-                              src={item?.mobile}
+                              src={item?.web}
                               alt="icon"
-                              className=" object-fill w-full h-full"
+                              className="object-fill rounded-lg w-full h-full"
                             />
-                          </PhoneFrame>
-                        </div>
+                            {/* </PhoneFrame> */}
+                          </div>
+                        )}
                         <div>
                           <div className="flex items-center gap-2">
                             <p className="text-black w-20 text-sm">
