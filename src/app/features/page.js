@@ -508,6 +508,7 @@ export default function Features() {
               fixedCost={fixedCost}
               totalCost={totalCost}
               durationLocal={durationLocal}
+              plan={true}
             />
           )}
         </div>

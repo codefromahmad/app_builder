@@ -1,7 +1,7 @@
 .tooltip-arrow {
-  border-width: 0 15px 15px 20px;
-  border-color: transparent transparent #d1d5db transparent;
-  transform: translateX(-50%);
+  border-width: 15px 20px 15px 0;
+  border-color: transparent #d1d5db transparent transparent;
+  transform: translateY(-50%);
 }
 
 .no-scroll {

@@ -6,12 +6,18 @@ const BottomBar = ({
   fixedCost,
   totalCost,
   durationLocal,
+  plan = false,
+  buttonText = "Plan Delivery",
 }) => {
   return (
     <div className="h-16 items-end w-full bg-white">
       <div className="flex flex-row justify-between items-center h-full">
-        <div className="flex px-5 items-center justify-between w-3/4 gap-4">
-          <div className="flex justify-center">
+        <div
+          className={`flex ${
+            buttonText === "Done" ? "px-20" : "px-5"
+          } items-center justify-between w-3/4 gap-4`}
+        >
+          <div className={`${plan ? "flex" : "hidden"} justify-center`}>
             <p className="text-2xl font-bold text-black">Plan</p>
           </div>
           <div className="flex flex-col px-2 gap-2 items-start">
@@ -28,7 +34,7 @@ const BottomBar = ({
             <p className="text-black font-extrabold text-xl">${fixedCost}</p>
           </div>
           <div>
-            <p className="text-[#A6A6A6] text-2xl">+</p>
+            <p className="text-[#A6A6A6] text-2xl">=</p>
           </div>
           <div className="flex flex-col px-2 gap-2 items-start">
             <p className="text-black text-xs">Total Cost</p>
@@ -45,7 +51,7 @@ const BottomBar = ({
           href={"/delivery"}
           className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
         >
-          <p className="text-black font-semibold">Plan Delivery</p>
+          <p className="text-black font-semibold">{buttonText}</p>
         </Link>
       </div>
     </div>

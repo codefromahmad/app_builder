@@ -33,11 +33,15 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import HeaderLayout from "@/components/HeaderLayout";
+import logo from "../../images/logo.svg";
+import BottomBar from "@/components/BottomBar";
+import Link from "next/link";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
   const [sliderValue, setSliderValue] = useState(2);
   const [rangeSliderValue, setRangeSliderValue] = useState(2);
+  const [cloudService, setCloudService] = useState(false);
   const [sameSpeed, setSameSpeed] = useState(false);
   const [infoPopup, setInfoPopup] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
@@ -214,25 +218,49 @@ export default function Dahsboard() {
     {
       name: "Android",
       details: "Mobile App for android",
-      icon: <BsAndroid2 className="text-4xl text-black" />,
+      icon: (
+        <BsAndroid2
+          className={`text-4xl ${
+            checkAllContain("android") ? "text-white" : "text-[#B4B6B7]"
+          }`}
+        />
+      ),
       selected: checkAllContain("android"),
     },
     {
       name: "iOS",
       details: "Mobile App for iOS",
-      icon: <FaApple className="text-4xl text-black" />,
+      icon: (
+        <FaApple
+          className={`text-4xl ${
+            checkAllContain("ios") ? "text-white" : "text-[#B4B6B7]"
+          }`}
+        />
+      ),
       selected: checkAllContain("ios"),
     },
     {
       name: "Web",
       details: "Web App",
-      icon: <MdWeb className="text-4xl text-black" />,
+      icon: (
+        <MdWeb
+          className={`text-4xl ${
+            checkAllContain("web") ? "text-white" : "text-[#B4B6B7]"
+          }`}
+        />
+      ),
       selected: checkAllContain("web"),
     },
     {
       name: "Desktop",
       details: "Desktop application",
-      icon: <IoDesktop className="text-4xl text-black" />,
+      icon: (
+        <IoDesktop
+          className={`text-4xl ${
+            checkAllContain("desktop") ? "text-white" : "text-[#B4B6B7]"
+          }`}
+        />
+      ),
       selected: checkAllContain("desktop"),
     },
   ];
@@ -671,33 +699,33 @@ export default function Dahsboard() {
             {platforms.map((platform, index) => (
               <div
                 key={index}
-                className={`relative w-40 flex items-center border-[1px] rounded-md cursor-pointer ${
+                className={`relative w-20 h-20 flex justify-center items-center border-[1px] rounded-md cursor-pointer ${
                   checkAllContain(platform.name.toLowerCase())
-                    ? "border-purple-700"
+                    ? "border-secondary bg-primary"
                     : "border-gray-300"
                 }`}
               >
                 <div
-                  className="flex items-center gap-3 p-3 w-full"
+                  className="flex justify-center items-center gap-3 p-3 w-full"
                   onClick={() =>
                     addPlatformToPhase(platform.name.toLowerCase())
                   }
                 >
                   {platform.icon}
-                  <div className="justify-between flex flex-col gap-1">
+                  {/* <div className="justify-between flex flex-col gap-1">
                     <p className="text-black text-sm font-semibold">
                       {platform.name}
                     </p>
                     <p className="text-gray-400 text-xs">{platform.details}</p>
-                  </div>
+                  </div> */}
                 </div>
-                <HiOutlineInformationCircle
+                {/* <HiOutlineInformationCircle
                   onClick={() => setInfoPopup(platform)}
                   className="text-base absolute top-1 right-1 cursor-pointer text-gray-400"
-                />
+                /> */}
               </div>
             ))}
-            {/* <div className="p-5 border-[1px] rounded-md cursor-pointer border-gray-300 duration-200 hover:border-purple-700">
+            {/* <div className="p-5 border-[1px] rounded-md cursor-pointer border-gray-300 duration-200 hover:border-secondary">
             <FiPlus className="text-3xl text-black" />
           </div> */}
           </div>
@@ -726,7 +754,7 @@ export default function Dahsboard() {
               <div
                 key={index}
                 className={`relative border-[1px] rounded-md h-fit ${
-                  phase.selected ? "border-purple-700" : "border-gray-400"
+                  phase.selected ? "border-secondary" : "border-gray-400"
                 }`}
               >
                 <div
@@ -734,7 +762,7 @@ export default function Dahsboard() {
                   className="absolute top-2 right-2 cursor-pointer"
                 >
                   {phase.selected ? (
-                    <GoCheckCircleFill className="text-2xl text-purple-700" />
+                    <GoCheckCircleFill className="text-2xl text-secondary" />
                   ) : (
                     <GoCircle className="text-2xl text-gray-400 cursor-pointer" />
                   )}
@@ -746,7 +774,7 @@ export default function Dahsboard() {
                         {phase.icon}
                         <p
                           className={`${
-                            phase.selected ? "text-purple-700" : "text-black"
+                            phase.selected ? "text-secondary" : "text-black"
                           } font-bold text-sm max-w-[130px]`}
                         >
                           {phase.name}{" "}
@@ -764,7 +792,7 @@ export default function Dahsboard() {
                           <p className="text-black text-xs font-bold">
                             Platform
                           </p>
-                          {/* <p className="text-purple-700 text-xs font-normal cursor-pointer">
+                          {/* <p className="text-secondary text-xs font-normal cursor-pointer">
                           Change
                         </p> */}
                         </div>
@@ -809,7 +837,7 @@ export default function Dahsboard() {
                           </p>
                           <p
                             onClick={() => setSidebar(true)}
-                            className="text-purple-700 text-xs font-normal cursor-pointer"
+                            className="text-secondary text-xs font-normal cursor-pointer"
                           >
                             Change
                           </p>
@@ -828,7 +856,7 @@ export default function Dahsboard() {
                       </div>
                       {phase.selected && (
                         <input
-                          className="h-[2px] !accent-purple-700 w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
+                          className="h-[2px] !accent-secondary w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
                           id="steps-range"
                           type="range"
                           min="1"
@@ -868,7 +896,7 @@ export default function Dahsboard() {
                           }
                         >
                           {sameSpeed ? (
-                            <GoCheckCircleFill className="text-2xl text-purple-700" />
+                            <GoCheckCircleFill className="text-2xl text-secondary" />
                           ) : (
                             <GoCircle className="text-2xl text-gray-400 cursor-pointer" />
                           )}
@@ -906,7 +934,7 @@ export default function Dahsboard() {
                         <div className="flex gap-1 py-1">
                           <p
                             className={`${
-                              phase.selected ? "text-purple-700" : "text-black"
+                              phase.selected ? "text-secondary" : "text-black"
                             } font-bold text-sm max-w-[100px]`}
                           >
                             {phase.name}{" "}
@@ -942,7 +970,7 @@ export default function Dahsboard() {
                             <p className="text-black text-xs font-bold">
                               Platform
                             </p>
-                            {/* <p className="text-purple-700 text-xs font-normal cursor-pointer">
+                            {/* <p className="text-secondary text-xs font-normal cursor-pointer">
                             Change
                           </p> */}
                           </div>
@@ -988,7 +1016,7 @@ export default function Dahsboard() {
                           <p className="text-black text-xs font-bold">
                             Features
                           </p>
-                          <p className="text-purple-700 text-xs font-normal cursor-pointer">
+                          <p className="text-secondary text-xs font-normal cursor-pointer">
                             Change
                           </p>
                         </div>
@@ -1002,14 +1030,14 @@ export default function Dahsboard() {
               </div>
             ))}
           </div>
-          <div className="bg-slate-100 mt-10">
-            <div className="p-10">
+          <div className="bg-slate-100 mt-10 flex">
+            <div className="p-10 w-1/2">
               <p className="text-black text-2xl font-bold">
                 When do you want the delivery?
               </p>
               <div className="pt-5 flex flex-row justify-between items-center">
-                <div className="flex flex-row w-2/3 items-center gap-2">
-                  <div className="w-2/3">
+                <div className="flex flex-row w-full items-center gap-2">
+                  <div className="w-3/4">
                     <div className="bg-white p-5 h-40 rounded-md relative">
                       <div className="relative h-10 flex justify-between">
                         {priceDuration.map((label, index) => (
@@ -1018,7 +1046,7 @@ export default function Dahsboard() {
                               key={index}
                               className={`${
                                 sliderValue === index + 1
-                                  ? "text-purple-700"
+                                  ? "text-secondary"
                                   : "text-black"
                               }`}
                             >
@@ -1034,7 +1062,7 @@ export default function Dahsboard() {
                         max="5"
                         value={sliderValue}
                         step="1"
-                        className="slider h-[2px] !accent-purple-700 w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
+                        className="slider h-[2px] !accent-secondary w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
                         onChange={handleSliderChange}
                         style={{
                           background: `linear-gradient(to right, #7e22ce 0%, #7e22ce ${
@@ -1051,7 +1079,7 @@ export default function Dahsboard() {
                               key={index}
                               className={`text-center ${
                                 sliderValue === index + 1
-                                  ? "text-purple-700"
+                                  ? "text-secondary"
                                   : "text-black"
                               }`}
                             >
@@ -1060,7 +1088,7 @@ export default function Dahsboard() {
                             <p
                               className={`text-center pt-1 ${
                                 sliderValue === index + 1
-                                  ? "text-purple-700"
+                                  ? "text-secondary"
                                   : "text-black"
                               }`}
                             >
@@ -1071,7 +1099,7 @@ export default function Dahsboard() {
                       </div>
                     </div>
                   </div>
-                  <div className="w-1/3">
+                  <div className="w-1/4">
                     <div className="transform bg-gray-300 w-48 p-2 rounded">
                       <div className="tooltip-arrow absolute w-0 h-0 border-solid border-[transparent #ffffff transparent transparent] top-1/2 -left-2 transform:translate(-50%)"></div>
                       <div className="flex flex-col items-center p-3 justify-center">
@@ -1093,13 +1121,15 @@ export default function Dahsboard() {
               onChange={(timezone) => setSelectedTimezone(timezone)}
               timezones={allTimezones}
             /> */}
+              </div>
+              <div className="flex py-5">
                 <div className="bg-white p-5 rounded-md h-28">
                   <p className="text-black font-medium">
                     Select platform for your product
                   </p>
                   <p className="text-gray-400 text-sm pt-2">
                     Estimated First delivery:{" "}
-                    <span className="font-bold text-purple-700">
+                    <span className="font-bold text-secondary">
                       {moment().format("DD-MMM-YYYY")}
                     </span>
                   </p>
@@ -1112,93 +1142,109 @@ export default function Dahsboard() {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="m-10 flex border-[1px] border-purple-700 rounded-md p-5">
-            <div className="w-1/2 ">
-              <Image
-                src={buildercloud}
-                width={100}
-                height={100}
-                alt="builder cloud logo"
-              />
-              <div>
-                <p className="text-black font-medium pt-4">
-                  Builder Cloud helps you scale your business
-                </p>
-                <ul className=" list-disc pl-4">
-                  <li className="py-1 text-black text-xs">
-                    <span className="font-bold">Commitment-free savings:</span>{" "}
-                    our customers saved over $4.5m, last year.
-                  </li>
-                  <li className="py-1 text-black text-xs">
-                    <span className="font-bold">World-class analytics:</span>{" "}
-                    Optimise your software and infrastructure.
-                  </li>
-                  <li className="py-1 text-black text-xs">
-                    <span className="font-bold">
-                      Best-in-class multi-cloud:
-                    </span>{" "}
-                    Azure, AWS, and more. Just one bill (for a lot less).
-                  </li>
-                </ul>
+            <div
+              className={`m-10 w-1/2 flex flex-col border-[1px] ${
+                cloudService ? "border-secondary" : "border-gray-300"
+              } rounded-md p-5`}
+            >
+              <div className="relative">
+                <Image
+                  src={logo}
+                  width={150}
+                  height={100}
+                  alt="builder cloud logo"
+                />
+                <div
+                  onClick={() => setCloudService((prev) => !prev)}
+                  className="absolute top-2 right-2 cursor-pointer"
+                >
+                  {cloudService ? (
+                    <GoCheckCircleFill className="text-2xl text-secondary" />
+                  ) : (
+                    <GoCircle className="text-2xl text-gray-400 cursor-pointer" />
+                  )}
+                </div>
+                <div>
+                  <p className="text-black font-medium pt-4">
+                    Builder Cloud helps you scale your business
+                  </p>
+                  <ul className=" list-disc pl-4">
+                    <li className="py-1 text-black text-xs">
+                      <span className="font-bold">
+                        Commitment-free savings:
+                      </span>{" "}
+                      our customers saved over $4.5m, last year.
+                    </li>
+                    <li className="py-1 text-black text-xs">
+                      <span className="font-bold">World-class analytics:</span>{" "}
+                      Optimise your software and infrastructure.
+                    </li>
+                    <li className="py-1 text-black text-xs">
+                      <span className="font-bold">
+                        Best-in-class multi-cloud:
+                      </span>{" "}
+                      Azure, AWS, and more. Just one bill (for a lot less).
+                    </li>
+                  </ul>
+                </div>
               </div>
-            </div>
-            <div className="w-1/2">
-              <div className="bg-slate-200 mt-3 p-5 h-30 w-96 rounded-md relative">
-                <div className="relative h-8 flex justify-between">
-                  <p className="text-black font-bold">Number of users</p>
-                  <p className="text-black font-bold">
-                    {numOfUsers[rangeSliderValue - 1].users}
+              <div className="">
+                <div className="bg-slate-200 mt-3 p-5 h-30 w-96 rounded-md relative">
+                  <div className="relative h-8 flex justify-between">
+                    <p className="text-black font-bold">Number of users</p>
+                    <p className="text-black font-bold">
+                      {numOfUsers[rangeSliderValue - 1].users}
+                    </p>
+                  </div>
+                  <input
+                    id="steps-range"
+                    type="range"
+                    min="1"
+                    max="4"
+                    value={rangeSliderValue}
+                    step="1"
+                    className="my-3 h-[2px] !accent-secondary w-full mt-4 rounded-md cursor-pointer bg-gray-300 relative"
+                    onChange={handleRangeSliderChange}
+                  />
+                  <div className="relative h-8 flex justify-between">
+                    {numOfUsers.map((range, index) => (
+                      <div key={index} className="text-xs mt-4 text-center">
+                        <p
+                          className={`text-center pt-1 ${
+                            rangeSliderValue === index + 1
+                              ? "text-secondary"
+                              : "text-black"
+                          }`}
+                        >
+                          {range.users}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="mt-4">
+                  <p className="text-black text-2xl">
+                    {rangeSliderValue != numOfUsers.length ? (
+                      <span className="font-bold">
+                        ${numOfUsers[rangeSliderValue - 1].minPrice} - $
+                        {numOfUsers[rangeSliderValue - 1].maxPrice}
+                      </span>
+                    ) : (
+                      <span className="font-bold">
+                        ${numOfUsers[rangeSliderValue - 1].minPrice} + *
+                      </span>
+                    )}{" "}
+                    /month
+                  </p>
+                  <p className="text-xs text-gray-600 pt-5 font-thin">
+                    *This is an estimated price for cloud hosting and will vary
+                    according to usage.
                   </p>
                 </div>
-                <input
-                  id="steps-range"
-                  type="range"
-                  min="1"
-                  max="4"
-                  value={rangeSliderValue}
-                  step="1"
-                  className="my-3 h-[2px] !accent-purple-700 w-full mt-4 rounded-md cursor-pointer bg-gray-300 relative"
-                  onChange={handleRangeSliderChange}
-                />
-                <div className="relative h-8 flex justify-between">
-                  {numOfUsers.map((range, index) => (
-                    <div key={index} className="text-xs mt-4 text-center">
-                      <p
-                        className={`text-center pt-1 ${
-                          rangeSliderValue === index + 1
-                            ? "text-purple-700"
-                            : "text-black"
-                        }`}
-                      >
-                        {range.users}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-4">
-                <p className="text-black text-2xl">
-                  {rangeSliderValue != numOfUsers.length ? (
-                    <span className="font-bold">
-                      ${numOfUsers[rangeSliderValue - 1].minPrice} - $
-                      {numOfUsers[rangeSliderValue - 1].maxPrice}
-                    </span>
-                  ) : (
-                    <span className="font-bold">
-                      ${numOfUsers[rangeSliderValue - 1].minPrice} + *
-                    </span>
-                  )}{" "}
-                  /month
-                </p>
-                <p className="text-xs text-gray-600 pt-5 font-thin">
-                  *This is an estimated price for cloud hosting and will vary
-                  according to usage.
-                </p>
               </div>
             </div>
           </div>
-          <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
+          {/* <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
             <div className="flex flex-row justify-between items-center h-full">
               <div className="flex pl-5">
                 <div className="flex flex-col px-2 gap-2 items-center">
@@ -1228,11 +1274,20 @@ export default function Dahsboard() {
                 onClick={() => setBuildCard(true)}
                 className="bg-green-500 cursor-pointer h-full w-48 flex items-center justify-center"
               >
-                {/* <Link href="/delivery"> */}
-                <p className="text-black font-semibold">Done</p>
-                {/* </Link> */}
+                <Link href="/delivery">
+                  <p className="text-black font-semibold">Done</p>
+                </Link>
               </div>
             </div>
+          </div> */}
+          <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
+            <BottomBar
+              customizationCost="1000$"
+              fixedCost="1000$"
+              totalCost="2000$"
+              durationLocal="20 weeks"
+              buttonText="Done"
+            />
           </div>
         </div>
       </div>
