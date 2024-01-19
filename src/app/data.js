@@ -1,3 +1,8 @@
+import { GoChecklist, GoRocket } from "react-icons/go";
+import { IoCodeSlashOutline } from "react-icons/io5";
+import { PiShootingStarThin } from "react-icons/pi";
+import { SiStyledcomponents } from "react-icons/si";
+
 export const sidebarData = [
   {
     name: "Healthcare compliance",
@@ -276,90 +281,229 @@ export const sidebarData = [
   },
   {
     name: "Ecommerce",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd272488f3ac56ef461c69/Ecommerce.svg",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
   {
     name: "Healthcare compliance",
+    dropDown: [],
     img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
   },
+];
+
+export const speedLabels = ["Relaxed", "Slow", "Standard", "Fast", "Speedy"];
+
+export const priceDuration = [
+  {
+    name: "Relaxed",
+    duration: 20,
+    price: "$ 20,000",
+    details: `Our most budget-friendly option for those who aren't in a hurry`,
+  },
+  {
+    name: "Slow",
+    duration: 18,
+    price: "$ 20,000",
+    details: `For those with a fixed long-term plan who want to keep costs down`,
+  },
+  {
+    name: "Standard",
+    duration: 16,
+    price: "$ 20,000",
+    details: `The perfect middle ground for anyone with a modest budget and medium-term deadlines`,
+  },
+  {
+    name: "Fast",
+    duration: 14,
+    price: "$ 20,000",
+    details: `We put your app build on turbo charge for a few extra bucks`,
+  },
+  {
+    name: "Speedy",
+    duration: 12,
+    price: "$ 20,000",
+    details: `We build your app at the speed of light for a premium price`,
+  },
+];
+
+export const initialPhases = [
+  {
+    name: "Product Roadmap",
+    duration: "2 Weeks",
+    delivery: "27-Dec-2023",
+    icon: <GoChecklist className="text-4xl text-black" />,
+    selected: true,
+    details:
+      "Why do you need a product roadmap? Add it and we help you define the use cases for every feature in your Buildcard. If you skip it, you’ll need to know exactly what you expect each feature to do before we can start building your app.It also gives you an in-depth view of where your product is going. Includes a product timeline so everyone can see all the key dates on the way to get you there.",
+    more: "Can help you secure funding, improve collaboration and streamline the whole app building process. Also useful for making long-term strategic decisions and planning a successful launch.",
+    platform: ["ios"],
+    advanced: {
+      sliderValue: 2,
+    },
+  },
+  {
+    name: "Design",
+    duration: "7 Weeks",
+    delivery: "12-Feb-2024",
+    icon: <SiStyledcomponents className="text-4xl text-black" />,
+    selected: false,
+    details:
+      "Trust us to do the wireframing of your concept and design a seamless experience. Get a fully scalable UI/UX",
+    more: "We combine visual principles, data, color psychology, and decades worth of experience to create aesthetic interfaces that will drive the growth of your product. We are experts in creating human-centric designs that allow customers to intuitively use your product and have a great product experience.",
+    platform: ["ios"],
+    advanced: {
+      sliderValue: 1,
+    },
+  },
+  {
+    name: "Professional Prototype",
+    duration: "3 Weeks",
+    delivery: "26-Feb-2024",
+    icon: <PiShootingStarThin className="text-4xl text-black" />,
+    selected: true,
+    details:
+      "Get a fully functional design prototype to test the design hypothesis and end-user journey. This includes designs for prototypes.",
+    more: "Prototypes are realistic design representations of your ideas. We design interactive prototypes for iPhone, iPad, Android, and Web. Creation of prototypes is more specific, measurable, quick, and intensive than just describing the design. Test how the user will interact with an environment comparable to the final product.",
+    platform: ["ios"],
+    advanced: {
+      sliderValue: 3,
+    },
+  },
+  {
+    name: "MVP",
+    duration: "7 Weeks",
+    delivery: "13-Apr-2024",
+    icon: <IoCodeSlashOutline className="text-4xl text-black" />,
+    selected: false,
+    details:
+      "Ship the first build of your idea and get early adopters to try out your product",
+    more: "We help design a Minimum Viable Product as a proof of concept to satisfy early customers and provide feedback for future development. It’s an easy way to build a product with a minimum set of features to test the market. Collect the maximum amount of validated learning about your customers with the least effort.",
+    platform: ["ios"],
+    showPlatform: true,
+    features: 32,
+    advanced: {
+      sliderValue: 4,
+    },
+  },
+  {
+    name: "Full Build",
+    duration: "4 Weeks",
+    delivery: "12-Jun-2024",
+    icon: <GoRocket className="text-4xl text-black" />,
+    selected: true,
+    details:
+      "We will do end to end designing and development of your idea. Get a market-ready product",
+    more: "We build a full-fledged product based on the product roadmap and the features laid out in the specification document. We will also perfect the product based on user feedback received on the Minimum Viable Product. We will ship a fully mature, responsive, scalable, business-ready and a user-friendly product.",
+    platform: ["ios"],
+    advanced: {
+      sliderValue: 5,
+    },
+  },
+];
+
+export const numOfUsers = [
+  { users: "0-500", minPrice: 150, maxPrice: 230 },
+  { users: "500-5k", minPrice: 225, maxPrice: 340 },
+  { users: "5k-50k", minPrice: 490, maxPrice: 735 },
+  { users: "50k+", minPrice: 1000 },
 ];

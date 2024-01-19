@@ -22,12 +22,16 @@ import { TbApps } from "react-icons/tb";
 import RemoveAllPopup from "@/components/RemoveAllPopup";
 import { IoMdSearch } from "react-icons/io";
 import ShowFeature from "@/components/ShowFeature";
+import FeatureHeader from "@/components/FeatureHeader";
+import NoFeature from "@/components/NoFeature";
 
 export default function Features() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [expand, setExpand] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [platform, setPlatform] = useState("mobile");
+  const [searchFeatures, setSearchFeatures] = useState([]);
   const dispatch = useDispatch();
   const router = useRouter();
   const features = useSelector((state) => state.features.features);
@@ -62,19 +66,15 @@ export default function Features() {
     console.log("handleFeaturesSelection", feature.name);
 
     if (isFeatureSelected(feature)) {
-      // If selected, remove it from the array
       const updatedFeatures = features.filter(
         (selected) => selected.name !== feature.name
       );
-      // setSelectedFeatures(updatedFeatures);
       dispatch({
         type: "setFeatures",
         payload: updatedFeatures,
       });
       setSelectedFeature(updatedFeatures[0]);
     } else {
-      // If not selected, add it to the array
-      // setSelectedFeatures((prevFeatures) => [feature, ...prevFeatures]);
       dispatch({
         type: "addFeature",
         payload: feature,
@@ -99,7 +99,6 @@ export default function Features() {
   const handleRemoveAll = () => {
     setExpand(false);
     setSelectedFeature(null);
-    // setSelectedFeatures([]);
     setConfirm(false);
     dispatch({
       type: "setFeatures",
@@ -115,10 +114,6 @@ export default function Features() {
     });
   };
 
-  const handleExpand = () => {
-    setExpand(!expand);
-  };
-
   const countSelectedFeatures = (items) => {
     const selectedFeaturesCount = items.filter((feature) =>
       features.some((selected) => selected.name === feature.name)
@@ -130,7 +125,6 @@ export default function Features() {
   const handleAddMultipleFeatures = (newFeatures, index) => {
     setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
 
-    // Filter out features that are already present in selectedFeatures
     const filteredNewFeatures = newFeatures.filter(
       (newFeature) =>
         !features.some(
@@ -138,11 +132,6 @@ export default function Features() {
         )
     );
 
-    // Update selectedFeature state
-    // setSelectedFeatures((prevFeatures) => [
-    //   ...filteredNewFeatures,
-    //   ...prevFeatures,
-    // ]);
     dispatch({
       type: "addFeatures",
       payload: filteredNewFeatures,
@@ -160,15 +149,40 @@ export default function Features() {
         )
     );
 
-    // setSelectedFeatures(updatedSelectedFeatures);
     dispatch({
       type: "setFeatures",
       payload: updatedSelectedFeatures,
     });
 
-    // Optionally, reset the selectedFeature state
     setSelectedFeature(updatedSelectedFeatures[0]);
   };
+
+  const searchItems = (searchText) => {
+    const results = [];
+
+    sidebarData.forEach((category) => {
+      console.log("category", category);
+      const matchingItems = category.dropDown?.filter((item) =>
+        item.name.toLowerCase().includes(searchText.toLowerCase())
+      );
+
+      if (matchingItems?.length > 0) {
+        console.log("matchingItems", matchingItems);
+        results.push(...matchingItems);
+      }
+    });
+
+    console.log("results", results);
+    setSearchFeatures(results);
+  };
+
+  useEffect(() => {
+    if (searchTerm.length > 0) {
+      searchItems(searchTerm);
+    } else {
+      setSearchFeatures([]);
+    }
+  }, [searchTerm]);
 
   return (
     <HeaderLayout>
@@ -183,142 +197,213 @@ export default function Features() {
           <div className="flex bg-white my-2 border-[#C7C7C7] border p-2">
             <IoMdSearch className="text-gray-600 mr-2 text-xl" />
             <input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search for a feature"
               className="w-full bg-transparent text-sm text-gray-700 outline-none"
             />
           </div>
-          {sidebarData.map((item, index) => (
-            <div key={index}>
-              <div
-                key={index}
-                onClick={() => toggleDropdown(index)}
-                className="group hover:bg-slate-200 p-4 cursor-pointer transition duration-500 ease-in-out"
-              >
-                <div className="flex justify-between items-center text-black">
-                  <div className="flex items-center gap-3">
-                    <Image
-                      width={100}
-                      height={100}
-                      className="w-5 h-5 opacity-50 group-hover:opacity-100"
-                      src={item?.img}
-                      alt="Healthcare Icon"
-                    />
-                    <p className="text-sm">{item.name}</p>
-                  </div>
-                  {item.dropDown && activeDropdown != index && (
-                    <MdKeyboardArrowDown className="group-hover:text-black text-xl text-transparent" />
-                  )}
-                  {activeDropdown === index && (
-                    <MdKeyboardArrowUp className="text-black text-xl" />
-                  )}
-                </div>
-                {activeDropdown === index && (
-                  <div className="flex flex-row items-center justify-between">
-                    <div className="pt-3">
-                      <p className="text-gray-500 text-xs">
-                        {countSelectedFeatures(item.dropDown)}/
-                        {item.dropDown && item.dropDown.length} features
-                      </p>
-                    </div>
-                    {countSelectedFeatures(item.dropDown) ===
-                    item.dropDown.length ? (
-                      <div
-                        className="pt-3"
-                        onClick={() =>
-                          handleRemoveAllFeatures(item.dropDown, index)
-                        }
-                      >
-                        <p className="text-gray-500 text-xs">Unselect All</p>
+          {!searchFeatures.length > 0
+            ? sidebarData.map((item, index) => (
+                <div key={index}>
+                  <div
+                    key={index}
+                    onClick={() => toggleDropdown(index)}
+                    className="group hover:bg-slate-200 p-4 cursor-pointer transition duration-500 ease-in-out"
+                  >
+                    <div className="flex justify-between items-center text-black">
+                      <div className="flex items-center gap-3">
+                        <Image
+                          width={100}
+                          height={100}
+                          className="w-5 h-5 opacity-50 group-hover:opacity-100"
+                          src={item?.img}
+                          alt="Healthcare Icon"
+                        />
+                        <p className="text-sm">{item.name}</p>
                       </div>
-                    ) : (
-                      <div
-                        className="pt-3"
-                        onClick={() =>
-                          handleAddMultipleFeatures(item.dropDown, index)
-                        }
-                      >
-                        <p className="text-gray-500 text-xs">Select All</p>
+                      {item.dropDown && activeDropdown != index && (
+                        <MdKeyboardArrowDown className="group-hover:text-black text-xl text-transparent" />
+                      )}
+                      {activeDropdown === index && (
+                        <MdKeyboardArrowUp className="text-black text-xl" />
+                      )}
+                    </div>
+                    {activeDropdown === index && (
+                      <div className="flex flex-row items-center justify-between">
+                        <div className="pt-3">
+                          <p className="text-gray-500 text-xs">
+                            {countSelectedFeatures(item.dropDown)}/
+                            {item.dropDown && item.dropDown.length} features
+                          </p>
+                        </div>
+                        {countSelectedFeatures(item.dropDown) ===
+                        item.dropDown.length ? (
+                          <div
+                            className="pt-3"
+                            onClick={() =>
+                              handleRemoveAllFeatures(item.dropDown, index)
+                            }
+                          >
+                            <p className="text-gray-500 text-xs">
+                              Unselect All
+                            </p>
+                          </div>
+                        ) : (
+                          <div
+                            className="pt-3"
+                            onClick={() =>
+                              handleAddMultipleFeatures(item.dropDown, index)
+                            }
+                          >
+                            <p className="text-gray-500 text-xs">Select All</p>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
-                )}
-              </div>
-              <div
-                className={`dropdown max-h-40 custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300 ${
-                  activeDropdown === index ? "open" : ""
-                }`}
-              >
-                {item.dropDown &&
-                  activeDropdown === index &&
-                  item.dropDown.map((item, index) => (
-                    <div
-                      key={index}
-                      onClick={() => handleFeatureSelection(item)}
-                      className={`flex flex-grow w-full cursor-pointer ${
-                        isFeatureSelected(item)
-                          ? "border-l-secondary"
-                          : selectedFeature?.name === item.name
-                          ? "border-l-gray-500"
-                          : "hover:border-l-gray-500"
-                      } border-l-4 duration-300 hover:border-l-4 justify-between items-center p-4 border-b-[1px] bg-slate-100 text-black `}
-                    >
-                      <div className="flex w-full justify-between items-center">
-                        <div className="flex gap-2">
-                          {isFeatureSelected(item) ? (
-                            <FaCircleCheck className="text-secondary mt-1 text-sm" />
-                          ) : (
-                            <Image
-                              width={100}
-                              height={100}
-                              className="w-5 h-5 mt-2 opacity-50"
-                              src={item?.icon}
-                              alt="Healthcare Icon"
-                            />
-                          )}
-                          <div>
-                            <p className="text-sm">{item.name}</p>
-                            <p className="text-gray-500 text-xs">
-                              from ${item.cost}
-                            </p>
-                            <p className="text-gray-500 text-xs">
-                              from {item.time} days
-                            </p>
+                  <div
+                    className={`dropdown max-h-40 custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300 ${
+                      activeDropdown === index ? "open" : ""
+                    }`}
+                  >
+                    {item.dropDown &&
+                      activeDropdown === index &&
+                      item.dropDown.map((item, index) => (
+                        <div
+                          key={index}
+                          onClick={() => handleFeatureSelection(item)}
+                          className={`flex flex-grow w-full cursor-pointer ${
+                            isFeatureSelected(item)
+                              ? "border-l-secondary"
+                              : selectedFeature?.name === item.name
+                              ? "border-l-gray-500"
+                              : "hover:border-l-gray-500"
+                          } border-l-4 duration-300 hover:border-l-4 justify-between items-center p-4 border-b-[1px] bg-slate-100 text-black `}
+                        >
+                          <div className="flex w-full justify-between items-center">
+                            <div className="flex gap-2">
+                              {isFeatureSelected(item) ? (
+                                <FaCircleCheck className="text-secondary mt-1 text-sm" />
+                              ) : (
+                                <Image
+                                  width={100}
+                                  height={100}
+                                  className="w-5 h-5 mt-2 opacity-50"
+                                  src={item?.icon}
+                                  alt="Healthcare Icon"
+                                />
+                              )}
+                              <div>
+                                <p className="text-sm">{item.name}</p>
+                                <p className="text-gray-500 text-xs">
+                                  from ${item.cost}
+                                </p>
+                                <p className="text-gray-500 text-xs">
+                                  from {item.time} days
+                                </p>
+                              </div>
+                            </div>
+                            <div className="flex gap-x-2">
+                              <div
+                                onClick={() => handleFeatureSelection(item)}
+                                className={`${
+                                  selectedFeature?.name === item.name
+                                    ? "bg-secondary border-[1px] border-secondary"
+                                    : "border-[1px] border-gray-600"
+                                } p-1 rounded-full group hover:border-secondary hover:bg-secondary duration-300`}
+                              >
+                                <AiOutlineEye
+                                  className={`group-hover:text-white ${
+                                    selectedFeature?.name === item.name
+                                      ? "text-white"
+                                      : "text-black"
+                                  }`}
+                                />
+                              </div>
+                              <div
+                                onClick={() => handleFeaturesSelection(item)}
+                                className={`border-[1px] hover:bg-secondary group hover:border-secondary border-gray-600 p-1 rounded-full`}
+                              >
+                                {isFeatureSelected(item) ? (
+                                  <MdDeleteOutline className="text-black group-hover:text-white" />
+                                ) : (
+                                  <FiPlus className="text-black group-hover:text-white" />
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="flex gap-x-2">
-                          <div
-                            onClick={() => handleFeatureSelection(item)}
-                            className={`${
-                              selectedFeature?.name === item.name
-                                ? "bg-secondary border-[1px] border-secondary"
-                                : "border-[1px] border-gray-600"
-                            } p-1 rounded-full group hover:border-secondary hover:bg-secondary duration-300`}
-                          >
-                            <AiOutlineEye
-                              className={`group-hover:text-white ${
-                                selectedFeature?.name === item.name
-                                  ? "text-white"
-                                  : "text-black"
-                              }`}
-                            />
-                          </div>
-                          <div
-                            onClick={() => handleFeaturesSelection(item)}
-                            className={`border-[1px] hover:bg-secondary group hover:border-secondary border-gray-600 p-1 rounded-full`}
-                          >
-                            {isFeatureSelected(item) ? (
-                              <MdDeleteOutline className="text-black group-hover:text-white" />
-                            ) : (
-                              <FiPlus className="text-black group-hover:text-white" />
-                            )}
-                          </div>
-                        </div>
+                      ))}
+                  </div>
+                </div>
+              ))
+            : searchFeatures.map((item, index) => (
+                <div
+                  key={index}
+                  onClick={() => handleFeatureSelection(item)}
+                  className={`flex flex-grow w-full cursor-pointer ${
+                    isFeatureSelected(item)
+                      ? "border-l-secondary"
+                      : selectedFeature?.name === item.name
+                      ? "border-l-gray-500"
+                      : "hover:border-l-gray-500"
+                  } border-l-4 duration-300 hover:border-l-4 justify-between items-center p-4 border-b-[1px] bg-slate-100 text-black `}
+                >
+                  <div className="flex w-full justify-between items-center">
+                    <div className="flex gap-2">
+                      {isFeatureSelected(item) ? (
+                        <FaCircleCheck className="text-secondary mt-1 text-sm" />
+                      ) : (
+                        <Image
+                          width={100}
+                          height={100}
+                          className="w-5 h-5 mt-2 opacity-50"
+                          src={item?.icon}
+                          alt="Healthcare Icon"
+                        />
+                      )}
+                      <div>
+                        <p className="text-sm">{item.name}</p>
+                        <p className="text-gray-500 text-xs">
+                          from ${item.cost}
+                        </p>
+                        <p className="text-gray-500 text-xs">
+                          from {item.time} days
+                        </p>
                       </div>
                     </div>
-                  ))}
-              </div>
-            </div>
-          ))}
+                    <div className="flex gap-x-2">
+                      <div
+                        onClick={() => handleFeatureSelection(item)}
+                        className={`${
+                          selectedFeature?.name === item.name
+                            ? "bg-secondary border-[1px] border-secondary"
+                            : "border-[1px] border-gray-600"
+                        } p-1 rounded-full group hover:border-secondary hover:bg-secondary duration-300`}
+                      >
+                        <AiOutlineEye
+                          className={`group-hover:text-white ${
+                            selectedFeature?.name === item.name
+                              ? "text-white"
+                              : "text-black"
+                          }`}
+                        />
+                      </div>
+                      <div
+                        onClick={() => handleFeaturesSelection(item)}
+                        className={`border-[1px] hover:bg-secondary group hover:border-secondary border-gray-600 p-1 rounded-full`}
+                      >
+                        {isFeatureSelected(item) ? (
+                          <MdDeleteOutline className="text-black group-hover:text-white" />
+                        ) : (
+                          <FiPlus className="text-black group-hover:text-white" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
         </div>
         {/* Playground Area */}
         <div className="w-4/5 h-[calc(100vh-8.5rem)] bg-white">
@@ -330,67 +415,10 @@ export default function Features() {
             >
               {selectedFeature ? (
                 <>
-                  <div className="h-16 w-full flex items-center">
-                    <div
-                      className={`px-7 w-full flex justify-between items-center`}
-                    >
-                      <div className={` flex items-center gap-2`}>
-                        <div
-                          onClick={() => setPlatform("mobile")}
-                          className={`flex justify-center items-center gap-2 ${
-                            platform === "mobile" && "bg-[#00191D]"
-                          } px-3 py-2 rounded-md cursor-pointer`}
-                        >
-                          <FaMobileAlt
-                            className={`${
-                              platform === "mobile"
-                                ? "text-white"
-                                : "text-black"
-                            }`}
-                          />
-                          <p
-                            className={`${
-                              platform === "mobile"
-                                ? "text-white"
-                                : "text-black"
-                            } text-sm`}
-                          >
-                            Mobile
-                          </p>
-                        </div>
-                        <div
-                          onClick={() => setPlatform("desktop")}
-                          className={`flex justify-center items-center gap-2 ${
-                            platform === "desktop" && "bg-[#00191D]"
-                          } px-3 py-2 rounded-md cursor-pointer`}
-                        >
-                          <IoDesktopOutline
-                            className={`${
-                              platform === "desktop"
-                                ? "text-white"
-                                : "text-black"
-                            }`}
-                          />
-                          <p
-                            className={`${
-                              platform === "desktop"
-                                ? "text-white"
-                                : "text-black"
-                            } text-sm`}
-                          >
-                            Web
-                          </p>
-                        </div>
-                      </div>
-                      {/* <div
-                        className={`flex justify-center cursor-pointer rounded-md items-center gap-2 bg-[#00191D] px-3 py-2 rounded-m`}
-                      >
-                        <TbApps className="text-white" />
-                        <p className="text-white text-sm">Custom Feature</p>
-                      </div> */}
-                    </div>
-                  </div>
-                  {/* Show Feature */}
+                  <FeatureHeader
+                    platform={platform}
+                    setPlatform={setPlatform}
+                  />
                   <ShowFeature
                     platform={platform}
                     features={features}
@@ -402,18 +430,7 @@ export default function Features() {
                   />
                 </>
               ) : (
-                <div className="flex flex-col relative justify-center items-center h-full">
-                  <div className="absolute left-4">
-                    <FaArrowLeftLong className="text-black text-xl" />
-                  </div>
-
-                  <p className="text-black text-2xl font-bold">
-                    No features selected
-                  </p>
-                  <p className="text-black text-sm">
-                    Select feature to preview from left
-                  </p>
-                </div>
+                <NoFeature />
               )}
             </div>
             {features?.length > 0 && (
