@@ -6,7 +6,7 @@ import React, { useState } from "react";
 import { GoCheckCircleFill, GoCircle } from "react-icons/go";
 import { useSelector } from "react-redux";
 
-const page = () => {
+export default function Summary() {
   const [studio, setStudio] = useState(false);
   const user = useSelector((state) => state.user.user);
   return (
@@ -114,6 +114,4 @@ const page = () => {
       </div>
     </HeaderLayout>
   );
-};
-
-export default page;
+}

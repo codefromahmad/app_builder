@@ -37,7 +37,7 @@ const HeaderLayout = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [db, dispatch, router]);
 
   if (!user) {
     return (

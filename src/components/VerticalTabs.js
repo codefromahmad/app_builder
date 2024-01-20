@@ -68,6 +68,7 @@ const VerticalTabs = () => {
       <div className="w-1/3">
         {tabs.map((tab, index) => (
           <div
+            key={index}
             className={`cursor-pointer`}
             onClick={() => handleTabClick(index)}
           >
