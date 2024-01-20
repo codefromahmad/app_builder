@@ -35,7 +35,7 @@ const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
         <div className="w-4/5 h-full px-5">
           <div className="flex h-full justify-between items-center">
             <p className="text-white font-bold">
-              {user.buildCards[0].name || "My Project Name"}
+              {user.buildCards[0]?.name || "My Project Name"}
             </p>
             <div className="flex justify-evenly gap-2 items-center">
               <div
