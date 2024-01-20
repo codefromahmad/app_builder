@@ -905,7 +905,7 @@ export default function Dahsboard() {
             ))}
           </div>
           <div className="bg-slate-100 mt-10 flex">
-            <div className="p-10 w-1/2">
+            <div className="p-10 w-2/3">
               <p className="text-black text-2xl font-bold">
                 When do you want the delivery?
               </p>
@@ -1017,7 +1017,7 @@ export default function Dahsboard() {
               </div>
             </div>
             <div
-              className={`m-10 w-1/2 flex flex-col border-[1px] ${
+              className={`m-10 w-1/3 flex flex-col border-[1px] ${
                 cloudService ? "border-secondary" : "border-gray-300"
               } rounded-md p-5`}
             >

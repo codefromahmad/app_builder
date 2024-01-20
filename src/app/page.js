@@ -67,7 +67,8 @@ export default function App() {
     setDoc(doc(db, "users", user.uid), userData) // Use setDoc for setting a document
       .then(() => {
         console.log("Success");
-        dispatch(setUser(userData));
+        // dispatch(setUser(userData));
+        dispatch({ type: "setUser", payload: userData });
         router.push("/features");
       })
       .catch((error) => {
@@ -196,7 +197,7 @@ export default function App() {
             setLogin(true);
             setShowSignin(true);
           }}
-          className="cursor-pointer bg-purple-700 px-5 py-4 rounded-md"
+          className="cursor-pointer bg-secondary px-5 py-4 rounded-md"
         >
           <p className="text-white">Sign in</p>
         </div>

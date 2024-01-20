@@ -14,6 +14,8 @@ const Signup = ({
   setPassword,
   setShowSignin,
 }) => {
+  const isButtonDisabled = !name || !email || !currency || !password;
+
   return (
     <div className="py-10 w-full h-full">
       <h1 className="text-black px-16 font-semibold text-2xl pb-3">Sign Up</h1>
@@ -34,6 +36,7 @@ const Signup = ({
           <p className="text-black font-bold text-sm">Company email</p>
           <input
             value={email}
+            required
             onChange={(event) => setEmail(event.target.value)}
             type="text"
             placeholder="Company email"
@@ -44,6 +47,7 @@ const Signup = ({
           <p className="text-black font-bold text-sm">Name</p>
           <input
             value={name}
+            required
             onChange={(event) => setName(event.target.value)}
             type="text"
             placeholder="Name"
@@ -54,6 +58,7 @@ const Signup = ({
           <p className="text-black font-bold text-sm">Currency</p>
           <input
             value={currency}
+            required
             onChange={(event) => setCurrency(event.target.value)}
             type="text"
             readOnly
@@ -66,6 +71,7 @@ const Signup = ({
           <input
             type="password"
             value={password}
+            required
             onChange={(event) => setPassword(event.target.value)}
             placeholder="Enter password"
             className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
@@ -75,8 +81,11 @@ const Signup = ({
       <div className="flex flex-col px-16 border-gray-300 border-t-[1px]">
         <button
           type="password"
+          disabled={isButtonDisabled}
           placeholder="Enter password"
-          className="bg-purple-700 mt-5 border-gray-300 border-t-[1px] w-full rounded p-3"
+          className={`mt-5 ${
+            isButtonDisabled ? "bg-gray-300" : "bg-secondary"
+          } border-gray-300 border-t-[1px] w-full rounded p-3`}
           onClick={handleSignup}
         >
           Create Account
@@ -85,7 +94,7 @@ const Signup = ({
           <p className="text-black font-thin">Already have and account?</p>
           <p
             onClick={() => setShowSignin(true)}
-            className="text-purple-700 cursor-pointer text-sm"
+            className="text-secondary cursor-pointer text-sm"
           >
             Sign In
           </p>

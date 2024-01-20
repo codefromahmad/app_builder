@@ -10,10 +10,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase";
 import { useSelector } from "react-redux";
 
-const Header = ({ dropdownOpen, setDropdownOpen }) => {
+const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
   const router = useRouter();
-  const user = useSelector((state) => state.user.user);
-  console.log(user);
+  // const user = useSelector((state) => state.user.user);
+
+  // console.log("user: ", user);
 
   const handleLogout = () => {
     signOut(auth)
@@ -46,17 +47,24 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                 className="cursor-pointer relative flex items-center gap-1 ml-3"
               >
                 <div className="flex gap-2">
-                  <div className="flex flex-col items-end">
-                    <p className="text-white font-semibold">Kristin Watson</p>
-                    <p className="text-white font-medium text-xs">Admin</p>
+                  <div className="flex flex-col items-end justify-center">
+                    <p className="text-white font-semibold">{user.name}</p>
+                    <p className="text-white font-medium text-xs">
+                      {user.email}
+                    </p>
                   </div>
-                  <Image
+                  {/* <Image
                     src={person}
                     alt=""
                     className="rounded-full"
                     width={40}
                     height={40}
-                  />
+                  /> */}
+                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                    <p className="text-white font-semibold text-2xl">
+                      {user.name[0]}
+                    </p>
+                  </div>
                   <div className="w-[11px] h-[11px] absolute flex items-center justify-center right-0 top-[5px] z-[4] rounded-full bg-primary">
                     <div className="w-2 h-2 rounded-full bg-[#00FF47]" />
                   </div>
@@ -64,7 +72,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                 <div
                   className={`${
                     dropdownOpen ? "block" : "hidden"
-                  } absolute top-10 right-0 py-2 w-40 bg-white rounded-md shadow-xl z-50`}
+                  } absolute top-11 right-0 py-2 w-40 bg-white rounded-md shadow-xl z-50`}
                 >
                   <Link
                     href="#"

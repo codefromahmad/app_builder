@@ -52,7 +52,7 @@ const Signin = ({
         <button
           type="password"
           placeholder="Enter password"
-          className="bg-purple-700 mt-5 border-gray-300 border-t-[1px] w-full rounded p-3"
+          className="bg-secondary mt-5 border-gray-300 border-t-[1px] w-full rounded p-3"
           onClick={handleSignIn}
         >
           Sign In
@@ -61,7 +61,7 @@ const Signin = ({
           <p className="text-black font-thin">{`Don't have and account?`}</p>
           <p
             onClick={() => setShowSignin(false)}
-            className="text-purple-700 cursor-pointer text-sm"
+            className="text-secondary cursor-pointer text-sm"
           >
             Sign Up
           </p>
