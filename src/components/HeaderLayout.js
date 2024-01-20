@@ -3,12 +3,14 @@ import Header from "./Header";
 import { auth } from "@/app/firebase";
 import { useRouter } from "next/navigation";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { useDispatch } from "react-redux";
 
 const HeaderLayout = ({ children }) => {
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
   const db = getFirestore();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -21,6 +23,7 @@ const HeaderLayout = ({ children }) => {
               const userData = docSnapshot.data();
               console.log("User data:", userData);
               setUser(userData);
+              dispatch({ type: "setUser", payload: userData });
             } else {
               console.log("User data not found");
             }

@@ -26,6 +26,8 @@ import {
   numOfUsers,
   sidebarData,
 } from "../data";
+import BuildCardPopup from "@/components/BuildCardPopup";
+import { useRouter } from "next/navigation";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
@@ -45,6 +47,9 @@ export default function Dahsboard() {
   const db = getFirestore();
   const user = useSelector((state) => state.user.user);
   const [phases, setPhases] = useState(initialPhases);
+  const router = useRouter();
+
+  console.log("delivery page", user);
 
   useEffect(() => {
     if (sidebar || buildCard) {
@@ -301,7 +306,10 @@ export default function Dahsboard() {
   const addBuildCard = () => {
     const userRef = doc(db, "users", user.uid);
     const newBuildCard = {
-      name: "New Card",
+      name: name,
+      const: 100000,
+      duration: 30,
+      deliveryDate: deliveryDate.format("DD-MMM-YYYY"),
       features: features,
     };
 
@@ -313,29 +321,32 @@ export default function Dahsboard() {
           const userData = docSnapshot.data();
           console.log("User document data:", userData);
 
-          // Ensure buildCards exists and is an array
           userData.buildCards = Array.isArray(userData.buildCards)
             ? userData.buildCards
             : [];
 
-          // Assuming buildCards is an array, push the new item
           userData.buildCards.push(newBuildCard);
 
-          // Update the document with the modified buildCards array
           updateDoc(userRef, userData)
             .then(() => {
               console.log("Build card added successfully");
+              router.push("/summary");
+              setName("");
+              setBuildCard(false);
               dispatch(setUser(userData));
             })
             .catch((error) => {
               console.error("Error updating document: ", error);
+              setBuildCard(false);
             });
         } else {
           console.error("User document does not exist");
+          setBuildCard(false);
         }
       })
       .catch((error) => {
         console.error("Error getting document:", error);
+        setBuildCard(false);
       });
   };
 
@@ -408,43 +419,13 @@ export default function Dahsboard() {
             </div>
           )
         )}
-        {buildCard && (
-          <div
-            className={`fixed shadow-2xl py-10 z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
-              buildCard
-                ? "opacity-100 pointer-events-auto"
-                : "opacity-0 pointer-events-none"
-            } w-96 h-auto rounded-lg bg-white items-center justify-center flex flex-col p-4 transition-opacity duration-1000 ease-in-out`}
-          >
-            <div className="bg-green-500 rounded-full w-20 h-20 flex items-center justify-center">
-              <FaThumbsUp className="text-white text-3xl" />
-            </div>
-            <p className="my-2 text-center text-black py-4">
-              Time to create your Buildcard® (It describes exactly what you want
-              to build)
-            </p>
-            <p className="my-2 font-bold text-center text-black">
-              First, please name your Buildcard®
-            </p>
-            <input
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="my-2 w-full outline-none border-[1px] text-black border-gray-300 rounded-md p-2"
-              placeholder="eg. Booking.com"
-              type="text"
-            />
-            <div
-              className={`px-2 py-1 ${
-                name.length > 2 ? "bg-green-500" : "bg-gray-400"
-              } w-full h-10 items-center flex justify-center rounded-md ${
-                name.length > 2 ? "cursor-pointer" : "cursor-not-allowed"
-              }`}
-              onClick={name.length > 2 ? addBuildCard : null}
-            >
-              <p className="text-sm text-white">SAVE</p>
-            </div>
-          </div>
-        )}
+        {/* Build Card */}
+        <BuildCardPopup
+          name={name}
+          setName={setName}
+          addBuildCard={addBuildCard}
+          buildCard={buildCard}
+        />
         {/* <div
         onClick={() => setSidebar(false)}
         className={`fixed shadow-2xl py-10 z-40 top-0 left-0 w-64 h-screen ${
@@ -459,7 +440,6 @@ export default function Dahsboard() {
             className="fixed inset-0 w-full h-full z-40 bg-black/60 bg-opacity-60 top-0 left-0"
           />
         )}
-
         {sidebar && (
           <div className="flex flex-col overflow-y-auto h-full bg-white fixed top-0 left-0 z-50 w-1/5 custom-scrollbar">
             <div className="flex justify-between items-center px-4 pt-4 pb-1">
@@ -1161,6 +1141,7 @@ export default function Dahsboard() {
               totalCost="2000$"
               durationLocal="20 weeks"
               buttonText="Done"
+              setBuildCard={setBuildCard}
             />
           </div>
         </div>

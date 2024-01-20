@@ -6,8 +6,8 @@ const BottomBar = ({
   fixedCost,
   totalCost,
   durationLocal,
-  plan = false,
   buttonText = "Plan Delivery",
+  setBuildCard,
 }) => {
   return (
     <div className="h-16 items-end w-full bg-white">
@@ -17,9 +17,6 @@ const BottomBar = ({
             buttonText === "Done" ? "px-20" : "px-5"
           } items-center justify-between w-3/4 gap-4`}
         >
-          <div className={`${plan ? "flex" : "hidden"} justify-center`}>
-            <p className="text-2xl font-bold text-black">Plan</p>
-          </div>
           <div className="flex flex-col px-2 gap-2 items-start">
             <p className="text-black text-xs">Customization Cost</p>
             <p className="text-black font-extrabold text-xl">
@@ -47,12 +44,21 @@ const BottomBar = ({
             </p>
           </div>
         </div>
-        <Link
-          href={"/delivery"}
-          className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
-        >
-          <p className="text-black font-semibold">{buttonText}</p>
-        </Link>
+        {buttonText != "Done" ? (
+          <Link
+            href={"/delivery"}
+            className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
+          >
+            <p className="text-black font-semibold">{buttonText}</p>
+          </Link>
+        ) : (
+          <div
+            onClick={() => setBuildCard(true)}
+            className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
+          >
+            <p className="text-black font-semibold">{buttonText}</p>
+          </div>
+        )}
       </div>
     </div>
   );

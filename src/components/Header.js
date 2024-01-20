@@ -34,7 +34,9 @@ const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
         </Link>
         <div className="w-4/5 h-full px-5">
           <div className="flex h-full justify-between items-center">
-            <p className="text-white font-bold">My Project Name</p>
+            <p className="text-white font-bold">
+              {user.buildCards[0].name || "My Project Name"}
+            </p>
             <div className="flex justify-evenly gap-2 items-center">
               <div
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -42,9 +44,9 @@ const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
               >
                 <div className="flex gap-2">
                   <div className="flex flex-col items-end justify-center">
-                    <p className="text-white font-semibold">{user.name}</p>
+                    <p className="text-white font-semibold">{user?.name}</p>
                     <p className="text-white font-medium text-xs">
-                      {user.email}
+                      {user?.email}
                     </p>
                   </div>
                   {/* <Image
@@ -56,7 +58,7 @@ const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
                   /> */}
                   <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
                     <p className="text-white font-semibold text-2xl">
-                      {user.name[0]}
+                      {user?.name[0]}
                     </p>
                   </div>
                   <div className="w-[11px] h-[11px] absolute flex items-center justify-center right-0 top-[5px] z-[4] rounded-full bg-primary">
