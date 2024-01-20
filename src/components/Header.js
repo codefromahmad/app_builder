@@ -1,20 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import logo from "../images/logo.svg";
 import person from "../images/user-image.svg";
 import Image from "next/image";
-import { IoIosLink } from "react-icons/io";
-import { FaAngleDown } from "react-icons/fa6";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase";
-import { useSelector } from "react-redux";
 
 const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
   const router = useRouter();
-  // const user = useSelector((state) => state.user.user);
-
-  // console.log("user: ", user);
 
   const handleLogout = () => {
     signOut(auth)
