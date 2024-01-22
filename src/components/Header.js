@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../images/logo.svg";
 import person from "../images/user-image.svg";
 import Image from "next/image";
@@ -9,6 +9,28 @@ import { auth } from "@/app/firebase";
 
 const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
   const router = useRouter();
+  // const [name, setName] = useState("My");
+  const incompleteItem = user.buildCards.find(
+    (item) => item.status === "incomplete"
+  );
+
+  // const getRecentBuildCard = (buildCards) => {
+  //   if (Array.isArray(buildCards) && buildCards.length > 0) {
+  //     // Sort the build cards based on the updatedAt field in descending order
+  //     const sortedBuildCards = buildCards.sort(
+  //       (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+  //     );
+  //     // Return the first build card in the sorted array
+  //     console.log("summary", sortedBuildCards[0]);
+  //     setName(sortedBuildCards[0].name);
+  //   } else {
+  //     return null; // Return null if the buildCards array is empty or not an array
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getRecentBuildCard(user?.buildCards);
+  // }, [user]);
 
   const handleLogout = () => {
     signOut(auth)
@@ -35,7 +57,7 @@ const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
         <div className="w-4/5 h-full px-5">
           <div className="flex h-full justify-between items-center">
             <p className="text-white font-bold">
-              {user.buildCards[0]?.name || "My Project Name"}
+              {incompleteItem?.name || "My Project Name"}
             </p>
             <div className="flex justify-evenly gap-2 items-center">
               <div

@@ -19,6 +19,7 @@ import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import HeaderLayout from "@/components/HeaderLayout";
 import logo from "../../images/logo.svg";
 import BottomBar from "@/components/BottomBar";
+import { v4 as uuidv4 } from "uuid";
 import {
   speedLabels,
   priceDuration,
@@ -305,15 +306,6 @@ export default function Dahsboard() {
 
   const addBuildCard = () => {
     const userRef = doc(db, "users", user.uid);
-    const newBuildCard = {
-      name: name,
-      const: 100000,
-      duration: 30,
-      deliveryDate: deliveryDate.format("DD-MMM-YYYY"),
-      features: features,
-    };
-
-    console.log("newBuildCard", newBuildCard);
 
     getDoc(userRef)
       .then((docSnapshot) => {
@@ -325,15 +317,32 @@ export default function Dahsboard() {
             ? userData.buildCards
             : [];
 
-          userData.buildCards.push(newBuildCard);
+          // Find the first incomplete build card
+          const incompleteBuildCardIndex = userData.buildCards.findIndex(
+            (buildCard) => buildCard.status === "incomplete"
+          );
+
+          if (incompleteBuildCardIndex !== -1) {
+            localStorage.setItem("recentBuildCardId", null);
+            // Update the existing incomplete build card to complete
+            userData.buildCards[incompleteBuildCardIndex].status = "complete";
+            // Optionally, you can update other fields like features, duration, etc.
+            userData.buildCards[incompleteBuildCardIndex].features = features;
+            userData.buildCards[incompleteBuildCardIndex].name = name;
+            userData.buildCards[incompleteBuildCardIndex].duration = 30;
+            userData.buildCards[incompleteBuildCardIndex].deliveryDate =
+              deliveryDate.format("DD-MMM-YYYY");
+            userData.buildCards[incompleteBuildCardIndex].updatedAt =
+              new Date().toISOString();
+          }
 
           updateDoc(userRef, userData)
             .then(() => {
-              console.log("Build card added successfully");
+              console.log("Build card added/updated successfully");
               router.push("/summary");
+              dispatch(setUser(userData));
               setName("");
               setBuildCard(false);
-              dispatch(setUser(userData));
             })
             .catch((error) => {
               console.error("Error updating document: ", error);

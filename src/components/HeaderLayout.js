@@ -11,6 +11,7 @@ const HeaderLayout = ({ children }) => {
   const router = useRouter();
   const db = getFirestore();
   const dispatch = useDispatch();
+  // const recentBuildCardId = localStorage.getItem("recentBuildCardId");
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -18,12 +19,23 @@ const HeaderLayout = ({ children }) => {
         const userDocRef = doc(db, "users", authUser.uid);
 
         getDoc(userDocRef)
-          .then((docSnapshot) => {
+          .then(async (docSnapshot) => {
             if (docSnapshot.exists()) {
               const userData = docSnapshot.data();
               console.log("User data:", userData);
               setUser(userData);
               dispatch({ type: "setUser", payload: userData });
+              const incompleteItem = await userData.buildCards.find(
+                (item) => item.status === "incomplete"
+              );
+              console.log("incompleteItem", incompleteItem);
+              if (incompleteItem) {
+                console.log("incomplete build card found");
+                dispatch({
+                  type: "setFeatures",
+                  payload: incompleteItem.features,
+                });
+              } else console.log("No incomplete build card");
             } else {
               console.log("User data not found");
             }

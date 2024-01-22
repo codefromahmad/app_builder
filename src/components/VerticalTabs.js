@@ -4,7 +4,7 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
 import { useSelector } from "react-redux";
 
-const VerticalTabs = () => {
+const VerticalTabs = ({ summary }) => {
   const [activeTab, setActiveTab] = useState(0);
   const user = useSelector((state) => state.user.user);
 
@@ -27,11 +27,9 @@ const VerticalTabs = () => {
               <p className="text-black text-sm font-thin">Name</p>
               <LuPencil className="text-secondary text-sm" />
             </div>
-            <p className="text-black py-2 font-bold">
-              {user.buildCards[0].name}
-            </p>
+            <p className="text-black py-2 font-bold">{summary?.name}</p>
             <div className="flex items-center gap-2">
-              <p className="text-black text-sm pb-2 font-thin">Description</p>
+              <p className="text-black text-sm font-thin">Description</p>
               <LuPencil className="text-secondary text-sm" />
             </div>
             <p className="text-black text-sm py-2 font-medium">

@@ -1,14 +1,42 @@
 "use client";
 import HeaderLayout from "@/components/HeaderLayout";
 import VerticalTabs from "@/components/VerticalTabs";
-import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GoCheckCircleFill, GoCircle } from "react-icons/go";
 import { useSelector } from "react-redux";
 
 export default function Summary() {
   const [studio, setStudio] = useState(false);
   const user = useSelector((state) => state.user.user);
+  const [summary, setSummary] = useState();
+
+  const getRecentBuildCard = (buildCards) => {
+    if (Array.isArray(buildCards) && buildCards.length > 0) {
+      // Sort the build cards based on the updatedAt field in descending order
+      const sortedBuildCards = buildCards.sort(
+        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      );
+      // Return the first build card in the sorted array
+      console.log("summary", sortedBuildCards[0]);
+      setSummary(sortedBuildCards[0]);
+      return sortedBuildCards[0];
+    } else {
+      return null; // Return null if the buildCards array is empty or not an array
+    }
+  };
+
+  useEffect(() => {
+    getRecentBuildCard(user?.buildCards);
+  }, [user]);
+
+  const inputDate = new Date(summary?.updatedAt);
+
+  // Define options for formatting
+  const options = { day: "2-digit", month: "short", year: "numeric" };
+
+  // Format the date
+  const formattedDate = inputDate.toLocaleDateString("en-US", options);
+
   return (
     <HeaderLayout>
       <div className="w-screen flex h-[calc(100vh-4.5rem)] mt-[4.5rem]">
@@ -19,9 +47,11 @@ export default function Summary() {
               <p className="text-black font-semibold">
                 Here is your Launch Swift
               </p>
-              <p className="text-gray-500 text-sm">Last edited: 15-Jan-2024</p>
+              <p className="text-gray-500 text-sm">
+                Last edited: {formattedDate}
+              </p>
             </div>
-            <VerticalTabs />
+            <VerticalTabs summary={summary} />
           </div>
         </div>
         <div className="w-1/2">

@@ -8,6 +8,7 @@ const BottomBar = ({
   durationLocal,
   buttonText = "Plan Delivery",
   setBuildCard,
+  handlePlanDelivery,
 }) => {
   return (
     <div className="h-16 items-end w-full bg-white">
@@ -45,12 +46,13 @@ const BottomBar = ({
           </div>
         </div>
         {buttonText != "Done" ? (
-          <Link
-            href={"/delivery"}
+          <div
+            // href={"/delivery"}
+            onClick={handlePlanDelivery}
             className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
           >
             <p className="text-black font-semibold">{buttonText}</p>
-          </Link>
+          </div>
         ) : (
           <div
             onClick={() => setBuildCard(true)}
