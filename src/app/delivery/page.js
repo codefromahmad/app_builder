@@ -1050,7 +1050,7 @@ export default function Dahsboard() {
                 </div>
               </div>
               <div className="">
-                <div className="bg-slate-200 mt-3 p-5 h-30 w-96 rounded-md relative">
+                <div className="bg-slate-200 mt-3 p-5 h-30 w-full rounded-md relative">
                   <div className="relative h-8 flex justify-between">
                     <p className="text-black font-bold">Number of users</p>
                     <p className="text-black font-bold">
