@@ -29,6 +29,7 @@ import {
 } from "../data";
 import BuildCardPopup from "@/components/BuildCardPopup";
 import { useRouter } from "next/navigation";
+import { setUser } from "@/store/reducers/user";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
@@ -317,16 +318,13 @@ export default function Dahsboard() {
             ? userData.buildCards
             : [];
 
-          // Find the first incomplete build card
           const incompleteBuildCardIndex = userData.buildCards.findIndex(
             (buildCard) => buildCard.status === "incomplete"
           );
 
           if (incompleteBuildCardIndex !== -1) {
-            localStorage.setItem("recentBuildCardId", null);
-            // Update the existing incomplete build card to complete
+            // localStorage.setItem("recentBuildCardId", null);
             userData.buildCards[incompleteBuildCardIndex].status = "complete";
-            // Optionally, you can update other fields like features, duration, etc.
             userData.buildCards[incompleteBuildCardIndex].features = features;
             userData.buildCards[incompleteBuildCardIndex].name = name;
             userData.buildCards[incompleteBuildCardIndex].duration = 30;

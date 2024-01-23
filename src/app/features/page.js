@@ -26,6 +26,7 @@ import FeatureHeader from "@/components/FeatureHeader";
 import NoFeature from "@/components/NoFeature";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
+import { setUser } from "@/store/reducers/user";
 
 export default function Features() {
   const [activeDropdown, setActiveDropdown] = useState(null);

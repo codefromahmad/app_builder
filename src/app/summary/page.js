@@ -1,7 +1,9 @@
 "use client";
 import HeaderLayout from "@/components/HeaderLayout";
 import VerticalTabs from "@/components/VerticalTabs";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { auth } from "@/app/firebase";
 import { GoCheckCircleFill, GoCircle } from "react-icons/go";
 import { useSelector } from "react-redux";
 
@@ -10,24 +12,65 @@ export default function Summary() {
   const user = useSelector((state) => state.user.user);
   const [summary, setSummary] = useState();
 
-  const getRecentBuildCard = (buildCards) => {
-    if (Array.isArray(buildCards) && buildCards.length > 0) {
-      // Sort the build cards based on the updatedAt field in descending order
-      const sortedBuildCards = buildCards.sort(
-        (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-      );
-      // Return the first build card in the sorted array
-      console.log("summary", sortedBuildCards[0]);
-      setSummary(sortedBuildCards[0]);
-      return sortedBuildCards[0];
-    } else {
-      return null; // Return null if the buildCards array is empty or not an array
+  const getRecentBuildCard = async (userId) => {
+    const db = getFirestore();
+    const userDocRef = doc(db, "users", userId);
+
+    try {
+      const docSnapshot = await getDoc(userDocRef);
+
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data();
+        console.log("User data:", userData);
+
+        // Assuming 'buildCards' is an array in your user data
+        const buildCards = userData?.buildCards || [];
+
+        // Get the build card ID from local storage
+        const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+        console.log("recentBuildCardId in summary", recentBuildCardId);
+
+        if (
+          Array.isArray(buildCards) &&
+          buildCards.length > 0 &&
+          recentBuildCardId
+        ) {
+          // Find the build card with the matching ID
+          const recentBuildCard = buildCards.find(
+            (card) => card.id === recentBuildCardId
+          );
+
+          if (recentBuildCard) {
+            // Return the found build card
+            console.log("summary in summary page", recentBuildCard);
+            setSummary(recentBuildCard);
+          } else {
+            console.log("Build card with the specified ID not found.");
+          }
+        } else {
+          console.log(
+            "No build cards available or recentBuildCardId is not set in local storage."
+          );
+        }
+      } else {
+        console.log("User data not found");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
     }
   };
 
   useEffect(() => {
-    getRecentBuildCard(user?.buildCards);
-  }, [user]);
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        getRecentBuildCard(authUser.uid);
+      } else {
+        console.log("Nothing found");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
 
   const inputDate = new Date(summary?.updatedAt);
 
@@ -71,14 +114,16 @@ export default function Summary() {
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm font-bold">Total Cost</p>
-                <p className="text-black text-sm">$17,13,934.61</p>
+                <p className="text-black text-sm">${summary?.cost}</p>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm">
                   Indicative Development Duration
                 </p>
-                <p className="text-black text-sm font-bold">5 months</p>
+                <p className="text-black text-sm font-bold">
+                  {summary?.duration} weeks
+                </p>
               </div>
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm">Estimated Delivery Date</p>

@@ -6,31 +6,46 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase";
+import { usePathname } from "next/navigation";
 
 const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
   const router = useRouter();
-  // const [name, setName] = useState("My");
-  const incompleteItem = user.buildCards.find(
-    (item) => item.status === "incomplete"
+  const [name, setName] = useState("My Project Name");
+  const pathname = usePathname();
+
+  const incompleteBuildCard = user.buildCards.findIndex(
+    (card) => card.status === "incomplete"
   );
 
-  // const getRecentBuildCard = (buildCards) => {
-  //   if (Array.isArray(buildCards) && buildCards.length > 0) {
-  //     // Sort the build cards based on the updatedAt field in descending order
-  //     const sortedBuildCards = buildCards.sort(
-  //       (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-  //     );
-  //     // Return the first build card in the sorted array
-  //     console.log("summary", sortedBuildCards[0]);
-  //     setName(sortedBuildCards[0].name);
-  //   } else {
-  //     return null; // Return null if the buildCards array is empty or not an array
-  //   }
-  // };
+  const getRecentBuildCard = () => {
+    const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+    console.log("recentBuildCardId", recentBuildCardId);
 
-  // useEffect(() => {
-  //   getRecentBuildCard(user?.buildCards);
-  // }, [user]);
+    if (
+      Array.isArray(user?.buildCards) &&
+      user?.buildCards.length > 0 &&
+      recentBuildCardId
+    ) {
+      const recentBuildCard = user?.buildCards.find(
+        (card) => card.id === recentBuildCardId
+      );
+
+      if (recentBuildCard) {
+        console.log("summary", recentBuildCard);
+        setName(recentBuildCard.name);
+      } else {
+        console.log("Build card with the specified ID not found.");
+      }
+    } else {
+      console.log(
+        "No build cards available or recentBuildCardId is not set in local storage."
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (pathname === "/summary") getRecentBuildCard(user?.buildCards);
+  }, [pathname]);
 
   const handleLogout = () => {
     signOut(auth)
@@ -56,9 +71,7 @@ const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
         </Link>
         <div className="w-4/5 h-full px-5">
           <div className="flex h-full justify-between items-center">
-            <p className="text-white font-bold">
-              {incompleteItem?.name || "My Project Name"}
-            </p>
+            <p className="text-white font-bold">{name}</p>
             <div className="flex justify-evenly gap-2 items-center">
               <div
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -83,7 +96,7 @@ const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
                       {user?.name[0]}
                     </p>
                   </div>
-                  <div className="w-[11px] h-[11px] absolute flex items-center justify-center right-0 top-[5px] z-[4] rounded-full bg-primary">
+                  <div className="w-[11px] h-[11px] absolute flex items-center justify-center -right-[3px] top-1 z-[4] rounded-full bg-primary">
                     <div className="w-2 h-2 rounded-full bg-[#00FF47]" />
                   </div>
                 </div>

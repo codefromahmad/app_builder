@@ -4,6 +4,7 @@ import { auth } from "@/app/firebase";
 import { useRouter } from "next/navigation";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useDispatch } from "react-redux";
+import { usePathname } from "next/navigation";
 
 const HeaderLayout = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -11,7 +12,7 @@ const HeaderLayout = ({ children }) => {
   const router = useRouter();
   const db = getFirestore();
   const dispatch = useDispatch();
-  // const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+  const pathname = usePathname();
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -23,19 +24,24 @@ const HeaderLayout = ({ children }) => {
             if (docSnapshot.exists()) {
               const userData = docSnapshot.data();
               console.log("User data:", userData);
-              setUser(userData);
               dispatch({ type: "setUser", payload: userData });
               const incompleteItem = await userData.buildCards.find(
                 (item) => item.status === "incomplete"
               );
-              console.log("incompleteItem", incompleteItem);
-              if (incompleteItem) {
+              if (!incompleteItem) {
+                console.log("No incomplete build card");
+                if (pathname === "/delivery") {
+                  router.push("/features");
+                  return;
+                }
+              } else {
                 console.log("incomplete build card found");
                 dispatch({
                   type: "setFeatures",
                   payload: incompleteItem.features,
                 });
-              } else console.log("No incomplete build card");
+              }
+              setUser(userData);
             } else {
               console.log("User data not found");
             }
