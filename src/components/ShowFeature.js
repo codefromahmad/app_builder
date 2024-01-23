@@ -58,12 +58,12 @@ const ShowFeature = ({
               )}
             </div>
           </div>
-          <p className="text-text py-1 duration-300 text-xl">
+          <p className="text-text py-1 duration-300">
             {selectedFeature.category}
           </p>
           <div className="py-2">
-            <p className="text-text text-xl py-1">${selectedFeature.cost}</p>
-            <p className="text-text text-xl py-[1px]">
+            <p className="text-text text-lg py-1">${selectedFeature.cost}</p>
+            <p className="text-text text-lg py-[1px]">
               {selectedFeature.time} days
             </p>
           </div>
@@ -78,14 +78,14 @@ const ShowFeature = ({
             <p className="text-black font-semibold text-2xl">
               {selectedFeature.name}
             </p>
-            <p className="text-text py-1 duration-300 text-xl">
+            <p className="text-text py-1 duration-300">
               {selectedFeature.category}
             </p>
             <p className="text-black py-1">{selectedFeature.details}</p>
           </div>
           <div className="py-2 w-1/4">
-            <p className="text-text text-xl py-1">${selectedFeature.cost}</p>
-            <p className="text-text text-xl py-[1px]">
+            <p className="text-text text-lg py-1">${selectedFeature.cost}</p>
+            <p className="text-text text-lg py-[1px]">
               {selectedFeature.time} days
             </p>
             {/* <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">

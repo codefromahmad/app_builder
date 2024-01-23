@@ -69,6 +69,8 @@ export default function Features() {
       id: uuidv4(),
       name: "My Project Name",
       status: "incomplete",
+      fixedCost: fixedCost,
+      customizationCost: customizationCost,
       cost: totalCost,
       duration: durationLocal,
       deliveryDate: "",
@@ -99,6 +101,8 @@ export default function Features() {
               ...userData.buildCards[incompleteBuildCardIndex],
               features: features,
               duration: durationLocal,
+              fixedCost: fixedCost,
+              customizationCost: customizationCost,
               cost: totalCost,
             };
 

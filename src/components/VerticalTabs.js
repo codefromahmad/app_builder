@@ -56,7 +56,7 @@ const VerticalTabs = ({ summary }) => {
 
   useEffect(() => {
     inputRef?.current?.focus();
-  }, [buildCardName]);
+  }, [buildCardName, enterName]);
 
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
