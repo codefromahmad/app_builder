@@ -4,7 +4,7 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
 import { useSelector } from "react-redux";
 
-const VerticalTabs = React.memo(({ summary }) => {
+const VerticalTabs = ({ summary }) => {
   const inputRef = useRef(null);
   const [activeTab, setActiveTab] = useState(0);
   const [buildCardName, setBuildCardName] = useState(summary?.name);
@@ -180,6 +180,6 @@ const VerticalTabs = React.memo(({ summary }) => {
       </div>
     </div>
   );
-});
+};
 
 export default VerticalTabs;
