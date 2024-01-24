@@ -144,8 +144,34 @@ export default function Dahsboard() {
     },
   ];
 
-  const fixedCost = buildCardDetails?.fixedCost || 0;
-  const customizationCost = buildCardDetails?.customizationCost || 0;
+  let multiplier = 1;
+
+  if (sliderValue === 1) {
+    multiplier = 0.2;
+  } else if (sliderValue === 2) {
+    multiplier = 0.12;
+  } else if (sliderValue === 4) {
+    multiplier = 0.12;
+  } else if (sliderValue === 5) {
+    multiplier = 0.2;
+  } else {
+    multiplier = 1;
+  }
+
+  const fixedCost =
+    sliderValue > 2
+      ? Math.round(buildCardDetails?.fixedCost * multiplier)
+      : Math.round(
+          buildCardDetails?.fixedCost - buildCardDetails?.fixedCost * multiplier
+        ) || 0;
+  const customizationCost =
+    sliderValue > 2
+      ? Math.round(buildCardDetails?.customizationCost * multiplier)
+      : Math.round(
+          buildCardDetails?.customizationCost -
+            buildCardDetails?.customizationCost * multiplier
+        ) || 0;
+
   const maxPrice = numOfUsers[rangeSliderValue - 1]?.maxPrice || 0;
 
   console.log(fixedCost, customizationCost, maxPrice);
@@ -429,15 +455,21 @@ export default function Dahsboard() {
             userData.buildCards[incompleteBuildCardIndex].status = "complete";
             userData.buildCards[incompleteBuildCardIndex].features = features;
             userData.buildCards[incompleteBuildCardIndex].name = name;
-            userData.buildCards[incompleteBuildCardIndex].duration = 30;
+            userData.buildCards[incompleteBuildCardIndex].duration =
+              priceDuration[sliderValue - 1]?.duration;
             userData.buildCards[incompleteBuildCardIndex].deliveryDate =
               deliveryDate.format("DD-MMM-YYYY");
             userData.buildCards[incompleteBuildCardIndex].updatedAt =
               new Date().toISOString();
             userData.buildCards[incompleteBuildCardIndex].cloudServiceCost =
-              cloudService ? numOfUsers[rangeSliderValue - 1].maxPrice : 0;
+              cloudService ? maxPrice : 0;
             userData.buildCards[incompleteBuildCardIndex].phases =
               selectedPhases.map((phase) => phase.name);
+            userData.buildCards[incompleteBuildCardIndex].totalCost =
+              calculateTotalCost;
+            userData.buildCards[incompleteBuildCardIndex].fixedCost = fixedCost;
+            userData.buildCards[incompleteBuildCardIndex].customizationCost =
+              customizationCost;
           }
 
           updateDoc(userRef, userData)
@@ -1197,14 +1229,14 @@ export default function Dahsboard() {
           </div>
           <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
             <BottomBar
-              customizationCost={buildCardDetails?.customizationCost}
-              fixedCost={buildCardDetails?.fixedCost}
+              customizationCost={customizationCost}
+              fixedCost={fixedCost}
               totalCost={calculateTotalCost}
-              durationLocal={buildCardDetails?.duration}
+              durationLocal={priceDuration[sliderValue - 1]?.duration}
               buttonText="Done"
               setBuildCard={setBuildCard}
               cloudService={cloudService}
-              cloudServicePrice={numOfUsers[rangeSliderValue - 1].maxPrice}
+              cloudServicePrice={maxPrice}
             />
           </div>
         </div>
