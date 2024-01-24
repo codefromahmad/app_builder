@@ -71,12 +71,15 @@ export default function Features() {
       status: "incomplete",
       fixedCost: fixedCost,
       customizationCost: customizationCost,
-      cost: totalCost,
+      totalCost: totalCost,
+      cloudServiceCost: 0,
       duration: durationLocal,
+      phases: [],
       deliveryDate: "",
       features: features,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      details: "",
     };
 
     getDoc(userRef)
@@ -103,7 +106,8 @@ export default function Features() {
               duration: durationLocal,
               fixedCost: fixedCost,
               customizationCost: customizationCost,
-              cost: totalCost,
+              totalCost: totalCost,
+              cloudServiceCost: 0,
             };
 
             // Save the id of the updated build card to local storage

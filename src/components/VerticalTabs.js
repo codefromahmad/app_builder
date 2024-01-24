@@ -6,9 +6,14 @@ import { useSelector } from "react-redux";
 
 const VerticalTabs = ({ summary }) => {
   const inputRef = useRef(null);
+  const detailsRef = useRef(null);
   const [activeTab, setActiveTab] = useState(0);
   const [buildCardName, setBuildCardName] = useState(summary?.name);
+  const [buildCardDetails, setBuildCardDetails] = useState(
+    summary?.details || ""
+  );
   const [enterName, setEnterName] = useState(false);
+  const [enterDetails, setEnterDetails] = useState(false);
   console.log("summary in verticalTabs:", summary);
 
   // const updateBuildCardName = (buildCardId, newName) => {
@@ -58,6 +63,17 @@ const VerticalTabs = ({ summary }) => {
     inputRef?.current?.focus();
   }, [buildCardName, enterName]);
 
+  useEffect(() => {
+    // Set the cursor position at the end when entering details
+    if (enterDetails) {
+      detailsRef?.current?.focus();
+      detailsRef?.current?.setSelectionRange(
+        buildCardDetails.length,
+        buildCardDetails.length
+      );
+    }
+  }, [buildCardDetails, enterDetails]);
+
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
   };
@@ -83,21 +99,23 @@ const VerticalTabs = ({ summary }) => {
               )}
             </div>
             {enterName ? (
-              <div className="my-1 flex items-center">
-                <input
-                  ref={inputRef}
-                  className="py-1 w-full text-black font-bold outline-none"
-                  type="text"
-                  placeholder=""
-                  value={buildCardName}
-                  onChange={(e) => setBuildCardName(e.target.value)}
-                />
+              <div className="my-1 gap-2 flex items-center">
+                <div className="border-gray-300 border rounded-md my-1">
+                  <input
+                    ref={inputRef}
+                    className="p-2 w-full text-black rounded-md font-medium outline-none"
+                    type="text"
+                    placeholder=""
+                    value={buildCardName}
+                    onChange={(e) => setBuildCardName(e.target.value)}
+                  />
+                </div>
                 <p
                   onClick={
                     () => setEnterName(false)
                     // updateBuildCardName(buildCardIdToUpdate, newBuildCardName)}
                   }
-                  className="text-secondary text-sm cursor-pointer"
+                  className="bg-secondary p-1 text-white rounded-md text-sm cursor-pointer"
                 >
                   Save
                 </p>
@@ -106,12 +124,43 @@ const VerticalTabs = ({ summary }) => {
               <p className="text-black py-2 font-bold">{summary?.name}</p>
             )}
             <div className="flex items-center gap-2">
-              <p className="text-black text-sm font-thin">Description</p>
-              <LuPencil className="text-secondary text-sm" />
+              <p className="text-black text-sm font-thin">Details</p>
+              {!enterDetails && (
+                <LuPencil
+                  onClick={() => setEnterDetails(!enterDetails)}
+                  className="text-secondary cursor-pointer text-sm"
+                />
+              )}
             </div>
-            <p className="text-black text-sm py-2 font-medium">
-              Enter Launch Swift Description
-            </p>
+            {enterDetails ? (
+              <div className="my-1 gap-2 flex flex-col items-start">
+                <div className="border-gray-300 border rounded-md my-1">
+                  <textarea
+                    ref={detailsRef}
+                    rows={4}
+                    cols={30}
+                    placeholder="Enter Launch Swift Description"
+                    className="p-2 w-full text-black rounded-md font-medium outline-none"
+                    type="text"
+                    value={buildCardDetails}
+                    onChange={(e) => setBuildCardDetails(e.target.value)}
+                  />
+                </div>
+                <p
+                  onClick={
+                    () => setEnterDetails(false)
+                    // updateBuildCardName(buildCardIdToUpdate, newBuildCardName)}
+                  }
+                  className="bg-secondary py-1 px-3 text-white rounded-md text-sm cursor-pointer"
+                >
+                  Save
+                </p>
+              </div>
+            ) : (
+              <p className="text-black py-2 font-bold">
+                {summary?.details || "Enter Launch Swift Description"}
+              </p>
+            )}
           </div>
         </div>
       </div>

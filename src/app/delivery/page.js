@@ -332,6 +332,8 @@ export default function Dahsboard() {
               deliveryDate.format("DD-MMM-YYYY");
             userData.buildCards[incompleteBuildCardIndex].updatedAt =
               new Date().toISOString();
+            userData.buildCards[incompleteBuildCardIndex].cloudServiceCost =
+              cloudService ? numOfUsers[rangeSliderValue].maxPrice : 0;
           }
 
           updateDoc(userRef, userData)
@@ -984,18 +986,15 @@ export default function Dahsboard() {
             /> */}
               </div>
               <div className="flex py-5">
-                <div className="bg-white p-5 rounded-md h-28">
-                  <p className="text-black font-medium">
-                    Select platform for your product
-                  </p>
-                  <p className="text-gray-400 text-sm pt-2">
-                    Estimated First delivery:{" "}
+                <div className="bg-white p-5 rounded-md">
+                  <p className="text-black font-bold">
+                    If you kick-off on{" "}
                     <span className="font-bold text-secondary">
                       {moment().format("DD-MMM-YYYY")}
                     </span>
                   </p>
-                  <p className="text-gray-400 text-sm pt-1">
-                    Estimated First delivery:{" "}
+                  <p className="text-gray-400 text-sm pt-2">
+                    Estimated Final delivery:{" "}
                     <span className="font-bold text-black">
                       {deliveryDate.format("DD-MMM-YYYY")}
                     </span>
@@ -1092,7 +1091,7 @@ export default function Dahsboard() {
                       </span>
                     ) : (
                       <span className="font-bold">
-                        ${numOfUsers[rangeSliderValue - 1].minPrice} + *
+                        ${numOfUsers[rangeSliderValue - 1].maxPrice} + *
                       </span>
                     )}{" "}
                     /month
@@ -1105,42 +1104,6 @@ export default function Dahsboard() {
               </div>
             </div>
           </div>
-          {/* <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
-            <div className="flex flex-row justify-between items-center h-full">
-              <div className="flex pl-5">
-                <div className="flex flex-col px-2 gap-2 items-center">
-                  <p className="text-gray-400 text-xs">CUSTOMISATION COST</p>
-                  <p className="text-black font-extrabold text-xl">$10000</p>
-                </div>
-                <div className="flex items-center justify-center">
-                  <p className="text-gray-300 text-2xl">+</p>
-                </div>
-                <div className="flex flex-col px-2 gap-2 items-center">
-                  <p className="text-gray-400 text-xs">FIXED COST</p>
-                  <p className="text-black font-extrabold text-xl">$1000</p>
-                </div>
-                <div className="flex items-center justify-center">
-                  <p className="text-gray-300 text-2xl">=</p>
-                </div>
-                <div className="flex flex-col px-2 gap-2 items-center">
-                  <p className="text-gray-400 text-xs">TOTAL COST</p>
-                  <p className="text-black font-extrabold text-xl">$10000</p>
-                </div>
-                <div className="flex border-l-2 border-gray-300 flex-col px-2 gap-2 items-center">
-                  <p className="text-gray-400 text-xs">INDICATIVE DURATION</p>
-                  <p className="text-black font-extrabold text-xl">20 weeks</p>
-                </div>
-              </div>
-              <div
-                onClick={() => setBuildCard(true)}
-                className="bg-green-500 cursor-pointer h-full w-48 flex items-center justify-center"
-              >
-                <Link href="/delivery">
-                  <p className="text-black font-semibold">Done</p>
-                </Link>
-              </div>
-            </div>
-          </div> */}
           <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
             <BottomBar
               customizationCost="1000$"
@@ -1149,6 +1112,8 @@ export default function Dahsboard() {
               durationLocal="20 weeks"
               buttonText="Done"
               setBuildCard={setBuildCard}
+              cloudService={cloudService}
+              cloudServicePrice={numOfUsers[rangeSliderValue - 1].maxPrice}
             />
           </div>
         </div>

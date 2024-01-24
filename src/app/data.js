@@ -505,5 +505,5 @@ export const numOfUsers = [
   { users: "0-500", minPrice: 150, maxPrice: 230 },
   { users: "500-5k", minPrice: 225, maxPrice: 340 },
   { users: "5k-50k", minPrice: 490, maxPrice: 735 },
-  { users: "50k+", minPrice: 1000 },
+  { users: "50k+", maxPrice: 1000 },
 ];

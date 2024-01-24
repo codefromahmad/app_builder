@@ -105,16 +105,18 @@ export default function Summary() {
             <div className="py-5">
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm">Customisation Cost</p>
-                <p className="text-black text-sm">$5,22,043.34</p>
+                <p className="text-black text-sm">
+                  ${summary?.customizationCost}
+                </p>
               </div>
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm">Fixed Cost</p>
-                <p className="text-black text-sm">$11,91,891.27</p>
+                <p className="text-black text-sm">${summary?.fixedCost}</p>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm font-bold">Total Cost</p>
-                <p className="text-black text-sm">${summary?.cost}</p>
+                <p className="text-black text-sm">${summary?.totalCost}</p>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
@@ -127,7 +129,9 @@ export default function Summary() {
               </div>
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm">Estimated Delivery Date</p>
-                <p className="text-black text-sm font-bold">13-May-2024</p>
+                <p className="text-black text-sm font-bold">
+                  {summary?.deliveryDate}
+                </p>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">

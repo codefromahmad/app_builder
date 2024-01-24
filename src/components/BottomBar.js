@@ -9,6 +9,8 @@ const BottomBar = ({
   buttonText = "Plan Delivery",
   setBuildCard,
   handlePlanDelivery,
+  cloudService,
+  cloudServicePrice,
 }) => {
   return (
     <div className="h-16 items-end w-full bg-white">
@@ -31,6 +33,19 @@ const BottomBar = ({
             <p className="text-black text-xs">Fixed Cost</p>
             <p className="text-black font-extrabold text-xl">${fixedCost}</p>
           </div>
+          {cloudService && (
+            <>
+              <div>
+                <p className="text-[#A6A6A6] text-2xl">+</p>
+              </div>
+              <div className="flex flex-col px-2 gap-2 items-start">
+                <p className="text-black text-xs">Cloud Service Cost</p>
+                <p className="text-black font-extrabold text-xl">
+                  ${cloudServicePrice}
+                </p>
+              </div>
+            </>
+          )}
           <div>
             <p className="text-[#A6A6A6] text-2xl">=</p>
           </div>
