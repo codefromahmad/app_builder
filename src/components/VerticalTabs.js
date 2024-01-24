@@ -1,63 +1,81 @@
 "use client";
+import { setUser } from "@/store/reducers/user";
+import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-const VerticalTabs = ({ summary }) => {
+const VerticalTabs = () => {
+  const user = useSelector((state) => state.user.user);
+  const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+  const currentBuildCard = user.buildCards.find(
+    (item) => item.id === recentBuildCardId
+  );
+
   const inputRef = useRef(null);
   const detailsRef = useRef(null);
   const [activeTab, setActiveTab] = useState(0);
-  const [buildCardName, setBuildCardName] = useState(summary?.name);
+  const [buildCardName, setBuildCardName] = useState(currentBuildCard?.name);
   const [buildCardDetails, setBuildCardDetails] = useState(
-    summary?.details || ""
+    currentBuildCard?.details || ""
   );
   const [enterName, setEnterName] = useState(false);
   const [enterDetails, setEnterDetails] = useState(false);
-  console.log("summary in verticalTabs:", summary);
+  const db = getFirestore();
+  const dispatch = useDispatch();
 
-  // const updateBuildCardName = (buildCardId, newName) => {
-  //   const userRef = doc(db, "users", user.uid);
+  const updateBuildCard = (type, value) => {
+    if (type === "name") {
+      setEnterName(!enterName);
+    } else if (type === "details") {
+      setEnterDetails(!enterDetails);
+    }
+    const userRef = doc(db, "users", user.uid);
 
-  //   getDoc(userRef)
-  //     .then((docSnapshot) => {
-  //       if (docSnapshot.exists()) {
-  //         const userData = docSnapshot.data();
-  //         console.log("User document data:", userData);
+    getDoc(userRef)
+      .then((docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          console.log("User document data:", userData);
 
-  //         userData.buildCards = Array.isArray(userData.buildCards)
-  //           ? userData.buildCards
-  //           : [];
+          userData.buildCards = Array.isArray(userData.buildCards)
+            ? userData.buildCards
+            : [];
 
-  //         const buildCardToUpdate = userData.buildCards.find(
-  //           (buildCard) => buildCard.id === buildCardId
-  //         );
+          const buildCardToUpdate = userData.buildCards.find(
+            (buildCard) => buildCard.id === currentBuildCard?.id
+          );
 
-  //         if (buildCardToUpdate) {
-  //           // Update only the name of the build card
-  //           buildCardToUpdate.name = newName;
-  //           buildCardToUpdate.updatedAt = new Date().toISOString();
-  //         } else {
-  //           console.error("Build card with the specified ID not found");
-  //           return Promise.reject("Build card not found");
-  //         }
+          if (buildCardToUpdate) {
+            // Update only the name of the build card
+            if (type === "name") {
+              buildCardToUpdate.name = value;
+            } else if (type === "details") {
+              buildCardToUpdate.details = value;
+            }
+            buildCardToUpdate.updatedAt = new Date().toISOString();
+          } else {
+            console.error("Build card with the specified ID not found");
+            return Promise.reject("Build card not found");
+          }
 
-  //         // Update the user document in Firestore
-  //         return updateDoc(userRef, userData);
-  //       } else {
-  //         console.error("User document does not exist");
-  //         return Promise.reject("User document not found");
-  //       }
-  //     })
-  //     .then(() => {
-  //       console.log("Build card name updated successfully");
-  //       // Optionally handle success, e.g., display a message
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error updating build card name:", error);
-  //       // Optionally handle the error, e.g., display an error message
-  //     });
-  // };
+          // Update the user document in Firestore
+          return updateDoc(userRef, userData).then(dispatch(setUser(userData)));
+        } else {
+          console.error("User document does not exist");
+          return Promise.reject("User document not found");
+        }
+      })
+      .then(() => {
+        console.log("Build card name ]updated successfully");
+        // Optionally handle success, e.g., display a message
+      })
+      .catch((error) => {
+        console.error("Error updating build card name:", error);
+        // Optionally handle the error, e.g., display an error message
+      });
+  };
 
   useEffect(() => {
     inputRef?.current?.focus();
@@ -111,17 +129,16 @@ const VerticalTabs = ({ summary }) => {
                   />
                 </div>
                 <p
-                  onClick={
-                    () => setEnterName(false)
-                    // updateBuildCardName(buildCardIdToUpdate, newBuildCardName)}
-                  }
+                  onClick={() => updateBuildCard("name", buildCardName)}
                   className="bg-secondary p-1 text-white rounded-md text-sm cursor-pointer"
                 >
                   Save
                 </p>
               </div>
             ) : (
-              <p className="text-black py-2 font-bold">{summary?.name}</p>
+              <p className="text-black py-2 font-bold">
+                {currentBuildCard?.name}
+              </p>
             )}
             <div className="flex items-center gap-2">
               <p className="text-black text-sm font-thin">Details</p>
@@ -147,10 +164,7 @@ const VerticalTabs = ({ summary }) => {
                   />
                 </div>
                 <p
-                  onClick={
-                    () => setEnterDetails(false)
-                    // updateBuildCardName(buildCardIdToUpdate, newBuildCardName)}
-                  }
+                  onClick={() => updateBuildCard("details", buildCardDetails)}
                   className="bg-secondary py-1 px-3 text-white rounded-md text-sm cursor-pointer"
                 >
                   Save
@@ -158,7 +172,9 @@ const VerticalTabs = ({ summary }) => {
               </div>
             ) : (
               <p className="text-black py-2 font-bold">
-                {summary?.details || "Enter Launch Swift Description"}
+                {currentBuildCard?.details.length > 0
+                  ? currentBuildCard?.details
+                  : "Enter Launch Swift Description"}
               </p>
             )}
           </div>
@@ -172,7 +188,7 @@ const VerticalTabs = ({ summary }) => {
       <div className="py-2">
         <p className="text-black font-semibold text-sm">Selected Features</p>
         <ol className="grid grid-cols-2 gap-2 py-2">
-          {summary.features.map((item, index) => (
+          {currentBuildCard.features.map((item, index) => (
             <li key={index} className="text-black text-sm font-medium py-1">
               {item.name}
             </li>
@@ -194,7 +210,7 @@ const VerticalTabs = ({ summary }) => {
     // },
     {
       id: 3,
-      name: `Features (${summary?.features.length})`,
+      name: `Features (${currentBuildCard?.features.length})`,
       content: <Features />,
     },
     {

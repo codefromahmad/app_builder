@@ -83,7 +83,7 @@ export default function Summary() {
   return (
     <HeaderLayout>
       <div className="w-screen flex h-[calc(100vh-4.5rem)] mt-[4.5rem]">
-        <div className="w-1/2">
+        <div className="w-2/3">
           <div className="m-5 flex flex-col px-5">
             <p className="text-black font-medium">Hi, {user?.name}</p>
             <div className="flex justify-between items-center py-2">
@@ -97,7 +97,7 @@ export default function Summary() {
             <VerticalTabs summary={summary} />
           </div>
         </div>
-        <div className="w-1/2">
+        <div className="w-1/3">
           <div
             className={`m-5 flex flex-col border-[1px] border-gray-300 rounded-md p-5`}
           >

@@ -7,15 +7,13 @@ import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "@/app/firebase";
 import { usePathname } from "next/navigation";
+import { useSelector } from "react-redux";
 
-const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
+const Header = ({ dropdownOpen, setDropdownOpen }) => {
   const router = useRouter();
   const [name, setName] = useState("My Project Name");
   const pathname = usePathname();
-
-  const incompleteBuildCard = user.buildCards.findIndex(
-    (card) => card.status === "incomplete"
-  );
+  const user = useSelector((state) => state.user.user);
 
   const getRecentBuildCard = () => {
     const recentBuildCardId = localStorage.getItem("recentBuildCardId");
@@ -45,7 +43,7 @@ const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
 
   useEffect(() => {
     if (pathname === "/summary") getRecentBuildCard(user?.buildCards);
-  }, [pathname]);
+  }, [pathname, user]);
 
   const handleLogout = () => {
     signOut(auth)
