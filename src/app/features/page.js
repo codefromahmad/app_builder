@@ -55,9 +55,12 @@ export default function Features() {
     ) / 7
   );
 
-  const fixedCost = features
-    ?.reduce((acc, item) => acc + parseFloat(item.cost?.replace(/,/g, "")), 0)
-    .toFixed(2);
+  const fixedCost = Math.round(
+    features?.reduce(
+      (acc, item) => acc + parseFloat(item.cost?.replace(/,/g, "")),
+      0
+    )
+  );
 
   const customizationCost = features?.length * 50;
 

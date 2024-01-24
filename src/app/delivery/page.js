@@ -20,20 +20,15 @@ import HeaderLayout from "@/components/HeaderLayout";
 import logo from "../../images/logo.svg";
 import BottomBar from "@/components/BottomBar";
 import { v4 as uuidv4 } from "uuid";
-import {
-  speedLabels,
-  priceDuration,
-  initialPhases,
-  numOfUsers,
-  sidebarData,
-} from "../data";
+import { speedLabels, initialPhases, numOfUsers, sidebarData } from "../data";
 import BuildCardPopup from "@/components/BuildCardPopup";
 import { useRouter } from "next/navigation";
 import { setUser } from "@/store/reducers/user";
+import { auth } from "../firebase";
 
 export default function Dahsboard() {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
-  const [sliderValue, setSliderValue] = useState(2);
+  const [sliderValue, setSliderValue] = useState(3);
   const [rangeSliderValue, setRangeSliderValue] = useState(2);
   const [cloudService, setCloudService] = useState(false);
   const [sameSpeed, setSameSpeed] = useState(false);
@@ -42,6 +37,7 @@ export default function Dahsboard() {
   const features = useSelector((state) => state.features.features);
   const [weeks, setWeeks] = useState(20);
   const [buildCard, setBuildCard] = useState(false);
+  const [buildCardDetails, setBuildCardDetails] = useState();
   const [name, setName] = useState("");
   const [sidebar, setSidebar] = useState(false);
   const [search, setSearch] = useState("");
@@ -51,10 +47,111 @@ export default function Dahsboard() {
   const [phases, setPhases] = useState(initialPhases);
   const router = useRouter();
 
-  // console.log(
-  //   "delivery page",
-  //   phases.filter((phase) => phase.selected)
-  // );
+  const getRecentBuildCard = async (userId) => {
+    const db = getFirestore();
+    const userDocRef = doc(db, "users", userId);
+
+    try {
+      const docSnapshot = await getDoc(userDocRef);
+
+      if (docSnapshot.exists()) {
+        const userData = docSnapshot.data();
+        console.log("User data:", userData);
+
+        // Assuming 'buildCards' is an array in your user data
+        const buildCards = userData?.buildCards || [];
+
+        // Get the build card ID from local storage
+        const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+        console.log("recentBuildCardId in summary", recentBuildCardId);
+
+        if (
+          Array.isArray(buildCards) &&
+          buildCards.length > 0 &&
+          recentBuildCardId
+        ) {
+          // Find the build card with the matching ID
+          const recentBuildCard = buildCards.find(
+            (card) => card.id === recentBuildCardId
+          );
+
+          if (recentBuildCard) {
+            // Return the found build card
+            console.log("summary in summary page", recentBuildCard);
+            setBuildCardDetails(recentBuildCard);
+          } else {
+            console.log("Build card with the specified ID not found.");
+          }
+        } else {
+          console.log(
+            "No build cards available or recentBuildCardId is not set in local storage."
+          );
+        }
+      } else {
+        console.log("User data not found");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        getRecentBuildCard(authUser.uid);
+      } else {
+        console.log("Nothing found");
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
+
+  const priceDuration = [
+    {
+      name: "Relaxed",
+      duration: buildCardDetails?.duration - 2,
+      price: Math.round(
+        buildCardDetails?.totalCost - buildCardDetails?.totalCost * 0.2
+      ),
+      details: `Our most budget-friendly option for those who aren't in a hurry`,
+    },
+    {
+      name: "Slow",
+      duration: buildCardDetails?.duration - 1,
+      price: Math.round(
+        buildCardDetails?.totalCost - buildCardDetails?.totalCost * 0.12
+      ),
+      details: `For those with a fixed long-term plan who want to keep costs down`,
+    },
+    {
+      name: "Standard",
+      duration: buildCardDetails?.duration,
+      price: Math.round(buildCardDetails?.totalCost),
+      details: `The perfect middle ground for anyone with a modest budget and medium-term deadlines`,
+    },
+    {
+      name: "Fast",
+      duration: buildCardDetails?.duration + 1,
+      price: Math.round(buildCardDetails?.totalCost * 0.12),
+      details: `We put your app build on turbo charge for a few extra bucks`,
+    },
+    {
+      name: "Speedy",
+      duration: buildCardDetails?.duration + 2,
+      price: Math.round(buildCardDetails?.totalCost * 0.2),
+      details: `We build your app at the speed of light for a premium price`,
+    },
+  ];
+
+  const fixedCost = buildCardDetails?.fixedCost || 0;
+  const customizationCost = buildCardDetails?.customizationCost || 0;
+  const maxPrice = numOfUsers[rangeSliderValue - 1]?.maxPrice || 0;
+
+  console.log(fixedCost, customizationCost, maxPrice);
+  const calculateTotalCost = cloudService
+    ? Math.round(fixedCost + customizationCost + maxPrice)
+    : Math.round(fixedCost + customizationCost);
 
   const selectedPhases = phases.filter((phase) => phase.selected);
 
@@ -940,7 +1037,7 @@ export default function Dahsboard() {
                                   : "text-black"
                               }`}
                             >
-                              {label.price}
+                              ${label.price}
                             </p>
                             <p
                               className={`text-center pt-1 ${
@@ -1100,10 +1197,10 @@ export default function Dahsboard() {
           </div>
           <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
             <BottomBar
-              customizationCost="1000$"
-              fixedCost="1000$"
-              totalCost="2000$"
-              durationLocal="20 weeks"
+              customizationCost={buildCardDetails?.customizationCost}
+              fixedCost={buildCardDetails?.fixedCost}
+              totalCost={calculateTotalCost}
+              durationLocal={buildCardDetails?.duration}
               buttonText="Done"
               setBuildCard={setBuildCard}
               cloudService={cloudService}
