@@ -273,7 +273,7 @@ export default function Features() {
         />
 
         <div className="w-1/5 bg-slate-100 max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
-          <div className="flex bg-white my-2 border-[#C7C7C7] border p-2">
+          <div className="flex bg-white border-[#C7C7C7] border p-2">
             <IoMdSearch className="text-gray-600 mr-2 text-xl" />
             <input
               value={searchTerm}

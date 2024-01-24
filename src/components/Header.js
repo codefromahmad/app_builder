@@ -59,7 +59,7 @@ const Header = ({ dropdownOpen, setDropdownOpen, user }) => {
   };
 
   return (
-    <div className="h-[4.5rem] bg-primary z-30 w-full fixed top-0 left-0 right-0 border-b-2 border-b-gray-200">
+    <div className="h-[4.5rem] bg-primary z-30 w-full fixed top-0 left-0 right-0">
       <div className="h-full flex items-center">
         <Link href={"/"} className="w-1/5 pl-5 cursor-pointer">
           <Image
