@@ -82,7 +82,7 @@ export default function Summary() {
 
   return (
     <HeaderLayout>
-      <div className="w-screen flex h-[calc(100vh-4.5rem)] mt-[4.5rem]">
+      <div className="w-full flex h-[calc(100vh-4.5rem)] mt-[4.5rem]">
         <div className="w-2/3">
           <div className="m-5 flex flex-col px-5">
             <p className="text-black font-medium">Hi, {user?.name}</p>

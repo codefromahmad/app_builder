@@ -74,7 +74,7 @@ export default function Features() {
       totalCost: totalCost,
       cloudServiceCost: 0,
       duration: durationLocal,
-      phases: [],
+      phases: null,
       deliveryDate: "",
       features: features,
       createdAt: new Date().toISOString(),
@@ -108,6 +108,7 @@ export default function Features() {
               customizationCost: customizationCost,
               totalCost: totalCost,
               cloudServiceCost: 0,
+              details: "",
             };
 
             // Save the id of the updated build card to local storage

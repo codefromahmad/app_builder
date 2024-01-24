@@ -51,7 +51,12 @@ export default function Dahsboard() {
   const [phases, setPhases] = useState(initialPhases);
   const router = useRouter();
 
-  console.log("delivery page", numOfUsers[rangeSliderValue - 1].maxPrice);
+  // console.log(
+  //   "delivery page",
+  //   phases.filter((phase) => phase.selected)
+  // );
+
+  const selectedPhases = phases.filter((phase) => phase.selected);
 
   useEffect(() => {
     if (sidebar || buildCard) {
@@ -334,6 +339,8 @@ export default function Dahsboard() {
               new Date().toISOString();
             userData.buildCards[incompleteBuildCardIndex].cloudServiceCost =
               cloudService ? numOfUsers[rangeSliderValue - 1].maxPrice : 0;
+            userData.buildCards[incompleteBuildCardIndex].phases =
+              selectedPhases.map((phase) => phase.name);
           }
 
           updateDoc(userRef, userData)

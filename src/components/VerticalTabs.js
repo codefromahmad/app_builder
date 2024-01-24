@@ -2,6 +2,7 @@
 import { setUser } from "@/store/reducers/user";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
+import { BsAndroid2 } from "react-icons/bs";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
@@ -82,7 +83,6 @@ const VerticalTabs = () => {
   }, [buildCardName, enterName]);
 
   useEffect(() => {
-    // Set the cursor position at the end when entering details
     if (enterDetails) {
       detailsRef?.current?.focus();
       detailsRef?.current?.setSelectionRange(
@@ -99,10 +99,10 @@ const VerticalTabs = () => {
   const LaunchSwiftInfo = () => {
     return (
       <div>
-        <p className="text-black font-semibold text-sm">
+        <p className="text-secondary pb-5 font-semibold">
           Launch Swift basic details
         </p>
-        <div className="flex gap-5 py-2">
+        <div className="flex gap-5">
           <div className="text-black text-xl">
             <IoBookmarkOutline />
           </div>
@@ -186,8 +186,8 @@ const VerticalTabs = () => {
   const Features = () => {
     return (
       <div className="py-2">
-        <p className="text-black font-semibold text-sm">Selected Features</p>
-        <ol className="grid grid-cols-2 gap-2 py-2">
+        <p className="text-secondary pb-5 font-semibold">Selected Features</p>
+        <ol className="grid grid-cols-2 gap-2">
           {currentBuildCard.features.map((item, index) => (
             <li key={index} className="text-black text-sm font-medium py-1">
               {item.name}
@@ -198,16 +198,81 @@ const VerticalTabs = () => {
     );
   };
 
+  const Phases = () => {
+    return (
+      <div className="py-2">
+        {console.log(currentBuildCard.phases)}
+        <p className="text-secondary pb-5 font-semibold">Selected Phases</p>
+
+        <div className="grid grid-cols-2 gap-5">
+          {currentBuildCard.phases.map((item, index) => (
+            <div className="border border-gray-300 rounded-md" key={index}>
+              <div className="rounded-md rounded-b-none p-5 bg-slate-200">
+                <div className="flex p-5 gap-1 py-1">
+                  <p className="text-black font-bold text-sm">{item}</p>
+                </div>
+              </div>
+              {currentBuildCard.phases.length > 0 && (
+                <>
+                  <div className="flex p-5 justify-between pt-5">
+                    <p className="text-black text-xs font-bold">Platform</p>
+                  </div>
+                  <div className="flex px-5 justify-start py-4 gap-4">
+                    <div className="flex flex-col items-center">
+                      <BsAndroid2 className="text-2xl text-black" />
+                      <p className="text-gray-400 pt-2 text-xs">Android</p>
+                    </div>
+                  </div>
+                </>
+              )}
+              <hr />
+              {/* {currentBuildCard.features.length > 0 && (
+                <div className="p-5">
+                  <div className="flex justify-between">
+                    <p className="text-black text-xs font-bold">Features</p>
+                  </div>
+                  <p className="text-gray-400 pt-2 text-xs">
+                    {currentBuildCard.features.length} features selected
+                  </p>
+                </div>
+              )}
+              <hr /> */}
+              <div className="py-10 px-5 relative">
+                <div className="flex justify-between">
+                  <p className="text-black text-xs font-bold">Working Speed</p>
+                </div>
+                <input
+                  className="h-[2px] !accent-secondary w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
+                  id="steps-range"
+                  type="range"
+                  readOnly
+                  min="1"
+                  max="5"
+                  value={3}
+                  step="1"
+                  onChange={(e) =>
+                    updateSliderValue(index, parseInt(e.target.value, 10))
+                  }
+                  style={{
+                    background: `linear-gradient(to right, #7e22ce 0%, #7e22ce ${
+                      (3 - 1) * 25
+                    }%, #E5E7EB ${(3 - 1) * 25}%, #E5E7EB 100%)`,
+                  }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   const tabs = [
     {
       id: 1,
       name: "Launch Swift info",
       content: <LaunchSwiftInfo />,
     },
-    // {
-    //   id: 2,
-    //   name: "Similar Apps (1)",
-    // },
     {
       id: 3,
       name: `Features (${currentBuildCard?.features.length})`,
@@ -215,13 +280,14 @@ const VerticalTabs = () => {
     },
     {
       id: 4,
-      name: "Phases (3)",
+      name: `Phases (${currentBuildCard?.phases.length})`,
+      content: <Phases />,
     },
   ];
 
   return (
     <div className="flex gap-10 py-5">
-      <div className="w-1/3">
+      <div className="w-1/4">
         {tabs.map((tab, index) => (
           <div
             key={index}
@@ -240,7 +306,7 @@ const VerticalTabs = () => {
           </div>
         ))}
       </div>
-      <div className="w-2/3">
+      <div className="w-3/4">
         <div className="py-2">{tabs[activeTab].content}</div>
       </div>
     </div>
