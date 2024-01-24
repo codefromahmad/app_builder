@@ -582,22 +582,9 @@ export default function Dahsboard() {
                   }
                 >
                   {platform.icon}
-                  {/* <div className="justify-between flex flex-col gap-1">
-                    <p className="text-black text-sm font-semibold">
-                      {platform.name}
-                    </p>
-                    <p className="text-gray-400 text-xs">{platform.details}</p>
-                  </div> */}
                 </div>
-                {/* <HiOutlineInformationCircle
-                  onClick={() => setInfoPopup(platform)}
-                  className="text-base absolute top-1 right-1 cursor-pointer text-gray-400"
-                /> */}
               </div>
             ))}
-            {/* <div className="p-5 border-[1px] rounded-md cursor-pointer border-gray-300 duration-200 hover:border-secondary">
-            <FiPlus className="text-3xl text-black" />
-          </div> */}
           </div>
           <div className="flex px-10 justify-between pt-6">
             <p className="text-black font-medium">
