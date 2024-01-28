@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import loginImage from "../images/login_image.png";
-import google from "../images/google_logo.svg";
-import facebook from "../images/facebook_logo.svg";
-import linkedin from "../images/linkedin_logo.svg";
+import loginImage from "../../images/login_image.png";
+import google from "../../images/google_logo.svg";
+import facebook from "../../images/facebook_logo.svg";
+import linkedin from "../../images/linkedin_logo.svg";
 import { IoCloseOutline } from "react-icons/io5";
 import Image from "next/image";
 import {
@@ -25,8 +25,9 @@ import { useDispatch } from "react-redux";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Signin from "@/components/Signin";
 import Signup from "@/components/Signup";
+import { getDictionary } from "../../../getDictionary";
 
-export default function App() {
+export default function App({ params }) {
   const [login, setLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -38,6 +39,21 @@ export default function App() {
   const router = useRouter();
   const dispatch = useDispatch();
   const db = getFirestore();
+  const [content, setContent] = useState(null);
+
+  console.log("params in root", params.lang);
+  // useEffect(() => {
+  getDictionary(params.lang)
+    .then((lang) => {
+      // Handle the result
+      console.log(lang);
+      setContent(lang.login.loginText);
+    })
+    .catch((error) => {
+      // Handle errors
+      console.error(error);
+    });
+  // }, [params]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -52,7 +68,7 @@ export default function App() {
     return () => unsubscribe();
   }, []);
   if (user) {
-    router.push("/features");
+    router.push(`/${params.lang}/features`);
   }
 
   const createUser = (user) => {
@@ -199,7 +215,7 @@ export default function App() {
           }}
           className="cursor-pointer bg-secondary px-5 py-4 rounded-md"
         >
-          <p className="text-white">Sign in</p>
+          <p className="text-white">{content}</p>
         </div>
       </div>
     </div>

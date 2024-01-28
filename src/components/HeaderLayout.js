@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
-import { auth } from "@/app/firebase";
+import { auth } from "@/app/[lang]/firebase";
 import { useRouter } from "next/navigation";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { usePathname } from "next/navigation";
 
-const HeaderLayout = ({ children }) => {
+const HeaderLayout = ({ children, params }) => {
+  console.log("headerlayout", params);
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
@@ -31,7 +32,9 @@ const HeaderLayout = ({ children }) => {
               if (!incompleteItem) {
                 console.log("No incomplete build card");
                 if (pathname === "/delivery") {
-                  router.push("/features");
+                  // router.push("/features");
+                  // router.push(`/${params.lang}/features`);
+
                   return;
                 }
               } else {

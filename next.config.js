@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  i18n: {
+    locales: ["en", "de", "fr"],
+    defaultLocale: "en",
+  },
+
   images: {
     domains: [
       "bstudio-assets.azureedge.net",
