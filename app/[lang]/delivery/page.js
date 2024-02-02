@@ -16,14 +16,14 @@ import moment from "moment";
 import ReactDatePicker from "react-datepicker";
 import { FaThumbsUp } from "react-icons/fa6";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
-import HeaderLayout from "@/components/HeaderLayout";
+import HeaderLayout from "../../components/HeaderLayout";
 import logo from "../../images/logo.svg";
-import BottomBar from "@/components/BottomBar";
+import BottomBar from "../../components/BottomBar";
 import { v4 as uuidv4 } from "uuid";
 import { speedLabels, initialPhases, numOfUsers, sidebarData } from "../data";
-import BuildCardPopup from "@/components/BuildCardPopup";
+import BuildCardPopup from "../../components/BuildCardPopup";
 import { useRouter } from "next/navigation";
-import { setUser } from "@/store/reducers/user";
+import { setUser } from "../../store/reducers/user";
 import { auth } from "../firebase";
 
 export default function Dahsboard() {

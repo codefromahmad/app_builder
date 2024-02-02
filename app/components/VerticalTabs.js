@@ -1,5 +1,5 @@
 "use client";
-import { setUser } from "@/store/reducers/user";
+import { setUser } from "../store/reducers/user";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import { BsAndroid2 } from "react-icons/bs";

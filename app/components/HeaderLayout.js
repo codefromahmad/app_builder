@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
-import { auth } from "@/app/[lang]/firebase";
+import { auth } from "../[lang]/firebase";
 import { useRouter } from "next/navigation";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { usePathname } from "next/navigation";
 
-const HeaderLayout = ({ children, params }) => {
-  console.log("headerlayout", params);
+const HeaderLayout = ({ children, lang }) => {
+  console.log("headerlayout", lang);
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();

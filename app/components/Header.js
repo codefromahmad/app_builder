@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
-import { auth } from "@/app/[lang]/firebase";
+import { auth } from "../[lang]/firebase";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 

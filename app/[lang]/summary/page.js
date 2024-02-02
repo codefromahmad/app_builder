@@ -1,9 +1,9 @@
 "use client";
-import HeaderLayout from "@/components/HeaderLayout";
-import VerticalTabs from "@/components/VerticalTabs";
+import HeaderLayout from "../../components/HeaderLayout";
+import VerticalTabs from "../../components/VerticalTabs";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { auth } from "@/app/[lang]/firebase";
+import { auth } from "../firebase";
 import { GoCheckCircleFill, GoCircle } from "react-icons/go";
 import { useSelector } from "react-redux";
 

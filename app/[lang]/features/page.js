@@ -8,27 +8,28 @@ import { MdDeleteOutline } from "react-icons/md";
 import { FaArrowLeftLong, FaCircleCheck } from "react-icons/fa6";
 import { BsArrowsAngleExpand, BsArrowsAngleContract } from "react-icons/bs";
 import { sidebarData } from "../data";
-import { PhoneFrame } from "@/components/PhoneFrame";
+import { PhoneFrame } from "../../components/PhoneFrame";
 import Image from "next/image";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { auth } from "../firebase";
-import HeaderLayout from "@/components/HeaderLayout";
-import BottomBar from "@/components/BottomBar";
+import HeaderLayout from "../../components/HeaderLayout";
+import BottomBar from "../../components/BottomBar";
 import { FaMobileAlt } from "react-icons/fa";
 import { IoDesktopOutline } from "react-icons/io5";
 import { TbApps } from "react-icons/tb";
-import RemoveAllPopup from "@/components/RemoveAllPopup";
+import RemoveAllPopup from "../../components/RemoveAllPopup";
 import { IoMdSearch } from "react-icons/io";
-import ShowFeature from "@/components/ShowFeature";
-import FeatureHeader from "@/components/FeatureHeader";
-import NoFeature from "@/components/NoFeature";
+import ShowFeature from "../../components/ShowFeature";
+import FeatureHeader from "../../components/FeatureHeader";
+import NoFeature from "../../components/NoFeature";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
-import { setUser } from "@/store/reducers/user";
+import { setUser } from "../../store/reducers/user";
 
-export default function Features() {
+export default function Features({ params }) {
+  console.log("params in feature", params.lang);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [expand, setExpand] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -272,7 +273,7 @@ export default function Features() {
   }, [searchTerm]);
 
   return (
-    <HeaderLayout>
+    <HeaderLayout lang={params.lang}>
       <div className="flex h-[calc(100vh-4.5rem)] mt-[4.5rem]">
         <RemoveAllPopup
           confirm={confirm}
