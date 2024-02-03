@@ -8,6 +8,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../[lang]/firebase";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
+import LocaleSwitcher from "./LocaleSwitcher";
 
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
   const router = useRouter();
@@ -71,6 +72,8 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
           <div className="flex h-full justify-between items-center">
             <p className="text-white font-bold">{name}</p>
             <div className="flex justify-evenly gap-2 items-center">
+              <LocaleSwitcher />
+
               <div
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="cursor-pointer relative flex items-center gap-1 ml-3"
