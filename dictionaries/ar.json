@@ -1,5 +1,27 @@
 {
   "login" : {
       "loginText": "تسجيل الدخول"
+  },
+  "header":{
+    "projectName": "اسم مشروعي"
+  },
+  "features":{
+    "searchTitle":"ابحث عن الميزة",
+    "selectAll":"اختر الكل",
+    "deselectAll":"إلغاء تحديد الكل",
+    "features":"سمات",
+    "from":"من",
+    "days":"أيام",
+    "indicativeDuration":"المدة الإرشادية",
+    "totalCost":"التكلفة الإجمالية",
+    "fixedCost":"تكلفة ثابتة",
+    "customizationCost":"تكلفة التخصيص",
+    "planDelivery":"تسليم الخطة",
+    "weeks":"أسابيع",
+    "cloudServiceCost":"تكلفة الخدمة السحابية",
+    "noFeaturesHeading":"لم يتم تحديد أي ميزات",
+    "noFeaturesText":"حدد الميزة لمعاينتها من اليسار",
+    "selectedFeature":"الميزة المحددة",
+    "selectedFeatures":"الميزات المختارة"
   }
 }

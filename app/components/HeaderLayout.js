@@ -72,6 +72,7 @@ const HeaderLayout = ({ children, lang }) => {
     <div>
       <Header
         user={user}
+        lang={lang}
         dropdownOpen={dropdownOpen}
         setDropdownOpen={setDropdownOpen}
       />

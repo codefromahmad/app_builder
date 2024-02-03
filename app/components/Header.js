@@ -9,10 +9,19 @@ import { auth } from "../[lang]/firebase";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
 import LocaleSwitcher from "./LocaleSwitcher";
+import { getDictionary } from "../../lib/dictionary";
 
-const Header = ({ dropdownOpen, setDropdownOpen }) => {
+const Header = ({ dropdownOpen, setDropdownOpen, lang }) => {
+  getDictionary(lang)
+    .then((data) => {
+      console.log("data inside header", data);
+      setName(data.header.projectName);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   const router = useRouter();
-  const [name, setName] = useState("My Project Name");
+  const [name, setName] = useState("");
   const pathname = usePathname();
   const user = useSelector((state) => state.user.user);
 

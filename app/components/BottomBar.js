@@ -6,11 +6,12 @@ const BottomBar = ({
   fixedCost,
   totalCost,
   durationLocal,
-  buttonText = "Plan Delivery",
+  buttonText,
   setBuildCard,
   handlePlanDelivery,
   cloudService,
   cloudServicePrice,
+  sidebar,
 }) => {
   return (
     <div className="h-16 items-end w-full bg-white">
@@ -21,7 +22,7 @@ const BottomBar = ({
           } items-center justify-between w-3/4 gap-4`}
         >
           <div className="flex flex-col px-2 gap-2 items-start">
-            <p className="text-black text-xs">Customization Cost</p>
+            <p className="text-black text-xs">{sidebar.customizationCost}</p>
             <p className="text-black font-extrabold text-xl">
               ${customizationCost}
             </p>
@@ -30,7 +31,7 @@ const BottomBar = ({
             <p className="text-[#A6A6A6] text-2xl">+</p>
           </div>
           <div className="flex flex-col px-2 gap-2 items-start">
-            <p className="text-black text-xs">Fixed Cost</p>
+            <p className="text-black text-xs">{sidebar.fixedCost}</p>
             <p className="text-black font-extrabold text-xl">${fixedCost}</p>
           </div>
           {cloudService && (
@@ -39,7 +40,7 @@ const BottomBar = ({
                 <p className="text-[#A6A6A6] text-2xl">+</p>
               </div>
               <div className="flex flex-col px-2 gap-2 items-start">
-                <p className="text-black text-xs">Cloud Service Cost</p>
+                <p className="text-black text-xs">{sidebar.cloudServiceCost}</p>
                 <p className="text-black font-extrabold text-xl">
                   ${cloudServicePrice}
                 </p>
@@ -50,13 +51,13 @@ const BottomBar = ({
             <p className="text-[#A6A6A6] text-2xl">=</p>
           </div>
           <div className="flex flex-col px-2 gap-2 items-start">
-            <p className="text-black text-xs">Total Cost</p>
+            <p className="text-black text-xs">{sidebar.totalCost}</p>
             <p className="text-black font-extrabold text-xl">${totalCost}</p>
           </div>
           <div className="flex border-l-[3px] border-[#A6A6A6] pl-10 flex-col px-2 gap-2 items-start">
-            <p className="text-black text-xs">Indicative Duration</p>
+            <p className="text-black text-xs">{sidebar.indicativeDuration}</p>
             <p className="text-black font-extrabold text-xl">
-              {durationLocal} weeks
+              {durationLocal} {sidebar.weeks}
             </p>
           </div>
         </div>

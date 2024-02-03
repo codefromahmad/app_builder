@@ -1,5 +1,27 @@
 {
     "login" : {
         "loginText": "Sign in"
+    },
+    "header":{
+        "projectName": "My Project Name"
+    },
+    "features":{
+        "searchTitle":"Search for a feature",
+        "selectAll":"Select All",
+        "deselectAll":"Unselect All",
+        "features":"features",
+        "from":"from",
+        "days":"days",
+        "indicativeDuration":"Indicative Duration",
+        "totalCost":"Total Cost",
+        "fixedCost":"Fixed Cost",
+        "customizationCost":"Customization Cost",
+        "planDelivery":"Plan Delivery",
+        "weeks":"weeks",
+        "cloudServiceCost":"Cloud Service Cost",
+        "noFeaturesHeading":"No features selected",
+        "noFeaturesText":"Select feature to preview from left",
+        "selectedFeature":"Selected Feature",
+        "selectedFeatures":"Selected Features"
     }
 }

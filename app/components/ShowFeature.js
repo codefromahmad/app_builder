@@ -62,12 +62,12 @@ const ShowFeature = ({
             {selectedFeature.category}
           </p>
           <div className="py-2">
-            <p className="text-text text-lg py-1">${selectedFeature.cost}</p>
+            <p className="text-text text-lg py-1">${selectedFeature.price}</p>
             <p className="text-text text-lg py-[1px]">
-              {selectedFeature.time} days
+              {selectedFeature.timeline} days
             </p>
           </div>
-          <p className="text-black py-1">{selectedFeature.details}</p>
+          <p className="text-black py-1">{selectedFeature.description}</p>
           {/* <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
           <p className="text-white text-xs">Add note</p>
         </div> */}
@@ -81,12 +81,12 @@ const ShowFeature = ({
             <p className="text-text py-1 duration-300">
               {selectedFeature.category}
             </p>
-            <p className="text-black py-1">{selectedFeature.details}</p>
+            <p className="text-black py-1">{selectedFeature.description}</p>
           </div>
           <div className="py-2 w-1/4">
-            <p className="text-text text-lg py-1">${selectedFeature.cost}</p>
+            <p className="text-text text-lg py-1">${selectedFeature.price}</p>
             <p className="text-text text-lg py-[1px]">
-              {selectedFeature.time} days
+              {selectedFeature.timeline} days
             </p>
             {/* <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
               <p className="text-white text-xs">Add note</p>
