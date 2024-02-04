@@ -14,7 +14,6 @@ import { getDictionary } from "../../lib/dictionary";
 const Header = ({ dropdownOpen, setDropdownOpen, lang }) => {
   getDictionary(lang)
     .then((data) => {
-      console.log("data inside header", data);
       setName(data.header.projectName);
     })
     .catch((error) => {
@@ -27,7 +26,6 @@ const Header = ({ dropdownOpen, setDropdownOpen, lang }) => {
 
   const getRecentBuildCard = () => {
     const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-    console.log("recentBuildCardId", recentBuildCardId);
 
     if (
       Array.isArray(user?.buildCards) &&

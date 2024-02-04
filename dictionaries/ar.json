@@ -1,6 +1,31 @@
 {
-  "login" : {
-      "loginText": "تسجيل الدخول"
+  "landing" : {
+      "loginText": "تسجيل الدخول",
+      "signIn": {
+        "signinText": "تسجيل الدخول",
+        "signinUsing": "تسجيل الدخول باستخدام",
+        "signinWith": "تسجيل الدخول بواسطة البريد الإلكتروني",
+        "email": "البريد الإلكتروني للشركة",
+        "password": "كلمة المرور",
+        "passwordPlaceholder": "أدخل كلمة المرور",
+        "dontHaveAccount": "ليس لديك حساب؟",
+        "buttonText": "تسجيل الدخول",
+        "signUp": "سجل"
+    },
+    "signUp": {
+      "signupText": "إنشاء حساب",
+      "signupUsing": "إنشاء حساب باستخدام",
+      "signupWith": "إنشاء حساب بواسطة البريد الإلكتروني",
+      "email": "البريد الإلكتروني للشركة",
+      "name": "الاسم",
+      "currency": "العملة",
+      "currencyType": "الدولار الأمريكي",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "أدخل كلمة المرور",
+      "alreadyHaveAccount": "هل لديك حساب بالفعل؟",
+      "buttonText": "إنشاء حساب",
+      "signIn": "تسجيل الدخول"
+  }
   },
   "header":{
     "projectName": "اسم مشروعي"

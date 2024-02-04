@@ -12,8 +12,6 @@ const metadata = {
 };
 
 export default function RootLayout({ children, params }) {
-  const { locale, locales, push } = useRouter();
-  console.log("params from router", locale, locales);
   return (
     <html lang={params.lang}>
       <body>

@@ -9,8 +9,6 @@ export default function LocaleSwitcher() {
   const pathName = usePathname();
   const checkLocale = pathName.split("/")[1];
 
-  console.log("i18n", checkLocale);
-
   const redirectedPathName = (locale) => {
     if (!pathName) return "/";
     const segments = pathName.split("/");

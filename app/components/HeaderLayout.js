@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { usePathname } from "next/navigation";
 
 const HeaderLayout = ({ children, lang }) => {
-  console.log("headerlayout", lang);
   const [user, setUser] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();

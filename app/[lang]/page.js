@@ -28,7 +28,6 @@ export default function App({ params }) {
   const [login, setLogin] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [currency, setCurrency] = useState("US Dollar");
   const [error, setError] = useState(null);
   const [password, setPassword] = useState("");
   const [showSignin, setShowSignin] = useState(false);
@@ -36,13 +35,13 @@ export default function App({ params }) {
   const router = useRouter();
   const dispatch = useDispatch();
   const db = getFirestore();
-  const [content, setContent] = useState(null);
+  const [landing, setLanding] = useState({});
+  const [currency, setCurrency] = useState(landing.signUp?.currencyType);
 
-  console.log("params in root", params.lang);
   getDictionary(params.lang)
     .then((lang) => {
       console.log(lang);
-      setContent(lang.login.loginText);
+      setLanding(lang.landing);
     })
     .catch((error) => {
       console.error(error);
@@ -168,6 +167,8 @@ export default function App({ params }) {
 
             {showSignin ? (
               <Signin
+                lang={params.lang}
+                dictionary={landing.signIn}
                 handleSignIn={handleSignIn}
                 error={error}
                 email={email}
@@ -178,6 +179,8 @@ export default function App({ params }) {
               />
             ) : (
               <Signup
+                lang={params.lang}
+                dictionary={landing.signUp}
                 handleSignup={handleSignup}
                 error={error}
                 name={name}
@@ -201,7 +204,7 @@ export default function App({ params }) {
         </div>
       )}
       <div className="flex justify-center items-center h-screen">
-        {content && (
+        {landing && (
           <div
             onClick={() => {
               setLogin(true);
@@ -209,7 +212,7 @@ export default function App({ params }) {
             }}
             className="cursor-pointer bg-secondary px-5 py-4 rounded-md"
           >
-            <p className="text-white">{content}</p>
+            <p className="text-white">{landing.loginText}</p>
           </div>
         )}
       </div>

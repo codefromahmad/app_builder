@@ -1,6 +1,31 @@
 {
-    "login" : {
-        "loginText": "Sign in"
+    "landing" : {
+        "loginText": "Sign In",
+        "signIn" : {
+            "signinText":"Sign in",
+            "signinUsing":"Sign in using",
+            "signinWith":"Sign in with email",
+            "email" : "Company Email",
+            "password" : "Password",
+            "passwordPlaceholder" : "Enter password",
+            "dontHaveAccount" : "Don't have an account?",
+            "buttonText" : "Sign In",
+            "signUp" : "Sign Up"
+        },
+        "signUp" : {
+            "signupText":"Sign up",
+            "signupUsing":"Sign up using",
+            "signupWith":"Sign up with email",
+            "email" : "Company Email",
+            "name" : "Name",
+            "currency" : "Currency",
+            "currencyType" : "US Dollar",
+            "password" : "Password",
+            "passwordPlaceholder" : "Enter password",
+            "alredyHaveAccount" : "Already have and account?",
+            "buttonText" : "Create Account",
+            "signIn" : "Sign In"
+        }
     },
     "header":{
         "projectName": "My Project Name"

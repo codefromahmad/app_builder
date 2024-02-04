@@ -30,17 +30,15 @@ import { setUser } from "../../store/reducers/user";
 import { getDictionary } from "../../../lib/dictionary";
 
 export default function Features({ params }) {
-  console.log("params in feature", params.lang);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [expand, setExpand] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [platform, setPlatform] = useState("mobile");
-  const features = useSelector((state) => state.features.features);
+  const featuresIds = useSelector((state) => state.features.features);
+  const [featuresData, setFeaturesData] = useState([]);
   const [sidebar, setSidebar] = useState({});
-  const [selectedFeature, setSelectedFeature] = useState(
-    features?.length > 0 ? features[0] : null
-  );
+  const [selectedFeature, setSelectedFeature] = useState();
   const [searchFeatures, setSearchFeatures] = useState([]);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -52,7 +50,6 @@ export default function Features({ params }) {
 
   getDictionary(params.lang)
     .then((lang) => {
-      console.log("features from dict", lang.features);
       setSidebar(lang.features);
     })
     .catch((error) => {
@@ -60,24 +57,42 @@ export default function Features({ params }) {
     });
 
   useEffect(() => {
-    setSelectedFeature(features[0]);
-  }, [features]);
+    // setSelectedFeature(features[0]);
+    console.log("features", featuresIds);
+    const results = [];
+
+    sidebarDataToUse.forEach((category) => {
+      const matchingItems = category.dropDown?.filter((item) =>
+        featuresIds.includes(item.id)
+      );
+
+      if (matchingItems?.length > 0) {
+        console.log("matchingItems", matchingItems);
+        results.push(...matchingItems);
+      }
+
+      setFeaturesData(results);
+      setSelectedFeature(results[0]);
+    });
+
+    setSearchFeatures(results);
+  }, [featuresIds]);
 
   const durationLocal = Math.ceil(
-    features?.reduce(
+    featuresData?.reduce(
       (acc, item) => acc + parseFloat(item.timeline?.replace(/,/g, "")),
       0
     ) / 7
   );
 
   const fixedCost = Math.round(
-    features?.reduce(
+    featuresData?.reduce(
       (acc, item) => acc + parseFloat(item.price?.replace(/,/g, "")),
       0
     )
   );
 
-  const customizationCost = features?.length * 50;
+  const customizationCost = featuresData?.length * 50;
 
   const totalCost = customizationCost + parseFloat(fixedCost);
 
@@ -94,7 +109,7 @@ export default function Features({ params }) {
       duration: durationLocal,
       phases: null,
       deliveryDate: "",
-      features: features,
+      features: featuresIds,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       details: "",
@@ -120,7 +135,7 @@ export default function Features({ params }) {
             // Update existing incomplete build card
             userData.buildCards[incompleteBuildCardIndex] = {
               ...userData.buildCards[incompleteBuildCardIndex],
-              features: features,
+              features: featuresIds,
               duration: durationLocal,
               fixedCost: fixedCost,
               customizationCost: customizationCost,
@@ -161,27 +176,20 @@ export default function Features({ params }) {
   };
 
   const isFeatureSelected = (feature) => {
-    return features.some((selected) => selected.id === feature.id);
+    return featuresIds.some((selectedId) => selectedId === feature.id);
   };
 
   const handleFeaturesSelection = (feature) => {
-    console.log("handleFeaturesSelection", feature.id);
-
     if (isFeatureSelected(feature)) {
-      const updatedFeatures = features.filter(
-        (selected) => selected.id !== feature.id
-      );
       dispatch({
-        type: "setFeatures",
-        payload: updatedFeatures,
+        type: "removeFeature",
+        payload: feature.id,
       });
-      setSelectedFeature(updatedFeatures[0]);
     } else {
       dispatch({
         type: "addFeature",
-        payload: feature,
+        payload: feature.id,
       });
-      setSelectedFeature(feature);
     }
   };
 
@@ -194,7 +202,6 @@ export default function Features({ params }) {
   };
 
   const handleFeatureSelection = (feature) => {
-    console.log("handleFeatureSelection", feature.id);
     setSelectedFeature(feature);
   };
 
@@ -218,7 +225,7 @@ export default function Features({ params }) {
 
   const countSelectedFeatures = (items) => {
     const selectedFeaturesCount = items.filter((feature) =>
-      features.some((selected) => selected.id === feature.id)
+      featuresIds.some((selectedId) => selectedId === feature.id)
     ).length;
 
     return selectedFeaturesCount;
@@ -227,27 +234,31 @@ export default function Features({ params }) {
   const handleAddMultipleFeatures = (newFeatures, index) => {
     setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
 
-    const filteredNewFeatures = newFeatures.filter(
-      (newFeature) =>
-        !features.some(
-          (selectedFeature) => selectedFeature.id === newFeature.id
-        )
-    );
+    const filteredNewFeatureIds = newFeatures
+      .filter(
+        (newFeature) =>
+          !featuresIds.some(
+            (selectedFeatureId) => selectedFeatureId === newFeature.id
+          )
+      )
+      .map((newFeature) => newFeature.id);
 
     dispatch({
       type: "addFeatures",
-      payload: filteredNewFeatures,
+      payload: filteredNewFeatureIds,
     });
-    setSelectedFeature(filteredNewFeatures[0]);
+
+    // Assuming you want to select the first feature in the filtered list
+    setSelectedFeature(filteredNewFeatureIds[0]);
   };
 
   const handleRemoveAllFeatures = (featuresToRemove, index) => {
     setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
 
-    const updatedSelectedFeatures = features.filter(
-      (selectedFeature) =>
+    const updatedSelectedFeatures = featuresIds.filter(
+      (selectedFeatureId) =>
         !featuresToRemove.some(
-          (featureToRemove) => featureToRemove.id === selectedFeature.id
+          (featureToRemove) => featureToRemove.id === selectedFeatureId
         )
     );
 
@@ -265,7 +276,7 @@ export default function Features({ params }) {
     sidebarDataToUse.forEach((category) => {
       console.log("category", category);
       const matchingItems = category.dropDown?.filter((item) =>
-        item.id.toLowerCase().startsWith(searchText.toLowerCase())
+        item.name.toLowerCase().startsWith(searchText.toLowerCase())
       );
 
       if (matchingItems?.length > 0) {
@@ -299,8 +310,12 @@ export default function Features({ params }) {
         />
 
         <div className="w-1/5 bg-slate-100 max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
-          <div className="flex bg-white border-[#C7C7C7] border p-2">
-            <IoMdSearch className="text-gray-600 mr-2 text-xl" />
+          <div className="flex bg-white border-[#C7C7C7] items-center m-2 rounded-md border p-2">
+            <IoMdSearch
+              className={`text-gray-600 ${
+                params.lang === "en" ? "mr-2" : "ml-2"
+              } text-xl`}
+            />
             <input
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -547,7 +562,7 @@ export default function Features({ params }) {
           <div className={`flex w-full h-full`}>
             <div
               className={`${
-                features?.length > 0 ? "w-3/4" : "w-full"
+                featuresIds?.length > 0 ? "w-3/4" : "w-full"
               } h-[calc(100vh-10.5rem)]`}
             >
               {selectedFeature ? (
@@ -557,8 +572,9 @@ export default function Features({ params }) {
                     setPlatform={setPlatform}
                   />
                   <ShowFeature
+                    lang={params.lang}
+                    sidebar={sidebar}
                     platform={platform}
-                    features={features}
                     selectedFeature={selectedFeature}
                     handleFeaturesSelection={(feature) =>
                       handleFeaturesSelection(feature)
@@ -570,22 +586,27 @@ export default function Features({ params }) {
                 <NoFeature lang={params.lang} sidebar={sidebar} />
               )}
             </div>
-            {features?.length > 0 && (
+            {featuresData?.length > 0 && (
               <div className="w-1/4 bg-white relative h-[calc(100vh-8.5rem)] overflow-y-auto custom-scrollbar">
                 <div className="flex px-5 py-3 gap-2 items-center">
                   <p className="text-black text-xl">
-                    {features.length > 1
+                    {featuresData.length > 1
                       ? `${sidebar.selectedFeatures}`
                       : `${sidebar.selectedFeature}`}
                   </p>
-                  <p className="text-black text-xl">{features.length}</p>
+                  <p className="text-black text-xl">{featuresData.length}</p>
                 </div>
                 <div className="grid grid-cols-1 gap-3 p-5">
-                  {features.map((item, index) => (
-                    <div key={index} className="relative group h-38">
+                  {featuresData.map((item, index) => (
+                    <div
+                      key={index}
+                      className="relative border-b-gray-[#A6A6A6] border-b pb-2 group h-38"
+                    >
                       <div
                         onClick={() => handleFeaturesSelection(item)}
-                        className="top-2 group-hover:flex hidden z-10 absolute hover:bg-slate-200 group right-2 bg-white w-7 h-7 items-center rounded-full justify-center border-[1px] cursor-pointer"
+                        className={`top-2 group-hover:flex hidden z-10 absolute hover:bg-slate-200 group ${
+                          params.lang === "en" ? "right-2" : "left-2"
+                        } bg-white w-7 h-7 items-center rounded-full justify-center border-[1px] cursor-pointer`}
                       >
                         <MdDeleteOutline className="text-black duration-300" />
                       </div>
@@ -654,8 +675,9 @@ export default function Features({ params }) {
               </div>
             )}
           </div>
-          {features.length > 0 && (
+          {featuresData.length > 0 && (
             <BottomBar
+              lang={params.lang}
               sidebar={sidebar}
               customizationCost={customizationCost}
               fixedCost={fixedCost}

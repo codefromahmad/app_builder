@@ -2,6 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 const BottomBar = ({
+  lang,
   customizationCost,
   fixedCost,
   totalCost,
@@ -54,7 +55,11 @@ const BottomBar = ({
             <p className="text-black text-xs">{sidebar.totalCost}</p>
             <p className="text-black font-extrabold text-xl">${totalCost}</p>
           </div>
-          <div className="flex border-l-[3px] border-[#A6A6A6] pl-10 flex-col px-2 gap-2 items-start">
+          <div
+            className={`flex ${
+              lang === "en" ? "border-l-[3px] pl-10" : "border-r-[3px] pr-10"
+            } border-[#A6A6A6] flex-col px-2 gap-2 items-start`}
+          >
             <p className="text-black text-xs">{sidebar.indicativeDuration}</p>
             <p className="text-black font-extrabold text-xl">
               {durationLocal} {sidebar.weeks}
@@ -63,7 +68,6 @@ const BottomBar = ({
         </div>
         {buttonText != "Done" ? (
           <div
-            // href={"/delivery"}
             onClick={handlePlanDelivery}
             className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
           >
