@@ -8,16 +8,31 @@ import { signOut } from "firebase/auth";
 import { auth } from "../[lang]/firebase";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
+import LocaleSwitcher from "./LocaleSwitcher";
+import { getDictionary } from "../../lib/dictionary";
 
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
+  const pathName = usePathname();
+  const lang = pathName.split("/")[1];
+
+  console.log("checkLocale", lang);
+
+  useEffect(() => {}, []);
+
+  getDictionary(lang)
+    .then((data) => {
+      setName(data.header.projectName);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   const router = useRouter();
-  const [name, setName] = useState("My Project Name");
+  const [name, setName] = useState("");
   const pathname = usePathname();
   const user = useSelector((state) => state.user.user);
 
   const getRecentBuildCard = () => {
     const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-    console.log("recentBuildCardId", recentBuildCardId);
 
     if (
       Array.isArray(user?.buildCards) &&
@@ -71,6 +86,8 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
           <div className="flex h-full justify-between items-center">
             <p className="text-white font-bold">{name}</p>
             <div className="flex justify-evenly gap-2 items-center">
+              <LocaleSwitcher />
+
               <div
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="cursor-pointer relative flex items-center gap-1 ml-3"

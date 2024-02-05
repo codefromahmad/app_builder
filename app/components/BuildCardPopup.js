@@ -1,7 +1,16 @@
 import React from "react";
 import { FaThumbsUp } from "react-icons/fa";
+import { getDictionary } from "../../lib/dictionary";
 
-const BuildCardPopup = ({ buildCard, setName, addBuildCard, name }) => {
+const BuildCardPopup = ({ lang, buildCard, setName, addBuildCard, name }) => {
+  const [dictionary, setDictionary] = React.useState({});
+  getDictionary(lang)
+    .then((lang) => {
+      setDictionary(lang.buildCardPopUp);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   return (
     <>
       {buildCard && (
@@ -16,11 +25,10 @@ const BuildCardPopup = ({ buildCard, setName, addBuildCard, name }) => {
             <FaThumbsUp className="text-white text-3xl" />
           </div>
           <p className="my-2 text-center text-black py-4">
-            Time to create your Launch Swift (It describes exactly what you want
-            to build)
+            {dictionary.popUpTitle}
           </p>
           <p className="my-2 font-bold text-center text-black">
-            First, please name your Launch Swift
+            {dictionary.popUpText}
           </p>
           <input
             value={name}
@@ -37,7 +45,7 @@ const BuildCardPopup = ({ buildCard, setName, addBuildCard, name }) => {
             }`}
             onClick={name.length > 2 ? addBuildCard : null}
           >
-            <p className="text-sm text-white">SAVE</p>
+            <p className="text-sm text-white">{dictionary.save}</p>
           </div>
         </div>
       )}

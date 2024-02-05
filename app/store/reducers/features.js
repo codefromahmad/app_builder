@@ -17,6 +17,16 @@ const features = (state = initialState, action) => {
         features: [action.payload, ...state.features],
       };
 
+    case "removeFeature":
+      const updatedFeatures = state.features.filter(
+        (selectedFeature) => selectedFeature !== action.payload
+      );
+      console.log(updatedFeatures, "updatedFeatures from redux");
+      return {
+        ...state,
+        features: updatedFeatures,
+      };
+
     case "addFeatures":
       return {
         ...state,
