@@ -11,7 +11,14 @@ import { useSelector } from "react-redux";
 import LocaleSwitcher from "./LocaleSwitcher";
 import { getDictionary } from "../../lib/dictionary";
 
-const Header = ({ dropdownOpen, setDropdownOpen, lang }) => {
+const Header = ({ dropdownOpen, setDropdownOpen }) => {
+  const pathName = usePathname();
+  const lang = pathName.split("/")[1];
+
+  console.log("checkLocale", lang);
+
+  useEffect(() => {}, []);
+
   getDictionary(lang)
     .then((data) => {
       setName(data.header.projectName);

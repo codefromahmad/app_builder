@@ -1,5 +1,7 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { getDictionary } from "../../lib/dictionary";
+import { usePathname } from "next/navigation";
 
 const BottomBar = ({
   lang,
@@ -8,12 +10,23 @@ const BottomBar = ({
   totalCost,
   durationLocal,
   buttonText,
-  setBuildCard,
+  showBuildCardPopUp,
   handlePlanDelivery,
   cloudService,
   cloudServicePrice,
-  sidebar,
 }) => {
+  const [sidebar, setSidebar] = useState({});
+  const pathname = usePathname();
+  const page = pathname.split("/")[2];
+
+  getDictionary(lang)
+    .then((lang) => {
+      setSidebar(lang.sidebar);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+
   return (
     <div className="h-16 items-end w-full bg-white">
       <div className="flex flex-row justify-between items-center h-full">
@@ -66,21 +79,14 @@ const BottomBar = ({
             </p>
           </div>
         </div>
-        {buttonText != "Done" ? (
-          <div
-            onClick={handlePlanDelivery}
-            className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
-          >
-            <p className="text-black font-semibold">{buttonText}</p>
-          </div>
-        ) : (
-          <div
-            onClick={() => setBuildCard(true)}
-            className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
-          >
-            <p className="text-black font-semibold">{buttonText}</p>
-          </div>
-        )}
+        <div
+          onClick={
+            page === "delivery" ? showBuildCardPopUp : handlePlanDelivery
+          }
+          className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
+        >
+          <p className="text-black font-semibold">{buttonText}</p>
+        </div>
       </div>
     </div>
   );

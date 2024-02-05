@@ -25,8 +25,9 @@ import BuildCardPopup from "../../components/BuildCardPopup";
 import { useRouter } from "next/navigation";
 import { setUser } from "../../store/reducers/user";
 import { auth } from "../firebase";
+import { getDictionary } from "../../../lib/dictionary";
 
-export default function Dahsboard() {
+export default function Delivery({ params }) {
   const [isSwitchOn, setIsSwitchOn] = useState(true);
   const [sliderValue, setSliderValue] = useState(3);
   const [rangeSliderValue, setRangeSliderValue] = useState(2);
@@ -46,6 +47,15 @@ export default function Dahsboard() {
   const user = useSelector((state) => state.user.user);
   const [phases, setPhases] = useState(initialPhases);
   const router = useRouter();
+  const [dictionary, setDictionary] = useState({});
+
+  getDictionary(params.lang)
+    .then((lang) => {
+      setDictionary(lang.delivery);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 
   const getRecentBuildCard = async (userId) => {
     const db = getFirestore();
@@ -109,38 +119,38 @@ export default function Dahsboard() {
 
   const priceDuration = [
     {
-      name: "Relaxed",
+      name: `${dictionary.relaxed}`,
       duration: buildCardDetails?.duration - 2,
       price: Math.round(
         buildCardDetails?.totalCost - buildCardDetails?.totalCost * 0.2
       ),
-      details: `Our most budget-friendly option for those who aren't in a hurry`,
+      details: `${dictionary.relaxedText}`,
     },
     {
-      name: "Slow",
+      name: `${dictionary.slow}`,
       duration: buildCardDetails?.duration - 1,
       price: Math.round(
         buildCardDetails?.totalCost - buildCardDetails?.totalCost * 0.12
       ),
-      details: `For those with a fixed long-term plan who want to keep costs down`,
+      details: `${dictionary.slowText}`,
     },
     {
-      name: "Standard",
+      name: `${dictionary.standard}`,
       duration: buildCardDetails?.duration,
       price: Math.round(buildCardDetails?.totalCost),
-      details: `The perfect middle ground for anyone with a modest budget and medium-term deadlines`,
+      details: `${dictionary.standardText}`,
     },
     {
-      name: "Fast",
+      name: `${dictionary.fast}`,
       duration: buildCardDetails?.duration + 1,
       price: Math.round(buildCardDetails?.totalCost * 0.12),
-      details: `We put your app build on turbo charge for a few extra bucks`,
+      details: `${dictionary.fastText}`,
     },
     {
-      name: "Speedy",
+      name: `${dictionary.speedy}`,
       duration: buildCardDetails?.duration + 2,
       price: Math.round(buildCardDetails?.totalCost * 0.2),
-      details: `We build your app at the speed of light for a premium price`,
+      details: `${dictionary.speedyText}`,
     },
   ];
 
@@ -216,7 +226,7 @@ export default function Dahsboard() {
 
   const deliveryDate = moment().add(
     priceDuration[sliderValue - 1].duration,
-    "weeks"
+    `${dictionary.weeks}`
   );
 
   const checkAllContain = (text) => {
@@ -408,6 +418,11 @@ export default function Dahsboard() {
     });
   };
 
+  const showBuildCardPopUp = () => {
+    console.log("showBuildCardPopUp", buildCard);
+    setBuildCard(true);
+  };
+
   const isFeatureSelected = (feature) => {
     return features.some((selected) => selected.name === feature.name);
   };
@@ -497,7 +512,10 @@ export default function Dahsboard() {
 
   return (
     <HeaderLayout>
-      <div className="mt-12">
+      <div
+        style={{ direction: `${params.lang === "en" ? "ltr" : "rtl"}` }}
+        className="mt-12"
+      >
         {infoPopup === "platforms" ? (
           <div
             className={`fixed z-40 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ${
@@ -508,38 +526,33 @@ export default function Dahsboard() {
           >
             <IoMdClose
               onClick={handleClose}
-              className="text-xl absolute cursor-pointer right-3 text-white"
+              className={`text-xl absolute cursor-pointer ${
+                params.lang === "en" ? "right-3" : "left-3"
+              } text-white`}
             />
-            <p className="font-bold text-white pt-4">Devices</p>
-            <p className="text-white text-sm py-2">
-              Our apps are designed for the last 3 versions of iOS & Android (at
-              the time your project kicks off). We test on flagship Apple,
-              Samsung & Google devices.
-            </p>
-            <p className="text-white text-sm py-2">
-              (Need testing for a specific device? Ask your delivery team.)
-            </p>
+            <p className="font-bold text-white pt-4">{dictionary.devices}</p>
+            <p className="text-white text-sm py-2">{dictionary.ourApps}</p>
+            <p className="text-white text-sm py-2">{dictionary.needTesting}</p>
             <p className="font-bold text-white pt-4">Browsers</p>
-            <p className="text-white text-sm py-2">
-              For web apps, our testing process covers the last 3 major versions
-              of these browsers:
-            </p>
+            <p className="text-white text-sm py-2">{dictionary.forWebApps}</p>
             <ul className="pl-5 list-disc">
               <li className="text-white text-sm">Chrome</li>
               <li className="text-white text-sm">Safari</li>
               <li className="text-white text-sm">Firefox</li>
               <li className="text-white text-sm">Edge</li>
             </ul>
-            <p className="font-bold text-white pt-4">Responsiveness</p>
+            <p className="font-bold text-white pt-4">
+              {dictionary.responsiveness}
+            </p>
             <ul className="pl-5 list-disc py-2">
               <li className="text-white text-sm">
-                Desktop displays: (1280 x 720) to (1920 x 1080)
+                {dictionary.desktopDisplays}
               </li>
               <li className="text-white text-sm">
-                Mobile displays: (360 x 640) to (414 x 896)
+                {dictionary.mobileDisplays}
               </li>
               <li className="text-white text-sm">
-                Tablet displays: (601 x 962) to (1280 x 800)
+                {dictionary.tabletDisplays}
               </li>
             </ul>
           </div>
@@ -566,6 +579,7 @@ export default function Dahsboard() {
         )}
         {/* Build Card */}
         <BuildCardPopup
+          lang={params.lang}
           name={name}
           setName={setName}
           addBuildCard={addBuildCard}
@@ -654,11 +668,11 @@ export default function Dahsboard() {
           <div className="flex px-10 justify-between">
             <div className="flex flex-col gap-2">
               <p className="text-black text-2xl font-bold">
-                Decide your deliverables
+                {dictionary.decideDeliverables}
               </p>
               <div className="flex items-center gap-2">
                 <p className="text-black font-medium">
-                  Select platform for your product
+                  {dictionary.selectPlatform}
                 </p>
                 <HiOutlineInformationCircle
                   onClick={() => setInfoPopup("platforms")}
@@ -674,13 +688,13 @@ export default function Dahsboard() {
                 customInput={ */}
                 <div className="flex items-center gap-2">
                   <p className="text-black font-medium">
-                    Expected kick-off date
+                    {dictionary.expectedKickOffDate}
                   </p>
                   <HiOutlineInformationCircle
                     onClick={() =>
                       setInfoPopup({
                         name: null,
-                        details: `Essential meeting that kicks off your project. We set everyone's roles, understand your objectives and make sure the app will be exactly how you want it.`,
+                        details: `${dictionary.essentialMeetings}`,
                       })
                     }
                     className="text-xl cursor-pointer text-gray-400"
@@ -690,7 +704,7 @@ export default function Dahsboard() {
               /> */}
               </div>
               <p className="text-black text-xs">
-                {moment().format("D MMM YYYY")} (Today)
+                {moment().format("D MMM YYYY")} ({dictionary.today})
               </p>
             </div>
           </div>
@@ -716,11 +730,9 @@ export default function Dahsboard() {
             ))}
           </div>
           <div className="flex px-10 justify-between pt-6">
-            <p className="text-black font-medium">
-              Select phases for your product
-            </p>
+            <p className="text-black font-medium">{dictionary.selectPhases}</p>
             <div className="flex gap-2 items-center">
-              <p className="text-black font-medium">Advanced</p>
+              <p className="text-black font-medium">{dictionary.advanced}</p>
               <button
                 className={`relative inline-block w-12 h-6 transition-colors duration-300 ease-in-out ${
                   isSwitchOn ? "bg-green-500" : "bg-gray-400"
@@ -728,7 +740,9 @@ export default function Dahsboard() {
                 onClick={handleToggleSwitch}
               >
                 <span
-                  className={`absolute top-[2px] bottom-[2px] left-1 right-1 inline-block w-5 h-5 transition-transform transform ${
+                  className={`absolute top-[2px] bottom-[2px] ${
+                    params.lang === "en" && "left-1 right-1"
+                  } inline-block w-5 h-5 transition-transform transform ${
                     isSwitchOn ? "translate-x-full" : "translate-x-0"
                   } bg-white rounded-full shadow`}
                 ></span>
@@ -745,7 +759,9 @@ export default function Dahsboard() {
               >
                 <div
                   onClick={() => togglePhaseSelection(index)}
-                  className="absolute top-2 right-2 cursor-pointer"
+                  className={`absolute top-2 ${
+                    params.lang === "en" ? "right-2" : "left-2"
+                  } cursor-pointer`}
                 >
                   {phase.selected ? (
                     <GoCheckCircleFill className="text-2xl text-secondary" />
@@ -776,7 +792,7 @@ export default function Dahsboard() {
                       <>
                         <div className="flex p-5 justify-between pt-5">
                           <p className="text-black text-xs font-bold">
-                            Platform
+                            {dictionary.platform}
                           </p>
                           {/* <p className="text-secondary text-xs font-normal cursor-pointer">
                           Change
@@ -819,17 +835,17 @@ export default function Dahsboard() {
                       <div className="p-5">
                         <div className="flex justify-between">
                           <p className="text-black text-xs font-bold">
-                            Features
+                            {dictionary.features}
                           </p>
                           <p
                             onClick={() => setSidebar(true)}
                             className="text-secondary text-xs font-normal cursor-pointer"
                           >
-                            Change
+                            {dictionary.change}
                           </p>
                         </div>
                         <p className="text-gray-400 pt-2 text-xs">
-                          {features.length} features selected
+                          {features.length} {dictionary.featuresSelected}
                         </p>
                       </div>
                     )}
@@ -837,7 +853,7 @@ export default function Dahsboard() {
                     <div className="p-5 relative">
                       <div className="flex justify-between">
                         <p className="text-black text-xs font-bold">
-                          Working Speed
+                          {dictionary.workingSpeed}
                         </p>
                       </div>
                       {phase.selected && (
@@ -887,7 +903,7 @@ export default function Dahsboard() {
                             <GoCircle className="text-2xl text-gray-400 cursor-pointer" />
                           )}
                           <p className="text-black text-xs">
-                            Same speed for all the phases
+                            {dictionary.sameSpeed}
                           </p>
                         </div>
                       )}
@@ -895,13 +911,13 @@ export default function Dahsboard() {
                     <hr />
                     <div className="p-5">
                       <p className="text-black text-xs font-bold pb-1">
-                        Estimated Duration:{" "}
+                        {dictionary.estimatedDuration}:{" "}
                       </p>
                       <p className="text-black text-xs font-normal">
                         {phase.selected ? phase.duration : "---"}
                       </p>
                       <p className="text-black text-xs font-bold pt-2">
-                        Estimated Delivery Date:{" "}
+                        {dictionary.estimatedDelivery}:{" "}
                       </p>
                       <p className="text-black text-xs font-normal">
                         {phase.selected ? phase.delivery : "---"}
@@ -933,13 +949,13 @@ export default function Dahsboard() {
                         {phase.selected && (
                           <>
                             <p className="text-black text-xs font-bold pb-1">
-                              Estimated Duration:{" "}
+                              {dictionary.estimatedDuration}:{" "}
                               <span className="text-black text-xs font-normal">
                                 {phase.duration}
                               </span>
                             </p>
                             <p className="text-black text-xs font-bold">
-                              Estimated Delivery Date:{" "}
+                              {dictionary.estimatedDelivery}:{" "}
                               <span className="text-black text-xs font-normal">
                                 {phase.delivery}
                               </span>
@@ -954,7 +970,7 @@ export default function Dahsboard() {
                         <>
                           <div className="flex justify-between pt-5">
                             <p className="text-black text-xs font-bold">
-                              Platform
+                              {dictionary.platform}
                             </p>
                             {/* <p className="text-secondary text-xs font-normal cursor-pointer">
                             Change
@@ -1000,14 +1016,14 @@ export default function Dahsboard() {
                       <>
                         <div className="flex justify-between mt-2 py-2 border-t-[1px] border-gray-300">
                           <p className="text-black text-xs font-bold">
-                            Features
+                            {dictionary.features}
                           </p>
                           <p className="text-secondary text-xs font-normal cursor-pointer">
-                            Change
+                            {dictionary.change}
                           </p>
                         </div>
                         <p className="text-gray-400 pt-1 text-xs">
-                          32 features selected
+                          32 {dictionary.featuresSelected}
                         </p>
                       </>
                     )}
@@ -1019,7 +1035,7 @@ export default function Dahsboard() {
           <div className="bg-slate-100 mt-10 flex">
             <div className="p-10 w-2/3">
               <p className="text-black text-2xl font-bold">
-                When do you want the delivery?
+                {dictionary.whenWant}
               </p>
               <div className="pt-5 flex flex-row justify-between items-center">
                 <div className="flex flex-row w-full items-center gap-2">
@@ -1078,7 +1094,7 @@ export default function Dahsboard() {
                                   : "text-black"
                               }`}
                             >
-                              {label.duration} weeks
+                              {label.duration} {dictionary.weeks}
                             </p>
                           </div>
                         ))}
@@ -1087,7 +1103,13 @@ export default function Dahsboard() {
                   </div>
                   <div className="w-1/4">
                     <div className="transform bg-gray-300 w-48 p-2 rounded">
-                      <div className="tooltip-arrow absolute w-0 h-0 border-solid border-[transparent #ffffff transparent transparent] top-1/2 -left-2 transform:translate(-50%)"></div>
+                      <div
+                        className={`${
+                          params.lang === "en"
+                            ? "tooltip-arrow-left -left-2"
+                            : "tooltip-arrow-right -right-2"
+                        } absolute w-0 h-0 border-solid border-[transparent #ffffff transparent transparent] top-1/2 transform:translate(-50%)`}
+                      ></div>
                       <div className="flex flex-col items-center p-3 justify-center">
                         <p className="text-xs font-semibold text-black">
                           {priceDuration[sliderValue - 1].name}
@@ -1111,13 +1133,13 @@ export default function Dahsboard() {
               <div className="flex py-5">
                 <div className="bg-white p-5 rounded-md">
                   <p className="text-black font-bold">
-                    If you kick-off on{" "}
+                    {dictionary.ifKickOff}{" "}
                     <span className="font-bold text-secondary">
                       {moment().format("DD-MMM-YYYY")}
                     </span>
                   </p>
                   <p className="text-gray-400 text-sm pt-2">
-                    Estimated Final delivery:{" "}
+                    {dictionary.estimatedFinalDelivery}:{" "}
                     <span className="font-bold text-black">
                       {deliveryDate.format("DD-MMM-YYYY")}
                     </span>
@@ -1139,7 +1161,9 @@ export default function Dahsboard() {
                 />
                 <div
                   onClick={() => setCloudService((prev) => !prev)}
-                  className="absolute top-2 right-2 cursor-pointer"
+                  className={`absolute top-2 ${
+                    params.lang === "en" ? "right-2" : "left-2"
+                  } cursor-pointer`}
                 >
                   {cloudService ? (
                     <GoCheckCircleFill className="text-2xl text-secondary" />
@@ -1149,24 +1173,24 @@ export default function Dahsboard() {
                 </div>
                 <div>
                   <p className="text-black font-medium pt-4">
-                    Builder Cloud helps you scale your business
+                    {dictionary.builderCouldHelp}
                   </p>
                   <ul className=" list-disc pl-4">
                     <li className="py-1 text-black text-xs">
                       <span className="font-bold">
-                        Commitment-free savings:
+                        {dictionary.commitmentFree}
                       </span>{" "}
-                      our customers saved over $4.5m, last year.
-                    </li>
-                    <li className="py-1 text-black text-xs">
-                      <span className="font-bold">World-class analytics:</span>{" "}
-                      Optimise your software and infrastructure.
+                      {dictionary.commitmentFreeText}
                     </li>
                     <li className="py-1 text-black text-xs">
                       <span className="font-bold">
-                        Best-in-class multi-cloud:
+                        {dictionary.worldClassAnalytics}
                       </span>{" "}
-                      Azure, AWS, and more. Just one bill (for a lot less).
+                      {dictionary.worldClassAnalyticsText}
+                    </li>
+                    <li className="py-1 text-black text-xs">
+                      <span className="font-bold">{dictionary.multiCloud}</span>{" "}
+                      {dictionary.multiCloudText}
                     </li>
                   </ul>
                 </div>
@@ -1174,7 +1198,9 @@ export default function Dahsboard() {
               <div className="">
                 <div className="bg-slate-200 mt-3 p-5 h-30 w-full rounded-md relative">
                   <div className="relative h-8 flex justify-between">
-                    <p className="text-black font-bold">Number of users</p>
+                    <p className="text-black font-bold">
+                      {dictionary.numOfUsers}
+                    </p>
                     <p className="text-black font-bold">
                       {numOfUsers[rangeSliderValue - 1].users}
                     </p>
@@ -1217,11 +1243,10 @@ export default function Dahsboard() {
                         ${numOfUsers[rangeSliderValue - 1].maxPrice} + *
                       </span>
                     )}{" "}
-                    /month
+                    /{dictionary.month}
                   </p>
                   <p className="text-xs text-gray-600 pt-5 font-thin">
-                    *This is an estimated price for cloud hosting and will vary
-                    according to usage.
+                    {dictionary.note}
                   </p>
                 </div>
               </div>
@@ -1229,12 +1254,13 @@ export default function Dahsboard() {
           </div>
           <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
             <BottomBar
+              lang={params.lang}
               customizationCost={customizationCost}
               fixedCost={fixedCost}
               totalCost={calculateTotalCost}
               durationLocal={priceDuration[sliderValue - 1]?.duration}
-              buttonText="Done"
-              setBuildCard={setBuildCard}
+              buttonText={dictionary.done}
+              showBuildCardPopUp={showBuildCardPopUp}
               cloudService={cloudService}
               cloudServicePrice={maxPrice}
             />

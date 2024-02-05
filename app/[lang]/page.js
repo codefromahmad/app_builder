@@ -77,7 +77,7 @@ export default function App({ params }) {
         console.log("Success");
         // dispatch(setUser(userData));
         dispatch({ type: "setUser", payload: userData });
-        router.push("/features");
+        router.push(`/${params.lang}/features`);
       })
       .catch((error) => {
         console.log(error);
@@ -121,7 +121,7 @@ export default function App({ params }) {
       .then((authUser) => {
         console.log("Success. The user logged in", authUser);
         clearAllFields();
-        router.push("/features");
+        router.push(`/${params.lang}/features`);
       })
       .catch((error) => {
         console.log(error);

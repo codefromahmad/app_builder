@@ -160,7 +160,7 @@ export default function Features({ params }) {
           updateDoc(userRef, userData)
             .then(() => {
               console.log("Build card added/updated successfully");
-              router.push("/delivery");
+              router.push(`/${params.lang}/delivery`);
               dispatch(setUser(userData));
             })
             .catch((error) => {
