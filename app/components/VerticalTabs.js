@@ -7,7 +7,8 @@ import { IoBookmarkOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 
-const VerticalTabs = () => {
+const VerticalTabs = ({ dictionary, features }) => {
+  console.log("VerticalTabs", features);
   const user = useSelector((state) => state.user.user);
   const recentBuildCardId = localStorage.getItem("recentBuildCardId");
   const currentBuildCard = user.buildCards.find(
@@ -100,7 +101,7 @@ const VerticalTabs = () => {
     return (
       <div>
         <p className="text-secondary pb-5 font-semibold">
-          Launch Swift basic details
+          {dictionary.launchSwiftHeading}
         </p>
         <div className="flex gap-5">
           <div className="text-black text-xl">
@@ -108,7 +109,7 @@ const VerticalTabs = () => {
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <p className="text-black text-sm font-thin">Name</p>
+              <p className="text-black text-sm font-thin">{dictionary.name}</p>
               {!enterName && (
                 <LuPencil
                   onClick={() => setEnterName(!enterName)}
@@ -132,7 +133,7 @@ const VerticalTabs = () => {
                   onClick={() => updateBuildCard("name", buildCardName)}
                   className="bg-secondary p-1 text-white rounded-md text-sm cursor-pointer"
                 >
-                  Save
+                  {dictionary.save}
                 </p>
               </div>
             ) : (
@@ -141,7 +142,9 @@ const VerticalTabs = () => {
               </p>
             )}
             <div className="flex items-center gap-2">
-              <p className="text-black text-sm font-thin">Details</p>
+              <p className="text-black text-sm font-thin">
+                {dictionary.details}
+              </p>
               {!enterDetails && (
                 <LuPencil
                   onClick={() => setEnterDetails(!enterDetails)}
@@ -167,14 +170,14 @@ const VerticalTabs = () => {
                   onClick={() => updateBuildCard("details", buildCardDetails)}
                   className="bg-secondary py-1 px-3 text-white rounded-md text-sm cursor-pointer"
                 >
-                  Save
+                  {dictionary.save}
                 </p>
               </div>
             ) : (
               <p className="text-black py-2 font-bold">
                 {currentBuildCard?.details.length > 0
                   ? currentBuildCard?.details
-                  : "Enter Launch Swift Description"}
+                  : `${dictionary.enterDetail}`}
               </p>
             )}
           </div>
@@ -186,9 +189,11 @@ const VerticalTabs = () => {
   const Features = () => {
     return (
       <div className="py-2">
-        <p className="text-secondary pb-5 font-semibold">Selected Features</p>
+        <p className="text-secondary pb-5 font-semibold">
+          {dictionary.selectedFeatures}
+        </p>
         <ol className="grid grid-cols-2 gap-2">
-          {currentBuildCard.features.map((item, index) => (
+          {features.map((item, index) => (
             <li key={index} className="text-black text-sm font-medium py-1">
               {item.name}
             </li>
@@ -202,7 +207,9 @@ const VerticalTabs = () => {
     return (
       <div className="py-2">
         {console.log(currentBuildCard.phases)}
-        <p className="text-secondary pb-5 font-semibold">Selected Phases</p>
+        <p className="text-secondary pb-5 font-semibold">
+          {dictionary.phasesHeading}
+        </p>
 
         <div className="grid grid-cols-2 gap-5">
           {currentBuildCard.phases.map((item, index) => (
@@ -215,7 +222,9 @@ const VerticalTabs = () => {
               {currentBuildCard.phases.length > 0 && (
                 <>
                   <div className="flex p-5 justify-between pt-5">
-                    <p className="text-black text-xs font-bold">Platform</p>
+                    <p className="text-black text-xs font-bold">
+                      {dictionary.platform}
+                    </p>
                   </div>
                   <div className="flex px-5 justify-start py-4 gap-4">
                     <div className="flex flex-col items-center">
@@ -239,7 +248,9 @@ const VerticalTabs = () => {
               <hr /> */}
               <div className="py-10 px-5 relative">
                 <div className="flex justify-between">
-                  <p className="text-black text-xs font-bold">Working Speed</p>
+                  <p className="text-black text-xs font-bold">
+                    {dictionary.workingSpeed}
+                  </p>
                 </div>
                 <input
                   className="h-[2px] !accent-secondary w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
@@ -270,17 +281,17 @@ const VerticalTabs = () => {
   const tabs = [
     {
       id: 1,
-      name: "Launch Swift info",
+      name: `${dictionary.launchSwift}`,
       content: <LaunchSwiftInfo />,
     },
     {
       id: 3,
-      name: `Features (${currentBuildCard?.features.length})`,
+      name: `${dictionary.features} (${currentBuildCard?.features.length})`,
       content: <Features />,
     },
     {
       id: 4,
-      name: `Phases (${currentBuildCard?.phases.length})`,
+      name: `${dictionary.phases} (${currentBuildCard?.phases.length})`,
       content: <Phases />,
     },
   ];

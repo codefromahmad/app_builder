@@ -14,20 +14,20 @@ import { getDictionary } from "../../lib/dictionary";
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
   const pathName = usePathname();
   const lang = pathName.split("/")[1];
-
-  console.log("checkLocale", lang);
+  const [name, setName] = useState("");
+  const [dictionary, setDictionary] = useState({});
 
   useEffect(() => {}, []);
 
   getDictionary(lang)
     .then((data) => {
-      setName(data.header.projectName);
+      setDictionary(data.header);
     })
     .catch((error) => {
       console.error(error);
     });
+
   const router = useRouter();
-  const [name, setName] = useState("");
   const pathname = usePathname();
   const user = useSelector((state) => state.user.user);
 
@@ -44,7 +44,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
       );
 
       if (recentBuildCard) {
-        console.log("summary", recentBuildCard);
+        console.log("Header page", recentBuildCard);
         setName(recentBuildCard.name);
       } else {
         console.log("Build card with the specified ID not found.");
@@ -57,7 +57,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
   };
 
   useEffect(() => {
-    if (pathname === "/summary") getRecentBuildCard(user?.buildCards);
+    if (pathname.endsWith("summary")) getRecentBuildCard();
   }, [pathname, user]);
 
   const handleLogout = () => {
@@ -84,7 +84,9 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
         </Link>
         <div className="w-4/5 h-full px-5">
           <div className="flex h-full justify-between items-center">
-            <p className="text-white font-bold">{name}</p>
+            <p className="text-white font-bold">
+              {name !== "" ? name : dictionary.projectName}
+            </p>
             <div className="flex justify-evenly gap-2 items-center">
               <LocaleSwitcher />
 
