@@ -30,9 +30,9 @@ const HeaderLayout = ({ children, lang }) => {
               );
               if (!incompleteItem) {
                 console.log("No incomplete build card");
-                if (pathname === "/delivery") {
+                if (pathname.endsWith("delivery")) {
                   // router.push("/features");
-                  // router.push(`/${params.lang}/features`);
+                  router.push(`/features`);
 
                   return;
                 }
