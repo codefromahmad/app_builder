@@ -10,6 +10,7 @@ import { getDictionary } from "../../../lib/dictionary";
 import { sidebarData, sidebarDataArabic } from "../data";
 
 export default function Summary({ params }) {
+  const db = getFirestore();
   const [studio, setStudio] = useState(false);
   const user = useSelector((state) => state.user.user);
   const [summary, setSummary] = useState();
@@ -17,9 +18,72 @@ export default function Summary({ params }) {
   const featuresIds = useSelector((state) => state.features.features);
   const [featuresData, setFeaturesData] = useState([]);
   const dispatch = useDispatch();
+  const recentBuildCardId = localStorage.getItem("recentBuildCardId");
 
   const sidebarDataToUse =
     params.lang === "en" ? sidebarData : sidebarDataArabic;
+
+  // const handleSave = () => {
+  //   const userRef = doc(db, "users", user.uid);
+
+  //   getDoc(userRef)
+  //     .then((docSnapshot) => {
+  //       if (docSnapshot.exists()) {
+  //         const userData = docSnapshot.data();
+  //         console.log("User document data:", userData);
+
+  //         userData.buildCards = Array.isArray(userData.buildCards)
+  //           ? userData.buildCards
+  //           : [];
+
+  //         const incompleteBuildCardIndex = userData.buildCards.findIndex(
+  //           (buildCard) => buildCard.id === recentBuildCardId
+  //         );
+
+  //         if (incompleteBuildCardIndex !== -1) {
+  //           // localStorage.setItem("recentBuildCardId", null);
+  //           userData.buildCards[incompleteBuildCardIndex].status = "complete";
+  //           userData.buildCards[incompleteBuildCardIndex].features = features;
+  //           userData.buildCards[incompleteBuildCardIndex].name = name;
+  //           userData.buildCards[incompleteBuildCardIndex].duration =
+  //             priceDuration[sliderValue - 1]?.duration;
+  //           userData.buildCards[incompleteBuildCardIndex].deliveryDate =
+  //             deliveryDate.format("DD-MMM-YYYY");
+  //           userData.buildCards[incompleteBuildCardIndex].updatedAt =
+  //             new Date().toISOString();
+  //           userData.buildCards[incompleteBuildCardIndex].cloudServiceCost =
+  //             cloudService ? maxPrice : 0;
+  //           userData.buildCards[incompleteBuildCardIndex].phases =
+  //             selectedPhases.map((phase) => phase.name);
+  //           userData.buildCards[incompleteBuildCardIndex].totalCost =
+  //             calculateTotalCost;
+  //           userData.buildCards[incompleteBuildCardIndex].fixedCost = fixedCost;
+  //           userData.buildCards[incompleteBuildCardIndex].customizationCost =
+  //             customizationCost;
+  //         }
+
+  //         updateDoc(userRef, userData)
+  //           .then(() => {
+  //             console.log("Build card added/updated successfully");
+  //             router.push(`/${params.lang}/summary`);
+  //             dispatch(setUser(userData));
+  //             setName("");
+  //             setBuildCard(false);
+  //           })
+  //           .catch((error) => {
+  //             console.error("Error updating document: ", error);
+  //             setBuildCard(false);
+  //           });
+  //       } else {
+  //         console.error("User document does not exist");
+  //         setBuildCard(false);
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error getting document:", error);
+  //       setBuildCard(false);
+  //     });
+  // };
 
   useEffect(() => {
     // setSelectedFeature(features[0]);
@@ -62,7 +126,6 @@ export default function Summary({ params }) {
         const buildCards = userData?.buildCards || [];
 
         // Get the build card ID from local storage
-        const recentBuildCardId = localStorage.getItem("recentBuildCardId");
         console.log("recentBuildCardId in summary", recentBuildCardId);
 
         if (

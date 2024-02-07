@@ -490,7 +490,7 @@ export default function Delivery({ params }) {
           updateDoc(userRef, userData)
             .then(() => {
               console.log("Build card added/updated successfully");
-              router.push("/summary");
+              router.push(`/${params.lang}/summary`);
               dispatch(setUser(userData));
               setName("");
               setBuildCard(false);

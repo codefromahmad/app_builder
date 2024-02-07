@@ -13,7 +13,8 @@ export const sidebarData = [
         name: "Account Creation",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation.png?alt=media&token=da158207-0402-4df7-bdf7-e0c71d3f09ea",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation-web.png?alt=media&token=e7a7db95-d2ec-45e3-b621-9d529bf824cb",
         price: "520",
         timeline: "1.0",
         description:
@@ -24,7 +25,8 @@ export const sidebarData = [
         name: "Facebook Login",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login.png?alt=media&token=a8e30e28-a257-49a4-9adf-11610f879da8",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login-web.png?alt=media&token=78922110-6467-4d55-9aac-097da46ddbd9",
         price: "450.15",
         timeline: "3.0",
         description:
@@ -35,7 +37,7 @@ export const sidebarData = [
         name: "Free Trial",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffree-trial.png?alt=media&token=b6dca1f3-47b0-4d76-bdd4-9f131d071a47",
         price: "1,200",
         timeline: "3.0",
         description:
@@ -46,7 +48,7 @@ export const sidebarData = [
         name: "Search",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fsearch-4.png?alt=media&token=87db3216-7c4e-4887-9579-a39dd0f5e80c",
         price: "850.87",
         timeline: "2.0",
         description:
@@ -57,7 +59,7 @@ export const sidebarData = [
         name: "Settings",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fsettings.png?alt=media&token=0497a250-5aa5-4c52-8a1d-77554d0071dd",
         price: "768.06",
         timeline: "3.0",
         description:
@@ -90,7 +92,7 @@ export const sidebarData = [
         name: "Splash Screen",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fsplash-screen-8.png?alt=media&token=ce07f307-96cf-4c70-88bb-e78daf54647e",
         price: "369.62",
         timeline: "3.0",
         description:
@@ -112,7 +114,8 @@ export const sidebarData = [
         name: "Apple Login",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fapple-login-10.png?alt=media&token=a2a2f86d-fd9c-40d3-a550-05f97056fbd3",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fapple-login-web-10.png?alt=media&token=6f6cdfc8-6a01-46ea-821c-112425df45c7",
         price: "154.54",
         timeline: "3.0",
         description:
@@ -133,7 +136,8 @@ export const sidebarData = [
         name: "Calendar",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcalender-12.png?alt=media&token=cde1fb80-5810-48fe-82e4-0aaeefb2065b",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcalender-web-12.png?alt=media&token=ad3c7cf8-9918-48ac-b4cb-869a9f7c2174",
         price: "366.47",
         timeline: "3.0",
         description:
@@ -144,7 +148,7 @@ export const sidebarData = [
         name: "Contacts Integration",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcontact-integration-13.png?alt=media&token=144e6076-eec1-4876-b29f-c6b51163a61b",
         price: "1,141.00",
         timeline: "3.0",
         description: "Providing access to the phone's system contacts.",
@@ -154,7 +158,7 @@ export const sidebarData = [
         name: "Contacts List",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcontact-list-14.png?alt=media&token=9324450e-d877-48ed-a86c-2478b8aeb863",
         price: "455.44",
         timeline: "3.0",
         description:
@@ -175,7 +179,7 @@ export const sidebarData = [
         name: "Data Saver",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fdata-saver-16.png?alt=media&token=02517fbc-1eaa-4db2-bc6c-51a6dfed991e",
         price: "1,580.88",
         timeline: "3.0",
         description:
@@ -196,7 +200,7 @@ export const sidebarData = [
         name: "Display & Theme",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fdisplay-theme-18.png?alt=media&token=32350370-20a1-4584-a55d-44b79bd9f6d3",
         price: "123.99",
         timeline: "3.0",
         description: "",
@@ -206,7 +210,7 @@ export const sidebarData = [
         name: "Employee Login",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Femployee-login-19.png?alt=media&token=4704545c-6f00-4228-a722-c0e7f62adb3a",
         price: "1,705.53",
         timeline: "3.0",
         description: "",
@@ -226,7 +230,7 @@ export const sidebarData = [
         name: "File Compression",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffile-compression-21.png?alt=media&token=ce265248-b5c1-4664-bb1a-2a301cddabbe",
         price: "941.69",
         timeline: "2.0",
         description: "",
@@ -246,7 +250,7 @@ export const sidebarData = [
         name: "Google Contacts Import",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fgoogle-contacts-import-23.png?alt=media&token=afcf4613-7566-4276-8dfd-33f377c21aeb",
         price: "583.33",
         timeline: "3.0",
         description: "",
@@ -256,7 +260,7 @@ export const sidebarData = [
         name: "Hamburger Menu",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fhamburger-menu-24.png?alt=media&token=11b7654b-9033-4358-a3a5-2492a6450d75",
         price: "2,076.83",
         timeline: "2.0",
         description: "",
@@ -266,7 +270,7 @@ export const sidebarData = [
         name: "Background Fetch",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbackground-fetch-25.png?alt=media&token=0e517e05-5b6d-40af-87aa-6ae91f59ef47",
         price: "100",
         timeline: "2.0",
         description:
@@ -277,7 +281,8 @@ export const sidebarData = [
         name: "Barcode Scanning",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbarcode-scanning-26.png?alt=media&token=2e156e1a-1333-4932-aa8c-ef334e9b02be",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbarcode-scanning-web-26.png?alt=media&token=be978848-8d9b-4f8b-97ce-bf9b87dd0250",
         price: "100",
         timeline: "3.0",
         description:
@@ -288,7 +293,7 @@ export const sidebarData = [
         name: "Contacts Integration",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcontact-integration-13.png?alt=media&token=144e6076-eec1-4876-b29f-c6b51163a61b",
         price: "1,141.00",
         timeline: "3.0",
         description: "Providing access to the phone's system contacts.",
@@ -298,7 +303,7 @@ export const sidebarData = [
         name: "Contacts List",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcontact-list-14.png?alt=media&token=9324450e-d877-48ed-a86c-2478b8aeb863",
         price: "455.44",
         timeline: "3.0",
         description:
@@ -319,7 +324,7 @@ export const sidebarData = [
         name: "Data Saver",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fdata-saver-16.png?alt=media&token=02517fbc-1eaa-4db2-bc6c-51a6dfed991e",
         price: "1,580.88",
         timeline: "3.0",
         description:
@@ -340,7 +345,7 @@ export const sidebarData = [
         name: "Display & Theme",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fdisplay-theme-18.png?alt=media&token=32350370-20a1-4584-a55d-44b79bd9f6d3",
         price: "123.99",
         timeline: "3.0",
         description: "",
@@ -350,7 +355,7 @@ export const sidebarData = [
         name: "Employee Login",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Femployee-login-19.png?alt=media&token=4704545c-6f00-4228-a722-c0e7f62adb3a",
         price: "1,705.53",
         timeline: "3.0",
         description: "",
@@ -370,7 +375,7 @@ export const sidebarData = [
         name: "File Compression",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffile-compression-21.png?alt=media&token=ce265248-b5c1-4664-bb1a-2a301cddabbe",
         price: "941.69",
         timeline: "2.0",
         description: "",
@@ -390,7 +395,7 @@ export const sidebarData = [
         name: "Google Contacts Import",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fgoogle-contacts-import-23.png?alt=media&token=afcf4613-7566-4276-8dfd-33f377c21aeb",
         price: "583.33",
         timeline: "3.0",
         description: "",
@@ -400,7 +405,7 @@ export const sidebarData = [
         name: "Hamburger Menu",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fhamburger-menu-24.png?alt=media&token=11b7654b-9033-4358-a3a5-2492a6450d75",
         price: "2,076.83",
         timeline: "2.0",
         description: "",
@@ -410,7 +415,7 @@ export const sidebarData = [
         name: "Background Fetch",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbackground-fetch-25.png?alt=media&token=0e517e05-5b6d-40af-87aa-6ae91f59ef47",
         price: "200",
         timeline: "2.0",
         description:
@@ -421,7 +426,8 @@ export const sidebarData = [
         name: "Barcode Scanning",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbarcode-scanning-26.png?alt=media&token=2e156e1a-1333-4932-aa8c-ef334e9b02be",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbarcode-scanning-web-26.png?alt=media&token=be978848-8d9b-4f8b-97ce-bf9b87dd0250",
         price: "100",
         timeline: "3.0",
         description:
@@ -655,7 +661,8 @@ export const sidebarDataArabic = [
         name: "إنشاء حساب",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation.png?alt=media&token=da158207-0402-4df7-bdf7-e0c71d3f09ea",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation-web.png?alt=media&token=e7a7db95-d2ec-45e3-b621-9d529bf824cb",
         price: "520",
         timeline: "1.0",
         description:
@@ -666,7 +673,8 @@ export const sidebarDataArabic = [
         name: "تسجيل الدخول باستخدام فيسبوك",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login.png?alt=media&token=a8e30e28-a257-49a4-9adf-11610f879da8",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login-web.png?alt=media&token=78922110-6467-4d55-9aac-097da46ddbd9",
         price: "450.15",
         timeline: "3.0",
         description:
@@ -677,7 +685,7 @@ export const sidebarDataArabic = [
         name: "تجربة مجانية",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffree-trial.png?alt=media&token=b6dca1f3-47b0-4d76-bdd4-9f131d071a47",
         price: "1,200",
         timeline: "3.0",
         description:
@@ -688,7 +696,7 @@ export const sidebarDataArabic = [
         name: "البحث",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fsearch-4.png?alt=media&token=87db3216-7c4e-4887-9579-a39dd0f5e80c",
         price: "850.87",
         timeline: "2.0",
         description:
@@ -699,7 +707,7 @@ export const sidebarDataArabic = [
         name: "الإعدادات",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fsettings.png?alt=media&token=0497a250-5aa5-4c52-8a1d-77554d0071dd",
         price: "768.06",
         timeline: "3.0",
         description:
@@ -732,7 +740,7 @@ export const sidebarDataArabic = [
         name: "شاشة البداية",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fsplash-screen-8.png?alt=media&token=ce07f307-96cf-4c70-88bb-e78daf54647e",
         price: "369.62",
         timeline: "3.0",
         description:
@@ -754,7 +762,8 @@ export const sidebarDataArabic = [
         name: "تسجيل الدخول باستخدام Apple",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fapple-login-10.png?alt=media&token=a2a2f86d-fd9c-40d3-a550-05f97056fbd3",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fapple-login-web-10.png?alt=media&token=6f6cdfc8-6a01-46ea-821c-112425df45c7",
         price: "154.54",
         timeline: "3.0",
         description:
@@ -775,7 +784,8 @@ export const sidebarDataArabic = [
         name: "التقويم",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcalender-12.png?alt=media&token=cde1fb80-5810-48fe-82e4-0aaeefb2065b",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcalender-web-12.png?alt=media&token=ad3c7cf8-9918-48ac-b4cb-869a9f7c2174",
         price: "366.47",
         timeline: "3.0",
         description:
@@ -786,7 +796,7 @@ export const sidebarDataArabic = [
         name: "تكامل جهات الاتصال",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcontact-integration-13.png?alt=media&token=144e6076-eec1-4876-b29f-c6b51163a61b",
         price: "1,141.00",
         timeline: "3.0",
         description: "توفير الوصول إلى جهات اتصال نظام الهاتف.",
@@ -796,7 +806,7 @@ export const sidebarDataArabic = [
         name: "قائمة جهات الاتصال",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcontact-list-14.png?alt=media&token=9324450e-d877-48ed-a86c-2478b8aeb863",
         price: "455.44",
         timeline: "3.0",
         description:
@@ -817,7 +827,7 @@ export const sidebarDataArabic = [
         name: "موفر البيانات",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fdata-saver-16.png?alt=media&token=02517fbc-1eaa-4db2-bc6c-51a6dfed991e",
         price: "1,580.88",
         timeline: "3.0",
         description:
@@ -838,7 +848,7 @@ export const sidebarDataArabic = [
         name: "عرض وسمة",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fdisplay-theme-18.png?alt=media&token=32350370-20a1-4584-a55d-44b79bd9f6d3",
         price: "123.99",
         timeline: "3.0",
         description: "",
@@ -848,7 +858,7 @@ export const sidebarDataArabic = [
         name: "تسجيل الدخول للموظفين",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Femployee-login-19.png?alt=media&token=4704545c-6f00-4228-a722-c0e7f62adb3a",
         price: "1,705.53",
         timeline: "3.0",
         description: "",
@@ -868,7 +878,7 @@ export const sidebarDataArabic = [
         name: "ضغط الملف",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffile-compression-21.png?alt=media&token=ce265248-b5c1-4664-bb1a-2a301cddabbe",
         price: "941.69",
         timeline: "2.0",
         description: "",
@@ -888,7 +898,7 @@ export const sidebarDataArabic = [
         name: "استيراد جهات اتصال Google",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fgoogle-contacts-import-23.png?alt=media&token=afcf4613-7566-4276-8dfd-33f377c21aeb",
         price: "583.33",
         timeline: "3.0",
         description: "",
@@ -898,7 +908,7 @@ export const sidebarDataArabic = [
         name: "قائمة الهمبرغر",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fhamburger-menu-24.png?alt=media&token=11b7654b-9033-4358-a3a5-2492a6450d75",
         price: "2,076.83",
         timeline: "2.0",
         description: "",
@@ -908,7 +918,7 @@ export const sidebarDataArabic = [
         name: "استرجاع الخلفية",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbackground-fetch-25.png?alt=media&token=0e517e05-5b6d-40af-87aa-6ae91f59ef47",
         price: "100",
         timeline: "2.0",
         description:
@@ -919,7 +929,8 @@ export const sidebarDataArabic = [
         name: "فحص الباركود",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbarcode-scanning-26.png?alt=media&token=2e156e1a-1333-4932-aa8c-ef334e9b02be",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbarcode-scanning-web-26.png?alt=media&token=be978848-8d9b-4f8b-97ce-bf9b87dd0250",
         price: "100",
         timeline: "3.0",
         description:
@@ -930,7 +941,7 @@ export const sidebarDataArabic = [
         name: "تكامل جهات الاتصال",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcontact-integration-13.png?alt=media&token=144e6076-eec1-4876-b29f-c6b51163a61b",
         price: "1,141.00",
         timeline: "3.0",
         description: "توفير الوصول إلى جهات اتصال نظام الهاتف.",
@@ -940,7 +951,7 @@ export const sidebarDataArabic = [
         name: "قائمة جهات الاتصال",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fcontact-list-14.png?alt=media&token=9324450e-d877-48ed-a86c-2478b8aeb863",
         price: "455.44",
         timeline: "3.0",
         description:
@@ -961,7 +972,7 @@ export const sidebarDataArabic = [
         name: "حافظ على البيانات",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fdata-saver-16.png?alt=media&token=02517fbc-1eaa-4db2-bc6c-51a6dfed991e",
         price: "1,580.88",
         timeline: "3.0",
         description:
@@ -982,7 +993,7 @@ export const sidebarDataArabic = [
         name: "عرض وسمة",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fdisplay-theme-18.png?alt=media&token=32350370-20a1-4584-a55d-44b79bd9f6d3",
         price: "123.99",
         timeline: "3.0",
         description: "",
@@ -992,7 +1003,7 @@ export const sidebarDataArabic = [
         name: "تسجيل الدخول للموظفين",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Femployee-login-19.png?alt=media&token=4704545c-6f00-4228-a722-c0e7f62adb3a",
         price: "1,705.53",
         timeline: "3.0",
         description: "",
@@ -1012,7 +1023,7 @@ export const sidebarDataArabic = [
         name: "ضغط الملفات",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffile-compression-21.png?alt=media&token=ce265248-b5c1-4664-bb1a-2a301cddabbe",
         price: "941.69",
         timeline: "2.0",
         description: "",
@@ -1032,7 +1043,7 @@ export const sidebarDataArabic = [
         name: "استيراد جهات الاتصال من Google",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fgoogle-contacts-import-23.png?alt=media&token=afcf4613-7566-4276-8dfd-33f377c21aeb",
         price: "583.33",
         timeline: "3.0",
         description: "",
@@ -1042,7 +1053,7 @@ export const sidebarDataArabic = [
         name: "قائمة هامبورجر",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fhamburger-menu-24.png?alt=media&token=11b7654b-9033-4358-a3a5-2492a6450d75",
         price: "2,076.83",
         timeline: "2.0",
         description: "",
@@ -1052,7 +1063,7 @@ export const sidebarDataArabic = [
         name: "استحضار الخلفية",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbackground-fetch-25.png?alt=media&token=0e517e05-5b6d-40af-87aa-6ae91f59ef47",
         price: "200",
         timeline: "2.0",
         description:
@@ -1063,7 +1074,8 @@ export const sidebarDataArabic = [
         name: "فحص الباركود",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
         mobile:
-          "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbarcode-scanning-26.png?alt=media&token=2e156e1a-1333-4932-aa8c-ef334e9b02be",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fbarcode-scanning-web-26.png?alt=media&token=be978848-8d9b-4f8b-97ce-bf9b87dd0250",
         price: "100",
         timeline: "3.0",
         description:
