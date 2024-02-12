@@ -130,7 +130,7 @@ const VerticalTabs = ({ dictionary, features }) => {
                 </div>
                 <p
                   onClick={() => updateBuildCard("name", buildCardName)}
-                  className="bg-secondary p-1 text-white rounded-md text-sm cursor-pointer"
+                  className="bg-secondary p-2 text-white rounded-md text-sm cursor-pointer"
                 >
                   {dictionary.save}
                 </p>
@@ -167,7 +167,7 @@ const VerticalTabs = ({ dictionary, features }) => {
                 </div>
                 <p
                   onClick={() => updateBuildCard("details", buildCardDetails)}
-                  className="bg-secondary py-1 px-3 text-white rounded-md text-sm cursor-pointer"
+                  className="bg-secondary py-2 px-3 text-white rounded-md text-sm cursor-pointer"
                 >
                   {dictionary.save}
                 </p>
