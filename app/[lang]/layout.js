@@ -2,9 +2,13 @@
 import "./globals.css";
 import { Provider } from "react-redux";
 import store from "../store/store";
-import Header from "../components/Header";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Noto_Sans_Arabic } from "next/font/google";
+
+const arabic = Noto_Sans_Arabic({
+  subsets: ["arabic"],
+  variable: "--font-arabic",
+  display: "swap",
+});
 
 const metadata = {
   title: "App Builder",
@@ -13,7 +17,10 @@ const metadata = {
 
 export default function RootLayout({ children, params }) {
   return (
-    <html lang={params.lang}>
+    <html
+      lang={params.lang}
+      className={params.lang === "ar" && arabic.className}
+    >
       <body>
         <Provider store={store}>
           <div>{children}</div>

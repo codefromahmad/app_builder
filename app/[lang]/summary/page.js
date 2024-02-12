@@ -1,17 +1,17 @@
 "use client";
 import HeaderLayout from "../../components/HeaderLayout";
 import VerticalTabs from "../../components/VerticalTabs";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { auth } from "../firebase";
 import { GoCheckCircleFill, GoCircle } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { getDictionary } from "../../../lib/dictionary";
 import { sidebarData, sidebarDataArabic } from "../data";
+import { setUser } from "../../store/reducers/user";
 
 export default function Summary({ params }) {
   const db = getFirestore();
-  const [studio, setStudio] = useState(false);
   const user = useSelector((state) => state.user.user);
   const [summary, setSummary] = useState();
   const [dictionary, setDictionary] = useState({});
@@ -19,71 +19,52 @@ export default function Summary({ params }) {
   const [featuresData, setFeaturesData] = useState([]);
   const dispatch = useDispatch();
   const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+  const [cloudService, setCloudService] = useState();
+  const [cloudServiceSelected, setCloudServiceSelected] = useState();
 
   const sidebarDataToUse =
     params.lang === "en" ? sidebarData : sidebarDataArabic;
 
-  // const handleSave = () => {
-  //   const userRef = doc(db, "users", user.uid);
+  const handleSave = () => {
+    const userRef = doc(db, "users", user.uid);
 
-  //   getDoc(userRef)
-  //     .then((docSnapshot) => {
-  //       if (docSnapshot.exists()) {
-  //         const userData = docSnapshot.data();
-  //         console.log("User document data:", userData);
+    getDoc(userRef)
+      .then((docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          userData.buildCards = Array.isArray(userData.buildCards)
+            ? userData.buildCards
+            : [];
 
-  //         userData.buildCards = Array.isArray(userData.buildCards)
-  //           ? userData.buildCards
-  //           : [];
+          const currentBuildCard = userData.buildCards.findIndex(
+            (buildCard) => buildCard.id === recentBuildCardId
+          );
 
-  //         const incompleteBuildCardIndex = userData.buildCards.findIndex(
-  //           (buildCard) => buildCard.id === recentBuildCardId
-  //         );
+          if (currentBuildCard !== -1) {
+            // localStorage.setItem("recentBuildCardId", null);
+            userData.buildCards[currentBuildCard].updatedAt =
+              new Date().toISOString();
+            userData.buildCards[currentBuildCard].cloudServiceCost =
+              cloudService;
+          }
 
-  //         if (incompleteBuildCardIndex !== -1) {
-  //           // localStorage.setItem("recentBuildCardId", null);
-  //           userData.buildCards[incompleteBuildCardIndex].status = "complete";
-  //           userData.buildCards[incompleteBuildCardIndex].features = features;
-  //           userData.buildCards[incompleteBuildCardIndex].name = name;
-  //           userData.buildCards[incompleteBuildCardIndex].duration =
-  //             priceDuration[sliderValue - 1]?.duration;
-  //           userData.buildCards[incompleteBuildCardIndex].deliveryDate =
-  //             deliveryDate.format("DD-MMM-YYYY");
-  //           userData.buildCards[incompleteBuildCardIndex].updatedAt =
-  //             new Date().toISOString();
-  //           userData.buildCards[incompleteBuildCardIndex].cloudServiceCost =
-  //             cloudService ? maxPrice : 0;
-  //           userData.buildCards[incompleteBuildCardIndex].phases =
-  //             selectedPhases.map((phase) => phase.name);
-  //           userData.buildCards[incompleteBuildCardIndex].totalCost =
-  //             calculateTotalCost;
-  //           userData.buildCards[incompleteBuildCardIndex].fixedCost = fixedCost;
-  //           userData.buildCards[incompleteBuildCardIndex].customizationCost =
-  //             customizationCost;
-  //         }
-
-  //         updateDoc(userRef, userData)
-  //           .then(() => {
-  //             console.log("Build card added/updated successfully");
-  //             router.push(`/${params.lang}/summary`);
-  //             dispatch(setUser(userData));
-  //             setName("");
-  //             setBuildCard(false);
-  //           })
-  //           .catch((error) => {
-  //             console.error("Error updating document: ", error);
-  //             setBuildCard(false);
-  //           });
-  //       } else {
-  //         console.error("User document does not exist");
-  //         setBuildCard(false);
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error getting document:", error);
-  //       setBuildCard(false);
-  //     });
-  // };
+          updateDoc(userRef, userData)
+            .then(() => {
+              console.log("Build card added/updated successfully");
+              dispatch(setUser(userData));
+              // setName("");
+            })
+            .catch((error) => {
+              console.error("Error updating document: ", error);
+            });
+        } else {
+          console.error("User document does not exist");
+        }
+      })
+      .catch((error) => {
+        console.error("Error getting document:", error);
+      });
+  };
 
   useEffect(() => {
     // setSelectedFeature(features[0]);
@@ -95,7 +76,6 @@ export default function Summary({ params }) {
       );
 
       if (matchingItems?.length > 0) {
-        console.log("matchingItems in summary", matchingItems);
         results.push(...matchingItems);
       }
 
@@ -120,14 +100,9 @@ export default function Summary({ params }) {
 
       if (docSnapshot.exists()) {
         const userData = docSnapshot.data();
-        console.log("User data:", userData);
 
         // Assuming 'buildCards' is an array in your user data
         const buildCards = userData?.buildCards || [];
-
-        // Get the build card ID from local storage
-        console.log("recentBuildCardId in summary", recentBuildCardId);
-
         if (
           Array.isArray(buildCards) &&
           buildCards.length > 0 &&
@@ -140,8 +115,11 @@ export default function Summary({ params }) {
 
           if (recentBuildCard) {
             // Return the found build card
-            console.log("summary in summary page", recentBuildCard);
             setSummary(recentBuildCard);
+            setCloudService(recentBuildCard.cloudServiceCost);
+            setCloudServiceSelected(
+              recentBuildCard.cloudServiceCost ? true : false
+            );
             dispatch({
               type: "setFeatures",
               payload: recentBuildCard.features,
@@ -175,12 +153,30 @@ export default function Summary({ params }) {
   }, [auth]);
 
   const inputDate = new Date(summary?.updatedAt);
-
-  // Define options for formatting
   const options = { day: "2-digit", month: "short", year: "numeric" };
-
-  // Format the date
   const formattedDate = inputDate.toLocaleDateString("en-US", options);
+
+  const handleCloudSelection = () => {
+    console.log("handleCloudSelection", cloudServiceSelected);
+    // setCloudServiceSelected((prev) => !prev);
+    if (cloudServiceSelected) {
+      console.log("inside if");
+      setCloudServiceSelected(false);
+      setCloudService(0);
+    } else {
+      console.log("inside else");
+      setCloudServiceSelected(true);
+      setCloudService(
+        summary?.cloudServiceCost != 0 ? summary?.cloudServiceCost : 12841
+      );
+    }
+    // console.log(
+    //   "cloudService:",
+    //   cloudService,
+    //   summary?.cloudServiceCost,
+    //   cloudServiceSelected
+    // );
+  };
 
   return (
     <HeaderLayout>
@@ -221,19 +217,23 @@ export default function Summary({ params }) {
                   {dictionary.customizationCost}
                 </p>
                 <p className="text-black text-sm">
-                  ${summary?.customizationCost}
+                  ${summary?.customizationCost.toLocaleString()}
                 </p>
               </div>
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm">{dictionary.fixedCost}</p>
-                <p className="text-black text-sm">${summary?.fixedCost}</p>
+                <p className="text-black text-sm">
+                  ${summary?.fixedCost.toLocaleString()}
+                </p>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm font-bold">
                   {dictionary.totalCost}
                 </p>
-                <p className="text-black text-sm">${summary?.totalCost}</p>
+                <p className="text-black text-sm">
+                  ${summary?.totalCost.toLocaleString()}
+                </p>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
@@ -268,7 +268,7 @@ export default function Summary({ params }) {
                 </p>
               </div>
               <div className="grid grid-cols-2">
-                <div className="flex items-center gap-3 py-1">
+                {/* <div className="flex items-center gap-3 py-1">
                   <div
                     onClick={() => setStudio((prev) => !prev)}
                     className="cursor-pointer"
@@ -287,13 +287,13 @@ export default function Summary({ params }) {
                       $15,034.51 /{dictionary.month}
                     </p>
                   </div>
-                </div>
+                </div> */}
                 <div className="flex items-center gap-3 py-1">
                   <div
-                    onClick={() => setStudio((prev) => !prev)}
+                    onClick={handleCloudSelection}
                     className="cursor-pointer"
                   >
-                    {studio ? (
+                    {cloudServiceSelected > 0 ? (
                       <GoCheckCircleFill className="text-xl text-secondary" />
                     ) : (
                       <GoCircle className="text-xl text-gray-400 cursor-pointer" />
@@ -304,13 +304,23 @@ export default function Summary({ params }) {
                       {dictionary.launchCloud}
                     </p>
                     <p className="text-black text-sm">
-                      $12,841.41 - $19,261.71/{dictionary.month}
+                      {(cloudService > 0 && cloudService?.toLocaleString()) ||
+                        `12,841-19,261`}
+                      /{dictionary.month}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <button className="text-white p-3 my-2 rounded-md bg-secondary text-sm">
+            <button
+              disabled={cloudService === summary?.cloudServiceCost}
+              onClick={handleSave}
+              className={`${
+                cloudService === summary?.cloudServiceCost
+                  ? "bg-slate-300"
+                  : "text-white bg-secondary"
+              } p-3 my-2 rounded-md text-sm`}
+            >
               {dictionary.save}
             </button>
           </div>

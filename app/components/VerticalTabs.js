@@ -8,7 +8,6 @@ import { LuPencil } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 
 const VerticalTabs = ({ dictionary, features }) => {
-  console.log("VerticalTabs", features);
   const user = useSelector((state) => state.user.user);
   const recentBuildCardId = localStorage.getItem("recentBuildCardId");
   const currentBuildCard = user.buildCards.find(
