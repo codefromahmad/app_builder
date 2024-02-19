@@ -3,6 +3,7 @@ import { PhoneFrame } from "./PhoneFrame";
 import Image from "next/image";
 import { MdDeleteOutline } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
+import placheholderImage from "../images/builderlogo.svg";
 
 const ShowFeature = ({
   selectedFeature,
@@ -22,18 +23,18 @@ const ShowFeature = ({
         <div className="w-48 h-96">
           <PhoneFrame>
             <Image
-              width={100}
+              width={200}
               height={100}
               src={selectedFeature?.mobile}
               alt="icon"
-              className=" object-fill w-full h-full"
+              className="object-fill"
             />
           </PhoneFrame>
         </div>
       ) : (
-        <div className="border-2 border-[#A6A6A6] w-1/2 h-1/2 p-5 rounded-lg">
+        <div className="border-2 border-[#A6A6A6] p-5 w-3/5 h-1/2 rounded-lg">
           <Image
-            width={100}
+            width={1024}
             height={100}
             src={selectedFeature?.web}
             alt="icon"
@@ -42,63 +43,38 @@ const ShowFeature = ({
         </div>
       )}
 
-      {platform === "mobile" ? (
-        <div className="w-1/3">
-          <div className="flex items-center gap-2">
-            <p className="text-black font-semibold text-2xl">
-              {selectedFeature.name}
-            </p>
-            <div
-              onClick={() => handleFeaturesSelection(selectedFeature)}
-              className="bg-white hover:bg-slate-50 duration-300 w-7 h-7 rounded-md items-center justify-center flex border-[1px] cursor-pointer"
-            >
-              {isFeatureSelected(selectedFeature) ? (
-                <MdDeleteOutline className="text-black" />
-              ) : (
-                <FiPlus className="text-black" />
-              )}
-            </div>
-          </div>
-          <p className="text-text py-1 duration-300">
-            {selectedFeature.category}
+      <div className={`${platform === "mobile" ? "w-1/3" : "w-1/2 pt-4"}`}>
+        <div className="flex items-center gap-2">
+          <p className="text-black font-semibold text-2xl">
+            {selectedFeature.name}
           </p>
-          <div className="py-2">
-            <p className="text-text text-lg py-1">${selectedFeature.price}</p>
-            <p className="text-text text-lg py-[1px]">
-              {selectedFeature.timeline} {sidebar.days}
-            </p>
+          <div
+            onClick={() => handleFeaturesSelection(selectedFeature)}
+            className="bg-white hover:bg-slate-50 duration-300 w-7 h-7 rounded-md items-center justify-center flex border-[1px] cursor-pointer"
+          >
+            {isFeatureSelected(selectedFeature) ? (
+              <MdDeleteOutline className="text-black" />
+            ) : (
+              <FiPlus className="text-black" />
+            )}
           </div>
-          <p className={`text-black py-1 ${lang === "ar" && "leading-10"}`}>
-            {selectedFeature.description}
+        </div>
+        <p className="text-text py-1 duration-300">
+          {selectedFeature.category}
+        </p>
+        <div className={`${platform === "mobile" ? "py-2" : "py-1"}`}>
+          <p className="text-text text-lg py-1">${selectedFeature.price}</p>
+          <p className="text-text text-lg py-[1px]">
+            {selectedFeature.timeline} {sidebar.days}
           </p>
-          {/* <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
+        </div>
+        <p className={`text-black py-1 ${lang === "ar" && "leading-10"}`}>
+          {selectedFeature.description}
+        </p>
+        {/* <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
           <p className="text-white text-xs">Add note</p>
         </div> */}
-        </div>
-      ) : (
-        <div className="flex gap-20 px-10 py-10">
-          <div className="w-3/4 flex flex-col gap-2">
-            <p className="text-black font-semibold text-2xl">
-              {selectedFeature.name}
-            </p>
-            <p className="text-text py-1 duration-300">
-              {selectedFeature.category}
-            </p>
-            <p className={`text-black py-1 ${lang === "ar" && "leading-10"}`}>
-              {selectedFeature.description}
-            </p>
-          </div>
-          <div className="py-2 w-1/4">
-            <p className="text-text text-lg py-1">${selectedFeature.price}</p>
-            <p className="text-text text-lg py-[1px]">
-              {selectedFeature.timeline} {sidebar.days}
-            </p>
-            {/* <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
-              <p className="text-white text-xs">Add note</p>
-            </div> */}
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

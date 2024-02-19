@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { usePathname } from "next/navigation";
+import spinner from "../images/spinner.gif";
+import Image from "next/image";
 
 const HeaderLayout = ({ children, lang }) => {
   const [user, setUser] = useState(null);
@@ -59,14 +61,6 @@ const HeaderLayout = ({ children, lang }) => {
     return () => unsubscribe();
   }, [db, dispatch, router]);
 
-  if (!user) {
-    return (
-      <div className="flex justify-center items-center h-screen w-screen">
-        <p className="text-black">Loading...</p>
-      </div>
-    );
-  }
-
   return (
     <div>
       <Header
@@ -75,7 +69,13 @@ const HeaderLayout = ({ children, lang }) => {
         dropdownOpen={dropdownOpen}
         setDropdownOpen={setDropdownOpen}
       />
-      <div onClick={() => setDropdownOpen(false)}>{children}</div>
+      {user ? (
+        <div onClick={() => setDropdownOpen(false)}>{children}</div>
+      ) : (
+        <div className="flex justify-center items-center h-screen w-screen">
+          <Image src={spinner} alt="loading..." className="w-40 h-40" />
+        </div>
+      )}
     </div>
   );
 };

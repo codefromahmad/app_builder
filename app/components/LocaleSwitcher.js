@@ -17,13 +17,15 @@ export default function LocaleSwitcher() {
   };
 
   return (
-    <ul className="flex gap-x-3">
+    <ul className={`flex ${checkLocale === "ar" && "pl-5"} gap-x-3`}>
       {i18n.locales.map((locale) => {
         return (
           <li key={locale}>
             <Link
               href={redirectedPathName(locale)}
-              className={`rounded-md  p-2 text-white ${
+              className={`rounded-md ${
+                checkLocale === "en" ? "p-2" : "py-0 px-2"
+              } text-white ${
                 checkLocale === locale ? "bg-secondary" : "bg-primary"
               }`}
             >

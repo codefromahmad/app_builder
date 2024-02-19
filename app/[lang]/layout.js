@@ -2,11 +2,17 @@
 import "./globals.css";
 import { Provider } from "react-redux";
 import store from "../store/store";
-import { Noto_Sans_Arabic } from "next/font/google";
+import { Noto_Sans_Arabic, Inter } from "next/font/google";
 
 const arabic = Noto_Sans_Arabic({
   subsets: ["arabic"],
   variable: "--font-arabic",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-eng",
   display: "swap",
 });
 
@@ -19,7 +25,7 @@ export default function RootLayout({ children, params }) {
   return (
     <html
       lang={params.lang}
-      className={params.lang === "ar" && arabic.className}
+      className={params.lang === "ar" ? arabic.className : inter.className}
     >
       <body>
         <Provider store={store}>

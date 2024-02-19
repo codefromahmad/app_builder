@@ -1,19 +1,28 @@
 "use client";
 import HeaderLayout from "../../components/HeaderLayout";
 import VerticalTabs from "../../components/VerticalTabs";
-import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+  getFirestore,
+} from "firebase/firestore";
+import React, { useEffect, useRef, useState } from "react";
 import { auth } from "../firebase";
 import { GoCheckCircleFill, GoCircle } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { getDictionary } from "../../../lib/dictionary";
 import { sidebarData, sidebarDataArabic } from "../data";
 import { setUser } from "../../store/reducers/user";
+import { IoClose } from "react-icons/io5";
+import { IoMdPricetags } from "react-icons/io";
 
 export default function Summary({ params }) {
-  const db = getFirestore();
   const user = useSelector((state) => state.user.user);
-  const [summary, setSummary] = useState();
+  const summary = useSelector((state) => state.buildcard.recentBuildCard);
+  // const [summary, setSummary] = useState();
   const [dictionary, setDictionary] = useState({});
   const featuresIds = useSelector((state) => state.features.features);
   const [featuresData, setFeaturesData] = useState([]);
@@ -21,6 +30,74 @@ export default function Summary({ params }) {
   const recentBuildCardId = localStorage.getItem("recentBuildCardId");
   const [cloudService, setCloudService] = useState();
   const [cloudServiceSelected, setCloudServiceSelected] = useState();
+  const [enterPromoCode, setEnterPromoCode] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
+  const [promoCodeValid, setPromoCodeValid] = useState(null);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const promoRef = useRef(null);
+
+  const checkPromoCode = async () => {
+    console.log("inside checkPromoCode");
+    setLoading(true);
+    try {
+      const firestore = getFirestore();
+      const promoCodesCollectionRef = collection(firestore, "promoCodes");
+      const q = query(promoCodesCollectionRef, where("code", "==", promoCode));
+      const promoCodesSnapshot = await getDocs(q);
+
+      if (!promoCodesSnapshot.empty) {
+        const currentDate = new Date();
+        const validPromoCodes = [];
+
+        promoCodesSnapshot.forEach((doc) => {
+          const promoCodeData = doc.data();
+          const validTillDate = new Date(
+            promoCodeData.validTill.seconds * 1000 +
+              promoCodeData.validTill.nanoseconds / 1000000
+          );
+
+          if (currentDate <= validTillDate) {
+            validPromoCodes.push(promoCodeData);
+          }
+
+          if (validPromoCodes.length > 0) {
+            console.log("validPromoCodes", validPromoCodes);
+            setMessage("valid");
+            setPromoCodeValid(validPromoCodes[0]);
+          } else {
+            setPromoCode("");
+            setMessage("invalid");
+          }
+        });
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setPromoCode("");
+      console.error("Error fetching promo codes:", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    if (message) {
+      const timeoutId = setTimeout(() => {
+        setMessage("");
+      }, 3000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [message]);
+
+  const hanldeCancelPromoCode = () => {
+    setPromoCodeValid(null);
+    setPromoCode("");
+  };
+
+  useEffect(() => {
+    promoRef?.current?.focus();
+  }, [promoCode, enterPromoCode]);
 
   const sidebarDataToUse =
     params.lang === "en" ? sidebarData : sidebarDataArabic;
@@ -91,66 +168,66 @@ export default function Summary({ params }) {
       console.error(error);
     });
 
-  const getRecentBuildCard = async (userId) => {
-    const db = getFirestore();
-    const userDocRef = doc(db, "users", userId);
+  // const getRecentBuildCard = async (userId) => {
+  //   const db = getFirestore();
+  //   const userDocRef = doc(db, "users", userId);
 
-    try {
-      const docSnapshot = await getDoc(userDocRef);
+  //   try {
+  //     const docSnapshot = await getDoc(userDocRef);
 
-      if (docSnapshot.exists()) {
-        const userData = docSnapshot.data();
+  //     if (docSnapshot.exists()) {
+  //       const userData = docSnapshot.data();
 
-        // Assuming 'buildCards' is an array in your user data
-        const buildCards = userData?.buildCards || [];
-        if (
-          Array.isArray(buildCards) &&
-          buildCards.length > 0 &&
-          recentBuildCardId
-        ) {
-          // Find the build card with the matching ID
-          const recentBuildCard = buildCards.find(
-            (card) => card.id === recentBuildCardId
-          );
+  //       // Assuming 'buildCards' is an array in your user data
+  //       const buildCards = userData?.buildCards || [];
+  //       if (
+  //         Array.isArray(buildCards) &&
+  //         buildCards.length > 0 &&
+  //         recentBuildCardId
+  //       ) {
+  //         // Find the build card with the matching ID
+  //         const recentBuildCard = buildCards.find(
+  //           (card) => card.id === recentBuildCardId
+  //         );
 
-          if (recentBuildCard) {
-            // Return the found build card
-            setSummary(recentBuildCard);
-            setCloudService(recentBuildCard.cloudServiceCost);
-            setCloudServiceSelected(
-              recentBuildCard.cloudServiceCost ? true : false
-            );
-            dispatch({
-              type: "setFeatures",
-              payload: recentBuildCard.features,
-            });
-          } else {
-            console.log("Build card with the specified ID not found.");
-          }
-        } else {
-          console.log(
-            "No build cards available or recentBuildCardId is not set in local storage."
-          );
-        }
-      } else {
-        console.log("User data not found");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  //         if (recentBuildCard) {
+  //           // Return the found build card
+  //           setSummary(recentBuildCard);
+  //           setCloudService(recentBuildCard.cloudServiceCost);
+  //           setCloudServiceSelected(
+  //             recentBuildCard.cloudServiceCost ? true : false
+  //           );
+  //           dispatch({
+  //             type: "setFeatures",
+  //             payload: recentBuildCard.features,
+  //           });
+  //         } else {
+  //           console.log("Build card with the specified ID not found.");
+  //         }
+  //       } else {
+  //         console.log(
+  //           "No build cards available or recentBuildCardId is not set in local storage."
+  //         );
+  //       }
+  //     } else {
+  //       console.log("User data not found");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        getRecentBuildCard(authUser.uid);
-      } else {
-        console.log("Nothing found");
-      }
-    });
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((authUser) => {
+  //     if (authUser) {
+  //       getRecentBuildCard(authUser.uid);
+  //     } else {
+  //       console.log("Nothing found");
+  //     }
+  //   });
 
-    return () => unsubscribe();
-  }, [auth]);
+  //   return () => unsubscribe();
+  // }, []);
 
   const inputDate = new Date(summary?.updatedAt);
   const options = { day: "2-digit", month: "short", year: "numeric" };
@@ -170,12 +247,6 @@ export default function Summary({ params }) {
         summary?.cloudServiceCost != 0 ? summary?.cloudServiceCost : 12841
       );
     }
-    // console.log(
-    //   "cloudService:",
-    //   cloudService,
-    //   summary?.cloudServiceCost,
-    //   cloudServiceSelected
-    // );
   };
 
   return (
@@ -193,7 +264,7 @@ export default function Summary({ params }) {
               <p className="text-black font-semibold">
                 {dictionary.hereIsYour}
               </p>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-900 text-sm">
                 {dictionary.lastEdited}: {formattedDate}
               </p>
             </div>
@@ -231,9 +302,22 @@ export default function Summary({ params }) {
                 <p className="text-black text-sm font-bold">
                   {dictionary.totalCost}
                 </p>
-                <p className="text-black text-sm">
-                  ${summary?.totalCost.toLocaleString()}
-                </p>
+                <div className="flex flex-col">
+                  <p
+                    className={`text-black text-right text-sm ${
+                      promoCodeValid && "line-through"
+                    }`}
+                  >
+                    ${summary?.totalCost.toLocaleString()}
+                  </p>
+                  {promoCodeValid?.discountAmount && (
+                    <p className="text-black text-right font-bold">
+                      $
+                      {summary?.totalCost *
+                        (1 - promoCodeValid.discountAmount / 100)}
+                    </p>
+                  )}
+                </div>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
@@ -257,10 +341,71 @@ export default function Summary({ params }) {
                 <p className="text-black text-sm font-bold">
                   {dictionary.promoCode}
                 </p>
-                <button className="text-white p-2 rounded-md bg-secondary text-sm">
-                  {dictionary.apply}
-                </button>
+                {!enterPromoCode && (
+                  <button
+                    onClick={() => setEnterPromoCode(true)}
+                    className="text-white p-2 rounded-md bg-secondary text-sm"
+                  >
+                    {dictionary.applyPromotion}
+                  </button>
+                )}
               </div>
+              {enterPromoCode && (
+                <>
+                  {message && (
+                    <div
+                      className={`${
+                        message === "valid" ? "bg-green-300" : "bg-red-300"
+                      } px-4 py-2 rounded-md my-3`}
+                    >
+                      <p className="text-white text-sm">
+                        {message === "valid"
+                          ? "Promo code is valid!"
+                          : "Promo code is invalid"}
+                      </p>
+                    </div>
+                  )}
+                  {promoCodeValid ? (
+                    <div className="flex w-fit px-3 items-center gap-1 bg-slate-200 rounded-md">
+                      <div className="flex items-center gap-1">
+                        <IoMdPricetags className="text-black" />
+                        <p className="p-2 text-gray-500 rounded-md font-bold">
+                          {promoCode}
+                        </p>
+                      </div>
+                      <IoClose
+                        onClick={hanldeCancelPromoCode}
+                        className="text-black cursor-pointer font-extrabold "
+                      />
+                    </div>
+                  ) : (
+                    <div className="my-1 w-full gap-2 flex items-center">
+                      <div className="border-gray-300 w-full border rounded-md my-1">
+                        <input
+                          ref={promoRef}
+                          className="p-2 w-full text-black rounded-md font-medium outline-none"
+                          type="text"
+                          placeholder={dictionary.enterPromoCode}
+                          value={promoCode}
+                          onChange={(e) => setPromoCode(e.target.value)}
+                        />
+                      </div>
+                      {loading ? (
+                        <div className="bg-slate-300 w-[90px] flex items-center justify-center py-2 rounded-md">
+                          <div className="loading-spinner"></div>
+                        </div>
+                      ) : (
+                        <p
+                          onClick={checkPromoCode}
+                          className="bg-secondary py-2 w-[90px] text-center text-white rounded-md text-sm cursor-pointer"
+                        >
+                          {dictionary.apply}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm font-bold">

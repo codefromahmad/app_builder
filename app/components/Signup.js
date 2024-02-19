@@ -15,6 +15,7 @@ const Signup = ({
   setShowSignin,
   lang,
   dictionary,
+  clearAllFields,
 }) => {
   const isButtonDisabled = !name || !email || !currency || !password;
 
@@ -26,11 +27,11 @@ const Signup = ({
       <h1 className="text-black px-16 font-semibold text-2xl pb-3">
         {dictionary.signupText}
       </h1>
-      <div className="overflow-y-auto h-[50%] px-16 pb-5 flex flex-col bg-white scrollbar-hidden">
-        <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
+      <div className="px-16 pb-5 flex flex-col bg-white scrollbar-hidden">
+        {/* <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
           {dictionary.signupUsing}
         </p>
-        <SocialButtons />
+        <SocialButtons /> */}
         <p className="text-gray-500 bg-white py-2 z-3 text-center block relative text-sm email">
           {dictionary.signupWith}
         </p>
@@ -61,18 +62,6 @@ const Signup = ({
             className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
           />
         </div>
-        <div className="flex flex-col gap-1  pt-3">
-          <p className="text-black font-bold text-sm">{dictionary.currency}</p>
-          <input
-            value={currency}
-            required
-            onChange={(event) => setCurrency(event.target.value)}
-            type="text"
-            readOnly
-            // placeholder={dictionary.currency}
-            className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-          />
-        </div>
         <div className="flex flex-col gap-1 pt-3">
           <p className="text-black font-bold text-sm">{dictionary.password}</p>
           <input
@@ -85,12 +74,10 @@ const Signup = ({
           />
         </div>
       </div>
-      <div className="flex flex-col px-16 border-gray-300 border-t-[1px]">
+      <div className="flex flex-col px-16">
         <button
-          type="password"
           disabled={isButtonDisabled}
-          placeholder="Enter password"
-          className={`mt-5 ${
+          className={`${
             isButtonDisabled ? "bg-gray-300" : "bg-secondary"
           } border-gray-300 border-t-[1px] w-full rounded p-3`}
           onClick={handleSignup}
@@ -102,7 +89,10 @@ const Signup = ({
             {dictionary.alreadyHaveAccount}
           </p>
           <p
-            onClick={() => setShowSignin(true)}
+            onClick={() => {
+              clearAllFields();
+              setShowSignin(true);
+            }}
             className="text-secondary cursor-pointer text-sm"
           >
             {dictionary.signIn}

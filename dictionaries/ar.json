@@ -42,7 +42,8 @@
     "noFeaturesHeading":"لم يتم تحديد أي ميزات",
     "noFeaturesText":"حدد الميزة لمعاينتها من اليسار",
     "selectedFeature":"الميزة المحددة",
-    "selectedFeatures":"الميزات المختارة"
+    "selectedFeatures":"الميزات المختارة",
+    "noResult":"لا نتيجة"
   },
   "sidebar": {
     "indicativeDuration": "المدة المبينة",
@@ -136,7 +137,9 @@
     "weeks":"أسابيع",
     "estimatedDelivery":"تاريخ التسليم المقدر",
     "promoCode":"رمز ترويجي",
-    "apply":"تقديم",
+    "applyPromotion":"تقديم",
+    "apply":"يتقدم",
+    "enterPromoCode":"إدخال الرمز الترويجي",
     "additional":"خدمات إضافية",
     "launchStudio":"لانش سويفت ستوديو وان +",
     "month":"شهر",

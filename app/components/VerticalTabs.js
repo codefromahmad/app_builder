@@ -9,10 +9,13 @@ import { useDispatch, useSelector } from "react-redux";
 
 const VerticalTabs = ({ dictionary, features }) => {
   const user = useSelector((state) => state.user.user);
-  const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-  const currentBuildCard = user.buildCards.find(
-    (item) => item.id === recentBuildCardId
+  const currentBuildCard = useSelector(
+    (state) => state.buildcard.recentBuildCard
   );
+  // const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+  // const currentBuildCard = user.buildCards.find(
+  //   (item) => item.id === recentBuildCardId
+  // );
 
   const inputRef = useRef(null);
   const detailsRef = useRef(null);
