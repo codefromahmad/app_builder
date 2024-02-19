@@ -58,6 +58,7 @@ export default function Features({ params }) {
 
   useEffect(() => {
     // setSelectedFeature(features[0]);
+    if (searchTerm.length > 0) return;
     console.log("features", featuresIds);
     const results = [];
 
@@ -179,7 +180,31 @@ export default function Features({ params }) {
     return featuresIds.some((selectedId) => selectedId === feature.id);
   };
 
+  const searchItems = () => {
+    console.log("inside searchTerm", searchTerm);
+    const results = [];
+
+    sidebarDataToUse.forEach((category) => {
+      console.log("category", category);
+      const matchingItems = category.dropDown?.filter((item) =>
+        item.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+      );
+
+      if (matchingItems?.length > 0) {
+        console.log("matchingItems", matchingItems);
+        results.push(...matchingItems);
+      }
+    });
+
+    console.log("results", results);
+    setSearchFeatures(results);
+  };
+
   const handleFeaturesSelection = (feature) => {
+    if (searchTerm.length > 0) {
+      console.log("searchTerm", searchTerm);
+      searchItems(searchTerm);
+    }
     if (isFeatureSelected(feature)) {
       dispatch({
         type: "removeFeature",
@@ -270,29 +295,12 @@ export default function Features({ params }) {
     setSelectedFeature(updatedSelectedFeatures[0]);
   };
 
-  const searchItems = (searchText) => {
-    const results = [];
-
-    sidebarDataToUse.forEach((category) => {
-      console.log("category", category);
-      const matchingItems = category.dropDown?.filter((item) =>
-        item.name.toLowerCase().startsWith(searchText.toLowerCase())
-      );
-
-      if (matchingItems?.length > 0) {
-        console.log("matchingItems", matchingItems);
-        results.push(...matchingItems);
-      }
-    });
-
-    console.log("results", results);
-    setSearchFeatures(results);
-  };
-
   useEffect(() => {
     if (searchTerm.length > 0) {
+      console.log("here inside if");
       searchItems(searchTerm);
     } else {
+      console.log("here inside else");
       setSearchFeatures([]);
     }
   }, [searchTerm]);
@@ -621,18 +629,18 @@ export default function Features({ params }) {
                             className={`w-12 ${
                               selectedFeature?.id === item.id
                                 ? "border-secondary"
-                                : "border-transparent"
+                                : "border-[#A6A6A6]"
                             } group border-2 rounded-lg`}
                           >
-                            <PhoneFrame>
-                              <Image
-                                width={100}
-                                height={100}
-                                src={item?.mobile}
-                                alt="icon"
-                                className="object-fill w-full h-full"
-                              />
-                            </PhoneFrame>
+                            {/* <PhoneFrame> */}
+                            <Image
+                              width={100}
+                              height={100}
+                              src={item?.mobile}
+                              alt="icon"
+                              className="object-fill rounded-lg w-full p-1 h-full"
+                            />
+                            {/* </PhoneFrame> */}
                           </div>
                         ) : (
                           <div

@@ -20,25 +20,27 @@ const ShowFeature = ({
       } items-center bg-slate-100 h-[calc(100vh-14.5rem)] mb-6 mx-6 rounded-lg gap-x-6`}
     >
       {platform === "mobile" ? (
-        <div className="w-48 h-96">
-          <PhoneFrame>
-            <Image
-              width={200}
-              height={100}
-              src={selectedFeature?.mobile}
-              alt="icon"
-              className="object-fill"
-            />
-          </PhoneFrame>
+        <div className="border-2 border-[#A6A6A6] p-2 w-48 rouded-[18px]">
+          {/* <div className="w-48 h-96">
+          <PhoneFrame> */}
+          <Image
+            width={200}
+            height={100}
+            src={selectedFeature?.mobile}
+            alt="icon"
+            className="object-fill rouded-[18px]"
+          />
+          {/* </PhoneFrame>
+        </div> */}
         </div>
       ) : (
-        <div className="border-2 border-[#A6A6A6] p-5 w-3/5 h-1/2 rounded-lg">
+        <div className="border-2 border-[#A6A6A6] p-2 w-3/5 h-1/2 rounded-xl">
           <Image
             width={1024}
             height={100}
             src={selectedFeature?.web}
             alt="icon"
-            className=" object-fill w-full h-full"
+            className=" object-fill w-full h-full rounded-xl"
           />
         </div>
       )}
