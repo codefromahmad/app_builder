@@ -20,7 +20,7 @@ const ShowFeature = ({
       } items-center bg-slate-100 h-[calc(100vh-14.5rem)] mb-6 mx-6 rounded-lg gap-x-6`}
     >
       {platform === "mobile" ? (
-        <div className="border-2 border-[#A6A6A6] p-2 w-48 rouded-[18px]">
+        <div className="border-2 border-[#A6A6A6] p-2 w-48 rounded-xl">
           {/* <div className="w-48 h-96">
           <PhoneFrame> */}
           <Image
@@ -28,7 +28,7 @@ const ShowFeature = ({
             height={100}
             src={selectedFeature?.mobile}
             alt="icon"
-            className="object-fill rouded-[18px]"
+            className="object-fill rounded-xl"
           />
           {/* </PhoneFrame>
         </div> */}
