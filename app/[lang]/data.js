@@ -1363,7 +1363,7 @@ export const initialPhases = [
     duration: "3 Weeks",
     delivery: "26-Feb-2024",
     icon: <PiShootingStarThin className="text-4xl text-black" />,
-    selected: true,
+    selected: false,
     description:
       "Get a fully functional design prototype to test the design hypothesis and end-user journey. This includes designs for prototypes.",
     more: "Prototypes are realistic design representations of your ideas. We design interactive prototypes for iPhone, iPad, Android, and Web. Creation of prototypes is more specific, measurable, quick, and intensive than just describing the design. Test how the user will interact with an environment comparable to the final product.",
@@ -1377,7 +1377,7 @@ export const initialPhases = [
     duration: "7 Weeks",
     delivery: "13-Apr-2024",
     icon: <IoCodeSlashOutline className="text-4xl text-black" />,
-    selected: false,
+    selected: true,
     description:
       "Ship the first build of your idea and get early adopters to try out your product",
     more: "We help design a Minimum Viable Product as a proof of concept to satisfy early customers and provide feedback for future development. It’s an easy way to build a product with a minimum set of features to test the market. Collect the maximum amount of validated learning about your customers with the least effort.",
@@ -1393,7 +1393,7 @@ export const initialPhases = [
     duration: "4 Weeks",
     delivery: "12-Jun-2024",
     icon: <GoRocket className="text-4xl text-black" />,
-    selected: true,
+    selected: false,
     description:
       "We will do end to end designing and development of your idea. Get a market-ready product",
     more: "We build a full-fledged product based on the product roadmap and the features laid out in the specification document. We will also perfect the product based on user feedback received on the Minimum Viable Product. We will ship a fully mature, responsive, scalable, business-ready and a user-friendly product.",

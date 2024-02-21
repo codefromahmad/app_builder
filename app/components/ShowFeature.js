@@ -45,38 +45,63 @@ const ShowFeature = ({
         </div>
       )}
 
-      <div className={`${platform === "mobile" ? "w-1/3" : "w-1/2 pt-4"}`}>
-        <div className="flex items-center gap-2">
-          <p className="text-black font-semibold text-2xl">
-            {selectedFeature.name}
-          </p>
-          <div
-            onClick={() => handleFeaturesSelection(selectedFeature)}
-            className="bg-white hover:bg-slate-50 duration-300 w-7 h-7 rounded-md items-center justify-center flex border-[1px] cursor-pointer"
-          >
-            {isFeatureSelected(selectedFeature) ? (
-              <MdDeleteOutline className="text-black" />
-            ) : (
-              <FiPlus className="text-black" />
-            )}
+      {platform === "mobile" ? (
+        <div className="w-1/3">
+          <div className="flex items-center gap-2">
+            <p className="text-black font-semibold text-2xl">
+              {selectedFeature.name}
+            </p>
+            <div
+              onClick={() => handleFeaturesSelection(selectedFeature)}
+              className="bg-white hover:bg-slate-50 duration-300 w-7 h-7 rounded-md items-center justify-center flex border-[1px] cursor-pointer"
+            >
+              {isFeatureSelected(selectedFeature) ? (
+                <MdDeleteOutline className="text-black" />
+              ) : (
+                <FiPlus className="text-black" />
+              )}
+            </div>
           </div>
-        </div>
-        <p className="text-text py-1 duration-300">
-          {selectedFeature.category}
-        </p>
-        <div className={`${platform === "mobile" ? "py-2" : "py-1"}`}>
-          <p className="text-text text-lg py-1">${selectedFeature.price}</p>
-          <p className="text-text text-lg py-[1px]">
-            {selectedFeature.timeline} {sidebar.days}
+          <p className="text-text py-1 duration-300">
+            {selectedFeature.category}
           </p>
-        </div>
-        <p className={`text-black py-1 ${lang === "ar" && "leading-10"}`}>
-          {selectedFeature.description}
-        </p>
-        {/* <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
+          <div className="py-2">
+            <p className="text-text text-lg py-1">${selectedFeature.price}</p>
+            <p className="text-text text-lg py-[1px]">
+              {selectedFeature.timeline} {sidebar.days}
+            </p>
+          </div>
+          <p className={`text-black py-1 ${lang === "ar" && "leading-10"}`}>
+            {selectedFeature.description}
+          </p>
+          {/* <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
           <p className="text-white text-xs">Add note</p>
         </div> */}
-      </div>
+        </div>
+      ) : (
+        <div className="flex gap-20 px-10 py-10">
+          <div className="w-3/4 flex flex-col gap-2">
+            <p className="text-black font-semibold text-2xl">
+              {selectedFeature.name}
+            </p>
+            <p className="text-text py-1 duration-300">
+              {selectedFeature.category}
+            </p>
+            <p className={`text-black py-1 ${lang === "ar" && "leading-10"}`}>
+              {selectedFeature.description}
+            </p>
+          </div>
+          <div className="py-2 w-1/4">
+            <p className="text-text text-lg py-1">${selectedFeature.price}</p>
+            <p className="text-text text-lg py-[1px]">
+              {selectedFeature.timeline} {sidebar.days}
+            </p>
+            {/* <div className="bg-secondary duration-300 w-24 h-8 items-center rounded-md justify-center flex border-[1px] cursor-pointer">
+              <p className="text-white text-xs">Add note</p>
+            </div> */}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

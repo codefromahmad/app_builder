@@ -14,7 +14,7 @@ import Image from "next/image";
 import { MdDeleteOutline, MdWeb } from "react-icons/md";
 import moment from "moment";
 import ReactDatePicker from "react-datepicker";
-import { FaThumbsUp } from "react-icons/fa6";
+import { FaGalacticSenate, FaThumbsUp } from "react-icons/fa6";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import HeaderLayout from "../../components/HeaderLayout";
 import logo from "../../images/logo.svg";
@@ -28,7 +28,7 @@ import { auth } from "../firebase";
 import { getDictionary } from "../../../lib/dictionary";
 
 export default function Delivery({ params }) {
-  const [isSwitchOn, setIsSwitchOn] = useState(true);
+  const [isSwitchOn, setIsSwitchOn] = useState(FaGalacticSenate);
   const [sliderValue, setSliderValue] = useState(3);
   const [rangeSliderValue, setRangeSliderValue] = useState(2);
   const [cloudService, setCloudService] = useState(false);
@@ -48,6 +48,13 @@ export default function Delivery({ params }) {
   const [phases, setPhases] = useState(initialPhases);
   const router = useRouter();
   const [dictionary, setDictionary] = useState({});
+
+  const productRoadmap = phases.find((item) => item.name === "Product Roadmap");
+  const fullBuild = phases.find((item) => item.name === "Full Build");
+  const design = phases.find((item) => item.name === "Design");
+  const prototype = phases.find(
+    (item) => item.name === "Professional Prototype"
+  );
 
   getDictionary(params.lang)
     .then((lang) => {
@@ -168,19 +175,35 @@ export default function Delivery({ params }) {
     multiplier = 1;
   }
 
-  const fixedCost =
+  var fixedCost =
     sliderValue > 2
       ? Math.round(buildCardDetails?.fixedCost * multiplier)
       : Math.round(
           buildCardDetails?.fixedCost - buildCardDetails?.fixedCost * multiplier
         ) || 0;
-  const customizationCost =
+  var customizationCost =
     sliderValue > 2
       ? Math.round(buildCardDetails?.customizationCost * multiplier)
       : Math.round(
           buildCardDetails?.customizationCost -
             buildCardDetails?.customizationCost * multiplier
         ) || 0;
+
+  if (productRoadmap && !productRoadmap.selected) {
+    fixedCost = fixedCost * 0.9;
+  }
+
+  if (fullBuild && fullBuild.selected) {
+    fixedCost = fixedCost * 1.2;
+  }
+
+  if (design && design.selected) {
+    fixedCost = fixedCost + 300;
+  }
+
+  if (prototype && prototype.selected) {
+    fixedCost = fixedCost + 500;
+  }
 
   const maxPrice = numOfUsers[rangeSliderValue - 1]?.maxPrice || 0;
 
@@ -313,21 +336,20 @@ export default function Delivery({ params }) {
 
   const addPlatformToPhase = (platformText) => {
     setPhases((prevPhases) => {
-      // Check if all phases contain the platformText
-      // const allContainText = checkAllContain(platformText);
+      const allContainText = checkAllContain(platformText);
 
       // Update all phases based on the check result
       return prevPhases.map((phase) => {
         const phaseToUpdate = { ...phase };
 
-        if (checkAllContain(platformText)) {
-          // If all phases contain the platformText, remove it
-          // const platformIndex = phaseToUpdate.platform.indexOf(platformText);
-          // if (platformIndex !== -1) {
-          //   console.log("Removing", platformIndex);
-          //   phaseToUpdate.platform.splice(platformIndex, 1);
-          // }
-          removePlatformFromPhases(platformText);
+        if (allContainText) {
+          // If all phases contain the platformText, remove it only if there are more than one platform
+          if (phaseToUpdate.platform.length > 1) {
+            const platformIndex = phaseToUpdate.platform.indexOf(platformText);
+            if (platformIndex !== -1) {
+              phaseToUpdate.platform.splice(platformIndex, 1);
+            }
+          }
         } else {
           // If not all phases contain the platformText, add it
           phaseToUpdate.platform = [...phaseToUpdate.platform, platformText];
@@ -405,17 +427,28 @@ export default function Delivery({ params }) {
   };
 
   const updateSliderValue = (index, newValue) => {
-    setPhases((prevPhases) => {
-      const newPhases = [...prevPhases];
-      newPhases[index] = {
-        ...newPhases[index],
-        advanced: {
-          ...newPhases[index].advanced,
-          sliderValue: newValue,
-        },
-      };
-      return newPhases;
-    });
+    if (sameSpeed) {
+      setPhases((prevPhases) =>
+        prevPhases.map((phase) => ({
+          ...phase,
+          advanced: {
+            ...phase.advanced,
+            sliderValue: newValue,
+          },
+        }))
+      );
+    } else
+      setPhases((prevPhases) => {
+        const newPhases = [...prevPhases];
+        newPhases[index] = {
+          ...newPhases[index],
+          advanced: {
+            ...newPhases[index].advanced,
+            sliderValue: newValue,
+          },
+        };
+        return newPhases;
+      });
   };
 
   const showBuildCardPopUp = () => {
@@ -837,12 +870,12 @@ export default function Delivery({ params }) {
                           <p className="text-black text-xs font-bold">
                             {dictionary.features}
                           </p>
-                          <p
+                          {/* <p
                             onClick={() => setSidebar(true)}
                             className="text-secondary text-xs font-normal cursor-pointer"
                           >
                             {dictionary.change}
-                          </p>
+                          </p> */}
                         </div>
                         <p className="text-gray-400 pt-2 text-xs">
                           {features.length} {dictionary.featuresSelected}
@@ -1085,7 +1118,7 @@ export default function Delivery({ params }) {
                                   : "text-black"
                               }`}
                             >
-                              ${label.price}
+                              ${label.price.toLocaleString()}
                             </p>
                             <p
                               className={`text-center pt-1 ${
@@ -1240,7 +1273,11 @@ export default function Delivery({ params }) {
                       </span>
                     ) : (
                       <span className="font-bold">
-                        ${numOfUsers[rangeSliderValue - 1].maxPrice} + *
+                        $
+                        {numOfUsers[
+                          rangeSliderValue - 1
+                        ].maxPrice.toLocaleString()}{" "}
+                        + *
                       </span>
                     )}{" "}
                     /{dictionary.month}

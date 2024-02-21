@@ -73,7 +73,7 @@ const HeaderLayout = ({ children, lang }) => {
         <div onClick={() => setDropdownOpen(false)}>{children}</div>
       ) : (
         <div className="flex justify-center items-center h-screen w-screen">
-          <Image src={spinner} alt="loading..." className="w-40 h-40" />
+          <Image src={spinner} alt="loading..." className="w-14 h-14" />
         </div>
       )}
     </div>
