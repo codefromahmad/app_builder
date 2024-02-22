@@ -60,7 +60,8 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
   };
 
   useEffect(() => {
-    if (pathname.endsWith("summary")) getRecentBuildCard();
+    if (pathname.endsWith("summary") || pathname.endsWith("delivery"))
+      getRecentBuildCard();
   }, [pathname, user]);
 
   const handleLogout = () => {

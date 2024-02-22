@@ -1334,7 +1334,9 @@ export const priceDuration = [
 export const initialPhases = [
   {
     name: "Product Roadmap",
-    duration: "2 Weeks",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
     delivery: "27-Dec-2023",
     icon: <GoChecklist className="text-4xl text-black" />,
     selected: false,
@@ -1348,7 +1350,9 @@ export const initialPhases = [
   },
   {
     name: "Design",
-    duration: "7 Weeks",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
     delivery: "12-Feb-2024",
     icon: <SiStyledcomponents className="text-4xl text-black" />,
     selected: true,
@@ -1362,7 +1366,9 @@ export const initialPhases = [
   },
   {
     name: "Professional Prototype",
-    duration: "3 Weeks",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
     delivery: "26-Feb-2024",
     icon: <PiShootingStarThin className="text-4xl text-black" />,
     selected: false,
@@ -1376,7 +1382,9 @@ export const initialPhases = [
   },
   {
     name: "MVP",
-    duration: "7 Weeks",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
     delivery: "13-Apr-2024",
     icon: <IoCodeSlashOutline className="text-4xl text-black" />,
     selected: true,
@@ -1392,7 +1400,9 @@ export const initialPhases = [
   },
   {
     name: "Full Build",
-    duration: "4 Weeks",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
     delivery: "12-Jun-2024",
     icon: <GoRocket className="text-4xl text-black" />,
     selected: false,

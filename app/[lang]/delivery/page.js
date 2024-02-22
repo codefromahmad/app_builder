@@ -7,54 +7,123 @@ import { FiPlus } from "react-icons/fi";
 import { HiOutlineInformationCircle } from "react-icons/hi2";
 import { IoIosSearch, IoMdClose } from "react-icons/io";
 import { GoCheckCircleFill, GoCircle } from "react-icons/go";
-import TimezoneSelect, { allTimezones } from "react-timezone-select";
+// import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import "./custom-style.css";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { MdDeleteOutline, MdWeb } from "react-icons/md";
 import moment from "moment";
-import ReactDatePicker from "react-datepicker";
-import { FaThumbsUp } from "react-icons/fa6";
+// import ReactDatePicker from "react-datepicker";
+// import { FaThumbsUp } from "react-icons/fa6";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import HeaderLayout from "../../components/HeaderLayout";
 import logo from "../../images/logo.svg";
 import BottomBar from "../../components/BottomBar";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { speedLabels, initialPhases, numOfUsers, sidebarData } from "../data";
 import BuildCardPopup from "../../components/BuildCardPopup";
 import { useRouter } from "next/navigation";
 import { setUser } from "../../store/reducers/user";
-import { auth } from "../firebase";
+// import { auth } from "../firebase";
 import { getDictionary } from "../../../lib/dictionary";
 
 export default function Delivery({ params }) {
+  const buildCardDetails = useSelector(
+    (state) => state.buildcard.recentBuildCard
+  );
   const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [sliderValue, setSliderValue] = useState(3);
   const [rangeSliderValue, setRangeSliderValue] = useState(2);
   const [cloudService, setCloudService] = useState(false);
   const [sameSpeed, setSameSpeed] = useState(false);
   const [infoPopup, setInfoPopup] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  // const [startDate, setStartDate] = useState(new Date());
   const features = useSelector((state) => state.features.features);
   const [weeks, setWeeks] = useState(20);
   const [buildCard, setBuildCard] = useState(false);
-  const [buildCardDetails, setBuildCardDetails] = useState();
+  // const [buildCardDetails, setBuildCardDetails] = useState();
   const [name, setName] = useState("");
   const [sidebar, setSidebar] = useState(false);
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const db = getFirestore();
   const user = useSelector((state) => state.user.user);
-  const [phases, setPhases] = useState(initialPhases);
+  const [standardDuration, setStandardDuration] = useState(0);
+  const [standardCustomizationCost, setStandardCustomizationCost] = useState(0);
+  const [standardFixedCost, setStandardFixedCost] = useState(0);
   const router = useRouter();
   const [dictionary, setDictionary] = useState({});
 
-  const productRoadmap = phases.find((item) => item.name === "Product Roadmap");
-  const fullBuild = phases.find((item) => item.name === "Full Build");
-  const design = phases.find((item) => item.name === "Design");
-  const prototype = phases.find(
-    (item) => item.name === "Professional Prototype"
-  );
+  const [phases, setPhases] = useState(initialPhases);
+
+  const calculateStandardDuration = (data) => {
+    const selectedPhases = data.filter((phase) => phase.selected);
+    const totalDuration = selectedPhases.reduce((acc, phase) => {
+      return acc + parseInt(phase.duration);
+    }, 0);
+
+    setStandardDuration(totalDuration);
+  };
+
+  const calculateStandardFixedCost = (data) => {
+    const selectedPhases = data.filter((phase) => phase.selected);
+    const totalCost = selectedPhases.reduce((acc, phase) => {
+      return acc + phase.fixedCost;
+    }, 0);
+    console.log("totalCost", totalCost);
+    setStandardFixedCost(totalCost);
+  };
+
+  const calculateCustomizationCost = (data) => {
+    const selectedPhases = data.filter((phase) => phase.selected);
+    const totalCost = selectedPhases.reduce((acc, phase) => {
+      return acc + phase.customizationCost;
+    }, 0);
+    console.log("totalCost", totalCost);
+    setStandardCustomizationCost(totalCost);
+  };
+
+  useEffect(() => {
+    const updatedPhases = initialPhases.map((phase) => {
+      switch (phase.name) {
+        case "Product Roadmap":
+          phase.duration = Math.ceil(buildCardDetails?.duration * 0.1);
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.1;
+          phase.fixedCost = buildCardDetails?.totalCost * 0.1;
+          break;
+        case "Design":
+          phase.duration = Math.ceil(buildCardDetails?.duration * 0.25);
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.25;
+          phase.fixedCost = buildCardDetails?.totalCost * 0.25;
+          break;
+        case "Professional Prototype":
+          phase.duration = Math.ceil(buildCardDetails?.duration * 0.12);
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.18;
+          phase.fixedCost = buildCardDetails?.totalCost * 0.18;
+          break;
+        case "MVP":
+          phase.duration = Math.ceil(
+            buildCardDetails?.duration - buildCardDetails?.duration * 0.25
+          );
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.75;
+          phase.fixedCost = buildCardDetails?.totalCost * 0.75;
+          break;
+        case "Full Build":
+          phase.duration = Math.ceil(buildCardDetails?.duration * 0.15);
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.2;
+          phase.fixedCost = buildCardDetails?.totalCost * 0.2;
+          break;
+        default:
+          break;
+      }
+      return phase;
+    });
+
+    calculateStandardDuration(updatedPhases);
+    calculateStandardFixedCost(updatedPhases);
+    calculateCustomizationCost(updatedPhases);
+    setPhases(updatedPhases);
+  }, [buildCardDetails]);
 
   getDictionary(params.lang)
     .then((lang) => {
@@ -64,95 +133,95 @@ export default function Delivery({ params }) {
       console.error(error);
     });
 
-  const getRecentBuildCard = async (userId) => {
-    const db = getFirestore();
-    const userDocRef = doc(db, "users", userId);
+  // const getRecentBuildCard = async (userId) => {
+  //   const db = getFirestore();
+  //   const userDocRef = doc(db, "users", userId);
 
-    try {
-      const docSnapshot = await getDoc(userDocRef);
+  //   try {
+  //     const docSnapshot = await getDoc(userDocRef);
 
-      if (docSnapshot.exists()) {
-        const userData = docSnapshot.data();
-        console.log("User data:", userData);
+  //     if (docSnapshot.exists()) {
+  //       const userData = docSnapshot.data();
+  //       console.log("User data:", userData);
 
-        // Assuming 'buildCards' is an array in your user data
-        const buildCards = userData?.buildCards || [];
+  //       // Assuming 'buildCards' is an array in your user data
+  //       const buildCards = userData?.buildCards || [];
 
-        // Get the build card ID from local storage
-        const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-        console.log("recentBuildCardId in summary", recentBuildCardId);
+  //       // Get the build card ID from local storage
+  //       const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+  //       console.log("recentBuildCardId in summary", recentBuildCardId);
 
-        if (
-          Array.isArray(buildCards) &&
-          buildCards.length > 0 &&
-          recentBuildCardId
-        ) {
-          // Find the build card with the matching ID
-          const recentBuildCard = buildCards.find(
-            (card) => card.id === recentBuildCardId
-          );
+  //       if (
+  //         Array.isArray(buildCards) &&
+  //         buildCards.length > 0 &&
+  //         recentBuildCardId
+  //       ) {
+  //         // Find the build card with the matching ID
+  //         const recentBuildCard = buildCards.find(
+  //           (card) => card.id === recentBuildCardId
+  //         );
 
-          if (recentBuildCard) {
-            // Return the found build card
-            console.log("summary in summary page", recentBuildCard);
-            setBuildCardDetails(recentBuildCard);
-          } else {
-            console.log("Build card with the specified ID not found.");
-          }
-        } else {
-          console.log(
-            "No build cards available or recentBuildCardId is not set in local storage."
-          );
-        }
-      } else {
-        console.log("User data not found");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  //         if (recentBuildCard) {
+  //           // Return the found build card
+  //           console.log("summary in summary page", recentBuildCard);
+  //           setBuildCardDetails(recentBuildCard);
+  //         } else {
+  //           console.log("Build card with the specified ID not found.");
+  //         }
+  //       } else {
+  //         console.log(
+  //           "No build cards available or recentBuildCardId is not set in local storage."
+  //         );
+  //       }
+  //     } else {
+  //       console.log("User data not found");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        getRecentBuildCard(authUser.uid);
-      } else {
-        console.log("Nothing found");
-      }
-    });
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((authUser) => {
+  //     if (authUser) {
+  //       getRecentBuildCard(authUser.uid);
+  //     } else {
+  //       console.log("Nothing found");
+  //     }
+  //   });
 
-    return () => unsubscribe();
-  }, [auth]);
+  //   return () => unsubscribe();
+  // }, [auth]);
 
   const priceDuration = [
     {
       name: `${dictionary.relaxed}`,
-      duration: buildCardDetails?.duration + 2,
-      price: Math.round(buildCardDetails?.totalCost * 0.8),
+      duration: standardDuration + 2,
+      price: Math.round((standardFixedCost + standardCustomizationCost) * 0.8),
       details: `${dictionary.relaxedText}`,
     },
     {
       name: `${dictionary.slow}`,
-      duration: buildCardDetails?.duration + 1,
-      price: Math.round(buildCardDetails?.totalCost * 0.9),
+      duration: standardDuration + 1,
+      price: Math.round((standardFixedCost + standardCustomizationCost) * 0.9),
       details: `${dictionary.slowText}`,
     },
     {
       name: `${dictionary.standard}`,
-      duration: buildCardDetails?.duration,
-      price: Math.round(buildCardDetails?.totalCost),
+      duration: standardDuration,
+      price: Math.round(standardFixedCost + standardCustomizationCost),
       details: `${dictionary.standardText}`,
     },
     {
       name: `${dictionary.fast}`,
-      duration: buildCardDetails?.duration - 1,
-      price: Math.round(buildCardDetails?.totalCost * 1.1),
+      duration: standardDuration - 1,
+      price: Math.round((standardFixedCost + standardCustomizationCost) * 1.1),
       details: `${dictionary.fastText}`,
     },
     {
       name: `${dictionary.speedy}`,
-      duration: buildCardDetails?.duration - 2,
-      price: Math.round(buildCardDetails?.totalCost * 1.2),
+      duration: standardDuration - 2,
+      price: Math.round((standardFixedCost + standardCustomizationCost) * 1.2),
       details: `${dictionary.speedyText}`,
     },
   ];
@@ -171,27 +240,9 @@ export default function Delivery({ params }) {
     multiplier = 1;
   }
 
-  var fixedCost = Math.round(buildCardDetails?.fixedCost * multiplier);
+  var fixedCost = Math.round(standardFixedCost * multiplier);
 
-  var customizationCost = Math.round(
-    buildCardDetails?.customizationCost * multiplier
-  );
-
-  if (productRoadmap && !productRoadmap.selected) {
-    fixedCost = fixedCost * 0.9;
-  }
-
-  if (fullBuild && fullBuild.selected) {
-    fixedCost = fixedCost * 1.2;
-  }
-
-  if (design && design.selected) {
-    fixedCost = fixedCost + 300;
-  }
-
-  if (prototype && prototype.selected) {
-    fixedCost = fixedCost + 500;
-  }
+  var customizationCost = Math.round(standardCustomizationCost * multiplier);
 
   const maxPrice = numOfUsers[rangeSliderValue - 1]?.maxPrice || 0;
 
@@ -294,33 +345,6 @@ export default function Delivery({ params }) {
     },
   ];
 
-  const removePlatformFromPhases = (platformText) => {
-    console.log("removePlatformFromPhases", platformText);
-    const selectedPhasesCount = platforms.filter(
-      (platform) => platform.selected
-    ).length;
-
-    console.log("Only one phase left", selectedPhasesCount);
-    if (selectedPhasesCount === 1) {
-      return phases;
-    }
-    setPhases((prevPhases) => {
-      return prevPhases.map((phase) => {
-        const phaseToUpdate = { ...phase };
-
-        // Check if the platformText exists in the platform array
-        const platformIndex = phaseToUpdate.platform?.indexOf(platformText);
-
-        if (platformIndex !== -1) {
-          // If the platformText exists, remove it from the array
-          phaseToUpdate.platform.splice(platformIndex, 1);
-        }
-
-        return phaseToUpdate;
-      });
-    });
-  };
-
   const addPlatformToPhase = (platformText) => {
     setPhases((prevPhases) => {
       const allContainText = checkAllContain(platformText);
@@ -378,11 +402,12 @@ export default function Delivery({ params }) {
 
     newPhases[index].selected = !newPhases[index].selected;
 
-    console.log("After toggle:", newPhases[index].selected);
     setPhases(newPhases);
-  };
 
-  const selectedLabel = speedLabels[sliderValue - 1]; // Adjust the index based on your min value
+    calculateStandardDuration(newPhases);
+    calculateStandardFixedCost(newPhases);
+    calculateCustomizationCost(newPhases);
+  };
 
   const calculateLabelPosition = (value) => {
     const totalSteps = 5; // Adjust based on your max value
@@ -390,13 +415,6 @@ export default function Delivery({ params }) {
     if (value === 4) {
       position = 68;
     } else position = ((value - 1) / (totalSteps - 1)) * 80;
-    return `${position}%`;
-  };
-  const calculateLabelPosition1 = (value) => {
-    const totalSteps = 5; // Adjust based on your max value
-    let position = 0;
-    // if (value === 0) return `${position}%`;
-    position = ((value - 1) / (totalSteps - 1)) * 100;
     return `${position}%`;
   };
 
@@ -456,7 +474,6 @@ export default function Delivery({ params }) {
     console.log("handleFeaturesSelection", feature.name);
 
     if (isFeatureSelected(feature)) {
-      // If selected, remove it from the array
       const updatedFeatures = features.filter(
         (selected) => selected.name !== feature.name
       );
@@ -465,7 +482,6 @@ export default function Delivery({ params }) {
         payload: updatedFeatures,
       });
     } else {
-      // If not selected, add it to the array
       dispatch({
         type: "addFeature",
         payload: feature,
@@ -505,8 +521,6 @@ export default function Delivery({ params }) {
               cost: maxPrice,
               selected: cloudService ? true : false,
             };
-            // userData.buildCards[incompleteBuildCardIndex].phases =
-            //   selectedPhases.map((phase) => phase.name);
             userData.buildCards[incompleteBuildCardIndex].phases =
               selectedPhases.map((phase) => ({
                 name: phase.name,
