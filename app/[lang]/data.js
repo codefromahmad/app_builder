@@ -2,6 +2,10 @@ import { GoChecklist, GoRocket } from "react-icons/go";
 import { IoCodeSlashOutline } from "react-icons/io5";
 import { PiShootingStarThin } from "react-icons/pi";
 import { SiStyledcomponents } from "react-icons/si";
+import accountCreation from "../images/features/1-account-creation.png";
+import accountCreationWeb from "../images/features/1-account-creation-web.png";
+import facebookLogin from "../images/features/2-facebook-login.png";
+import facebookLoginWeb from "../images/features/2-facebook-login-web.png";
 
 export const sidebarData = [
   {
@@ -12,9 +16,8 @@ export const sidebarData = [
         id: 1,
         name: "Account Creation",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile:
-          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation.png?alt=media&token=da158207-0402-4df7-bdf7-e0c71d3f09ea",
-        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation-web.png?alt=media&token=e7a7db95-d2ec-45e3-b621-9d529bf824cb",
+        mobile: accountCreation,
+        web: accountCreationWeb,
         price: "520",
         timeline: "1.0",
         description:
@@ -24,9 +27,8 @@ export const sidebarData = [
         id: 2,
         name: "Facebook Login",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile:
-          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login.png?alt=media&token=a8e30e28-a257-49a4-9adf-11610f879da8",
-        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login-web.png?alt=media&token=78922110-6467-4d55-9aac-097da46ddbd9",
+        mobile: facebookLogin,
+        web: facebookLoginWeb,
         price: "450.15",
         timeline: "3.0",
         description:

@@ -14,7 +14,7 @@ import Image from "next/image";
 import { MdDeleteOutline, MdWeb } from "react-icons/md";
 import moment from "moment";
 import ReactDatePicker from "react-datepicker";
-import { FaGalacticSenate, FaThumbsUp } from "react-icons/fa6";
+import { FaThumbsUp } from "react-icons/fa6";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import HeaderLayout from "../../components/HeaderLayout";
 import logo from "../../images/logo.svg";
@@ -28,7 +28,7 @@ import { auth } from "../firebase";
 import { getDictionary } from "../../../lib/dictionary";
 
 export default function Delivery({ params }) {
-  const [isSwitchOn, setIsSwitchOn] = useState(FaGalacticSenate);
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [sliderValue, setSliderValue] = useState(3);
   const [rangeSliderValue, setRangeSliderValue] = useState(2);
   const [cloudService, setCloudService] = useState(false);
@@ -127,18 +127,14 @@ export default function Delivery({ params }) {
   const priceDuration = [
     {
       name: `${dictionary.relaxed}`,
-      duration: buildCardDetails?.duration - 2,
-      price: Math.round(
-        buildCardDetails?.totalCost - buildCardDetails?.totalCost * 0.2
-      ),
+      duration: buildCardDetails?.duration + 2,
+      price: Math.round(buildCardDetails?.totalCost * 0.8),
       details: `${dictionary.relaxedText}`,
     },
     {
       name: `${dictionary.slow}`,
-      duration: buildCardDetails?.duration - 1,
-      price: Math.round(
-        buildCardDetails?.totalCost - buildCardDetails?.totalCost * 0.12
-      ),
+      duration: buildCardDetails?.duration + 1,
+      price: Math.round(buildCardDetails?.totalCost * 0.9),
       details: `${dictionary.slowText}`,
     },
     {
@@ -149,14 +145,14 @@ export default function Delivery({ params }) {
     },
     {
       name: `${dictionary.fast}`,
-      duration: buildCardDetails?.duration + 1,
-      price: Math.round(buildCardDetails?.totalCost * 0.12),
+      duration: buildCardDetails?.duration - 1,
+      price: Math.round(buildCardDetails?.totalCost * 1.1),
       details: `${dictionary.fastText}`,
     },
     {
       name: `${dictionary.speedy}`,
-      duration: buildCardDetails?.duration + 2,
-      price: Math.round(buildCardDetails?.totalCost * 0.2),
+      duration: buildCardDetails?.duration - 2,
+      price: Math.round(buildCardDetails?.totalCost * 1.2),
       details: `${dictionary.speedyText}`,
     },
   ];
@@ -164,30 +160,22 @@ export default function Delivery({ params }) {
   let multiplier = 1;
 
   if (sliderValue === 1) {
-    multiplier = 0.2;
+    multiplier = 0.8;
   } else if (sliderValue === 2) {
-    multiplier = 0.12;
+    multiplier = 0.9;
   } else if (sliderValue === 4) {
-    multiplier = 0.12;
+    multiplier = 1.1;
   } else if (sliderValue === 5) {
-    multiplier = 0.2;
+    multiplier = 1.2;
   } else {
     multiplier = 1;
   }
 
-  var fixedCost =
-    sliderValue > 2
-      ? Math.round(buildCardDetails?.fixedCost * multiplier)
-      : Math.round(
-          buildCardDetails?.fixedCost - buildCardDetails?.fixedCost * multiplier
-        ) || 0;
-  var customizationCost =
-    sliderValue > 2
-      ? Math.round(buildCardDetails?.customizationCost * multiplier)
-      : Math.round(
-          buildCardDetails?.customizationCost -
-            buildCardDetails?.customizationCost * multiplier
-        ) || 0;
+  var fixedCost = Math.round(buildCardDetails?.fixedCost * multiplier);
+
+  var customizationCost = Math.round(
+    buildCardDetails?.customizationCost * multiplier
+  );
 
   if (productRoadmap && !productRoadmap.selected) {
     fixedCost = fixedCost * 0.9;
@@ -207,7 +195,6 @@ export default function Delivery({ params }) {
 
   const maxPrice = numOfUsers[rangeSliderValue - 1]?.maxPrice || 0;
 
-  console.log(fixedCost, customizationCost, maxPrice);
   const calculateTotalCost = cloudService
     ? Math.round(fixedCost + customizationCost + maxPrice)
     : Math.round(fixedCost + customizationCost);
@@ -509,10 +496,18 @@ export default function Delivery({ params }) {
               deliveryDate.format("DD-MMM-YYYY");
             userData.buildCards[incompleteBuildCardIndex].updatedAt =
               new Date().toISOString();
-            userData.buildCards[incompleteBuildCardIndex].cloudServiceCost =
-              cloudService ? maxPrice : 0;
+            userData.buildCards[incompleteBuildCardIndex].cloudServiceCost = {
+              cost: maxPrice,
+              selected: cloudService ? true : false,
+            };
+            // userData.buildCards[incompleteBuildCardIndex].phases =
+            //   selectedPhases.map((phase) => phase.name);
             userData.buildCards[incompleteBuildCardIndex].phases =
-              selectedPhases.map((phase) => phase.name);
+              selectedPhases.map((phase) => ({
+                name: phase.name,
+                platforms: phase.platform,
+                sliderValue: phase.advanced.sliderValue,
+              }));
             userData.buildCards[incompleteBuildCardIndex].totalCost =
               calculateTotalCost;
             userData.buildCards[incompleteBuildCardIndex].fixedCost = fixedCost;

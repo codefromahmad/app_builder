@@ -66,10 +66,14 @@ export default function Summary({ params }) {
             setMessage("valid");
             setPromoCodeValid(validPromoCodes[0]);
           } else {
+            console.log("inside else");
             setPromoCode("");
             setMessage("invalid");
           }
         });
+      } else {
+        setPromoCode("");
+        setMessage("invalid");
       }
       setLoading(false);
     } catch (error) {
@@ -383,6 +387,7 @@ export default function Summary({ params }) {
                       <div className="border-gray-300 w-full border rounded-md my-1">
                         <input
                           ref={promoRef}
+                          disabled={loading}
                           className="p-2 w-full text-black rounded-md font-medium outline-none"
                           type="text"
                           placeholder={dictionary.enterPromoCode}

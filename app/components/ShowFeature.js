@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PhoneFrame } from "./PhoneFrame";
 import Image from "next/image";
 import { MdDeleteOutline } from "react-icons/md";
@@ -13,6 +13,16 @@ const ShowFeature = ({
   sidebar,
   lang,
 }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
+  };
+
+  const imageLoader = ({ src, width, quality }) => {
+    return `https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png`;
+  };
+
   return (
     <div
       className={`flex justify-center ${
@@ -34,7 +44,7 @@ const ShowFeature = ({
         </div> */}
         </div>
       ) : (
-        <div className="border-2 border-[#A6A6A6] p-2 w-3/5 h-1/2 rounded-xl">
+        <div className="border-2 border-[#A6A6A6] p-2 w-[500px] h-[300px] rounded-xl">
           <Image
             width={1024}
             height={100}
