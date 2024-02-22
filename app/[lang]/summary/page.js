@@ -1,25 +1,147 @@
 "use client";
 import HeaderLayout from "../../components/HeaderLayout";
 import VerticalTabs from "../../components/VerticalTabs";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+  getFirestore,
+} from "firebase/firestore";
+import React, { useEffect, useRef, useState } from "react";
 import { auth } from "../firebase";
 import { GoCheckCircleFill, GoCircle } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { getDictionary } from "../../../lib/dictionary";
 import { sidebarData, sidebarDataArabic } from "../data";
+import { setUser } from "../../store/reducers/user";
+import { IoClose } from "react-icons/io5";
+import { IoMdPricetags } from "react-icons/io";
 
 export default function Summary({ params }) {
-  const [studio, setStudio] = useState(false);
   const user = useSelector((state) => state.user.user);
-  const [summary, setSummary] = useState();
+  const summary = useSelector((state) => state.buildcard.recentBuildCard);
+  // const [summary, setSummary] = useState();
   const [dictionary, setDictionary] = useState({});
   const featuresIds = useSelector((state) => state.features.features);
   const [featuresData, setFeaturesData] = useState([]);
   const dispatch = useDispatch();
+  const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+  const [cloudService, setCloudService] = useState();
+  const [cloudServiceSelected, setCloudServiceSelected] = useState();
+  const [enterPromoCode, setEnterPromoCode] = useState(false);
+  const [promoCode, setPromoCode] = useState("");
+  const [promoCodeValid, setPromoCodeValid] = useState(null);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const promoRef = useRef(null);
+
+  const checkPromoCode = async () => {
+    console.log("inside checkPromoCode");
+    setLoading(true);
+    try {
+      const firestore = getFirestore();
+      const promoCodesCollectionRef = collection(firestore, "promoCodes");
+      const q = query(promoCodesCollectionRef, where("code", "==", promoCode));
+      const promoCodesSnapshot = await getDocs(q);
+
+      if (!promoCodesSnapshot.empty) {
+        const currentDate = new Date();
+        const validPromoCodes = [];
+
+        promoCodesSnapshot.forEach((doc) => {
+          const promoCodeData = doc.data();
+          const validTillDate = new Date(
+            promoCodeData.validTill.seconds * 1000 +
+              promoCodeData.validTill.nanoseconds / 1000000
+          );
+
+          if (currentDate <= validTillDate) {
+            validPromoCodes.push(promoCodeData);
+          }
+
+          if (validPromoCodes.length > 0) {
+            console.log("validPromoCodes", validPromoCodes);
+            setMessage("valid");
+            setPromoCodeValid(validPromoCodes[0]);
+          } else {
+            setPromoCode("");
+            setMessage("invalid");
+          }
+        });
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      setPromoCode("");
+      console.error("Error fetching promo codes:", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    if (message) {
+      const timeoutId = setTimeout(() => {
+        setMessage("");
+      }, 3000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [message]);
+
+  const hanldeCancelPromoCode = () => {
+    setPromoCodeValid(null);
+    setPromoCode("");
+  };
+
+  useEffect(() => {
+    promoRef?.current?.focus();
+  }, [promoCode, enterPromoCode]);
 
   const sidebarDataToUse =
     params.lang === "en" ? sidebarData : sidebarDataArabic;
+
+  const handleSave = () => {
+    const userRef = doc(db, "users", user.uid);
+
+    getDoc(userRef)
+      .then((docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const userData = docSnapshot.data();
+          userData.buildCards = Array.isArray(userData.buildCards)
+            ? userData.buildCards
+            : [];
+
+          const currentBuildCard = userData.buildCards.findIndex(
+            (buildCard) => buildCard.id === recentBuildCardId
+          );
+
+          if (currentBuildCard !== -1) {
+            // localStorage.setItem("recentBuildCardId", null);
+            userData.buildCards[currentBuildCard].updatedAt =
+              new Date().toISOString();
+            userData.buildCards[currentBuildCard].cloudServiceCost =
+              cloudService;
+          }
+
+          updateDoc(userRef, userData)
+            .then(() => {
+              console.log("Build card added/updated successfully");
+              dispatch(setUser(userData));
+              // setName("");
+            })
+            .catch((error) => {
+              console.error("Error updating document: ", error);
+            });
+        } else {
+          console.error("User document does not exist");
+        }
+      })
+      .catch((error) => {
+        console.error("Error getting document:", error);
+      });
+  };
 
   useEffect(() => {
     // setSelectedFeature(features[0]);
@@ -31,7 +153,6 @@ export default function Summary({ params }) {
       );
 
       if (matchingItems?.length > 0) {
-        console.log("matchingItems in summary", matchingItems);
         results.push(...matchingItems);
       }
 
@@ -47,77 +168,86 @@ export default function Summary({ params }) {
       console.error(error);
     });
 
-  const getRecentBuildCard = async (userId) => {
-    const db = getFirestore();
-    const userDocRef = doc(db, "users", userId);
+  // const getRecentBuildCard = async (userId) => {
+  //   const db = getFirestore();
+  //   const userDocRef = doc(db, "users", userId);
 
-    try {
-      const docSnapshot = await getDoc(userDocRef);
+  //   try {
+  //     const docSnapshot = await getDoc(userDocRef);
 
-      if (docSnapshot.exists()) {
-        const userData = docSnapshot.data();
-        console.log("User data:", userData);
+  //     if (docSnapshot.exists()) {
+  //       const userData = docSnapshot.data();
 
-        // Assuming 'buildCards' is an array in your user data
-        const buildCards = userData?.buildCards || [];
+  //       // Assuming 'buildCards' is an array in your user data
+  //       const buildCards = userData?.buildCards || [];
+  //       if (
+  //         Array.isArray(buildCards) &&
+  //         buildCards.length > 0 &&
+  //         recentBuildCardId
+  //       ) {
+  //         // Find the build card with the matching ID
+  //         const recentBuildCard = buildCards.find(
+  //           (card) => card.id === recentBuildCardId
+  //         );
 
-        // Get the build card ID from local storage
-        const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-        console.log("recentBuildCardId in summary", recentBuildCardId);
+  //         if (recentBuildCard) {
+  //           // Return the found build card
+  //           setSummary(recentBuildCard);
+  //           setCloudService(recentBuildCard.cloudServiceCost);
+  //           setCloudServiceSelected(
+  //             recentBuildCard.cloudServiceCost ? true : false
+  //           );
+  //           dispatch({
+  //             type: "setFeatures",
+  //             payload: recentBuildCard.features,
+  //           });
+  //         } else {
+  //           console.log("Build card with the specified ID not found.");
+  //         }
+  //       } else {
+  //         console.log(
+  //           "No build cards available or recentBuildCardId is not set in local storage."
+  //         );
+  //       }
+  //     } else {
+  //       console.log("User data not found");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
 
-        if (
-          Array.isArray(buildCards) &&
-          buildCards.length > 0 &&
-          recentBuildCardId
-        ) {
-          // Find the build card with the matching ID
-          const recentBuildCard = buildCards.find(
-            (card) => card.id === recentBuildCardId
-          );
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((authUser) => {
+  //     if (authUser) {
+  //       getRecentBuildCard(authUser.uid);
+  //     } else {
+  //       console.log("Nothing found");
+  //     }
+  //   });
 
-          if (recentBuildCard) {
-            // Return the found build card
-            console.log("summary in summary page", recentBuildCard);
-            setSummary(recentBuildCard);
-            dispatch({
-              type: "setFeatures",
-              payload: recentBuildCard.features,
-            });
-          } else {
-            console.log("Build card with the specified ID not found.");
-          }
-        } else {
-          console.log(
-            "No build cards available or recentBuildCardId is not set in local storage."
-          );
-        }
-      } else {
-        console.log("User data not found");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        getRecentBuildCard(authUser.uid);
-      } else {
-        console.log("Nothing found");
-      }
-    });
-
-    return () => unsubscribe();
-  }, [auth]);
+  //   return () => unsubscribe();
+  // }, []);
 
   const inputDate = new Date(summary?.updatedAt);
-
-  // Define options for formatting
   const options = { day: "2-digit", month: "short", year: "numeric" };
-
-  // Format the date
   const formattedDate = inputDate.toLocaleDateString("en-US", options);
+
+  const handleCloudSelection = () => {
+    console.log("handleCloudSelection", cloudServiceSelected);
+    // setCloudServiceSelected((prev) => !prev);
+    if (cloudServiceSelected) {
+      console.log("inside if");
+      setCloudServiceSelected(false);
+      setCloudService(0);
+    } else {
+      console.log("inside else");
+      setCloudServiceSelected(true);
+      setCloudService(
+        summary?.cloudServiceCost != 0 ? summary?.cloudServiceCost : 12841
+      );
+    }
+  };
 
   return (
     <HeaderLayout>
@@ -134,7 +264,7 @@ export default function Summary({ params }) {
               <p className="text-black font-semibold">
                 {dictionary.hereIsYour}
               </p>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-900 text-sm">
                 {dictionary.lastEdited}: {formattedDate}
               </p>
             </div>
@@ -158,19 +288,36 @@ export default function Summary({ params }) {
                   {dictionary.customizationCost}
                 </p>
                 <p className="text-black text-sm">
-                  ${summary?.customizationCost}
+                  ${summary?.customizationCost.toLocaleString()}
                 </p>
               </div>
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm">{dictionary.fixedCost}</p>
-                <p className="text-black text-sm">${summary?.fixedCost}</p>
+                <p className="text-black text-sm">
+                  ${summary?.fixedCost.toLocaleString()}
+                </p>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm font-bold">
                   {dictionary.totalCost}
                 </p>
-                <p className="text-black text-sm">${summary?.totalCost}</p>
+                <div className="flex flex-col">
+                  <p
+                    className={`text-black text-right text-sm ${
+                      promoCodeValid && "line-through"
+                    }`}
+                  >
+                    ${summary?.totalCost.toLocaleString()}
+                  </p>
+                  {promoCodeValid?.discountAmount && (
+                    <p className="text-black text-right font-bold">
+                      $
+                      {summary?.totalCost *
+                        (1 - promoCodeValid.discountAmount / 100)}
+                    </p>
+                  )}
+                </div>
               </div>
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
@@ -194,10 +341,71 @@ export default function Summary({ params }) {
                 <p className="text-black text-sm font-bold">
                   {dictionary.promoCode}
                 </p>
-                <button className="text-white p-2 rounded-md bg-secondary text-sm">
-                  {dictionary.apply}
-                </button>
+                {!enterPromoCode && (
+                  <button
+                    onClick={() => setEnterPromoCode(true)}
+                    className="text-white p-2 rounded-md bg-secondary text-sm"
+                  >
+                    {dictionary.applyPromotion}
+                  </button>
+                )}
               </div>
+              {enterPromoCode && (
+                <>
+                  {message && (
+                    <div
+                      className={`${
+                        message === "valid" ? "bg-green-300" : "bg-red-300"
+                      } px-4 py-2 rounded-md my-3`}
+                    >
+                      <p className="text-white text-sm">
+                        {message === "valid"
+                          ? "Promo code is valid!"
+                          : "Promo code is invalid"}
+                      </p>
+                    </div>
+                  )}
+                  {promoCodeValid ? (
+                    <div className="flex w-fit px-3 items-center gap-1 bg-slate-200 rounded-md">
+                      <div className="flex items-center gap-1">
+                        <IoMdPricetags className="text-black" />
+                        <p className="p-2 text-gray-500 rounded-md font-bold">
+                          {promoCode}
+                        </p>
+                      </div>
+                      <IoClose
+                        onClick={hanldeCancelPromoCode}
+                        className="text-black cursor-pointer font-extrabold "
+                      />
+                    </div>
+                  ) : (
+                    <div className="my-1 w-full gap-2 flex items-center">
+                      <div className="border-gray-300 w-full border rounded-md my-1">
+                        <input
+                          ref={promoRef}
+                          className="p-2 w-full text-black rounded-md font-medium outline-none"
+                          type="text"
+                          placeholder={dictionary.enterPromoCode}
+                          value={promoCode}
+                          onChange={(e) => setPromoCode(e.target.value)}
+                        />
+                      </div>
+                      {loading ? (
+                        <div className="bg-slate-300 w-[90px] flex items-center justify-center py-2 rounded-md">
+                          <div className="loading-spinner"></div>
+                        </div>
+                      ) : (
+                        <p
+                          onClick={checkPromoCode}
+                          className="bg-secondary py-2 w-[90px] text-center text-white rounded-md text-sm cursor-pointer"
+                        >
+                          {dictionary.apply}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
               <hr className="my-2" />
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm font-bold">
@@ -205,7 +413,7 @@ export default function Summary({ params }) {
                 </p>
               </div>
               <div className="grid grid-cols-2">
-                <div className="flex items-center gap-3 py-1">
+                {/* <div className="flex items-center gap-3 py-1">
                   <div
                     onClick={() => setStudio((prev) => !prev)}
                     className="cursor-pointer"
@@ -224,13 +432,13 @@ export default function Summary({ params }) {
                       $15,034.51 /{dictionary.month}
                     </p>
                   </div>
-                </div>
+                </div> */}
                 <div className="flex items-center gap-3 py-1">
                   <div
-                    onClick={() => setStudio((prev) => !prev)}
+                    onClick={handleCloudSelection}
                     className="cursor-pointer"
                   >
-                    {studio ? (
+                    {cloudServiceSelected > 0 ? (
                       <GoCheckCircleFill className="text-xl text-secondary" />
                     ) : (
                       <GoCircle className="text-xl text-gray-400 cursor-pointer" />
@@ -241,13 +449,23 @@ export default function Summary({ params }) {
                       {dictionary.launchCloud}
                     </p>
                     <p className="text-black text-sm">
-                      $12,841.41 - $19,261.71/{dictionary.month}
+                      {(cloudService > 0 && cloudService?.toLocaleString()) ||
+                        `12,841-19,261`}
+                      /{dictionary.month}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
-            <button className="text-white p-3 my-2 rounded-md bg-secondary text-sm">
+            <button
+              disabled={cloudService === summary?.cloudServiceCost}
+              onClick={handleSave}
+              className={`${
+                cloudService === summary?.cloudServiceCost
+                  ? "bg-slate-300"
+                  : "text-white bg-secondary"
+              } p-3 my-2 rounded-md text-sm`}
+            >
               {dictionary.save}
             </button>
           </div>

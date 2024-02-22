@@ -176,6 +176,7 @@ export default function App({ params }) {
                 password={password}
                 setPassword={setPassword}
                 setShowSignin={setShowSignin}
+                clearAllFields={clearAllFields}
               />
             ) : (
               <Signup
@@ -192,6 +193,7 @@ export default function App({ params }) {
                 password={password}
                 setPassword={setPassword}
                 setShowSignin={setShowSignin}
+                clearAllFields={clearAllFields}
               />
             )}
             <div

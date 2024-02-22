@@ -8,12 +8,14 @@ import { LuPencil } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 
 const VerticalTabs = ({ dictionary, features }) => {
-  console.log("VerticalTabs", features);
   const user = useSelector((state) => state.user.user);
-  const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-  const currentBuildCard = user.buildCards.find(
-    (item) => item.id === recentBuildCardId
+  const currentBuildCard = useSelector(
+    (state) => state.buildcard.recentBuildCard
   );
+  // const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+  // const currentBuildCard = user.buildCards.find(
+  //   (item) => item.id === recentBuildCardId
+  // );
 
   const inputRef = useRef(null);
   const detailsRef = useRef(null);
@@ -131,7 +133,7 @@ const VerticalTabs = ({ dictionary, features }) => {
                 </div>
                 <p
                   onClick={() => updateBuildCard("name", buildCardName)}
-                  className="bg-secondary p-1 text-white rounded-md text-sm cursor-pointer"
+                  className="bg-secondary p-2 text-white rounded-md text-sm cursor-pointer"
                 >
                   {dictionary.save}
                 </p>
@@ -168,7 +170,7 @@ const VerticalTabs = ({ dictionary, features }) => {
                 </div>
                 <p
                   onClick={() => updateBuildCard("details", buildCardDetails)}
-                  className="bg-secondary py-1 px-3 text-white rounded-md text-sm cursor-pointer"
+                  className="bg-secondary py-2 px-3 text-white rounded-md text-sm cursor-pointer"
                 >
                   {dictionary.save}
                 </p>

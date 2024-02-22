@@ -4,6 +4,7 @@ const nextConfig = {
     domains: [
       "bstudio-assets.azureedge.net",
       "builderbuckets.blob.core.windows.net",
+      "firebasestorage.googleapis.com",
     ],
   },
 };

@@ -37,7 +37,7 @@ export default function Features({ params }) {
   const [platform, setPlatform] = useState("mobile");
   const featuresIds = useSelector((state) => state.features.features);
   const [featuresData, setFeaturesData] = useState([]);
-  const [sidebar, setSidebar] = useState({});
+  const [dictionary, setDictionary] = useState({});
   const [selectedFeature, setSelectedFeature] = useState();
   const [searchFeatures, setSearchFeatures] = useState([]);
   const dispatch = useDispatch();
@@ -50,7 +50,7 @@ export default function Features({ params }) {
 
   getDictionary(params.lang)
     .then((lang) => {
-      setSidebar(lang.features);
+      setDictionary(lang.features);
     })
     .catch((error) => {
       console.error(error);
@@ -58,6 +58,7 @@ export default function Features({ params }) {
 
   useEffect(() => {
     // setSelectedFeature(features[0]);
+    if (searchTerm.length > 0) return;
     console.log("features", featuresIds);
     const results = [];
 
@@ -179,7 +180,31 @@ export default function Features({ params }) {
     return featuresIds.some((selectedId) => selectedId === feature.id);
   };
 
+  const searchItems = () => {
+    console.log("inside searchTerm", searchTerm);
+    const results = [];
+
+    sidebarDataToUse.forEach((category) => {
+      console.log("category", category);
+      const matchingItems = category.dropDown?.filter((item) =>
+        item.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+      );
+
+      if (matchingItems?.length > 0) {
+        console.log("matchingItems", matchingItems);
+        results.push(...matchingItems);
+      }
+    });
+
+    console.log("results", results);
+    setSearchFeatures(results);
+  };
+
   const handleFeaturesSelection = (feature) => {
+    if (searchTerm.length > 0) {
+      console.log("searchTerm", searchTerm);
+      searchItems(searchTerm);
+    }
     if (isFeatureSelected(feature)) {
       dispatch({
         type: "removeFeature",
@@ -270,29 +295,12 @@ export default function Features({ params }) {
     setSelectedFeature(updatedSelectedFeatures[0]);
   };
 
-  const searchItems = (searchText) => {
-    const results = [];
-
-    sidebarDataToUse.forEach((category) => {
-      console.log("category", category);
-      const matchingItems = category.dropDown?.filter((item) =>
-        item.name.toLowerCase().startsWith(searchText.toLowerCase())
-      );
-
-      if (matchingItems?.length > 0) {
-        console.log("matchingItems", matchingItems);
-        results.push(...matchingItems);
-      }
-    });
-
-    console.log("results", results);
-    setSearchFeatures(results);
-  };
-
   useEffect(() => {
     if (searchTerm.length > 0) {
+      console.log("here inside if");
       searchItems(searchTerm);
     } else {
+      console.log("here inside else");
       setSearchFeatures([]);
     }
   }, [searchTerm]);
@@ -303,11 +311,11 @@ export default function Features({ params }) {
         className={`flex  h-[calc(100vh-4.5rem)] mt-[4.5rem]`}
         style={{ direction: `${params.lang === "en" ? "ltr" : "rtl"}` }}
       >
-        <RemoveAllPopup
+        {/* <RemoveAllPopup
           confirm={confirm}
           setConfirm={setConfirm}
           handleRemoveAll={handleRemoveAll}
-        />
+        /> */}
 
         <div className="w-1/5 bg-slate-100 max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
           <div className="flex bg-white border-[#C7C7C7] items-center m-2 rounded-md border p-2">
@@ -319,7 +327,7 @@ export default function Features({ params }) {
             <input
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder={sidebar.searchTitle}
+              placeholder={dictionary.searchTitle}
               className="w-full bg-transparent text-sm text-gray-700 outline-none"
             />
           </div>
@@ -355,7 +363,7 @@ export default function Features({ params }) {
                         <p className="text-gray-500 text-xs">
                           {countSelectedFeatures(item.dropDown)}/
                           {item.dropDown && item.dropDown.length}{" "}
-                          {sidebar.features}
+                          {dictionary.features}
                         </p>
                       </div>
                       {countSelectedFeatures(item.dropDown) ===
@@ -367,7 +375,7 @@ export default function Features({ params }) {
                           }
                         >
                           <p className="text-gray-500 text-xs">
-                            {sidebar.deselectAll}
+                            {dictionary.deselectAll}
                           </p>
                         </div>
                       ) : (
@@ -378,7 +386,7 @@ export default function Features({ params }) {
                           }
                         >
                           <p className="text-gray-500 text-xs">
-                            {sidebar.selectAll}
+                            {dictionary.selectAll}
                           </p>
                         </div>
                       )}
@@ -443,10 +451,11 @@ export default function Features({ params }) {
                             <div>
                               <p className="text-sm">{item.name}</p>
                               <p className="text-gray-500 text-xs">
-                                {sidebar.from} ${item.price}
+                                {dictionary.from} ${item.price}
                               </p>
                               <p className="text-gray-500 text-xs">
-                                {sidebar.from} {item.timeline} {sidebar.days}
+                                {dictionary.from} {item.timeline}{" "}
+                                {dictionary.days}
                               </p>
                             </div>
                           </div>
@@ -513,10 +522,10 @@ export default function Features({ params }) {
                     <div>
                       <p className="text-sm">{item.name}</p>
                       <p className="text-gray-500 text-xs">
-                        {sidebar.from} ${item.price}
+                        {dictionary.from} ${item.price}
                       </p>
                       <p className="text-gray-500 text-xs">
-                        {sidebar.from} {item.timeline} {sidebar.days}
+                        {dictionary.from} {item.timeline} {dictionary.days}
                       </p>
                     </div>
                   </div>
@@ -553,7 +562,7 @@ export default function Features({ params }) {
             ))
           ) : (
             <div className="flex justify-center py-5 items-center w-full">
-              <p className="text-black">No result.</p>
+              <p className="text-black">{dictionary.noResult}</p>
             </div>
           )}
         </div>
@@ -573,7 +582,7 @@ export default function Features({ params }) {
                   />
                   <ShowFeature
                     lang={params.lang}
-                    sidebar={sidebar}
+                    sidebar={dictionary}
                     platform={platform}
                     selectedFeature={selectedFeature}
                     handleFeaturesSelection={(feature) =>
@@ -583,7 +592,7 @@ export default function Features({ params }) {
                   />
                 </>
               ) : (
-                <NoFeature lang={params.lang} sidebar={sidebar} />
+                <NoFeature lang={params.lang} sidebar={dictionary} />
               )}
             </div>
             {featuresData?.length > 0 && (
@@ -591,8 +600,8 @@ export default function Features({ params }) {
                 <div className="flex px-5 py-3 gap-2 items-center">
                   <p className="text-black text-xl">
                     {featuresData.length > 1
-                      ? `${sidebar.selectedFeatures}`
-                      : `${sidebar.selectedFeature}`}
+                      ? `${dictionary.selectedFeatures}`
+                      : `${dictionary.selectedFeature}`}
                   </p>
                   <p className="text-black text-xl">{featuresData.length}</p>
                 </div>
@@ -620,18 +629,18 @@ export default function Features({ params }) {
                             className={`w-12 ${
                               selectedFeature?.id === item.id
                                 ? "border-secondary"
-                                : "border-transparent"
+                                : "border-[#A6A6A6]"
                             } group border-2 rounded-lg`}
                           >
-                            <PhoneFrame>
-                              <Image
-                                width={100}
-                                height={100}
-                                src={item?.mobile}
-                                alt="icon"
-                                className="object-fill w-full h-full"
-                              />
-                            </PhoneFrame>
+                            {/* <PhoneFrame> */}
+                            <Image
+                              width={100}
+                              height={100}
+                              src={item?.mobile}
+                              alt="icon"
+                              className="object-fill rounded-lg w-full p-1 h-full"
+                            />
+                            {/* </PhoneFrame> */}
                           </div>
                         ) : (
                           <div
@@ -661,10 +670,10 @@ export default function Features({ params }) {
                           </p>
                           <div className="py-1">
                             <p className="text-gray-400 text-xs">
-                              {sidebar.from} ${item.price}
+                              {dictionary.from} ${item.price}
                             </p>
                             <p className="text-gray-400 text-xs py-[1px]">
-                              {item.timeline} {sidebar.days}
+                              {item.timeline} {dictionary.days}
                             </p>
                           </div>
                         </div>
@@ -678,12 +687,12 @@ export default function Features({ params }) {
           {featuresData.length > 0 && (
             <BottomBar
               lang={params.lang}
-              sidebar={sidebar}
+              sidebar={dictionary}
               customizationCost={customizationCost}
               fixedCost={fixedCost}
               totalCost={totalCost}
               durationLocal={durationLocal}
-              buttonText={sidebar.planDelivery}
+              buttonText={dictionary.planDelivery}
               handlePlanDelivery={addIncompleteBuildCard}
             />
           )}

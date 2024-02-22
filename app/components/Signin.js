@@ -12,7 +12,10 @@ const Signin = ({
   setShowSignin,
   lang,
   dictionary,
+  clearAllFields,
 }) => {
+  const isButtonDisabled = !email || !password;
+
   return (
     <div
       style={{ direction: `${lang === "en" ? "ltr" : "rtl"}` }}
@@ -22,10 +25,10 @@ const Signin = ({
         {dictionary.signinText}
       </h1>
       <div className="overflow-y-auto h-[50%] px-16 flex flex-col justify-center bg-white scrollbar-hidden">
-        <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
+        {/* <p className="text-gray-500 bg-white py-3 z-3 text-center block relative text-sm signin">
           {dictionary.signinUsing}
         </p>
-        <SocialButtons />
+        <SocialButtons /> */}
         <p className="text-gray-500 bg-white py-2 z-3 text-center block relative text-sm email">
           {dictionary.signinWith}
         </p>
@@ -57,7 +60,10 @@ const Signin = ({
       </div>
       <div className="flex flex-col px-16">
         <button
-          className="bg-secondary mt-5 border-gray-300 border-t-[1px] w-full rounded p-3"
+          disabled={isButtonDisabled}
+          className={`${
+            isButtonDisabled ? "bg-gray-300" : "bg-secondary"
+          } border-gray-300 border-t-[1px] w-full rounded p-3`}
           onClick={handleSignIn}
         >
           {dictionary.buttonText}
@@ -65,7 +71,10 @@ const Signin = ({
         <div className="flex row gap-2 pt-2 items-center justify-center">
           <p className="text-black font-thin">{dictionary.dontHaveAccount}</p>
           <p
-            onClick={() => setShowSignin(false)}
+            onClick={() => {
+              clearAllFields();
+              setShowSignin(false);
+            }}
             className="text-secondary cursor-pointer text-sm"
           >
             {dictionary.signUp}

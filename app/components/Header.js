@@ -7,9 +7,10 @@ import { useRouter } from "next/navigation";
 import { signOut } from "firebase/auth";
 import { auth } from "../[lang]/firebase";
 import { usePathname } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import LocaleSwitcher from "./LocaleSwitcher";
 import { getDictionary } from "../../lib/dictionary";
+import { setRecentBuildCard } from "../store/reducers/buildcard";
 
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
   const pathName = usePathname();
@@ -30,6 +31,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
   const router = useRouter();
   const pathname = usePathname();
   const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
 
   const getRecentBuildCard = () => {
     const recentBuildCardId = localStorage.getItem("recentBuildCardId");
@@ -46,6 +48,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
       if (recentBuildCard) {
         console.log("Header page", recentBuildCard);
         setName(recentBuildCard.name);
+        dispatch(setRecentBuildCard(recentBuildCard));
       } else {
         console.log("Build card with the specified ID not found.");
       }
@@ -72,9 +75,15 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
   };
 
   return (
-    <div className="h-[4.5rem] bg-primary z-30 w-full fixed top-0 left-0 right-0">
+    <div
+      className="h-[4.5rem] bg-primary z-30 w-full fixed top-0 left-0 right-0"
+      style={{ direction: `${lang === "en" ? "ltr" : "rtl"}` }}
+    >
       <div className="h-full flex items-center">
-        <Link href={"/"} className="w-1/5 pl-5 cursor-pointer">
+        <Link
+          href={"/"}
+          className={`w-1/5 ${lang === "en" ? "pl-5" : "pr-5"} cursor-pointer`}
+        >
           <Image
             src={logo}
             alt=""
@@ -94,29 +103,31 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 className="cursor-pointer relative flex items-center gap-1 ml-3"
               >
-                <div className="flex gap-2">
-                  <div className="flex flex-col items-end justify-center">
-                    <p className="text-white font-semibold">{user?.name}</p>
-                    <p className="text-white font-medium text-xs">
-                      {user?.email}
-                    </p>
-                  </div>
-                  {/* <Image
+                {user && (
+                  <div className="flex gap-2">
+                    <div className="flex flex-col items-end justify-center">
+                      <p className="text-white font-semibold">{user?.name}</p>
+                      <p className="text-white font-medium text-xs">
+                        {user?.email}
+                      </p>
+                    </div>
+                    {/* <Image
                     src={person}
                     alt=""
                     className="rounded-full"
                     width={40}
                     height={40}
                   /> */}
-                  <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                    <p className="text-white font-semibold text-2xl">
-                      {user?.name[0]}
-                    </p>
+                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                      <p className="text-white font-semibold text-2xl">
+                        {user?.name[0]}
+                      </p>
+                    </div>
+                    <div className="w-[11px] h-[11px] absolute flex items-center justify-center -right-[3px] top-1 z-[4] rounded-full bg-primary">
+                      <div className="w-2 h-2 rounded-full bg-[#00FF47]" />
+                    </div>
                   </div>
-                  <div className="w-[11px] h-[11px] absolute flex items-center justify-center -right-[3px] top-1 z-[4] rounded-full bg-primary">
-                    <div className="w-2 h-2 rounded-full bg-[#00FF47]" />
-                  </div>
-                </div>
+                )}
                 <div
                   className={`${
                     dropdownOpen ? "block" : "hidden"

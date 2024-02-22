@@ -38,7 +38,7 @@ const BottomBar = ({
           <div className="flex flex-col px-2 gap-2 items-start">
             <p className="text-black text-xs">{sidebar.customizationCost}</p>
             <p className="text-black font-extrabold text-xl">
-              ${customizationCost}
+              ${customizationCost.toLocaleString()}
             </p>
           </div>
           <div>
@@ -46,7 +46,9 @@ const BottomBar = ({
           </div>
           <div className="flex flex-col px-2 gap-2 items-start">
             <p className="text-black text-xs">{sidebar.fixedCost}</p>
-            <p className="text-black font-extrabold text-xl">${fixedCost}</p>
+            <p className="text-black font-extrabold text-xl">
+              ${fixedCost.toLocaleString()}
+            </p>
           </div>
           {cloudService && (
             <>
@@ -56,7 +58,7 @@ const BottomBar = ({
               <div className="flex flex-col px-2 gap-2 items-start">
                 <p className="text-black text-xs">{sidebar.cloudServiceCost}</p>
                 <p className="text-black font-extrabold text-xl">
-                  ${cloudServicePrice}
+                  ${cloudServicePrice.toLocaleString()}
                 </p>
               </div>
             </>
@@ -65,8 +67,12 @@ const BottomBar = ({
             <p className="text-[#A6A6A6] text-2xl">=</p>
           </div>
           <div className="flex flex-col px-2 gap-2 items-start">
-            <p className="text-black text-xs">{sidebar.totalCost}</p>
-            <p className="text-black font-extrabold text-xl">${totalCost}</p>
+            <p className="text-black text-xs font-arabic">
+              {sidebar.totalCost}
+            </p>
+            <p className="text-black font-extrabold text-xl">
+              ${totalCost.toLocaleString()}
+            </p>
           </div>
           <div
             className={`flex ${

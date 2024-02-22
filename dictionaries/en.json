@@ -22,7 +22,7 @@
             "currencyType" : "US Dollar",
             "password" : "Password",
             "passwordPlaceholder" : "Enter password",
-            "alredyHaveAccount" : "Already have and account?",
+            "alreadyHaveAccount" : "Already have and account?",
             "buttonText" : "Create Account",
             "signIn" : "Sign In"
         }
@@ -42,7 +42,8 @@
         "noFeaturesHeading":"No features selected",
         "noFeaturesText":"Select feature to preview from left",
         "selectedFeature":"Selected Feature",
-        "selectedFeatures":"Selected Features"
+        "selectedFeatures":"Selected Features",
+        "noResult":"No result"
     },
     "sidebar":{
         "indicativeDuration":"Indicative Duration",
@@ -136,7 +137,9 @@
         "weeks":"weeks",
         "estimatedDelivery":"Estimated Delivery Date",
         "promoCode":"Promo Code",
-        "apply":"Apply Promotion",
+        "applyPromotion":"Apply Promotion",
+        "apply":"Apply",
+        "enterPromoCode":"Enter Promo Code",
         "additional":"Additional Services",
         "launchStudio":"Launch Swift Studio One +",
         "month":"month",
