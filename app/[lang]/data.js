@@ -1337,7 +1337,7 @@ export const initialPhases = [
     duration: "2 Weeks",
     delivery: "27-Dec-2023",
     icon: <GoChecklist className="text-4xl text-black" />,
-    selected: true,
+    selected: false,
     description:
       "Why do you need a product roadmap? Add it and we help you define the use cases for every feature in your Buildcard. If you skip it, you’ll need to know exactly what you expect each feature to do before we can start building your app.It also gives you an in-depth view of where your product is going. Includes a product timeline so everyone can see all the key dates on the way to get you there.",
     more: "Can help you secure funding, improve collaboration and streamline the whole app building process. Also useful for making long-term strategic decisions and planning a successful launch.",
@@ -1351,7 +1351,7 @@ export const initialPhases = [
     duration: "7 Weeks",
     delivery: "12-Feb-2024",
     icon: <SiStyledcomponents className="text-4xl text-black" />,
-    selected: false,
+    selected: true,
     description:
       "Trust us to do the wireframing of your concept and design a seamless experience. Get a fully scalable UI/UX",
     more: "We combine visual principles, data, color psychology, and decades worth of experience to create aesthetic interfaces that will drive the growth of your product. We are experts in creating human-centric designs that allow customers to intuitively use your product and have a great product experience.",

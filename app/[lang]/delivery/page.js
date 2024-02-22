@@ -368,9 +368,14 @@ export default function Delivery({ params }) {
   };
 
   const togglePhaseSelection = (index) => {
-    console.log("Before toggle:", phases[index].selected);
-
     const newPhases = [...phases];
+    const selectedPhases = newPhases.filter((phase) => phase.selected);
+
+    if (selectedPhases.length === 1 && newPhases[index].selected) {
+      console.log("At least one phase must be selected.");
+      return;
+    }
+
     newPhases[index].selected = !newPhases[index].selected;
 
     console.log("After toggle:", newPhases[index].selected);
@@ -1046,12 +1051,12 @@ export default function Delivery({ params }) {
                           <p className="text-black text-xs font-bold">
                             {dictionary.features}
                           </p>
-                          <p className="text-secondary text-xs font-normal cursor-pointer">
+                          {/* <p className="text-secondary text-xs font-normal cursor-pointer">
                             {dictionary.change}
-                          </p>
+                          </p> */}
                         </div>
                         <p className="text-gray-400 pt-1 text-xs">
-                          32 {dictionary.featuresSelected}
+                          {features.length} {dictionary.featuresSelected}
                         </p>
                       </>
                     )}
