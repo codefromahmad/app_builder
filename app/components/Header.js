@@ -82,7 +82,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
     >
       <div className="h-full flex items-center">
         <Link
-          href={"/"}
+          href={`/${lang}/features`}
           className={`w-1/5 ${lang === "en" ? "pl-5" : "pr-5"} cursor-pointer`}
         >
           <Image

@@ -53,6 +53,7 @@ export default function Delivery({ params }) {
   const [standardFixedCost, setStandardFixedCost] = useState(0);
   const router = useRouter();
   const [dictionary, setDictionary] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const [phases, setPhases] = useState(initialPhases);
 
@@ -132,66 +133,6 @@ export default function Delivery({ params }) {
     .catch((error) => {
       console.error(error);
     });
-
-  // const getRecentBuildCard = async (userId) => {
-  //   const db = getFirestore();
-  //   const userDocRef = doc(db, "users", userId);
-
-  //   try {
-  //     const docSnapshot = await getDoc(userDocRef);
-
-  //     if (docSnapshot.exists()) {
-  //       const userData = docSnapshot.data();
-  //       console.log("User data:", userData);
-
-  //       // Assuming 'buildCards' is an array in your user data
-  //       const buildCards = userData?.buildCards || [];
-
-  //       // Get the build card ID from local storage
-  //       const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-  //       console.log("recentBuildCardId in summary", recentBuildCardId);
-
-  //       if (
-  //         Array.isArray(buildCards) &&
-  //         buildCards.length > 0 &&
-  //         recentBuildCardId
-  //       ) {
-  //         // Find the build card with the matching ID
-  //         const recentBuildCard = buildCards.find(
-  //           (card) => card.id === recentBuildCardId
-  //         );
-
-  //         if (recentBuildCard) {
-  //           // Return the found build card
-  //           console.log("summary in summary page", recentBuildCard);
-  //           setBuildCardDetails(recentBuildCard);
-  //         } else {
-  //           console.log("Build card with the specified ID not found.");
-  //         }
-  //       } else {
-  //         console.log(
-  //           "No build cards available or recentBuildCardId is not set in local storage."
-  //         );
-  //       }
-  //     } else {
-  //       console.log("User data not found");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching user data:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((authUser) => {
-  //     if (authUser) {
-  //       getRecentBuildCard(authUser.uid);
-  //     } else {
-  //       console.log("Nothing found");
-  //     }
-  //   });
-
-  //   return () => unsubscribe();
-  // }, [auth]);
 
   const priceDuration = [
     {
@@ -491,6 +432,7 @@ export default function Delivery({ params }) {
 
   const addBuildCard = () => {
     const userRef = doc(db, "users", user.uid);
+    setLoading(true);
 
     getDoc(userRef)
       .then((docSnapshot) => {
@@ -541,17 +483,21 @@ export default function Delivery({ params }) {
               dispatch(setUser(userData));
               setName("");
               setBuildCard(false);
+              setLoading(false);
             })
             .catch((error) => {
+              setLoading(false);
               console.error("Error updating document: ", error);
               setBuildCard(false);
             });
         } else {
           console.error("User document does not exist");
+          setLoading(false);
           setBuildCard(false);
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error getting document:", error);
         setBuildCard(false);
       });
@@ -961,13 +907,17 @@ export default function Delivery({ params }) {
                         {dictionary.estimatedDuration}:{" "}
                       </p>
                       <p className="text-black text-xs font-normal">
-                        {phase.selected ? phase.duration : "---"}
+                        {phase.selected ? `${phase.duration} Weeks` : "---"}
                       </p>
                       <p className="text-black text-xs font-bold pt-2">
                         {dictionary.estimatedDelivery}:{" "}
                       </p>
                       <p className="text-black text-xs font-normal">
-                        {phase.selected ? phase.delivery : "---"}
+                        {phase.selected
+                          ? moment()
+                              .add(phase.duration, "weeks")
+                              .format("DD-MMM-YYYY")
+                          : "---"}
                       </p>
                     </div>
                   </div>
@@ -998,13 +948,15 @@ export default function Delivery({ params }) {
                             <p className="text-black text-xs font-bold pb-1">
                               {dictionary.estimatedDuration}:{" "}
                               <span className="text-black text-xs font-normal">
-                                {phase.duration}
+                                {phase.duration} Weeks
                               </span>
                             </p>
                             <p className="text-black text-xs font-bold">
                               {dictionary.estimatedDelivery}:{" "}
                               <span className="text-black text-xs font-normal">
-                                {phase.delivery}
+                                {moment()
+                                  .add(phase.duration, "weeks")
+                                  .format("DD-MMM-YYYY")}
                               </span>
                             </p>
                           </>
@@ -1314,6 +1266,7 @@ export default function Delivery({ params }) {
               showBuildCardPopUp={showBuildCardPopUp}
               cloudService={cloudService}
               cloudServicePrice={maxPrice}
+              loading={loading}
             />
           </div>
         </div>

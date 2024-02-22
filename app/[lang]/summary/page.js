@@ -3,11 +3,13 @@ import HeaderLayout from "../../components/HeaderLayout";
 import VerticalTabs from "../../components/VerticalTabs";
 import {
   collection,
+  doc,
   query,
   where,
   getDocs,
   getDoc,
   getFirestore,
+  updateDoc,
 } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
 import { auth } from "../firebase";
@@ -24,11 +26,10 @@ export default function Summary({ params }) {
   const summary = useSelector((state) => state.buildcard.recentBuildCard);
   // const [summary, setSummary] = useState();
   const [dictionary, setDictionary] = useState({});
-  const featuresIds = useSelector((state) => state.features.features);
+
   const [featuresData, setFeaturesData] = useState([]);
   const dispatch = useDispatch();
   const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-  const [cloudService, setCloudService] = useState();
   const [cloudServiceSelected, setCloudServiceSelected] = useState();
   const [enterPromoCode, setEnterPromoCode] = useState(false);
   const [promoCode, setPromoCode] = useState("");
@@ -36,13 +37,13 @@ export default function Summary({ params }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const promoRef = useRef(null);
+  const db = getFirestore();
 
   const checkPromoCode = async () => {
     console.log("inside checkPromoCode");
     setLoading(true);
     try {
-      const firestore = getFirestore();
-      const promoCodesCollectionRef = collection(firestore, "promoCodes");
+      const promoCodesCollectionRef = collection(db, "promoCodes");
       const q = query(promoCodesCollectionRef, where("code", "==", promoCode));
       const promoCodesSnapshot = await getDocs(q);
 
@@ -96,6 +97,7 @@ export default function Summary({ params }) {
 
   const hanldeCancelPromoCode = () => {
     setPromoCodeValid(null);
+    setMessage("");
     setPromoCode("");
   };
 
@@ -125,8 +127,10 @@ export default function Summary({ params }) {
             // localStorage.setItem("recentBuildCardId", null);
             userData.buildCards[currentBuildCard].updatedAt =
               new Date().toISOString();
-            userData.buildCards[currentBuildCard].cloudServiceCost =
-              cloudService;
+            userData.buildCards[currentBuildCard].cloudServiceCost = {
+              ...userData.buildCards[currentBuildCard].cloudServiceCost,
+              selected: cloudServiceSelected,
+            };
           }
 
           updateDoc(userRef, userData)
@@ -148,13 +152,18 @@ export default function Summary({ params }) {
   };
 
   useEffect(() => {
+    setCloudServiceSelected(summary?.cloudServiceCost.selected);
+  }, [summary]);
+
+  useEffect(() => {
     // setSelectedFeature(features[0]);
     const results = [];
-
     sidebarDataToUse.forEach((category) => {
       const matchingItems = category.dropDown?.filter((item) =>
-        featuresIds.includes(item.id)
+        summary?.features.includes(item.id)
       );
+
+      console.log("matchingItems", matchingItems);
 
       if (matchingItems?.length > 0) {
         results.push(...matchingItems);
@@ -162,7 +171,7 @@ export default function Summary({ params }) {
 
       setFeaturesData(results);
     });
-  }, [featuresIds]);
+  }, [summary?.features]);
 
   getDictionary(params.lang)
     .then((lang) => {
@@ -172,84 +181,18 @@ export default function Summary({ params }) {
       console.error(error);
     });
 
-  // const getRecentBuildCard = async (userId) => {
-  //   const db = getFirestore();
-  //   const userDocRef = doc(db, "users", userId);
-
-  //   try {
-  //     const docSnapshot = await getDoc(userDocRef);
-
-  //     if (docSnapshot.exists()) {
-  //       const userData = docSnapshot.data();
-
-  //       // Assuming 'buildCards' is an array in your user data
-  //       const buildCards = userData?.buildCards || [];
-  //       if (
-  //         Array.isArray(buildCards) &&
-  //         buildCards.length > 0 &&
-  //         recentBuildCardId
-  //       ) {
-  //         // Find the build card with the matching ID
-  //         const recentBuildCard = buildCards.find(
-  //           (card) => card.id === recentBuildCardId
-  //         );
-
-  //         if (recentBuildCard) {
-  //           // Return the found build card
-  //           setSummary(recentBuildCard);
-  //           setCloudService(recentBuildCard.cloudServiceCost);
-  //           setCloudServiceSelected(
-  //             recentBuildCard.cloudServiceCost ? true : false
-  //           );
-  //           dispatch({
-  //             type: "setFeatures",
-  //             payload: recentBuildCard.features,
-  //           });
-  //         } else {
-  //           console.log("Build card with the specified ID not found.");
-  //         }
-  //       } else {
-  //         console.log(
-  //           "No build cards available or recentBuildCardId is not set in local storage."
-  //         );
-  //       }
-  //     } else {
-  //       console.log("User data not found");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching user data:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const unsubscribe = auth.onAuthStateChanged((authUser) => {
-  //     if (authUser) {
-  //       getRecentBuildCard(authUser.uid);
-  //     } else {
-  //       console.log("Nothing found");
-  //     }
-  //   });
-
-  //   return () => unsubscribe();
-  // }, []);
-
   const inputDate = new Date(summary?.updatedAt);
   const options = { day: "2-digit", month: "short", year: "numeric" };
   const formattedDate = inputDate.toLocaleDateString("en-US", options);
 
   const handleCloudSelection = () => {
     console.log("handleCloudSelection", cloudServiceSelected);
-    // setCloudServiceSelected((prev) => !prev);
     if (cloudServiceSelected) {
       console.log("inside if");
       setCloudServiceSelected(false);
-      setCloudService(0);
     } else {
       console.log("inside else");
       setCloudServiceSelected(true);
-      setCloudService(
-        summary?.cloudServiceCost != 0 ? summary?.cloudServiceCost : 12841
-      );
     }
   };
 
@@ -317,8 +260,10 @@ export default function Summary({ params }) {
                   {promoCodeValid?.discountAmount && (
                     <p className="text-black text-right font-bold">
                       $
-                      {summary?.totalCost *
-                        (1 - promoCodeValid.discountAmount / 100)}
+                      {(
+                        summary?.totalCost *
+                        (1 - promoCodeValid.discountAmount / 100)
+                      ).toLocaleString()}
                     </p>
                   )}
                 </div>
@@ -392,7 +337,9 @@ export default function Summary({ params }) {
                           type="text"
                           placeholder={dictionary.enterPromoCode}
                           value={promoCode}
-                          onChange={(e) => setPromoCode(e.target.value)}
+                          onChange={(e) =>
+                            setPromoCode(e.target.value.toUpperCase())
+                          }
                         />
                       </div>
                       {loading ? (
@@ -402,7 +349,11 @@ export default function Summary({ params }) {
                       ) : (
                         <p
                           onClick={checkPromoCode}
-                          className="bg-secondary py-2 w-[90px] text-center text-white rounded-md text-sm cursor-pointer"
+                          className={`${
+                            promoCode.length > 0
+                              ? "bg-secondary"
+                              : "bg-slate-300"
+                          } py-2 w-[90px] text-center text-white rounded-md text-sm cursor-pointer`}
                         >
                           {dictionary.apply}
                         </p>
@@ -440,10 +391,10 @@ export default function Summary({ params }) {
                 </div> */}
                 <div className="flex items-center gap-3 py-1">
                   <div
-                    onClick={handleCloudSelection}
+                    onClick={() => setCloudServiceSelected((prev) => !prev)}
                     className="cursor-pointer"
                   >
-                    {cloudServiceSelected > 0 ? (
+                    {cloudServiceSelected ? (
                       <GoCheckCircleFill className="text-xl text-secondary" />
                     ) : (
                       <GoCircle className="text-xl text-gray-400 cursor-pointer" />
@@ -454,19 +405,19 @@ export default function Summary({ params }) {
                       {dictionary.launchCloud}
                     </p>
                     <p className="text-black text-sm">
-                      {(cloudService > 0 && cloudService?.toLocaleString()) ||
-                        `12,841-19,261`}
-                      /{dictionary.month}
+                      ${summary?.cloudServiceCost.cost}/{dictionary.month}
                     </p>
                   </div>
                 </div>
               </div>
             </div>
             <button
-              disabled={cloudService === summary?.cloudServiceCost}
+              disabled={
+                cloudServiceSelected === summary?.cloudServiceCost.selected
+              }
               onClick={handleSave}
               className={`${
-                cloudService === summary?.cloudServiceCost
+                cloudServiceSelected === summary?.cloudServiceCost.selected
                   ? "bg-slate-300"
                   : "text-white bg-secondary"
               } p-3 my-2 rounded-md text-sm`}

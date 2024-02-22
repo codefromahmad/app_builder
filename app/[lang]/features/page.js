@@ -40,6 +40,7 @@ export default function Features({ params }) {
   const [dictionary, setDictionary] = useState({});
   const [selectedFeature, setSelectedFeature] = useState();
   const [searchFeatures, setSearchFeatures] = useState([]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state) => state.user.user);
@@ -98,6 +99,7 @@ export default function Features({ params }) {
   const totalCost = customizationCost + parseFloat(fixedCost);
 
   const addIncompleteBuildCard = () => {
+    setLoading(true);
     const userRef = doc(db, "users", user.uid);
     const newBuildCard = {
       id: uuidv4(),
@@ -163,15 +165,19 @@ export default function Features({ params }) {
               console.log("Build card added/updated successfully");
               router.push(`/${params.lang}/delivery`);
               dispatch(setUser(userData));
+              setLoading(false);
             })
             .catch((error) => {
+              setLoading(false);
               console.error("Error updating document: ", error);
             });
         } else {
           console.error("User document does not exist");
+          setLoading(false);
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error getting document:", error);
       });
   };
@@ -694,6 +700,7 @@ export default function Features({ params }) {
               durationLocal={durationLocal}
               buttonText={dictionary.planDelivery}
               handlePlanDelivery={addIncompleteBuildCard}
+              loading={loading}
             />
           )}
         </div>

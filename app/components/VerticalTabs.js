@@ -11,6 +11,7 @@ import { IoDesktop } from "react-icons/io5";
 import { MdWeb } from "react-icons/md";
 
 const VerticalTabs = ({ dictionary, features }) => {
+  console.log("features", features);
   const user = useSelector((state) => state.user.user);
   const currentBuildCard = useSelector(
     (state) => state.buildcard.recentBuildCard

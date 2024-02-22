@@ -1337,7 +1337,7 @@ export const initialPhases = [
     duration: "---",
     fixedCost: 0,
     customizationCost: 0,
-    delivery: "27-Dec-2023",
+    delivery: "---",
     icon: <GoChecklist className="text-4xl text-black" />,
     selected: false,
     description:
@@ -1353,7 +1353,7 @@ export const initialPhases = [
     duration: "---",
     fixedCost: 0,
     customizationCost: 0,
-    delivery: "12-Feb-2024",
+    delivery: "---",
     icon: <SiStyledcomponents className="text-4xl text-black" />,
     selected: true,
     description:
@@ -1369,7 +1369,7 @@ export const initialPhases = [
     duration: "---",
     fixedCost: 0,
     customizationCost: 0,
-    delivery: "26-Feb-2024",
+    delivery: "---",
     icon: <PiShootingStarThin className="text-4xl text-black" />,
     selected: false,
     description:
@@ -1385,7 +1385,7 @@ export const initialPhases = [
     duration: "---",
     fixedCost: 0,
     customizationCost: 0,
-    delivery: "13-Apr-2024",
+    delivery: "---",
     icon: <IoCodeSlashOutline className="text-4xl text-black" />,
     selected: true,
     description:
@@ -1403,7 +1403,7 @@ export const initialPhases = [
     duration: "---",
     fixedCost: 0,
     customizationCost: 0,
-    delivery: "12-Jun-2024",
+    delivery: "---",
     icon: <GoRocket className="text-4xl text-black" />,
     selected: false,
     description:
