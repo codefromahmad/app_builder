@@ -10,7 +10,12 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import LocaleSwitcher from "./LocaleSwitcher";
 import { getDictionary } from "../../lib/dictionary";
-import { setRecentBuildCard } from "../store/reducers/buildcard";
+import {
+  deleteBuildCard,
+  setRecentBuildCard,
+} from "../store/reducers/buildcard";
+import { deleteUser } from "../store/reducers/user";
+import { deleteFeatures } from "../store/reducers/features";
 
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
   const pathName = usePathname();
@@ -65,8 +70,12 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
   }, [pathname, user]);
 
   const handleLogout = () => {
+    localStorage.removeItem("recentBuildCardId");
     signOut(auth)
       .then(() => {
+        dispatch(deleteUser());
+        dispatch(deleteFeatures());
+        dispatch(deleteBuildCard());
         router.push("/");
         console.log("Signed out successfully");
       })

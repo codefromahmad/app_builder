@@ -36,7 +36,6 @@ export default function App({ params }) {
   const dispatch = useDispatch();
   const db = getFirestore();
   const [landing, setLanding] = useState({});
-  const [currency, setCurrency] = useState(landing.signUp?.currencyType);
 
   getDictionary(params.lang)
     .then((lang) => {
@@ -64,19 +63,18 @@ export default function App({ params }) {
   }
 
   const createUser = (user) => {
+    console.log("user in createUser", user);
     const userData = {
       uid: user.uid,
       name: name,
       email: email,
-      currency: currency,
       buildCards: [],
     };
 
-    setDoc(doc(db, "users", user.uid), userData) // Use setDoc for setting a document
+    setDoc(doc(db, "users", user.uid), userData)
       .then(() => {
         console.log("Success");
-        // dispatch(setUser(userData));
-        dispatch({ type: "setUser", payload: userData });
+        dispatch(setUser(userData));
         router.push(`/${params.lang}/features`);
       })
       .catch((error) => {
@@ -188,8 +186,6 @@ export default function App({ params }) {
                 setName={setName}
                 email={email}
                 setEmail={setEmail}
-                currency={currency}
-                setCurrency={setCurrency}
                 password={password}
                 setPassword={setPassword}
                 setShowSignin={setShowSignin}

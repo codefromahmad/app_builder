@@ -12,8 +12,7 @@ const user = (state = initialState, action) => {
 
     case "deleteUser":
       return {
-        ...state,
-        user: null,
+        ...initialState,
       };
 
     default:
@@ -28,6 +27,9 @@ export const setUser = (userData) => ({
   payload: userData,
 });
 
-export const deleteUser = () => ({
-  type: "deleteUser",
-});
+export const deleteUser = () => {
+  console.log("Deleting user...");
+  return {
+    type: "deleteUser",
+  };
+};

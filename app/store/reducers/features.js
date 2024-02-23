@@ -45,9 +45,21 @@ const features = (state = initialState, action) => {
         duration: action.payload,
       };
 
+    case "deleteFeatures":
+      return {
+        ...initialState,
+      };
+
     default:
       return state;
   }
 };
 
 export default features;
+
+export const deleteFeatures = () => {
+  console.log("Deleting features...");
+  return {
+    type: "deleteFeatures",
+  };
+};
