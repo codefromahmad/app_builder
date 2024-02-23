@@ -43,7 +43,16 @@
     "noFeaturesText":"حدد الميزة لمعاينتها من اليسار",
     "selectedFeature":"الميزة المحددة",
     "selectedFeatures":"الميزات المختارة",
-    "noResult":"لا نتيجة"
+    "noResult":"لا نتيجة",
+    "customFeatures": {
+      "heading": "شرح ميزتك المخصصة",
+      "name": "اسم هذه الميزة",
+      "namePlaceholder": "اقترح اسمًا لميزتك",
+      "details": "صف ما يفعله",
+      "detailsPlaceholder": "ماذا يفعل وكيف يتفاعل الناس معه؟",
+      "save": "حفظ"
+  }
+  
   },
   "sidebar": {
     "indicativeDuration": "المدة المبينة",

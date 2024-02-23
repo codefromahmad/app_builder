@@ -43,7 +43,15 @@
         "noFeaturesText":"Select feature to preview from left",
         "selectedFeature":"Selected Feature",
         "selectedFeatures":"Selected Features",
-        "noResult":"No result"
+        "noResult":"No result",
+        "customFeatures":{
+            "heading":"Explain your custom feature",
+            "name":"Name this feature",
+            "namePlaceholder":"Suggest a name for your feature",
+            "details":"Describe what it does",
+            "detailsPlaceholder":"What does it do and how do people interact with it?",
+            "save":"Submit"
+        }
     },
     "sidebar":{
         "indicativeDuration":"Indicative Duration",

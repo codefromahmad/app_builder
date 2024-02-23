@@ -1,8 +1,9 @@
 import React from "react";
 import { FaMobileAlt } from "react-icons/fa";
 import { IoDesktopOutline } from "react-icons/io5";
+import { TbApps } from "react-icons/tb";
 
-const FeatureHeader = ({ platform, setPlatform }) => {
+const FeatureHeader = ({ platform, setPlatform, setShow }) => {
   return (
     <div className="h-16 w-full flex items-center">
       <div className={`px-7 w-full flex justify-between items-center`}>
@@ -38,12 +39,13 @@ const FeatureHeader = ({ platform, setPlatform }) => {
             </p> */}
           </div>
         </div>
-        {/* <div
+        <div
+          onClick={() => setShow(true)}
           className={`flex justify-center cursor-pointer rounded-md items-center gap-2 bg-[#00191D] px-3 py-2 rounded-m`}
         >
           <TbApps className="text-white" />
           <p className="text-white text-sm">Custom Feature</p>
-        </div> */}
+        </div>
       </div>
     </div>
   );

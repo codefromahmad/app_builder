@@ -28,6 +28,7 @@ import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { setUser } from "../../store/reducers/user";
 import { getDictionary } from "../../../lib/dictionary";
+import CustomFeature from "../../components/CustomFeature";
 
 export default function Features({ params }) {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -45,6 +46,9 @@ export default function Features({ params }) {
   const router = useRouter();
   const user = useSelector((state) => state.user.user);
   const db = getFirestore();
+  const [name, setName] = useState("");
+  const [details, setDetails] = useState("");
+  const [show, setShow] = useState(false);
 
   const sidebarDataToUse =
     params.lang === "en" ? sidebarData : sidebarDataArabic;
@@ -311,6 +315,36 @@ export default function Features({ params }) {
     }
   }, [searchTerm]);
 
+  const generateRandomId = () => {
+    const randomString = Math.random().toString(36).substring(2, 5);
+    return `custom_${randomString}`;
+  };
+
+  const customId = generateRandomId();
+
+  const handleSubmit = () => {
+    const newItem = {
+      id: customId,
+      name: name,
+      icon: `https://www.ascii-code.com/i/characters/Uppercase-C.png`,
+      mobile: `https://www.ascii-code.com/i/characters/Uppercase-C.png`,
+      web: `https://www.ascii-code.com/i/characters/Uppercase-C.png`,
+      price: "520",
+      timeline: "1.0",
+      description: details,
+    };
+
+    console.log("newItem", newItem);
+
+    // dispatch({
+    //   type: "addFeature",
+    //   payload: newItem,
+    // });
+    setShow(false);
+    setName("");
+    setDetails("");
+  };
+
   return (
     <HeaderLayout lang={params.lang}>
       <div
@@ -322,6 +356,26 @@ export default function Features({ params }) {
           setConfirm={setConfirm}
           handleRemoveAll={handleRemoveAll}
         /> */}
+
+        {show && (
+          <div
+            onClick={() => setShow(false)}
+            className="fixed inset-0 w-full h-full z-40 bg-black/60 bg-opacity-60 top-0 left-0"
+          />
+        )}
+
+        {show && (
+          <CustomFeature
+            lang={params.lang}
+            handleSubmit={handleSubmit}
+            dictionary={dictionary.customFeatures}
+            name={name}
+            setName={setName}
+            details={details}
+            setShow={setShow}
+            setDetails={setDetails}
+          />
+        )}
 
         <div className="w-1/5 bg-slate-100 max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
           <div className="flex bg-white border-[#C7C7C7] items-center m-2 rounded-md border p-2">
@@ -585,6 +639,7 @@ export default function Features({ params }) {
                   <FeatureHeader
                     platform={platform}
                     setPlatform={setPlatform}
+                    setShow={setShow}
                   />
                   <ShowFeature
                     lang={params.lang}

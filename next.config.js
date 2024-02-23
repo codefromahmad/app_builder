@@ -5,6 +5,7 @@ const nextConfig = {
       "bstudio-assets.azureedge.net",
       "builderbuckets.blob.core.windows.net",
       "firebasestorage.googleapis.com",
+      "www.ascii-code.com",
     ],
   },
 };
