@@ -54,6 +54,7 @@ export default function Delivery({ params }) {
   const router = useRouter();
   const [dictionary, setDictionary] = useState({});
   const [loading, setLoading] = useState(false);
+  const customFeatures = useSelector((state) => state.features.customFeatures);
 
   const [phases, setPhases] = useState(initialPhases);
 
@@ -502,6 +503,7 @@ export default function Delivery({ params }) {
         setBuildCard(false);
       });
   };
+  const totalFeaturesLength = features?.length + customFeatures?.length;
 
   return (
     <HeaderLayout>
@@ -838,12 +840,12 @@ export default function Delivery({ params }) {
                           </p> */}
                         </div>
                         <p className="text-gray-400 pt-2 text-xs">
-                          {features.length} {dictionary.featuresSelected}
+                          {totalFeaturesLength} {dictionary.featuresSelected}
                         </p>
                       </div>
                     )}
-                    <hr />
-                    <div className="p-5 relative">
+                    {/* <hr /> */}
+                    {/* <div className="p-5 relative">
                       <div className="flex justify-between">
                         <p className="text-black text-xs font-bold">
                           {dictionary.workingSpeed}
@@ -900,7 +902,7 @@ export default function Delivery({ params }) {
                           </p>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                     <hr />
                     <div className="p-5">
                       <p className="text-black text-xs font-bold pb-1">
@@ -1022,7 +1024,7 @@ export default function Delivery({ params }) {
                           </p> */}
                         </div>
                         <p className="text-gray-400 pt-1 text-xs">
-                          {features.length} {dictionary.featuresSelected}
+                          {totalFeaturesLength} {dictionary.featuresSelected}
                         </p>
                       </>
                     )}

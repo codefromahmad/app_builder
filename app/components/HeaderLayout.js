@@ -44,6 +44,10 @@ const HeaderLayout = ({ children, lang }) => {
                   type: "setFeatures",
                   payload: incompleteItem.features,
                 });
+                dispatch({
+                  type: "setCustomFeatures",
+                  payload: incompleteItem.customFeatures,
+                });
               }
               setUser(userData);
             } else {

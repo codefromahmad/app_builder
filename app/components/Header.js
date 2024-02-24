@@ -23,8 +23,6 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
   const [name, setName] = useState("");
   const [dictionary, setDictionary] = useState({});
 
-  useEffect(() => {}, []);
-
   getDictionary(lang)
     .then((data) => {
       setDictionary(data.header);

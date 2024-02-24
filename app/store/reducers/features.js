@@ -1,5 +1,6 @@
 const initialState = {
   features: [],
+  customFeatures: [],
   cost: null,
   duration: null,
 };
@@ -32,17 +33,26 @@ const features = (state = initialState, action) => {
         ...state,
         features: [...action.payload, ...state.features],
       };
-
-    case "setCost":
+    case "setCustomFeatures":
       return {
         ...state,
-        cost: action.payload,
+        customFeatures: action.payload,
       };
 
-    case "setDuration":
+    case "addCustomFeature":
       return {
         ...state,
-        duration: action.payload,
+        customFeatures: [action.payload, ...state.customFeatures],
+      };
+
+    case "removeCustomFeature":
+      const updateCustomFeatures = state.customFeatures.filter(
+        (selectedFeature) => selectedFeature.id !== action.payload
+      );
+      console.log(updateCustomFeatures, "updateCustomFeatures from redux");
+      return {
+        ...state,
+        customFeatures: updateCustomFeatures,
       };
 
     case "deleteFeatures":
