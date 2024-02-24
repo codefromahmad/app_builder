@@ -88,8 +88,7 @@ export default function Features({ params }) {
   }, [featuresIds]);
 
   useEffect(() => {
-    console.log("inside useEffect", customFeatures.length);
-    if (customFeatures.length > 0) setSelectedFeature(customFeatures[0]);
+    if (customFeatures?.length > 0) setSelectedFeature(customFeatures[0]);
     else setSelectedFeature(featuresData[0]);
   }, [customFeatures]);
 
@@ -112,11 +111,6 @@ export default function Features({ params }) {
   const totalCost = customizationCost + parseFloat(fixedCost);
 
   const addIncompleteBuildCard = () => {
-    console.log(
-      "addIncompleteBuildCard",
-      customFeatures.length,
-      featuresIds.length
-    );
     setLoading(true);
     const userRef = doc(db, "users", user.uid);
     const newBuildCard = {
@@ -245,7 +239,7 @@ export default function Features({ params }) {
   };
 
   const isCustomFeatureSelected = (feature) => {
-    return customFeatures.some((selectedId) => selectedId.id === feature.id);
+    return customFeatures?.some((selectedId) => selectedId.id === feature.id);
   };
 
   const handleCustomFeaturesSelection = (feature) => {
@@ -696,9 +690,9 @@ export default function Features({ params }) {
                   </p>
                   <p className="text-black text-xl">{totalFeaturesLength}</p>
                 </div>
-                {customFeatures.length > 0 && (
+                {customFeatures?.length > 0 && (
                   <div className="grid grid-cols-1 gap-3 px-5 pt-5">
-                    {customFeatures.map((item, index) => (
+                    {customFeatures?.map((item, index) => (
                       <div
                         key={index}
                         className="relative border-b-gray-[#A6A6A6] border-b pb-2 group h-38"
@@ -776,7 +770,7 @@ export default function Features({ params }) {
                 )}
                 <div
                   className={`grid grid-cols-1 gap-3 ${
-                    customFeatures.length > 0 ? "px-5 pb-5 pt-3" : "p-5"
+                    customFeatures?.length > 0 ? "px-5 pb-5 pt-3" : "p-5"
                   }`}
                 >
                   {featuresData.map((item, index) => (
