@@ -3,6 +3,7 @@ const initialState = {
   customFeatures: [],
   cost: null,
   duration: null,
+  currentFeature: null,
 };
 
 const features = (state = initialState, action) => {
@@ -11,6 +12,11 @@ const features = (state = initialState, action) => {
       return {
         ...state,
         features: action.payload,
+      };
+    case "setCurrentFeature":
+      return {
+        ...state,
+        currentFeature: action.payload,
       };
     case "addFeature":
       return {
@@ -71,5 +77,13 @@ export const deleteFeatures = () => {
   console.log("Deleting features...");
   return {
     type: "deleteFeatures",
+  };
+};
+
+export const setCurrentFeature = (currentFeature) => {
+  console.log("dispatching currentFeature", currentFeature);
+  return {
+    type: "setCurrentFeature",
+    payload: currentFeature,
   };
 };

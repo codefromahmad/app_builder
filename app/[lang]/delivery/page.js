@@ -86,6 +86,7 @@ export default function Delivery({ params }) {
   };
 
   useEffect(() => {
+    setName(buildCardDetails?.name);
     const updatedPhases = initialPhases.map((phase) => {
       switch (phase.name) {
         case "Product Roadmap":
@@ -451,7 +452,7 @@ export default function Delivery({ params }) {
 
           if (incompleteBuildCardIndex !== -1) {
             // localStorage.setItem("recentBuildCardId", null);
-            userData.buildCards[incompleteBuildCardIndex].status = "complete";
+            // userData.buildCards[incompleteBuildCardIndex].status = "incomplete";
             userData.buildCards[incompleteBuildCardIndex].features = features;
             userData.buildCards[incompleteBuildCardIndex].name = name;
             userData.buildCards[incompleteBuildCardIndex].duration =

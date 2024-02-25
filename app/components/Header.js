@@ -18,10 +18,18 @@ import { deleteUser } from "../store/reducers/user";
 import { deleteFeatures } from "../store/reducers/features";
 
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
+  const recentBuildCard = useSelector(
+    (state) => state.buildcard.recentBuildCard
+  );
+
   const pathName = usePathname();
   const lang = pathName.split("/")[1];
-  const [name, setName] = useState("");
+  const [name, setName] = useState(recentBuildCard?.name);
   const [dictionary, setDictionary] = useState({});
+
+  useEffect(() => {
+    setName(recentBuildCard?.name);
+  }, [recentBuildCard]);
 
   getDictionary(lang)
     .then((data) => {
@@ -32,40 +40,44 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
     });
 
   const router = useRouter();
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
-  const getRecentBuildCard = () => {
-    const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+  // const getRecentBuildCard = () => {
+  //   const recentBuildCardId = localStorage.getItem("recentBuildCardId");
 
-    if (
-      Array.isArray(user?.buildCards) &&
-      user?.buildCards.length > 0 &&
-      recentBuildCardId
-    ) {
-      const recentBuildCard = user?.buildCards.find(
-        (card) => card.id === recentBuildCardId
-      );
+  //   if (
+  //     Array.isArray(user?.buildCards) &&
+  //     user?.buildCards.length > 0 &&
+  //     recentBuildCardId
+  //   ) {
+  //     const recentBuildCard = user?.buildCards.find(
+  //       (card) => card.id === recentBuildCardId
+  //     );
 
-      if (recentBuildCard) {
-        console.log("Header page", recentBuildCard);
-        setName(recentBuildCard.name);
-        dispatch(setRecentBuildCard(recentBuildCard));
-      } else {
-        console.log("Build card with the specified ID not found.");
-      }
-    } else {
-      console.log(
-        "No build cards available or recentBuildCardId is not set in local storage."
-      );
-    }
-  };
+  //     if (recentBuildCard) {
+  //       console.log("Header page", recentBuildCard);
+  //       setName(recentBuildCard.name);
+  //       dispatch(setRecentBuildCard(recentBuildCard));
+  //     } else {
+  //       console.log("Build card with the specified ID not found.");
+  //     }
+  //   } else {
+  //     console.log(
+  //       "No build cards available or recentBuildCardId is not set in local storage."
+  //     );
+  //   }
+  // };
 
-  useEffect(() => {
-    if (pathname.endsWith("summary") || pathname.endsWith("delivery"))
-      getRecentBuildCard();
-  }, [pathname, user]);
+  // useEffect(() => {
+  //   if (
+  //     pathname.endsWith("summary") ||
+  //     pathname.endsWith("features") ||
+  //     pathname.endsWith("delivery")
+  //   )
+  //     getRecentBuildCard();
+  // }, [pathname, user]);
 
   const handleLogout = () => {
     localStorage.removeItem("recentBuildCardId");

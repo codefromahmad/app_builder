@@ -111,10 +111,15 @@ export default function Summary({ params }) {
   const handleSave = () => {
     const userRef = doc(db, "users", user.uid);
 
+    console.log("userREf", userRef);
+
     getDoc(userRef)
       .then((docSnapshot) => {
+        console.log("docSnapshot", docSnapshot);
         if (docSnapshot.exists()) {
+          console.log("inside if");
           const userData = docSnapshot.data();
+          console.log("userData", userData);
           userData.buildCards = Array.isArray(userData.buildCards)
             ? userData.buildCards
             : [];
@@ -124,20 +129,21 @@ export default function Summary({ params }) {
           );
 
           if (currentBuildCard !== -1) {
-            // localStorage.setItem("recentBuildCardId", null);
+            console.log("currentBuildCard updating");
             userData.buildCards[currentBuildCard].updatedAt =
               new Date().toISOString();
-            userData.buildCards[currentBuildCard].cloudServiceCost = {
-              ...userData.buildCards[currentBuildCard].cloudServiceCost,
-              selected: cloudServiceSelected,
-            };
+            // userData.buildCards[currentBuildCard].cloudServiceCost = {
+            //   ...userData.buildCards[currentBuildCard].cloudServiceCost,
+            //   selected: cloudServiceSelected,
+            // };
+            userData.buildCards[currentBuildCard].status = "complete";
           }
 
           updateDoc(userRef, userData)
             .then(() => {
               console.log("Build card added/updated successfully");
+              localStorage.removeItem("recentBuildCardId");
               dispatch(setUser(userData));
-              // setName("");
             })
             .catch((error) => {
               console.error("Error updating document: ", error);
@@ -363,32 +369,12 @@ export default function Summary({ params }) {
                 </>
               )}
               <hr className="my-2" />
-              <div className="flex justify-between items-center py-1">
+              {/* <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm font-bold">
                   {dictionary.additional}
                 </p>
-              </div>
-              <div className="grid grid-cols-2">
-                {/* <div className="flex items-center gap-3 py-1">
-                  <div
-                    onClick={() => setStudio((prev) => !prev)}
-                    className="cursor-pointer"
-                  >
-                    {!studio ? (
-                      <GoCheckCircleFill className="text-xl text-secondary" />
-                    ) : (
-                      <GoCircle className="text-xl text-gray-400 cursor-pointer" />
-                    )}
-                  </div>
-                  <div className="flex flex-col justify-between py-1">
-                    <p className="text-black text-sm">
-                      {dictionary.launchStudio}
-                    </p>
-                    <p className="text-black text-sm">
-                      $15,034.51 /{dictionary.month}
-                    </p>
-                  </div>
-                </div> */}
+              </div> */}
+              {/* <div className="grid grid-cols-2">
                 <div className="flex items-center gap-3 py-1">
                   <div
                     onClick={() => setCloudServiceSelected((prev) => !prev)}
@@ -409,18 +395,14 @@ export default function Summary({ params }) {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             <button
-              disabled={
-                cloudServiceSelected === summary?.cloudServiceCost.selected
-              }
+              // disabled={
+              //   cloudServiceSelected === summary?.cloudServiceCost.selected
+              // }
               onClick={handleSave}
-              className={`${
-                cloudServiceSelected === summary?.cloudServiceCost.selected
-                  ? "bg-slate-300"
-                  : "text-white bg-secondary"
-              } p-3 my-2 rounded-md text-sm`}
+              className={` p-3 my-2text-white bg-secondary rounded-md text-sm`}
             >
               {dictionary.save}
             </button>

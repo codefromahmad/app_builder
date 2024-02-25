@@ -29,6 +29,7 @@ import { v4 as uuidv4 } from "uuid";
 import { setUser } from "../../store/reducers/user";
 import { getDictionary } from "../../../lib/dictionary";
 import CustomFeature from "../../components/CustomFeature";
+import { setCurrentFeature } from "../../store/reducers/features";
 
 export default function Features({ params }) {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -37,10 +38,11 @@ export default function Features({ params }) {
   const [confirm, setConfirm] = useState(false);
   const [platform, setPlatform] = useState("mobile");
   const featuresIds = useSelector((state) => state.features.features);
+  const selectedFeature = useSelector((state) => state.features.currentFeature);
   const customFeatures = useSelector((state) => state.features.customFeatures);
   const [featuresData, setFeaturesData] = useState([]);
   const [dictionary, setDictionary] = useState({});
-  const [selectedFeature, setSelectedFeature] = useState();
+  // const [selectedFeature, setSelectedFeature] = useState(currentFeature);
   const [searchFeatures, setSearchFeatures] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -53,8 +55,6 @@ export default function Features({ params }) {
 
   const sidebarDataToUse =
     params.lang === "en" ? sidebarData : sidebarDataArabic;
-
-  console.log("customFeatures", customFeatures);
 
   getDictionary(params.lang)
     .then((lang) => {
@@ -81,15 +81,17 @@ export default function Features({ params }) {
       }
 
       setFeaturesData(results);
-      setSelectedFeature(results[0]);
+      dispatch(setCurrentFeature(results[0]));
     });
 
     setSearchFeatures(results);
   }, [featuresIds]);
 
   useEffect(() => {
-    if (customFeatures?.length > 0) setSelectedFeature(customFeatures[0]);
-    else setSelectedFeature(featuresData[0]);
+    if (customFeatures?.length > 0)
+      dispatch(setCurrentFeature(customFeatures[0]));
+    else if (featuresData.length > 0)
+      dispatch(setCurrentFeature(featuresData[0]));
   }, [customFeatures]);
 
   const durationLocal = Math.ceil(
@@ -179,8 +181,8 @@ export default function Features({ params }) {
               console.log("Build card added/updated successfully");
               router.push(`/${params.lang}/delivery`);
               dispatch(setUser(userData));
-              setLoading(false);
             })
+            .finally(() => setLoading(false))
             .catch((error) => {
               setLoading(false);
               console.error("Error updating document: ", error);
@@ -265,12 +267,12 @@ export default function Features({ params }) {
   };
 
   const handleFeatureSelection = (feature) => {
-    setSelectedFeature(feature);
+    dispatch(setCurrentFeature(feature));
   };
 
   const handleRemoveAll = () => {
     setExpand(false);
-    setSelectedFeature(null);
+    dispatch(setCurrentFeature(null));
     setConfirm(false);
     dispatch({
       type: "setFeatures",
@@ -304,7 +306,7 @@ export default function Features({ params }) {
     });
 
     // Assuming you want to select the first feature in the filtered list
-    setSelectedFeature(filteredNewFeatureIds[0]);
+    dispatch(setCurrentFeature(filteredNewFeatureIds[0]));
   };
 
   const handleRemoveAllFeatures = (featuresToRemove, index) => {
@@ -322,7 +324,7 @@ export default function Features({ params }) {
       payload: updatedSelectedFeatures,
     });
 
-    setSelectedFeature(updatedSelectedFeatures[0]);
+    dispatch(setCurrentFeature(updatedSelectedFeatures[0]));
   };
 
   useEffect(() => {
