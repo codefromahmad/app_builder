@@ -287,6 +287,12 @@ export default function Delivery({ params }) {
     },
   ];
 
+  useEffect(() => {
+    if (platforms.find((platform) => platform.name === "Web").selected) {
+      fixedCost *= 0.2; // Reduce fixedCost by 20% if "Web" is selected
+    }
+  }, [platforms]);
+
   const addPlatformToPhase = (platformText) => {
     setPhases((prevPhases) => {
       const allContainText = checkAllContain(platformText);
