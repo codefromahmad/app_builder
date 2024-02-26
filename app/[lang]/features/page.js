@@ -65,9 +65,7 @@ export default function Features({ params }) {
     });
 
   useEffect(() => {
-    // setSelectedFeature(features[0]);
     if (searchTerm.length > 0) return;
-    console.log("features", featuresIds);
     const results = [];
 
     sidebarDataToUse.forEach((category) => {
@@ -76,7 +74,6 @@ export default function Features({ params }) {
       );
 
       if (matchingItems?.length > 0) {
-        console.log("matchingItems", matchingItems);
         results.push(...matchingItems);
       }
 
@@ -137,7 +134,6 @@ export default function Features({ params }) {
       .then((docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
-          console.log("User document data:", userData);
 
           userData.buildCards = Array.isArray(userData.buildCards)
             ? userData.buildCards
@@ -180,9 +176,10 @@ export default function Features({ params }) {
             .then(() => {
               console.log("Build card added/updated successfully");
               router.push(`/${params.lang}/delivery`);
+              // .then(() => setLoading(false));
               dispatch(setUser(userData));
             })
-            .finally(() => setLoading(false))
+
             .catch((error) => {
               setLoading(false);
               console.error("Error updating document: ", error);
@@ -203,17 +200,14 @@ export default function Features({ params }) {
   };
 
   const searchItems = () => {
-    console.log("inside searchTerm", searchTerm);
     const results = [];
 
     sidebarDataToUse.forEach((category) => {
-      console.log("category", category);
       const matchingItems = category.dropDown?.filter((item) =>
         item.name.toLowerCase().startsWith(searchTerm.toLowerCase())
       );
 
       if (matchingItems?.length > 0) {
-        console.log("matchingItems", matchingItems);
         results.push(...matchingItems);
       }
     });

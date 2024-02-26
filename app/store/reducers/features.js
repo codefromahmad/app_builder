@@ -28,7 +28,6 @@ const features = (state = initialState, action) => {
       const updatedFeatures = state.features.filter(
         (selectedFeature) => selectedFeature !== action.payload
       );
-      console.log(updatedFeatures, "updatedFeatures from redux");
       return {
         ...state,
         features: updatedFeatures,
@@ -55,7 +54,6 @@ const features = (state = initialState, action) => {
       const updateCustomFeatures = state.customFeatures.filter(
         (selectedFeature) => selectedFeature.id !== action.payload
       );
-      console.log(updateCustomFeatures, "updateCustomFeatures from redux");
       return {
         ...state,
         customFeatures: updateCustomFeatures,
@@ -74,14 +72,12 @@ const features = (state = initialState, action) => {
 export default features;
 
 export const deleteFeatures = () => {
-  console.log("Deleting features...");
   return {
     type: "deleteFeatures",
   };
 };
 
 export const setCurrentFeature = (currentFeature) => {
-  console.log("dispatching currentFeature", currentFeature);
   return {
     type: "setCurrentFeature",
     payload: currentFeature,

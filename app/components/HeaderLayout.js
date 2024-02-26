@@ -12,7 +12,6 @@ import { setCurrentFeature } from "../store/reducers/features";
 import { setRecentBuildCard } from "../store/reducers/buildcard";
 
 const HeaderLayout = ({ children, lang }) => {
-  // const [user, setUser] = useState(null);
   const user = useSelector((state) => state.user.user);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const router = useRouter();
@@ -20,6 +19,18 @@ const HeaderLayout = ({ children, lang }) => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const sidebarDataToUse = lang === "en" ? sidebarData : sidebarDataArabic;
+  const [refreshed, setRefreshed] = useState(false);
+
+  useEffect(() => {
+    if (!refreshed) {
+      console.log("refreshing");
+      // Perform any logic needed before refreshing
+      router.refresh();
+
+      // Update state to prevent repeated refresh
+      setRefreshed(true);
+    }
+  }, [refreshed, router]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -35,20 +46,23 @@ const HeaderLayout = ({ children, lang }) => {
               );
               if (!incompleteItem) {
                 console.log("No incomplete build card");
-                dispatch({ type: "setUser", payload: userData });
 
                 if (
                   pathname.endsWith("delivery") ||
                   pathname.endsWith("summary")
                 ) {
-                  // router.push("/features");
-                  router.push(`/features`);
+                  router.push(`/features`).then(() => {
+                    dispatch({ type: "setUser", payload: userData });
+                  });
 
                   return;
+                } else {
+                  dispatch({ type: "setUser", payload: userData });
                 }
               } else {
                 console.log("incomplete build card found");
                 dispatch(setRecentBuildCard(incompleteItem));
+                dispatch({ type: "setUser", payload: userData });
 
                 const lastFeatureId =
                   incompleteItem.features[incompleteItem.features.length - 1];
@@ -69,10 +83,7 @@ const HeaderLayout = ({ children, lang }) => {
                   type: "setCustomFeatures",
                   payload: incompleteItem.customFeatures,
                 });
-
-                // router.push(`/features`);
               }
-              // setUser(userData);
             } else {
               console.log("User data not found");
             }
@@ -90,11 +101,7 @@ const HeaderLayout = ({ children, lang }) => {
 
   return (
     <div>
-      <Header
-        // user={user}
-        dropdownOpen={dropdownOpen}
-        setDropdownOpen={setDropdownOpen}
-      />
+      <Header dropdownOpen={dropdownOpen} setDropdownOpen={setDropdownOpen} />
       {user ? (
         <div onClick={() => setDropdownOpen(false)}>{children}</div>
       ) : (

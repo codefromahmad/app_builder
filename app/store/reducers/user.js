@@ -28,7 +28,6 @@ export const setUser = (userData) => ({
 });
 
 export const deleteUser = () => {
-  console.log("Deleting user...");
   return {
     type: "deleteUser",
   };

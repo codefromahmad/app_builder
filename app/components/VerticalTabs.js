@@ -9,17 +9,13 @@ import { FaApple } from "react-icons/fa";
 import { BsAndroid2 } from "react-icons/bs";
 import { IoDesktop } from "react-icons/io5";
 import { MdWeb } from "react-icons/md";
+import { setRecentBuildCard } from "../store/reducers/buildcard";
 
 const VerticalTabs = ({ dictionary, features }) => {
-  console.log("features", features);
   const user = useSelector((state) => state.user.user);
   const currentBuildCard = useSelector(
     (state) => state.buildcard.recentBuildCard
   );
-  // const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-  // const currentBuildCard = user.buildCards.find(
-  //   (item) => item.id === recentBuildCardId
-  // );
 
   const inputRef = useRef(null);
   const detailsRef = useRef(null);
@@ -45,7 +41,6 @@ const VerticalTabs = ({ dictionary, features }) => {
       .then((docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
-          console.log("User document data:", userData);
 
           userData.buildCards = Array.isArray(userData.buildCards)
             ? userData.buildCards
@@ -67,6 +62,7 @@ const VerticalTabs = ({ dictionary, features }) => {
             console.error("Build card with the specified ID not found");
             return Promise.reject("Build card not found");
           }
+          dispatch(setRecentBuildCard(buildCardToUpdate));
 
           // Update the user document in Firestore
           return updateDoc(userRef, userData).then(dispatch(setUser(userData)));

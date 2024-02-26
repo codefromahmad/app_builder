@@ -20,22 +20,24 @@ import { sidebarData, sidebarDataArabic } from "../data";
 import { setUser } from "../../store/reducers/user";
 import { IoClose } from "react-icons/io5";
 import { IoMdPricetags } from "react-icons/io";
+import spinner from "../../images/dots-loading.gif";
+import Image from "next/image";
 
 export default function Summary({ params }) {
   const user = useSelector((state) => state.user.user);
   const summary = useSelector((state) => state.buildcard.recentBuildCard);
   // const [summary, setSummary] = useState();
   const [dictionary, setDictionary] = useState({});
-
   const [featuresData, setFeaturesData] = useState([]);
   const dispatch = useDispatch();
   const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-  const [cloudServiceSelected, setCloudServiceSelected] = useState();
+  // const [cloudServiceSelected, setCloudServiceSelected] = useState();
   const [enterPromoCode, setEnterPromoCode] = useState(false);
   const [promoCode, setPromoCode] = useState("");
   const [promoCodeValid, setPromoCodeValid] = useState(null);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [updating, setUpdating] = useState(false);
   const promoRef = useRef(null);
   const db = getFirestore();
 
@@ -110,6 +112,7 @@ export default function Summary({ params }) {
 
   const handleSave = () => {
     const userRef = doc(db, "users", user.uid);
+    setUpdating(true);
 
     console.log("userREf", userRef);
 
@@ -143,23 +146,27 @@ export default function Summary({ params }) {
             .then(() => {
               console.log("Build card added/updated successfully");
               localStorage.removeItem("recentBuildCardId");
+              setUpdating(false);
               dispatch(setUser(userData));
             })
             .catch((error) => {
+              setUpdating(false);
               console.error("Error updating document: ", error);
             });
         } else {
+          setUpdating(false);
           console.error("User document does not exist");
         }
       })
       .catch((error) => {
+        setUpdating(false);
         console.error("Error getting document:", error);
       });
   };
 
-  useEffect(() => {
-    setCloudServiceSelected(summary?.cloudServiceCost.selected);
-  }, [summary]);
+  // useEffect(() => {
+  //   setCloudServiceSelected(summary?.cloudServiceCost.selected);
+  // }, [summary]);
 
   useEffect(() => {
     // setSelectedFeature(features[0]);
@@ -168,8 +175,6 @@ export default function Summary({ params }) {
       const matchingItems = category.dropDown?.filter((item) =>
         summary?.features.includes(item.id)
       );
-
-      console.log("matchingItems", matchingItems);
 
       if (matchingItems?.length > 0) {
         results.push(...matchingItems);
@@ -191,16 +196,16 @@ export default function Summary({ params }) {
   const options = { day: "2-digit", month: "short", year: "numeric" };
   const formattedDate = inputDate.toLocaleDateString("en-US", options);
 
-  const handleCloudSelection = () => {
-    console.log("handleCloudSelection", cloudServiceSelected);
-    if (cloudServiceSelected) {
-      console.log("inside if");
-      setCloudServiceSelected(false);
-    } else {
-      console.log("inside else");
-      setCloudServiceSelected(true);
-    }
-  };
+  // const handleCloudSelection = () => {
+  //   console.log("handleCloudSelection", cloudServiceSelected);
+  //   if (cloudServiceSelected) {
+  //     console.log("inside if");
+  //     setCloudServiceSelected(false);
+  //   } else {
+  //     console.log("inside else");
+  //     setCloudServiceSelected(true);
+  //   }
+  // };
 
   return (
     <HeaderLayout>
@@ -397,15 +402,38 @@ export default function Summary({ params }) {
                 </div>
               </div> */}
             </div>
+            {/* {updating ? (
+              <div className="bg-secondary rounded-md flex items-center justify-center">
+                <Image
+                  priority
+                  src={spinner}
+                  alt="loading..."
+                  className="w-16 h-10"
+                />
+              </div>
+            ) : ( */}
             <button
               // disabled={
               //   cloudServiceSelected === summary?.cloudServiceCost.selected
               // }
+              disabled={updating}
               onClick={handleSave}
-              className={` p-3 my-2text-white bg-secondary rounded-md text-sm`}
+              className={`text-white my-1 flex items-center ${
+                !updating ? "p-3" : "py-[2px]"
+              } justify-center bg-secondary rounded-md text-sm`}
             >
-              {dictionary.save}
+              {!updating ? (
+                dictionary.save
+              ) : (
+                <Image
+                  priority
+                  src={spinner}
+                  alt="loading..."
+                  className="w-16 h-10"
+                />
+              )}
             </button>
+            {/* )} */}
           </div>
         </div>
       </div>

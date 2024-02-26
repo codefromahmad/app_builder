@@ -26,6 +26,7 @@ import { useRouter } from "next/navigation";
 import { setUser } from "../../store/reducers/user";
 // import { auth } from "../firebase";
 import { getDictionary } from "../../../lib/dictionary";
+import { setRecentBuildCard } from "../../store/reducers/buildcard";
 
 export default function Delivery({ params }) {
   const buildCardDetails = useSelector(
@@ -55,9 +56,7 @@ export default function Delivery({ params }) {
   const [dictionary, setDictionary] = useState({});
   const [loading, setLoading] = useState(false);
   const customFeatures = useSelector((state) => state.features.customFeatures);
-
   const [phases, setPhases] = useState(initialPhases);
-
   const calculateStandardDuration = (data) => {
     const selectedPhases = data.filter((phase) => phase.selected);
     const totalDuration = selectedPhases.reduce((acc, phase) => {
@@ -69,20 +68,20 @@ export default function Delivery({ params }) {
 
   const calculateStandardFixedCost = (data) => {
     const selectedPhases = data.filter((phase) => phase.selected);
-    const totalCost = selectedPhases.reduce((acc, phase) => {
+    const totalFixedCost = selectedPhases.reduce((acc, phase) => {
       return acc + phase.fixedCost;
     }, 0);
-    console.log("totalCost", totalCost);
-    setStandardFixedCost(totalCost);
+    console.log("totalFixedCost", totalFixedCost);
+    setStandardFixedCost(totalFixedCost);
   };
 
   const calculateCustomizationCost = (data) => {
     const selectedPhases = data.filter((phase) => phase.selected);
-    const totalCost = selectedPhases.reduce((acc, phase) => {
+    const totalCustomizationCost = selectedPhases.reduce((acc, phase) => {
       return acc + phase.customizationCost;
     }, 0);
-    console.log("totalCost", totalCost);
-    setStandardCustomizationCost(totalCost);
+    console.log("totalCustomizationCost", totalCustomizationCost);
+    setStandardCustomizationCost(totalCustomizationCost);
   };
 
   useEffect(() => {
@@ -92,12 +91,12 @@ export default function Delivery({ params }) {
         case "Product Roadmap":
           phase.duration = Math.ceil(buildCardDetails?.duration * 0.1);
           phase.customizationCost = buildCardDetails?.customizationCost * 0.1;
-          phase.fixedCost = buildCardDetails?.totalCost * 0.1;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.1;
           break;
         case "Design":
           phase.duration = Math.ceil(buildCardDetails?.duration * 0.25);
           phase.customizationCost = buildCardDetails?.customizationCost * 0.25;
-          phase.fixedCost = buildCardDetails?.totalCost * 0.25;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.25;
           break;
         case "Professional Prototype":
           phase.duration = Math.ceil(buildCardDetails?.duration * 0.12);
@@ -109,12 +108,12 @@ export default function Delivery({ params }) {
             buildCardDetails?.duration - buildCardDetails?.duration * 0.25
           );
           phase.customizationCost = buildCardDetails?.customizationCost * 0.75;
-          phase.fixedCost = buildCardDetails?.totalCost * 0.75;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.75;
           break;
         case "Full Build":
           phase.duration = Math.ceil(buildCardDetails?.duration * 0.15);
           phase.customizationCost = buildCardDetails?.customizationCost * 0.2;
-          phase.fixedCost = buildCardDetails?.totalCost * 0.2;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.2;
           break;
         default:
           break;
@@ -361,48 +360,48 @@ export default function Delivery({ params }) {
     return `${position}%`;
   };
 
-  const makeSliderValueSimilar = (newValue) => {
-    if (sameSpeed) {
-      setSameSpeed(false);
-      return;
-    } else {
-      setSameSpeed(true);
-      setPhases((prevPhases) =>
-        prevPhases.map((phase) => ({
-          ...phase,
-          advanced: {
-            ...phase.advanced,
-            sliderValue: newValue,
-          },
-        }))
-      );
-    }
-  };
+  // const makeSliderValueSimilar = (newValue) => {
+  //   if (sameSpeed) {
+  //     setSameSpeed(false);
+  //     return;
+  //   } else {
+  //     setSameSpeed(true);
+  //     setPhases((prevPhases) =>
+  //       prevPhases.map((phase) => ({
+  //         ...phase,
+  //         advanced: {
+  //           ...phase.advanced,
+  //           sliderValue: newValue,
+  //         },
+  //       }))
+  //     );
+  //   }
+  // };
 
-  const updateSliderValue = (index, newValue) => {
-    if (sameSpeed) {
-      setPhases((prevPhases) =>
-        prevPhases.map((phase) => ({
-          ...phase,
-          advanced: {
-            ...phase.advanced,
-            sliderValue: newValue,
-          },
-        }))
-      );
-    } else
-      setPhases((prevPhases) => {
-        const newPhases = [...prevPhases];
-        newPhases[index] = {
-          ...newPhases[index],
-          advanced: {
-            ...newPhases[index].advanced,
-            sliderValue: newValue,
-          },
-        };
-        return newPhases;
-      });
-  };
+  // const updateSliderValue = (index, newValue) => {
+  //   if (sameSpeed) {
+  //     setPhases((prevPhases) =>
+  //       prevPhases.map((phase) => ({
+  //         ...phase,
+  //         advanced: {
+  //           ...phase.advanced,
+  //           sliderValue: newValue,
+  //         },
+  //       }))
+  //     );
+  //   } else
+  //     setPhases((prevPhases) => {
+  //       const newPhases = [...prevPhases];
+  //       newPhases[index] = {
+  //         ...newPhases[index],
+  //         advanced: {
+  //           ...newPhases[index].advanced,
+  //           sliderValue: newValue,
+  //         },
+  //       };
+  //       return newPhases;
+  //     });
+  // };
 
   const showBuildCardPopUp = () => {
     console.log("showBuildCardPopUp", buildCard);
@@ -435,12 +434,12 @@ export default function Delivery({ params }) {
   const addBuildCard = () => {
     const userRef = doc(db, "users", user.uid);
     setLoading(true);
+    setBuildCard(false);
 
     getDoc(userRef)
       .then((docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
-          console.log("User document data:", userData);
 
           userData.buildCards = Array.isArray(userData.buildCards)
             ? userData.buildCards
@@ -481,27 +480,32 @@ export default function Delivery({ params }) {
           updateDoc(userRef, userData)
             .then(() => {
               console.log("Build card added/updated successfully");
-              router.push(`/${params.lang}/summary`);
+              dispatch(
+                setRecentBuildCard(
+                  userData.buildCards[incompleteBuildCardIndex]
+                )
+              );
               dispatch(setUser(userData));
               setName("");
-              setBuildCard(false);
-              setLoading(false);
+              router.push(`/${params.lang}/summary`);
+              // setBuildCard(false);
+              // setLoading(false);
             })
             .catch((error) => {
               setLoading(false);
               console.error("Error updating document: ", error);
-              setBuildCard(false);
+              // setBuildCard(false);
             });
         } else {
           console.error("User document does not exist");
-          setLoading(false);
-          setBuildCard(false);
+          // setLoading(false);
+          // setBuildCard(false);
         }
       })
       .catch((error) => {
-        setLoading(false);
+        // setLoading(false);
         console.error("Error getting document:", error);
-        setBuildCard(false);
+        // setBuildCard(false);
       });
   };
   const totalFeaturesLength = features?.length + customFeatures?.length;
