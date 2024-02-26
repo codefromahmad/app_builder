@@ -39,11 +39,11 @@ const BuildCardPopup = ({ lang, buildCard, setName, addBuildCard, name }) => {
           />
           <div
             className={`px-2 py-1 ${
-              name.length > 2 ? "bg-secondary" : "bg-gray-400"
+              name?.length > 2 ? "bg-secondary" : "bg-gray-400"
             } w-full h-10 items-center flex justify-center rounded-md ${
-              name.length > 2 ? "cursor-pointer" : "cursor-not-allowed"
+              name?.length > 2 ? "cursor-pointer" : "cursor-not-allowed"
             }`}
-            onClick={name.length > 2 ? addBuildCard : null}
+            onClick={name?.length > 2 ? addBuildCard : null}
           >
             <p className="text-sm text-white">{dictionary.save}</p>
           </div>

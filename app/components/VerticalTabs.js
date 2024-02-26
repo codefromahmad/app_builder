@@ -2,20 +2,20 @@
 import { setUser } from "../store/reducers/user";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
-import { BsAndroid2 } from "react-icons/bs";
 import { IoBookmarkOutline } from "react-icons/io5";
 import { LuPencil } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
+import { FaApple } from "react-icons/fa";
+import { BsAndroid2 } from "react-icons/bs";
+import { IoDesktop } from "react-icons/io5";
+import { MdWeb } from "react-icons/md";
+import { setRecentBuildCard } from "../store/reducers/buildcard";
 
 const VerticalTabs = ({ dictionary, features }) => {
   const user = useSelector((state) => state.user.user);
   const currentBuildCard = useSelector(
     (state) => state.buildcard.recentBuildCard
   );
-  // const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-  // const currentBuildCard = user.buildCards.find(
-  //   (item) => item.id === recentBuildCardId
-  // );
 
   const inputRef = useRef(null);
   const detailsRef = useRef(null);
@@ -41,7 +41,6 @@ const VerticalTabs = ({ dictionary, features }) => {
       .then((docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
-          console.log("User document data:", userData);
 
           userData.buildCards = Array.isArray(userData.buildCards)
             ? userData.buildCards
@@ -63,6 +62,7 @@ const VerticalTabs = ({ dictionary, features }) => {
             console.error("Build card with the specified ID not found");
             return Promise.reject("Build card not found");
           }
+          dispatch(setRecentBuildCard(buildCardToUpdate));
 
           // Update the user document in Firestore
           return updateDoc(userRef, userData).then(dispatch(setUser(userData)));
@@ -218,7 +218,7 @@ const VerticalTabs = ({ dictionary, features }) => {
             <div className="border border-gray-300 rounded-md" key={index}>
               <div className="rounded-md rounded-b-none p-5 bg-slate-200">
                 <div className="flex p-5 gap-1 py-1">
-                  <p className="text-black font-bold text-sm">{item}</p>
+                  <p className="text-black font-bold text-sm">{item.name}</p>
                 </div>
               </div>
               {currentBuildCard.phases.length > 0 && (
@@ -229,10 +229,30 @@ const VerticalTabs = ({ dictionary, features }) => {
                     </p>
                   </div>
                   <div className="flex px-5 justify-start py-4 gap-4">
-                    <div className="flex flex-col items-center">
-                      <BsAndroid2 className="text-2xl text-black" />
-                      <p className="text-gray-400 pt-2 text-xs">Android</p>
-                    </div>
+                    {item.platforms.includes("android") && (
+                      <div className="flex flex-col items-center">
+                        <BsAndroid2 className="text-2xl text-black" />
+                        <p className="text-gray-400 pt-2 text-xs">Android</p>
+                      </div>
+                    )}
+                    {item.platforms.includes("ios") && (
+                      <div className="flex flex-col items-center">
+                        <FaApple className="text-2xl text-black" />
+                        <p className="text-gray-400 pt-2 text-xs">iOS</p>
+                      </div>
+                    )}
+                    {item.platforms.includes("web") && (
+                      <div className="flex flex-col items-center">
+                        <MdWeb className="text-2xl text-black" />
+                        <p className="text-gray-400 pt-2 text-xs">Web</p>
+                      </div>
+                    )}
+                    {item.platforms.includes("desktop") && (
+                      <div className="flex flex-col items-center">
+                        <IoDesktop className="text-2xl text-black" />
+                        <p className="text-gray-400 pt-2 text-xs">Desktop</p>
+                      </div>
+                    )}
                   </div>
                 </>
               )}
@@ -249,12 +269,25 @@ const VerticalTabs = ({ dictionary, features }) => {
               )}
               <hr /> */}
               <div className="py-10 px-5 relative">
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <p className="text-black text-xs font-bold">
                     {dictionary.workingSpeed}
                   </p>
+                  <p className="text-black text-sm">
+                    {item.sliderValue === 1
+                      ? "Relaxed"
+                      : item.sliderValue === 2
+                      ? "Slow"
+                      : item.sliderValue === 3
+                      ? "Standard"
+                      : item.sliderValue === 4
+                      ? "Fast"
+                      : item.sliderValue === 5
+                      ? "Speedy"
+                      : ""}
+                  </p>
                 </div>
-                <input
+                {/* <input
                   className="h-[2px] !accent-secondary w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
                   id="steps-range"
                   type="range"
@@ -263,15 +296,12 @@ const VerticalTabs = ({ dictionary, features }) => {
                   max="5"
                   value={3}
                   step="1"
-                  onChange={(e) =>
-                    updateSliderValue(index, parseInt(e.target.value, 10))
-                  }
                   style={{
                     background: `linear-gradient(to right, #7e22ce 0%, #7e22ce ${
                       (3 - 1) * 25
                     }%, #E5E7EB ${(3 - 1) * 25}%, #E5E7EB 100%)`,
                   }}
-                />
+                /> */}
               </div>
             </div>
           ))}

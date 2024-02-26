@@ -8,8 +8,6 @@ const Signup = ({
   setName,
   email,
   setEmail,
-  currency,
-  setCurrency,
   password,
   setPassword,
   setShowSignin,
@@ -17,7 +15,7 @@ const Signup = ({
   dictionary,
   clearAllFields,
 }) => {
-  const isButtonDisabled = !name || !email || !currency || !password;
+  const isButtonDisabled = !name || !email || !password;
 
   return (
     <div

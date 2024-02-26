@@ -10,6 +10,11 @@ const buildcard = (state = initialState, action) => {
         recentBuildCard: action.payload,
       };
 
+    case "deleteBuildCard":
+      return {
+        ...initialState,
+      };
+
     default:
       return state;
   }
@@ -21,3 +26,10 @@ export const setRecentBuildCard = (buildcard) => ({
   type: "setRecentBuildCard",
   payload: buildcard,
 });
+
+export const deleteBuildCard = () => {
+  console.log("Deleting build card...");
+  return {
+    type: "deleteBuildCard",
+  };
+};

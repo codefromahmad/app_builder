@@ -2,6 +2,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { getDictionary } from "../../lib/dictionary";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import spinner from "../images/dots-loading.gif";
 
 const BottomBar = ({
   lang,
@@ -14,6 +16,7 @@ const BottomBar = ({
   handlePlanDelivery,
   cloudService,
   cloudServicePrice,
+  loading,
 }) => {
   const [sidebar, setSidebar] = useState({});
   const pathname = usePathname();
@@ -26,6 +29,10 @@ const BottomBar = ({
     .catch((error) => {
       console.error(error);
     });
+
+  const handleClick = () => {
+    page === "delivery" ? showBuildCardPopUp : handlePlanDelivery;
+  };
 
   return (
     <div className="h-16 items-end w-full bg-white">
@@ -85,14 +92,25 @@ const BottomBar = ({
             </p>
           </div>
         </div>
-        <div
-          onClick={
-            page === "delivery" ? showBuildCardPopUp : handlePlanDelivery
-          }
-          className="bg-secondary border border-black w-1/4 h-full cursor-pointer flex items-center justify-center"
-        >
-          <p className="text-black font-semibold">{buttonText}</p>
-        </div>
+        {loading ? (
+          <div className="bg-secondary border border-gray-500 w-1/4 h-full cursor-pointer flex items-center justify-center">
+            <Image
+              priority
+              src={spinner}
+              alt="loading..."
+              className="w-20 h-12"
+            />
+          </div>
+        ) : (
+          <div
+            onClick={
+              page === "delivery" ? showBuildCardPopUp : handlePlanDelivery
+            }
+            className="bg-secondary border border-gray-500 w-1/4 h-full cursor-pointer flex items-center justify-center"
+          >
+            <p className="text-black font-semibold">{buttonText}</p>
+          </div>
+        )}
       </div>
     </div>
   );

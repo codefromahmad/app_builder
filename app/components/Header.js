@@ -10,15 +10,26 @@ import { usePathname } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import LocaleSwitcher from "./LocaleSwitcher";
 import { getDictionary } from "../../lib/dictionary";
-import { setRecentBuildCard } from "../store/reducers/buildcard";
+import {
+  deleteBuildCard,
+  setRecentBuildCard,
+} from "../store/reducers/buildcard";
+import { deleteUser } from "../store/reducers/user";
+import { deleteFeatures } from "../store/reducers/features";
 
 const Header = ({ dropdownOpen, setDropdownOpen }) => {
+  const recentBuildCard = useSelector(
+    (state) => state.buildcard.recentBuildCard
+  );
+
   const pathName = usePathname();
   const lang = pathName.split("/")[1];
-  const [name, setName] = useState("");
+  const [name, setName] = useState(recentBuildCard?.name);
   const [dictionary, setDictionary] = useState({});
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setName(recentBuildCard?.name);
+  }, [recentBuildCard]);
 
   getDictionary(lang)
     .then((data) => {
@@ -29,43 +40,52 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
     });
 
   const router = useRouter();
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
-  const getRecentBuildCard = () => {
-    const recentBuildCardId = localStorage.getItem("recentBuildCardId");
+  // const getRecentBuildCard = () => {
+  //   const recentBuildCardId = localStorage.getItem("recentBuildCardId");
 
-    if (
-      Array.isArray(user?.buildCards) &&
-      user?.buildCards.length > 0 &&
-      recentBuildCardId
-    ) {
-      const recentBuildCard = user?.buildCards.find(
-        (card) => card.id === recentBuildCardId
-      );
+  //   if (
+  //     Array.isArray(user?.buildCards) &&
+  //     user?.buildCards.length > 0 &&
+  //     recentBuildCardId
+  //   ) {
+  //     const recentBuildCard = user?.buildCards.find(
+  //       (card) => card.id === recentBuildCardId
+  //     );
 
-      if (recentBuildCard) {
-        console.log("Header page", recentBuildCard);
-        setName(recentBuildCard.name);
-        dispatch(setRecentBuildCard(recentBuildCard));
-      } else {
-        console.log("Build card with the specified ID not found.");
-      }
-    } else {
-      console.log(
-        "No build cards available or recentBuildCardId is not set in local storage."
-      );
-    }
-  };
+  //     if (recentBuildCard) {
+  //       console.log("Header page", recentBuildCard);
+  //       setName(recentBuildCard.name);
+  //       dispatch(setRecentBuildCard(recentBuildCard));
+  //     } else {
+  //       console.log("Build card with the specified ID not found.");
+  //     }
+  //   } else {
+  //     console.log(
+  //       "No build cards available or recentBuildCardId is not set in local storage."
+  //     );
+  //   }
+  // };
 
-  useEffect(() => {
-    if (pathname.endsWith("summary")) getRecentBuildCard();
-  }, [pathname, user]);
+  // useEffect(() => {
+  //   if (
+  //     pathname.endsWith("summary") ||
+  //     pathname.endsWith("features") ||
+  //     pathname.endsWith("delivery")
+  //   )
+  //     getRecentBuildCard();
+  // }, [pathname, user]);
 
   const handleLogout = () => {
+    localStorage.removeItem("recentBuildCardId");
     signOut(auth)
       .then(() => {
+        dispatch(deleteUser());
+        dispatch(deleteFeatures());
+        dispatch(deleteBuildCard());
         router.push("/");
         console.log("Signed out successfully");
       })
@@ -81,7 +101,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
     >
       <div className="h-full flex items-center">
         <Link
-          href={"/"}
+          href={`/${lang}/features`}
           className={`w-1/5 ${lang === "en" ? "pl-5" : "pr-5"} cursor-pointer`}
         >
           <Image

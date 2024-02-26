@@ -7,54 +7,125 @@ import { FiPlus } from "react-icons/fi";
 import { HiOutlineInformationCircle } from "react-icons/hi2";
 import { IoIosSearch, IoMdClose } from "react-icons/io";
 import { GoCheckCircleFill, GoCircle } from "react-icons/go";
-import TimezoneSelect, { allTimezones } from "react-timezone-select";
+// import TimezoneSelect, { allTimezones } from "react-timezone-select";
 import "./custom-style.css";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import { MdDeleteOutline, MdWeb } from "react-icons/md";
 import moment from "moment";
-import ReactDatePicker from "react-datepicker";
-import { FaGalacticSenate, FaThumbsUp } from "react-icons/fa6";
+// import ReactDatePicker from "react-datepicker";
+// import { FaThumbsUp } from "react-icons/fa6";
 import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import HeaderLayout from "../../components/HeaderLayout";
 import logo from "../../images/logo.svg";
 import BottomBar from "../../components/BottomBar";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import { speedLabels, initialPhases, numOfUsers, sidebarData } from "../data";
 import BuildCardPopup from "../../components/BuildCardPopup";
 import { useRouter } from "next/navigation";
 import { setUser } from "../../store/reducers/user";
-import { auth } from "../firebase";
+// import { auth } from "../firebase";
 import { getDictionary } from "../../../lib/dictionary";
+import { setRecentBuildCard } from "../../store/reducers/buildcard";
 
 export default function Delivery({ params }) {
-  const [isSwitchOn, setIsSwitchOn] = useState(FaGalacticSenate);
+  const buildCardDetails = useSelector(
+    (state) => state.buildcard.recentBuildCard
+  );
+  const [isSwitchOn, setIsSwitchOn] = useState(false);
   const [sliderValue, setSliderValue] = useState(3);
   const [rangeSliderValue, setRangeSliderValue] = useState(2);
   const [cloudService, setCloudService] = useState(false);
   const [sameSpeed, setSameSpeed] = useState(false);
   const [infoPopup, setInfoPopup] = useState(false);
-  const [startDate, setStartDate] = useState(new Date());
+  // const [startDate, setStartDate] = useState(new Date());
   const features = useSelector((state) => state.features.features);
   const [weeks, setWeeks] = useState(20);
   const [buildCard, setBuildCard] = useState(false);
-  const [buildCardDetails, setBuildCardDetails] = useState();
+  // const [buildCardDetails, setBuildCardDetails] = useState();
   const [name, setName] = useState("");
   const [sidebar, setSidebar] = useState(false);
   const [search, setSearch] = useState("");
   const dispatch = useDispatch();
   const db = getFirestore();
   const user = useSelector((state) => state.user.user);
-  const [phases, setPhases] = useState(initialPhases);
+  const [standardDuration, setStandardDuration] = useState(0);
+  const [standardCustomizationCost, setStandardCustomizationCost] = useState(0);
+  const [standardFixedCost, setStandardFixedCost] = useState(0);
   const router = useRouter();
   const [dictionary, setDictionary] = useState({});
+  const [loading, setLoading] = useState(false);
+  const customFeatures = useSelector((state) => state.features.customFeatures);
+  const [phases, setPhases] = useState(initialPhases);
+  const calculateStandardDuration = (data) => {
+    const selectedPhases = data.filter((phase) => phase.selected);
+    const totalDuration = selectedPhases.reduce((acc, phase) => {
+      return acc + parseInt(phase.duration);
+    }, 0);
 
-  const productRoadmap = phases.find((item) => item.name === "Product Roadmap");
-  const fullBuild = phases.find((item) => item.name === "Full Build");
-  const design = phases.find((item) => item.name === "Design");
-  const prototype = phases.find(
-    (item) => item.name === "Professional Prototype"
-  );
+    setStandardDuration(totalDuration);
+  };
+
+  const calculateStandardFixedCost = (data) => {
+    const selectedPhases = data.filter((phase) => phase.selected);
+    const totalFixedCost = selectedPhases.reduce((acc, phase) => {
+      return acc + phase.fixedCost;
+    }, 0);
+    console.log("totalFixedCost", totalFixedCost);
+    setStandardFixedCost(totalFixedCost);
+  };
+
+  const calculateCustomizationCost = (data) => {
+    const selectedPhases = data.filter((phase) => phase.selected);
+    const totalCustomizationCost = selectedPhases.reduce((acc, phase) => {
+      return acc + phase.customizationCost;
+    }, 0);
+    console.log("totalCustomizationCost", totalCustomizationCost);
+    setStandardCustomizationCost(totalCustomizationCost);
+  };
+
+  useEffect(() => {
+    setName(buildCardDetails?.name);
+    const updatedPhases = initialPhases.map((phase) => {
+      switch (phase.name) {
+        case "Product Roadmap":
+          phase.duration = Math.ceil(buildCardDetails?.duration * 0.1);
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.1;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.1;
+          break;
+        case "Design":
+          phase.duration = Math.ceil(buildCardDetails?.duration * 0.25);
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.25;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.25;
+          break;
+        case "Professional Prototype":
+          phase.duration = Math.ceil(buildCardDetails?.duration * 0.12);
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.18;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.18;
+          break;
+        case "MVP":
+          phase.duration = Math.ceil(
+            buildCardDetails?.duration - buildCardDetails?.duration * 0.25
+          );
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.75;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.75;
+          break;
+        case "Full Build":
+          phase.duration = Math.ceil(buildCardDetails?.duration * 0.15);
+          phase.customizationCost = buildCardDetails?.customizationCost * 0.2;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.2;
+          break;
+        default:
+          break;
+      }
+      return phase;
+    });
+
+    calculateStandardDuration(updatedPhases);
+    calculateStandardFixedCost(updatedPhases);
+    calculateCustomizationCost(updatedPhases);
+    setPhases(updatedPhases);
+  }, [buildCardDetails]);
 
   getDictionary(params.lang)
     .then((lang) => {
@@ -64,99 +135,35 @@ export default function Delivery({ params }) {
       console.error(error);
     });
 
-  const getRecentBuildCard = async (userId) => {
-    const db = getFirestore();
-    const userDocRef = doc(db, "users", userId);
-
-    try {
-      const docSnapshot = await getDoc(userDocRef);
-
-      if (docSnapshot.exists()) {
-        const userData = docSnapshot.data();
-        console.log("User data:", userData);
-
-        // Assuming 'buildCards' is an array in your user data
-        const buildCards = userData?.buildCards || [];
-
-        // Get the build card ID from local storage
-        const recentBuildCardId = localStorage.getItem("recentBuildCardId");
-        console.log("recentBuildCardId in summary", recentBuildCardId);
-
-        if (
-          Array.isArray(buildCards) &&
-          buildCards.length > 0 &&
-          recentBuildCardId
-        ) {
-          // Find the build card with the matching ID
-          const recentBuildCard = buildCards.find(
-            (card) => card.id === recentBuildCardId
-          );
-
-          if (recentBuildCard) {
-            // Return the found build card
-            console.log("summary in summary page", recentBuildCard);
-            setBuildCardDetails(recentBuildCard);
-          } else {
-            console.log("Build card with the specified ID not found.");
-          }
-        } else {
-          console.log(
-            "No build cards available or recentBuildCardId is not set in local storage."
-          );
-        }
-      } else {
-        console.log("User data not found");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((authUser) => {
-      if (authUser) {
-        getRecentBuildCard(authUser.uid);
-      } else {
-        console.log("Nothing found");
-      }
-    });
-
-    return () => unsubscribe();
-  }, [auth]);
-
   const priceDuration = [
     {
       name: `${dictionary.relaxed}`,
-      duration: buildCardDetails?.duration - 2,
-      price: Math.round(
-        buildCardDetails?.totalCost - buildCardDetails?.totalCost * 0.2
-      ),
+      duration: standardDuration + 2,
+      price: Math.round((standardFixedCost + standardCustomizationCost) * 0.8),
       details: `${dictionary.relaxedText}`,
     },
     {
       name: `${dictionary.slow}`,
-      duration: buildCardDetails?.duration - 1,
-      price: Math.round(
-        buildCardDetails?.totalCost - buildCardDetails?.totalCost * 0.12
-      ),
+      duration: standardDuration + 1,
+      price: Math.round((standardFixedCost + standardCustomizationCost) * 0.9),
       details: `${dictionary.slowText}`,
     },
     {
       name: `${dictionary.standard}`,
-      duration: buildCardDetails?.duration,
-      price: Math.round(buildCardDetails?.totalCost),
+      duration: standardDuration,
+      price: Math.round(standardFixedCost + standardCustomizationCost),
       details: `${dictionary.standardText}`,
     },
     {
       name: `${dictionary.fast}`,
-      duration: buildCardDetails?.duration + 1,
-      price: Math.round(buildCardDetails?.totalCost * 0.12),
+      duration: standardDuration - 1,
+      price: Math.round((standardFixedCost + standardCustomizationCost) * 1.1),
       details: `${dictionary.fastText}`,
     },
     {
       name: `${dictionary.speedy}`,
-      duration: buildCardDetails?.duration + 2,
-      price: Math.round(buildCardDetails?.totalCost * 0.2),
+      duration: standardDuration - 2,
+      price: Math.round((standardFixedCost + standardCustomizationCost) * 1.2),
       details: `${dictionary.speedyText}`,
     },
   ];
@@ -164,50 +171,23 @@ export default function Delivery({ params }) {
   let multiplier = 1;
 
   if (sliderValue === 1) {
-    multiplier = 0.2;
+    multiplier = 0.8;
   } else if (sliderValue === 2) {
-    multiplier = 0.12;
+    multiplier = 0.9;
   } else if (sliderValue === 4) {
-    multiplier = 0.12;
+    multiplier = 1.1;
   } else if (sliderValue === 5) {
-    multiplier = 0.2;
+    multiplier = 1.2;
   } else {
     multiplier = 1;
   }
 
-  var fixedCost =
-    sliderValue > 2
-      ? Math.round(buildCardDetails?.fixedCost * multiplier)
-      : Math.round(
-          buildCardDetails?.fixedCost - buildCardDetails?.fixedCost * multiplier
-        ) || 0;
-  var customizationCost =
-    sliderValue > 2
-      ? Math.round(buildCardDetails?.customizationCost * multiplier)
-      : Math.round(
-          buildCardDetails?.customizationCost -
-            buildCardDetails?.customizationCost * multiplier
-        ) || 0;
+  var fixedCost = Math.round(standardFixedCost * multiplier);
 
-  if (productRoadmap && !productRoadmap.selected) {
-    fixedCost = fixedCost * 0.9;
-  }
-
-  if (fullBuild && fullBuild.selected) {
-    fixedCost = fixedCost * 1.2;
-  }
-
-  if (design && design.selected) {
-    fixedCost = fixedCost + 300;
-  }
-
-  if (prototype && prototype.selected) {
-    fixedCost = fixedCost + 500;
-  }
+  var customizationCost = Math.round(standardCustomizationCost * multiplier);
 
   const maxPrice = numOfUsers[rangeSliderValue - 1]?.maxPrice || 0;
 
-  console.log(fixedCost, customizationCost, maxPrice);
   const calculateTotalCost = cloudService
     ? Math.round(fixedCost + customizationCost + maxPrice)
     : Math.round(fixedCost + customizationCost);
@@ -307,32 +287,11 @@ export default function Delivery({ params }) {
     },
   ];
 
-  const removePlatformFromPhases = (platformText) => {
-    console.log("removePlatformFromPhases", platformText);
-    const selectedPhasesCount = platforms.filter(
-      (platform) => platform.selected
-    ).length;
-
-    console.log("Only one phase left", selectedPhasesCount);
-    if (selectedPhasesCount === 1) {
-      return phases;
+  useEffect(() => {
+    if (platforms.find((platform) => platform.name === "Web").selected) {
+      fixedCost *= 0.2; // Reduce fixedCost by 20% if "Web" is selected
     }
-    setPhases((prevPhases) => {
-      return prevPhases.map((phase) => {
-        const phaseToUpdate = { ...phase };
-
-        // Check if the platformText exists in the platform array
-        const platformIndex = phaseToUpdate.platform?.indexOf(platformText);
-
-        if (platformIndex !== -1) {
-          // If the platformText exists, remove it from the array
-          phaseToUpdate.platform.splice(platformIndex, 1);
-        }
-
-        return phaseToUpdate;
-      });
-    });
-  };
+  }, [platforms]);
 
   const addPlatformToPhase = (platformText) => {
     setPhases((prevPhases) => {
@@ -381,75 +340,74 @@ export default function Delivery({ params }) {
   };
 
   const togglePhaseSelection = (index) => {
-    console.log("Before toggle:", phases[index].selected);
-
     const newPhases = [...phases];
+    const selectedPhases = newPhases.filter((phase) => phase.selected);
+
+    if (selectedPhases.length === 1 && newPhases[index].selected) {
+      console.log("At least one phase must be selected.");
+      return;
+    }
+
     newPhases[index].selected = !newPhases[index].selected;
 
-    console.log("After toggle:", newPhases[index].selected);
     setPhases(newPhases);
+
+    calculateStandardDuration(newPhases);
+    calculateStandardFixedCost(newPhases);
+    calculateCustomizationCost(newPhases);
   };
 
-  const selectedLabel = speedLabels[sliderValue - 1]; // Adjust the index based on your min value
+  // const calculateLabelPosition = (value) => {
+  //   const totalSteps = 5; // Adjust based on your max value
+  //   let position = 0;
+  //   if (value === 4) {
+  //     position = 68;
+  //   } else position = ((value - 1) / (totalSteps - 1)) * 80;
+  //   return `${position}%`;
+  // };
 
-  const calculateLabelPosition = (value) => {
-    const totalSteps = 5; // Adjust based on your max value
-    let position = 0;
-    if (value === 4) {
-      position = 68;
-    } else position = ((value - 1) / (totalSteps - 1)) * 80;
-    return `${position}%`;
-  };
-  const calculateLabelPosition1 = (value) => {
-    const totalSteps = 5; // Adjust based on your max value
-    let position = 0;
-    // if (value === 0) return `${position}%`;
-    position = ((value - 1) / (totalSteps - 1)) * 100;
-    return `${position}%`;
-  };
+  // const makeSliderValueSimilar = (newValue) => {
+  //   if (sameSpeed) {
+  //     setSameSpeed(false);
+  //     return;
+  //   } else {
+  //     setSameSpeed(true);
+  //     setPhases((prevPhases) =>
+  //       prevPhases.map((phase) => ({
+  //         ...phase,
+  //         advanced: {
+  //           ...phase.advanced,
+  //           sliderValue: newValue,
+  //         },
+  //       }))
+  //     );
+  //   }
+  // };
 
-  const makeSliderValueSimilar = (newValue) => {
-    if (sameSpeed) {
-      setSameSpeed(false);
-      return;
-    } else {
-      setSameSpeed(true);
-      setPhases((prevPhases) =>
-        prevPhases.map((phase) => ({
-          ...phase,
-          advanced: {
-            ...phase.advanced,
-            sliderValue: newValue,
-          },
-        }))
-      );
-    }
-  };
-
-  const updateSliderValue = (index, newValue) => {
-    if (sameSpeed) {
-      setPhases((prevPhases) =>
-        prevPhases.map((phase) => ({
-          ...phase,
-          advanced: {
-            ...phase.advanced,
-            sliderValue: newValue,
-          },
-        }))
-      );
-    } else
-      setPhases((prevPhases) => {
-        const newPhases = [...prevPhases];
-        newPhases[index] = {
-          ...newPhases[index],
-          advanced: {
-            ...newPhases[index].advanced,
-            sliderValue: newValue,
-          },
-        };
-        return newPhases;
-      });
-  };
+  // const updateSliderValue = (index, newValue) => {
+  //   if (sameSpeed) {
+  //     setPhases((prevPhases) =>
+  //       prevPhases.map((phase) => ({
+  //         ...phase,
+  //         advanced: {
+  //           ...phase.advanced,
+  //           sliderValue: newValue,
+  //         },
+  //       }))
+  //     );
+  //   } else
+  //     setPhases((prevPhases) => {
+  //       const newPhases = [...prevPhases];
+  //       newPhases[index] = {
+  //         ...newPhases[index],
+  //         advanced: {
+  //           ...newPhases[index].advanced,
+  //           sliderValue: newValue,
+  //         },
+  //       };
+  //       return newPhases;
+  //     });
+  // };
 
   const showBuildCardPopUp = () => {
     console.log("showBuildCardPopUp", buildCard);
@@ -464,7 +422,6 @@ export default function Delivery({ params }) {
     console.log("handleFeaturesSelection", feature.name);
 
     if (isFeatureSelected(feature)) {
-      // If selected, remove it from the array
       const updatedFeatures = features.filter(
         (selected) => selected.name !== feature.name
       );
@@ -473,7 +430,6 @@ export default function Delivery({ params }) {
         payload: updatedFeatures,
       });
     } else {
-      // If not selected, add it to the array
       dispatch({
         type: "addFeature",
         payload: feature,
@@ -483,12 +439,13 @@ export default function Delivery({ params }) {
 
   const addBuildCard = () => {
     const userRef = doc(db, "users", user.uid);
+    setLoading(true);
+    setBuildCard(false);
 
     getDoc(userRef)
       .then((docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
-          console.log("User document data:", userData);
 
           userData.buildCards = Array.isArray(userData.buildCards)
             ? userData.buildCards
@@ -500,7 +457,7 @@ export default function Delivery({ params }) {
 
           if (incompleteBuildCardIndex !== -1) {
             // localStorage.setItem("recentBuildCardId", null);
-            userData.buildCards[incompleteBuildCardIndex].status = "complete";
+            // userData.buildCards[incompleteBuildCardIndex].status = "incomplete";
             userData.buildCards[incompleteBuildCardIndex].features = features;
             userData.buildCards[incompleteBuildCardIndex].name = name;
             userData.buildCards[incompleteBuildCardIndex].duration =
@@ -509,10 +466,16 @@ export default function Delivery({ params }) {
               deliveryDate.format("DD-MMM-YYYY");
             userData.buildCards[incompleteBuildCardIndex].updatedAt =
               new Date().toISOString();
-            userData.buildCards[incompleteBuildCardIndex].cloudServiceCost =
-              cloudService ? maxPrice : 0;
+            userData.buildCards[incompleteBuildCardIndex].cloudServiceCost = {
+              cost: maxPrice,
+              selected: cloudService ? true : false,
+            };
             userData.buildCards[incompleteBuildCardIndex].phases =
-              selectedPhases.map((phase) => phase.name);
+              selectedPhases.map((phase) => ({
+                name: phase.name,
+                platforms: phase.platform,
+                // sliderValue: phase.advanced.sliderValue,
+              }));
             userData.buildCards[incompleteBuildCardIndex].totalCost =
               calculateTotalCost;
             userData.buildCards[incompleteBuildCardIndex].fixedCost = fixedCost;
@@ -523,25 +486,35 @@ export default function Delivery({ params }) {
           updateDoc(userRef, userData)
             .then(() => {
               console.log("Build card added/updated successfully");
-              router.push(`/${params.lang}/summary`);
+              dispatch(
+                setRecentBuildCard(
+                  userData.buildCards[incompleteBuildCardIndex]
+                )
+              );
               dispatch(setUser(userData));
               setName("");
-              setBuildCard(false);
+              router.push(`/${params.lang}/summary`);
+              // setBuildCard(false);
+              // setLoading(false);
             })
             .catch((error) => {
+              setLoading(false);
               console.error("Error updating document: ", error);
-              setBuildCard(false);
+              // setBuildCard(false);
             });
         } else {
           console.error("User document does not exist");
-          setBuildCard(false);
+          // setLoading(false);
+          // setBuildCard(false);
         }
       })
       .catch((error) => {
+        // setLoading(false);
         console.error("Error getting document:", error);
-        setBuildCard(false);
+        // setBuildCard(false);
       });
   };
+  const totalFeaturesLength = features?.length + customFeatures?.length;
 
   return (
     <HeaderLayout>
@@ -878,12 +851,12 @@ export default function Delivery({ params }) {
                           </p> */}
                         </div>
                         <p className="text-gray-400 pt-2 text-xs">
-                          {features.length} {dictionary.featuresSelected}
+                          {totalFeaturesLength} {dictionary.featuresSelected}
                         </p>
                       </div>
                     )}
-                    <hr />
-                    <div className="p-5 relative">
+                    {/* <hr /> */}
+                    {/* <div className="p-5 relative">
                       <div className="flex justify-between">
                         <p className="text-black text-xs font-bold">
                           {dictionary.workingSpeed}
@@ -940,20 +913,24 @@ export default function Delivery({ params }) {
                           </p>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                     <hr />
                     <div className="p-5">
                       <p className="text-black text-xs font-bold pb-1">
                         {dictionary.estimatedDuration}:{" "}
                       </p>
                       <p className="text-black text-xs font-normal">
-                        {phase.selected ? phase.duration : "---"}
+                        {phase.selected ? `${phase.duration} Weeks` : "---"}
                       </p>
                       <p className="text-black text-xs font-bold pt-2">
                         {dictionary.estimatedDelivery}:{" "}
                       </p>
                       <p className="text-black text-xs font-normal">
-                        {phase.selected ? phase.delivery : "---"}
+                        {phase.selected
+                          ? moment()
+                              .add(phase.duration, "weeks")
+                              .format("DD-MMM-YYYY")
+                          : "---"}
                       </p>
                     </div>
                   </div>
@@ -984,13 +961,15 @@ export default function Delivery({ params }) {
                             <p className="text-black text-xs font-bold pb-1">
                               {dictionary.estimatedDuration}:{" "}
                               <span className="text-black text-xs font-normal">
-                                {phase.duration}
+                                {phase.duration} Weeks
                               </span>
                             </p>
                             <p className="text-black text-xs font-bold">
                               {dictionary.estimatedDelivery}:{" "}
                               <span className="text-black text-xs font-normal">
-                                {phase.delivery}
+                                {moment()
+                                  .add(phase.duration, "weeks")
+                                  .format("DD-MMM-YYYY")}
                               </span>
                             </p>
                           </>
@@ -1051,12 +1030,12 @@ export default function Delivery({ params }) {
                           <p className="text-black text-xs font-bold">
                             {dictionary.features}
                           </p>
-                          <p className="text-secondary text-xs font-normal cursor-pointer">
+                          {/* <p className="text-secondary text-xs font-normal cursor-pointer">
                             {dictionary.change}
-                          </p>
+                          </p> */}
                         </div>
                         <p className="text-gray-400 pt-1 text-xs">
-                          32 {dictionary.featuresSelected}
+                          {totalFeaturesLength} {dictionary.featuresSelected}
                         </p>
                       </>
                     )}
@@ -1300,6 +1279,7 @@ export default function Delivery({ params }) {
               showBuildCardPopUp={showBuildCardPopUp}
               cloudService={cloudService}
               cloudServicePrice={maxPrice}
+              loading={loading}
             />
           </div>
         </div>

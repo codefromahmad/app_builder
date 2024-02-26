@@ -28,6 +28,8 @@ import { doc, getDoc, getFirestore, updateDoc } from "firebase/firestore";
 import { v4 as uuidv4 } from "uuid";
 import { setUser } from "../../store/reducers/user";
 import { getDictionary } from "../../../lib/dictionary";
+import CustomFeature from "../../components/CustomFeature";
+import { setCurrentFeature } from "../../store/reducers/features";
 
 export default function Features({ params }) {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -36,14 +38,20 @@ export default function Features({ params }) {
   const [confirm, setConfirm] = useState(false);
   const [platform, setPlatform] = useState("mobile");
   const featuresIds = useSelector((state) => state.features.features);
+  const selectedFeature = useSelector((state) => state.features.currentFeature);
+  const customFeatures = useSelector((state) => state.features.customFeatures);
   const [featuresData, setFeaturesData] = useState([]);
   const [dictionary, setDictionary] = useState({});
-  const [selectedFeature, setSelectedFeature] = useState();
+  // const [selectedFeature, setSelectedFeature] = useState(currentFeature);
   const [searchFeatures, setSearchFeatures] = useState([]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const user = useSelector((state) => state.user.user);
   const db = getFirestore();
+  const [name, setName] = useState("");
+  const [details, setDetails] = useState("");
+  const [show, setShow] = useState(false);
 
   const sidebarDataToUse =
     params.lang === "en" ? sidebarData : sidebarDataArabic;
@@ -57,9 +65,7 @@ export default function Features({ params }) {
     });
 
   useEffect(() => {
-    // setSelectedFeature(features[0]);
     if (searchTerm.length > 0) return;
-    console.log("features", featuresIds);
     const results = [];
 
     sidebarDataToUse.forEach((category) => {
@@ -68,16 +74,22 @@ export default function Features({ params }) {
       );
 
       if (matchingItems?.length > 0) {
-        console.log("matchingItems", matchingItems);
         results.push(...matchingItems);
       }
 
       setFeaturesData(results);
-      setSelectedFeature(results[0]);
+      dispatch(setCurrentFeature(results[0]));
     });
 
     setSearchFeatures(results);
   }, [featuresIds]);
+
+  useEffect(() => {
+    if (customFeatures?.length > 0)
+      dispatch(setCurrentFeature(customFeatures[0]));
+    else if (featuresData.length > 0)
+      dispatch(setCurrentFeature(featuresData[0]));
+  }, [customFeatures]);
 
   const durationLocal = Math.ceil(
     featuresData?.reduce(
@@ -93,11 +105,12 @@ export default function Features({ params }) {
     )
   );
 
-  const customizationCost = featuresData?.length * 50;
+  const customizationCost = Math.round(fixedCost * 0.2);
 
   const totalCost = customizationCost + parseFloat(fixedCost);
 
   const addIncompleteBuildCard = () => {
+    setLoading(true);
     const userRef = doc(db, "users", user.uid);
     const newBuildCard = {
       id: uuidv4(),
@@ -106,11 +119,12 @@ export default function Features({ params }) {
       fixedCost: fixedCost,
       customizationCost: customizationCost,
       totalCost: totalCost,
-      cloudServiceCost: 0,
+      cloudServiceCost: null,
       duration: durationLocal,
       phases: null,
       deliveryDate: "",
       features: featuresIds,
+      customFeatures: customFeatures,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       details: "",
@@ -120,7 +134,6 @@ export default function Features({ params }) {
       .then((docSnapshot) => {
         if (docSnapshot.exists()) {
           const userData = docSnapshot.data();
-          console.log("User document data:", userData);
 
           userData.buildCards = Array.isArray(userData.buildCards)
             ? userData.buildCards
@@ -137,6 +150,7 @@ export default function Features({ params }) {
             userData.buildCards[incompleteBuildCardIndex] = {
               ...userData.buildCards[incompleteBuildCardIndex],
               features: featuresIds,
+              customFeatures: customFeatures,
               duration: durationLocal,
               fixedCost: fixedCost,
               customizationCost: customizationCost,
@@ -162,16 +176,21 @@ export default function Features({ params }) {
             .then(() => {
               console.log("Build card added/updated successfully");
               router.push(`/${params.lang}/delivery`);
+              // .then(() => setLoading(false));
               dispatch(setUser(userData));
             })
+
             .catch((error) => {
+              setLoading(false);
               console.error("Error updating document: ", error);
             });
         } else {
           console.error("User document does not exist");
+          setLoading(false);
         }
       })
       .catch((error) => {
+        setLoading(false);
         console.error("Error getting document:", error);
       });
   };
@@ -181,17 +200,14 @@ export default function Features({ params }) {
   };
 
   const searchItems = () => {
-    console.log("inside searchTerm", searchTerm);
     const results = [];
 
     sidebarDataToUse.forEach((category) => {
-      console.log("category", category);
       const matchingItems = category.dropDown?.filter((item) =>
         item.name.toLowerCase().startsWith(searchTerm.toLowerCase())
       );
 
       if (matchingItems?.length > 0) {
-        console.log("matchingItems", matchingItems);
         results.push(...matchingItems);
       }
     });
@@ -218,6 +234,24 @@ export default function Features({ params }) {
     }
   };
 
+  const isCustomFeatureSelected = (feature) => {
+    return customFeatures?.some((selectedId) => selectedId.id === feature.id);
+  };
+
+  const handleCustomFeaturesSelection = (feature) => {
+    if (isCustomFeatureSelected(feature)) {
+      dispatch({
+        type: "removeCustomFeature",
+        payload: feature.id,
+      });
+    } else {
+      dispatch({
+        type: "addCustomFeature",
+        payload: feature.id,
+      });
+    }
+  };
+
   const toggleDropdown = (index, lang) => {
     if (!sidebarDataToUse[index].dropDown) {
       setActiveDropdown(null);
@@ -227,24 +261,16 @@ export default function Features({ params }) {
   };
 
   const handleFeatureSelection = (feature) => {
-    setSelectedFeature(feature);
+    dispatch(setCurrentFeature(feature));
   };
 
   const handleRemoveAll = () => {
     setExpand(false);
-    setSelectedFeature(null);
+    dispatch(setCurrentFeature(null));
     setConfirm(false);
     dispatch({
       type: "setFeatures",
       payload: [],
-    });
-    dispatch({
-      type: "setCost",
-      payload: null,
-    });
-    dispatch({
-      type: "setDuration",
-      payload: null,
     });
   };
 
@@ -274,7 +300,7 @@ export default function Features({ params }) {
     });
 
     // Assuming you want to select the first feature in the filtered list
-    setSelectedFeature(filteredNewFeatureIds[0]);
+    dispatch(setCurrentFeature(filteredNewFeatureIds[0]));
   };
 
   const handleRemoveAllFeatures = (featuresToRemove, index) => {
@@ -292,7 +318,7 @@ export default function Features({ params }) {
       payload: updatedSelectedFeatures,
     });
 
-    setSelectedFeature(updatedSelectedFeatures[0]);
+    dispatch(setCurrentFeature(updatedSelectedFeatures[0]));
   };
 
   useEffect(() => {
@@ -305,6 +331,39 @@ export default function Features({ params }) {
     }
   }, [searchTerm]);
 
+  const generateRandomId = () => {
+    const randomString = Math.random().toString(36).substring(2, 5);
+    return `custom_${randomString}`;
+  };
+
+  const customId = generateRandomId();
+
+  const handleSubmit = () => {
+    const newItem = {
+      id: customId,
+      name: name,
+      icon: `https://www.ascii-code.com/i/characters/Uppercase-C.png`,
+      mobile: `https://www.ascii-code.com/i/characters/Uppercase-C.png`,
+      web: `https://www.ascii-code.com/i/characters/Uppercase-C.png`,
+      price: "520",
+      timeline: "1.0",
+      description: details,
+    };
+
+    console.log("newItem", newItem);
+
+    dispatch({
+      type: "addCustomFeature",
+      payload: newItem,
+    });
+
+    setShow(false);
+    setName("");
+    setDetails("");
+  };
+
+  const totalFeaturesLength = featuresData?.length + customFeatures?.length;
+
   return (
     <HeaderLayout lang={params.lang}>
       <div
@@ -316,6 +375,26 @@ export default function Features({ params }) {
           setConfirm={setConfirm}
           handleRemoveAll={handleRemoveAll}
         /> */}
+
+        {show && (
+          <div
+            onClick={() => setShow(false)}
+            className="fixed inset-0 w-full h-full z-40 bg-black/60 bg-opacity-60 top-0 left-0"
+          />
+        )}
+
+        {show && (
+          <CustomFeature
+            lang={params.lang}
+            handleSubmit={handleSubmit}
+            dictionary={dictionary.customFeatures}
+            name={name}
+            setName={setName}
+            details={details}
+            setShow={setShow}
+            setDetails={setDetails}
+          />
+        )}
 
         <div className="w-1/5 bg-slate-100 max-h-screen relative custom-scrollbar overflow-y-hidden hover:overflow-y-auto duration-300">
           <div className="flex bg-white border-[#C7C7C7] items-center m-2 rounded-md border p-2">
@@ -579,15 +658,17 @@ export default function Features({ params }) {
                   <FeatureHeader
                     platform={platform}
                     setPlatform={setPlatform}
+                    setShow={setShow}
                   />
                   <ShowFeature
                     lang={params.lang}
                     sidebar={dictionary}
                     platform={platform}
                     selectedFeature={selectedFeature}
-                    handleFeaturesSelection={(feature) =>
-                      handleFeaturesSelection(feature)
+                    handleCustomFeaturesSelection={
+                      handleCustomFeaturesSelection
                     }
+                    handleFeaturesSelection={handleFeaturesSelection}
                     isFeatureSelected={(feature) => isFeatureSelected(feature)}
                   />
                 </>
@@ -599,13 +680,95 @@ export default function Features({ params }) {
               <div className="w-1/4 bg-white relative h-[calc(100vh-8.5rem)] overflow-y-auto custom-scrollbar">
                 <div className="flex px-5 py-3 gap-2 items-center">
                   <p className="text-black text-xl">
-                    {featuresData.length > 1
+                    {totalFeaturesLength > 1
                       ? `${dictionary.selectedFeatures}`
                       : `${dictionary.selectedFeature}`}
                   </p>
-                  <p className="text-black text-xl">{featuresData.length}</p>
+                  <p className="text-black text-xl">{totalFeaturesLength}</p>
                 </div>
-                <div className="grid grid-cols-1 gap-3 p-5">
+                {customFeatures?.length > 0 && (
+                  <div className="grid grid-cols-1 gap-3 px-5 pt-5">
+                    {customFeatures?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="relative border-b-gray-[#A6A6A6] border-b pb-2 group h-38"
+                      >
+                        <div
+                          onClick={() => handleCustomFeaturesSelection(item)}
+                          className={`top-2 group-hover:flex hidden z-10 absolute hover:bg-slate-200 group ${
+                            params.lang === "en" ? "right-2" : "left-2"
+                          } bg-white w-7 h-7 items-center rounded-full justify-center border-[1px] cursor-pointer`}
+                        >
+                          <MdDeleteOutline className="text-black duration-300" />
+                        </div>
+                        <div
+                          onClick={() => handleFeatureSelection(item)}
+                          key={index}
+                          className={`duration-300 cursor-pointer relative p-2 rounded-lg h-full w-full flex items-center gap-3`}
+                        >
+                          {platform === "mobile" ? (
+                            <div
+                              className={`w-12 h-24 ${
+                                selectedFeature?.id === item.id
+                                  ? "border-secondary"
+                                  : "border-[#A6A6A6]"
+                              } group border-2 flex items-center justify-center rounded-lg`}
+                            >
+                              {/* <PhoneFrame> */}
+                              <Image
+                                width={100}
+                                height={50}
+                                src={item?.mobile}
+                                alt="icon"
+                                className="rounded-lg w-full p-1 h-16"
+                              />
+                              {/* </PhoneFrame> */}
+                            </div>
+                          ) : (
+                            <div
+                              className={`w-20 h-12 ${
+                                selectedFeature?.id === item.id
+                                  ? "border-secondary"
+                                  : "border-gray-300"
+                              } group flex items-center justify-center border-2 rounded-lg`}
+                            >
+                              <Image
+                                width={100}
+                                height={100}
+                                src={item?.web}
+                                alt="icon"
+                                className="rounded-lg w-10 h-10"
+                              />
+                            </div>
+                          )}
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <p className="text-black w-20 text-sm">
+                                {item.name}
+                              </p>
+                            </div>
+                            {/* <p className="text-gray-500 py-1 text-xs">
+                            {item.category}
+                          </p> */}
+                            {/* <div className="py-1">
+                            <p className="text-gray-400 text-xs">
+                              {dictionary.from} ${item.price}
+                            </p>
+                            <p className="text-gray-400 text-xs py-[1px]">
+                              {item.timeline} {dictionary.days}
+                            </p>
+                          </div> */}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div
+                  className={`grid grid-cols-1 gap-3 ${
+                    customFeatures?.length > 0 ? "px-5 pb-5 pt-3" : "p-5"
+                  }`}
+                >
                   {featuresData.map((item, index) => (
                     <div
                       key={index}
@@ -694,6 +857,7 @@ export default function Features({ params }) {
               durationLocal={durationLocal}
               buttonText={dictionary.planDelivery}
               handlePlanDelivery={addIncompleteBuildCard}
+              loading={loading}
             />
           )}
         </div>

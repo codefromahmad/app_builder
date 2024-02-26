@@ -1,7 +1,9 @@
 const initialState = {
   features: [],
+  customFeatures: [],
   cost: null,
   duration: null,
+  currentFeature: null,
 };
 
 const features = (state = initialState, action) => {
@@ -10,6 +12,11 @@ const features = (state = initialState, action) => {
       return {
         ...state,
         features: action.payload,
+      };
+    case "setCurrentFeature":
+      return {
+        ...state,
+        currentFeature: action.payload,
       };
     case "addFeature":
       return {
@@ -21,7 +28,6 @@ const features = (state = initialState, action) => {
       const updatedFeatures = state.features.filter(
         (selectedFeature) => selectedFeature !== action.payload
       );
-      console.log(updatedFeatures, "updatedFeatures from redux");
       return {
         ...state,
         features: updatedFeatures,
@@ -32,17 +38,30 @@ const features = (state = initialState, action) => {
         ...state,
         features: [...action.payload, ...state.features],
       };
-
-    case "setCost":
+    case "setCustomFeatures":
       return {
         ...state,
-        cost: action.payload,
+        customFeatures: action.payload,
       };
 
-    case "setDuration":
+    case "addCustomFeature":
       return {
         ...state,
-        duration: action.payload,
+        customFeatures: [action.payload, ...state.customFeatures],
+      };
+
+    case "removeCustomFeature":
+      const updateCustomFeatures = state.customFeatures.filter(
+        (selectedFeature) => selectedFeature.id !== action.payload
+      );
+      return {
+        ...state,
+        customFeatures: updateCustomFeatures,
+      };
+
+    case "deleteFeatures":
+      return {
+        ...initialState,
       };
 
     default:
@@ -51,3 +70,16 @@ const features = (state = initialState, action) => {
 };
 
 export default features;
+
+export const deleteFeatures = () => {
+  return {
+    type: "deleteFeatures",
+  };
+};
+
+export const setCurrentFeature = (currentFeature) => {
+  return {
+    type: "setCurrentFeature",
+    payload: currentFeature,
+  };
+};

@@ -2,6 +2,10 @@ import { GoChecklist, GoRocket } from "react-icons/go";
 import { IoCodeSlashOutline } from "react-icons/io5";
 import { PiShootingStarThin } from "react-icons/pi";
 import { SiStyledcomponents } from "react-icons/si";
+import accountCreation from "../images/features/1-account-creation.png";
+import accountCreationWeb from "../images/features/1-account-creation-web.png";
+import facebookLogin from "../images/features/2-facebook-login.png";
+import facebookLoginWeb from "../images/features/2-facebook-login-web.png";
 
 export const sidebarData = [
   {
@@ -12,9 +16,8 @@ export const sidebarData = [
         id: 1,
         name: "Account Creation",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile:
-          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation.png?alt=media&token=da158207-0402-4df7-bdf7-e0c71d3f09ea",
-        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation-web.png?alt=media&token=e7a7db95-d2ec-45e3-b621-9d529bf824cb",
+        mobile: accountCreation,
+        web: accountCreationWeb,
         price: "520",
         timeline: "1.0",
         description:
@@ -24,9 +27,8 @@ export const sidebarData = [
         id: 2,
         name: "Facebook Login",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile:
-          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login.png?alt=media&token=a8e30e28-a257-49a4-9adf-11610f879da8",
-        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login-web.png?alt=media&token=78922110-6467-4d55-9aac-097da46ddbd9",
+        mobile: facebookLogin,
+        web: facebookLoginWeb,
         price: "450.15",
         timeline: "3.0",
         description:
@@ -1332,10 +1334,12 @@ export const priceDuration = [
 export const initialPhases = [
   {
     name: "Product Roadmap",
-    duration: "2 Weeks",
-    delivery: "27-Dec-2023",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
+    delivery: "---",
     icon: <GoChecklist className="text-4xl text-black" />,
-    selected: true,
+    selected: false,
     description:
       "Why do you need a product roadmap? Add it and we help you define the use cases for every feature in your Buildcard. If you skip it, you’ll need to know exactly what you expect each feature to do before we can start building your app.It also gives you an in-depth view of where your product is going. Includes a product timeline so everyone can see all the key dates on the way to get you there.",
     more: "Can help you secure funding, improve collaboration and streamline the whole app building process. Also useful for making long-term strategic decisions and planning a successful launch.",
@@ -1346,10 +1350,12 @@ export const initialPhases = [
   },
   {
     name: "Design",
-    duration: "7 Weeks",
-    delivery: "12-Feb-2024",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
+    delivery: "---",
     icon: <SiStyledcomponents className="text-4xl text-black" />,
-    selected: false,
+    selected: true,
     description:
       "Trust us to do the wireframing of your concept and design a seamless experience. Get a fully scalable UI/UX",
     more: "We combine visual principles, data, color psychology, and decades worth of experience to create aesthetic interfaces that will drive the growth of your product. We are experts in creating human-centric designs that allow customers to intuitively use your product and have a great product experience.",
@@ -1360,8 +1366,10 @@ export const initialPhases = [
   },
   {
     name: "Professional Prototype",
-    duration: "3 Weeks",
-    delivery: "26-Feb-2024",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
+    delivery: "---",
     icon: <PiShootingStarThin className="text-4xl text-black" />,
     selected: false,
     description:
@@ -1374,8 +1382,10 @@ export const initialPhases = [
   },
   {
     name: "MVP",
-    duration: "7 Weeks",
-    delivery: "13-Apr-2024",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
+    delivery: "---",
     icon: <IoCodeSlashOutline className="text-4xl text-black" />,
     selected: true,
     description:
@@ -1390,8 +1400,10 @@ export const initialPhases = [
   },
   {
     name: "Full Build",
-    duration: "4 Weeks",
-    delivery: "12-Jun-2024",
+    duration: "---",
+    fixedCost: 0,
+    customizationCost: 0,
+    delivery: "---",
     icon: <GoRocket className="text-4xl text-black" />,
     selected: false,
     description:
