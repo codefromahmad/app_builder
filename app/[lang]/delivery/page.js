@@ -101,7 +101,7 @@ export default function Delivery({ params }) {
         case "Professional Prototype":
           phase.duration = Math.ceil(buildCardDetails?.duration * 0.12);
           phase.customizationCost = buildCardDetails?.customizationCost * 0.18;
-          phase.fixedCost = buildCardDetails?.totalCost * 0.18;
+          phase.fixedCost = buildCardDetails?.fixedCost * 0.18;
           break;
         case "MVP":
           phase.duration = Math.ceil(
@@ -351,14 +351,14 @@ export default function Delivery({ params }) {
     calculateCustomizationCost(newPhases);
   };
 
-  const calculateLabelPosition = (value) => {
-    const totalSteps = 5; // Adjust based on your max value
-    let position = 0;
-    if (value === 4) {
-      position = 68;
-    } else position = ((value - 1) / (totalSteps - 1)) * 80;
-    return `${position}%`;
-  };
+  // const calculateLabelPosition = (value) => {
+  //   const totalSteps = 5; // Adjust based on your max value
+  //   let position = 0;
+  //   if (value === 4) {
+  //     position = 68;
+  //   } else position = ((value - 1) / (totalSteps - 1)) * 80;
+  //   return `${position}%`;
+  // };
 
   // const makeSliderValueSimilar = (newValue) => {
   //   if (sameSpeed) {
@@ -468,7 +468,7 @@ export default function Delivery({ params }) {
               selectedPhases.map((phase) => ({
                 name: phase.name,
                 platforms: phase.platform,
-                sliderValue: phase.advanced.sliderValue,
+                // sliderValue: phase.advanced.sliderValue,
               }));
             userData.buildCards[incompleteBuildCardIndex].totalCost =
               calculateTotalCost;
