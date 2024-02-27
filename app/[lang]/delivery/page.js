@@ -114,7 +114,7 @@ export default function Delivery({ params }) {
           fixedCostFactor = 0.18;
           break;
         case "MVP":
-          durationFactor = 0.75; // Duration factor for MVP when not selected
+          durationFactor = 0.75;
           customizationFactor = 0.75;
           fixedCostFactor = 0.75;
           break;
@@ -539,12 +539,11 @@ export default function Delivery({ params }) {
           );
 
           if (incompleteBuildCardIndex !== -1) {
-            // localStorage.setItem("recentBuildCardId", null);
             // userData.buildCards[incompleteBuildCardIndex].status = "incomplete";
             userData.buildCards[incompleteBuildCardIndex].features = features;
             userData.buildCards[incompleteBuildCardIndex].name = name;
-            userData.buildCards[incompleteBuildCardIndex].duration =
-              priceDuration[sliderValue - 1]?.duration;
+            // userData.buildCards[incompleteBuildCardIndex].duration =
+            //   priceDuration[sliderValue - 1]?.duration;
             userData.buildCards[incompleteBuildCardIndex].deliveryDate =
               deliveryDate.format("DD-MMM-YYYY");
             userData.buildCards[incompleteBuildCardIndex].updatedAt =
@@ -556,9 +555,9 @@ export default function Delivery({ params }) {
             userData.buildCards[incompleteBuildCardIndex].phases = phases.map(
               (phase) => ({
                 name: phase.name,
-                platforms: phase.platform,
-                fixedCost: phase.fixedCost,
-                customizationCost: phase.customizationCost,
+                // platforms: phase.platform,
+                // fixedCost: phase.fixedCost,
+                // customizationCost: phase.customizationCost,
                 selected: phase.selected,
               })
             );

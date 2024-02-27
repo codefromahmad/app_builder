@@ -19,18 +19,82 @@ const HeaderLayout = ({ children, lang }) => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const sidebarDataToUse = lang === "en" ? sidebarData : sidebarDataArabic;
-  const [refreshed, setRefreshed] = useState(false);
+  // const [refreshed, setRefreshed] = useState(false);
 
-  useEffect(() => {
-    if (!refreshed) {
-      console.log("refreshing");
-      // Perform any logic needed before refreshing
-      router.refresh();
+  // useEffect(() => {
+  //   if (!refreshed) {
+  //     console.log("refreshing");
+  //     // Perform any logic needed before refreshing
+  //     router.refresh();
 
-      // Update state to prevent repeated refresh
-      setRefreshed(true);
-    }
-  }, [refreshed, router]);
+  //     // Update state to prevent repeated refresh
+  //     setRefreshed(true);
+  //   }
+  // }, [refreshed, router]);
+
+  const updateCostsAndDuration = (buildCard) => {
+    const selectedPhases = buildCard?.phases.filter((item) => item.selected);
+
+    let newFixedCost = 0;
+    let newCustomizationCost = 0;
+    let newDuration = 0;
+
+    selectedPhases.forEach((phase) => {
+      let durationFactor, customizationFactor, fixedCostFactor;
+
+      switch (phase.name) {
+        case "Product Roadmap":
+          durationFactor = 0.1;
+          customizationFactor = 0.1;
+          fixedCostFactor = 0.1;
+          break;
+        case "Design":
+          durationFactor = 0.25;
+          customizationFactor = 0.25;
+          fixedCostFactor = 0.25;
+          break;
+        case "Professional Prototype":
+          durationFactor = 0.12;
+          customizationFactor = 0.18;
+          fixedCostFactor = 0.18;
+          break;
+        case "MVP":
+          durationFactor = 0.75;
+          customizationFactor = 0.75;
+          fixedCostFactor = 0.75;
+          break;
+        case "Full Build":
+          durationFactor = 0.15;
+          customizationFactor = 0.2;
+          fixedCostFactor = 0.2;
+          break;
+        default:
+          break;
+      }
+
+      const updatedFixedCost = buildCard.fixedCost * fixedCostFactor;
+      const updatedCustomizationCost =
+        buildCard.customizationCost * customizationFactor;
+      const updatedDuration = Math.ceil(buildCard.duration * durationFactor);
+
+      newFixedCost += updatedFixedCost;
+      newCustomizationCost += updatedCustomizationCost;
+      newDuration += updatedDuration;
+    });
+
+    dispatch({
+      type: "setFixedCost",
+      payload: Math.round(newFixedCost),
+    });
+    dispatch({
+      type: "setCustomizationCost",
+      payload: Math.round(newCustomizationCost),
+    });
+    dispatch({
+      type: "setDuration",
+      payload: newDuration,
+    });
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
@@ -62,8 +126,6 @@ const HeaderLayout = ({ children, lang }) => {
               } else {
                 console.log("incomplete build card found");
                 dispatch(setRecentBuildCard(incompleteItem));
-                dispatch({ type: "setUser", payload: userData });
-
                 const lastFeatureId =
                   incompleteItem.features[incompleteItem.features.length - 1];
 
@@ -75,6 +137,13 @@ const HeaderLayout = ({ children, lang }) => {
                   dispatch({ type: "setUser", payload: userData });
                 });
 
+                // console.log(
+                //   "inside HeaderLayout",
+                //   incompleteItem.fixedCost,
+                //   incompleteItem.customizationCost,
+                //   incompleteItem.duration
+                // );
+
                 dispatch({
                   type: "setFeatures",
                   payload: incompleteItem.features,
@@ -83,6 +152,20 @@ const HeaderLayout = ({ children, lang }) => {
                   type: "setCustomFeatures",
                   payload: incompleteItem.customFeatures,
                 });
+                updateCostsAndDuration(incompleteItem);
+                // dispatch({
+                //   type: "setFixedCost",
+                //   payload: incompleteItem.fixedCost,
+                // });
+                // dispatch({
+                //   type: "setCustomizationCost",
+                //   payload: incompleteItem.customizationCost,
+                // });
+                // dispatch({
+                //   type: "setDuration",
+                //   payload: incompleteItem.duration,
+                // });
+                dispatch({ type: "setUser", payload: userData });
               }
             } else {
               console.log("User data not found");

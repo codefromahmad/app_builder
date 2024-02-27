@@ -1,5 +1,8 @@
 const initialState = {
   recentBuildCard: null,
+  customizationCost: 0,
+  fixedCost: 0,
+  duration: null,
 };
 
 const buildcard = (state = initialState, action) => {
@@ -8,6 +11,24 @@ const buildcard = (state = initialState, action) => {
       return {
         ...state,
         recentBuildCard: action.payload,
+      };
+
+    case "setFixedCost":
+      return {
+        ...state,
+        fixedCost: action.payload,
+      };
+
+    case "setCustomizationCost":
+      return {
+        ...state,
+        customizationCost: action.payload,
+      };
+
+    case "setDuration":
+      return {
+        ...state,
+        duration: action.payload,
       };
 
     case "deleteBuildCard":
