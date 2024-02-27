@@ -332,6 +332,12 @@ export const sidebarData = [
         description:
           "Ensures users only upload/download files and media on metered networks, such as WiFi. Prevents the product from using large amounts of users' data allowance.",
       },
+    ],
+  },
+  {
+    name: "Essentials",
+    img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
+    dropDown: [
       {
         id: 31,
         name: "Discovery Settings",
@@ -980,6 +986,12 @@ export const sidebarDataArabic = [
         description:
           "يضمن للمستخدمين تحميل وتنزيل الملفات ووسائط الإعلام فقط على الشبكات المتداولة، مثل WiFi. يمنع المنتج من استخدام كميات كبيرة من حصة بيانات المستخدم.",
       },
+    ],
+  },
+  {
+    name: "أساسيات",
+    img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
+    dropDown: [
       {
         id: 31,
         name: "إعدادات الاكتشاف",
@@ -1344,9 +1356,7 @@ export const initialPhases = [
       "Why do you need a product roadmap? Add it and we help you define the use cases for every feature in your Buildcard. If you skip it, you’ll need to know exactly what you expect each feature to do before we can start building your app.It also gives you an in-depth view of where your product is going. Includes a product timeline so everyone can see all the key dates on the way to get you there.",
     more: "Can help you secure funding, improve collaboration and streamline the whole app building process. Also useful for making long-term strategic decisions and planning a successful launch.",
     platform: ["ios"],
-    advanced: {
-      sliderValue: 2,
-    },
+    sliderValue: 2,
   },
   {
     name: "Design",
@@ -1360,9 +1370,7 @@ export const initialPhases = [
       "Trust us to do the wireframing of your concept and design a seamless experience. Get a fully scalable UI/UX",
     more: "We combine visual principles, data, color psychology, and decades worth of experience to create aesthetic interfaces that will drive the growth of your product. We are experts in creating human-centric designs that allow customers to intuitively use your product and have a great product experience.",
     platform: ["ios"],
-    advanced: {
-      sliderValue: 1,
-    },
+    sliderValue: 1,
   },
   {
     name: "Professional Prototype",
@@ -1376,9 +1384,7 @@ export const initialPhases = [
       "Get a fully functional design prototype to test the design hypothesis and end-user journey. This includes designs for prototypes.",
     more: "Prototypes are realistic design representations of your ideas. We design interactive prototypes for iPhone, iPad, Android, and Web. Creation of prototypes is more specific, measurable, quick, and intensive than just describing the design. Test how the user will interact with an environment comparable to the final product.",
     platform: ["ios"],
-    advanced: {
-      sliderValue: 3,
-    },
+    sliderValue: 3,
   },
   {
     name: "MVP",
@@ -1393,10 +1399,8 @@ export const initialPhases = [
     more: "We help design a Minimum Viable Product as a proof of concept to satisfy early customers and provide feedback for future development. It’s an easy way to build a product with a minimum set of features to test the market. Collect the maximum amount of validated learning about your customers with the least effort.",
     platform: ["ios"],
     showPlatform: true,
-    features: 32,
-    advanced: {
-      sliderValue: 4,
-    },
+    features: 0,
+    sliderValue: 4,
   },
   {
     name: "Full Build",
@@ -1410,9 +1414,7 @@ export const initialPhases = [
       "We will do end to end designing and development of your idea. Get a market-ready product",
     more: "We build a full-fledged product based on the product roadmap and the features laid out in the specification document. We will also perfect the product based on user feedback received on the Minimum Viable Product. We will ship a fully mature, responsive, scalable, business-ready and a user-friendly product.",
     platform: ["ios"],
-    advanced: {
-      sliderValue: 5,
-    },
+    sliderValue: 5,
   },
 ];
 
