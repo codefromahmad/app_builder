@@ -120,7 +120,7 @@ export default function Features({ params }) {
       customizationCost: customizationCost,
       totalCost: totalCost,
       cloudServiceCost: null,
-      platforms: null,
+      platforms: ["ios"],
       speed: 3,
       duration: durationLocal,
       phases: [

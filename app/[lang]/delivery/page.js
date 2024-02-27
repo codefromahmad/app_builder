@@ -536,9 +536,7 @@ export default function Delivery({ params }) {
             userData.buildCards[incompleteBuildCardIndex].phases = phases.map(
               (phase) => ({
                 name: phase.name,
-                // platforms: phase.platform,
-                // fixedCost: phase.fixedCost,
-                // customizationCost: phase.customizationCost,
+                platforms: phase.platform,
                 selected: phase.selected,
               })
             );

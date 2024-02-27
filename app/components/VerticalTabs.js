@@ -231,25 +231,25 @@ const VerticalTabs = ({ dictionary, features }) => {
                       </p>
                     </div>
                     <div className="flex px-5 justify-start py-4 gap-4">
-                      {currentBuildCard.platforms.includes("Android") && (
+                      {item.platforms.includes("android") && (
                         <div className="flex flex-col items-center">
                           <BsAndroid2 className="text-2xl text-black" />
                           <p className="text-gray-400 pt-2 text-xs">Android</p>
                         </div>
                       )}
-                      {currentBuildCard.platforms.includes("iOS") && (
+                      {item.platforms.includes("ios") && (
                         <div className="flex flex-col items-center">
                           <FaApple className="text-2xl text-black" />
                           <p className="text-gray-400 pt-2 text-xs">iOS</p>
                         </div>
                       )}
-                      {currentBuildCard.platforms.includes("Web") && (
+                      {item.platforms.includes("web") && (
                         <div className="flex flex-col items-center">
                           <MdWeb className="text-2xl text-black" />
                           <p className="text-gray-400 pt-2 text-xs">Web</p>
                         </div>
                       )}
-                      {currentBuildCard.platforms.includes("Desktop") && (
+                      {item.platforms.includes("desktop") && (
                         <div className="flex flex-col items-center">
                           <IoDesktop className="text-2xl text-black" />
                           <p className="text-gray-400 pt-2 text-xs">Desktop</p>
@@ -325,7 +325,10 @@ const VerticalTabs = ({ dictionary, features }) => {
     },
     {
       id: 4,
-      name: `${dictionary.phases} (${currentBuildCard?.platforms.length})`,
+      name: `${dictionary.phases} (${
+        currentBuildCard?.phases.filter((phase) => phase.selected === true)
+          .length
+      })`,
       content: <Phases />,
     },
   ];
