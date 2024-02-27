@@ -90,7 +90,7 @@ export default function Delivery({ params }) {
   };
 
   useEffect(() => {
-    if (!buildCardDetails) return; // Exit early if buildCardDetails is not available
+    if (!buildCardDetails) return;
 
     setName(buildCardDetails.name);
 
@@ -127,30 +127,11 @@ export default function Delivery({ params }) {
           return phase;
       }
 
-      // Calculate the duration based on the factor
       phase.duration = Math.ceil(buildCardDetails.duration * durationFactor);
-
-      // If phase is selected, use customizationCost and fixedCost from buildCardDetails
-      // if (phaseSelected(phase.name)) {
-      //   const selectedPhase = buildCardDetails?.phases.find(
-      //     (item) => item.name === phase.name
-      //   );
-      //   if (selectedPhase) {
-      //     phase.customizationCost = selectedPhase.customizationCost;
-      //     phase.fixedCost = selectedPhase.fixedCost;
-      //   } else {
       phase.customizationCost =
         buildCardDetails.customizationCost * customizationFactor;
       phase.fixedCost = buildCardDetails.fixedCost * fixedCostFactor;
-      //   }
-      // } else {
-      //   // Calculate customizationCost and fixedCost based on factors
-      //   phase.customizationCost =
-      //     buildCardDetails.customizationCost * customizationFactor;
-      //   phase.fixedCost = buildCardDetails.fixedCost * fixedCostFactor;
-      // }
 
-      // Update selected flag
       phase.selected = phaseSelected(phase.name);
 
       return phase;

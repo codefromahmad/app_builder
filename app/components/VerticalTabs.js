@@ -231,25 +231,25 @@ const VerticalTabs = ({ dictionary, features }) => {
                       </p>
                     </div>
                     <div className="flex px-5 justify-start py-4 gap-4">
-                      {item.platforms.includes("android") && (
+                      {currentBuildCard.platforms.includes("Android") && (
                         <div className="flex flex-col items-center">
                           <BsAndroid2 className="text-2xl text-black" />
                           <p className="text-gray-400 pt-2 text-xs">Android</p>
                         </div>
                       )}
-                      {item.platforms.includes("ios") && (
+                      {currentBuildCard.platforms.includes("iOS") && (
                         <div className="flex flex-col items-center">
                           <FaApple className="text-2xl text-black" />
                           <p className="text-gray-400 pt-2 text-xs">iOS</p>
                         </div>
                       )}
-                      {item.platforms.includes("web") && (
+                      {currentBuildCard.platforms.includes("Web") && (
                         <div className="flex flex-col items-center">
                           <MdWeb className="text-2xl text-black" />
                           <p className="text-gray-400 pt-2 text-xs">Web</p>
                         </div>
                       )}
-                      {item.platforms.includes("desktop") && (
+                      {currentBuildCard.platforms.includes("Desktop") && (
                         <div className="flex flex-col items-center">
                           <IoDesktop className="text-2xl text-black" />
                           <p className="text-gray-400 pt-2 text-xs">Desktop</p>
@@ -325,9 +325,7 @@ const VerticalTabs = ({ dictionary, features }) => {
     },
     {
       id: 4,
-      name: `${dictionary.phases} (${
-        currentBuildCard?.phases.filter((item) => item.selected).length
-      })`,
+      name: `${dictionary.phases} (${currentBuildCard?.platforms.length})`,
       content: <Phases />,
     },
   ];
