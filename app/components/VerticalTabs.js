@@ -176,7 +176,7 @@ const VerticalTabs = ({ dictionary, features }) => {
                 </p>
               </div>
             ) : (
-              <p className="text-black py-2 font-bold">
+              <p className="text-black py-2 text-sm">
                 {currentBuildCard?.details.length > 0
                   ? currentBuildCard?.details
                   : `${dictionary.enterDetail}`}

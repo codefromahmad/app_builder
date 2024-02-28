@@ -2,22 +2,29 @@ import { GoChecklist, GoRocket } from "react-icons/go";
 import { IoCodeSlashOutline } from "react-icons/io5";
 import { PiShootingStarThin } from "react-icons/pi";
 import { SiStyledcomponents } from "react-icons/si";
-import accountCreation from "../images/features/1-account-creation.png";
-import accountCreationWeb from "../images/features/1-account-creation-web.png";
-import facebookLogin from "../images/features/2-facebook-login.png";
-import facebookLoginWeb from "../images/features/2-facebook-login-web.png";
+import essentials from "../images/icons/essentials.png";
+import adminPanel from "../images/icons/admin-panel.png";
+import content from "../images/icons/content.png";
+import customerInsight from "../images/icons/customer-insight.png";
+import financePayments from "../images/icons/finance-payments.png";
+import photosVideos from "../images/icons/photos-videos.png";
+import productivity from "../images/icons/productivity.png";
+import projectManagement from "../images/icons/project-management.png";
+import securityPrivacy from "../images/icons/security-privacy.png";
+import socials from "../images/icons/socials.png";
 
 export const sidebarData = [
   {
     name: "Essentials",
-    img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
+    img: essentials,
     dropDown: [
       {
         id: 1,
         name: "Account Creation",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile: accountCreation,
-        web: accountCreationWeb,
+        mobile:
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation.png?alt=media&token=da158207-0402-4df7-bdf7-e0c71d3f09ea",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Faccount-creation-web.png?alt=media&token=e7a7db95-d2ec-45e3-b621-9d529bf824cb",
         price: "520",
         timeline: "1.0",
         description:
@@ -27,8 +34,9 @@ export const sidebarData = [
         id: 2,
         name: "Facebook Login",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile: facebookLogin,
-        web: facebookLoginWeb,
+        mobile:
+          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login.png?alt=media&token=a8e30e28-a257-49a4-9adf-11610f879da8",
+        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login-web.png?alt=media&token=78922110-6467-4d55-9aac-097da46ddbd9",
         price: "450.15",
         timeline: "3.0",
         description:
@@ -335,8 +343,8 @@ export const sidebarData = [
     ],
   },
   {
-    name: "Essentials",
-    img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
+    name: "Social",
+    img: socials,
     dropDown: [
       {
         id: 31,
@@ -443,226 +451,52 @@ export const sidebarData = [
       },
     ],
   },
-  // {
-  //   name: "Essentials",
-  //   img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd274188f3ac56ef461c73/Essentials.svg",
-  //   dropDown: [
-  //     {
-  //       name: "Online backup",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-  //       mobile:
-  //         "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
-  //       price: "45,045.94",
-  //       timeline: "3.0",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Request Management",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd154688f3ac61106b30ca/Request_20Management.png",
-  //       price: "59,951.90",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/289/edd1e5da-35df-447c-b94d-72e49c5a9739.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Specific Settings",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd175f88f3ac61106b391f/Service-specific_20Settings_20_Admin_.png",
-  //       price: "18,195.26",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1769/911fae96-bb10-4af5-9725-76865f694f78.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "SMS",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/583e6fd65cba2a4656829ce9/SMS.png",
-  //       price: "16,806.06",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/573/0b452c91-aac8-4c30-b24e-231604b25ad7.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Task List",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/583e6d2d5cba2a4656829ce0/Task_20Groups.png",
-  //       price: "48,057.92",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/585/f1a9d692-600b-4ae2-be97-e6f9799ec0a8.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Text Comparison",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd173b88f3ac61106b38a8/Text_20Comparison.png",
-  //       price: "47,491.92",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/939/cd971e0d-3126-441d-b921-a3a7d0e27c7c.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "Content",
-  //   img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd271588f3ac56ef461c64/Content.svg",
-  // },
-  // {
-  //   name: "Social",
-  //   img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd272f88f3ac56ef461c6d/Social.svg",
-  //   dropDown: [
-  //     {
-  //       name: "Ad-hoc Reporting",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd179088f3ac61106b39bd/Ad_20Hoc_20Reporting.png",
-  //       price: "7,160.36",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/999/41346089-8f8b-4066-86a8-9c87b7627870.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Archive",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd15d288f3ac61106b31c0/Archive.png",
-  //       price: "24,789.61",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd15d288f3ac61106b31c0/Archive.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Content Approval",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd178c88f3ac61106b39b3/Review_20and_20approval.png",
-  //       price: "20,155.72",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/329/c2d782cd-5144-44b8-8982-3023172902d9.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Data Encryption",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd15e488f3ac61106b324c/Data_20Encryption.png",
-  //       price: "32,587.71",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1785/f5ae9781-3266-42bb-9587-84b5bfc789a9.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Email Notifications",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/583e707d5cba2a4656829cf0/Email_20Notifications.png",
-  //       price: "21,229.12",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1747/084e1683-97de-416e-8402-4cc61b632eaf.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Multi-Level Approval",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd179388f3ac61106b39cb/Multi-Level_20Approval.png",
-  //       price: "31,030.54",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1781/9a2cd66d-bfb8-49c7-af85-c800da6b1c50.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Notification Settings",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/5c5000ba1f0c64172a7f77ec/Notification_20Settings.png",
-  //       price: "10,104.98",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/579/6c42b92a-e8be-49c9-a207-684937f95fe6.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "Admin",
-  //   img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd273e88f3ac56ef461c72/Admin_Console.svg",
-  //   dropDown: [
-  //     {
-  //       name: "In-App Notifications",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/57e0aff95cba2a27d6af2785/Notifications.png",
-  //       price: "34,921.71",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/33/e30a0f9d-cdd0-4d9d-832c-bfa837b81329.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Roles and Permissions",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd155488f3ac61106b30d7/Roles_20_26_20Permissions.png",
-  //       price: "53,376.80",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1743/142812b1-23fe-4250-a795-e0feb5a4775d.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Settings",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/583e6f7a5cba2a4656829ce8/Settings.png",
-  //       price: "38,394.73",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/35/614aab62-e983-4870-b3ed-4ff29a57d32f.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Terms And Conditions",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/5c5000bc1f0c64172a7f7890/Team_20Builder.png",
-  //       price: "11,869.48",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/571/339f3f33-81e8-45bf-ab82-ac5eadb7a10c.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "Ecommerce",
-  //   dropDown: [],
-  //   img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd272488f3ac56ef461c69/Ecommerce.svg",
-  // },
+  {
+    name: "Productivity",
+    dropDown: [],
+    img: productivity,
+  },
+  {
+    name: "Security & Privacy",
+    dropDown: [],
+    img: securityPrivacy,
+  },
+  {
+    name: "Admin Console",
+    dropDown: [],
+    img: adminPanel,
+  },
+  {
+    name: "Content",
+    dropDown: [],
+    img: content,
+  },
+  {
+    name: "Customer Insight",
+    dropDown: [],
+    img: customerInsight,
+  },
+  {
+    name: "Finance & Payments",
+    dropDown: [],
+    img: financePayments,
+  },
+  {
+    name: "Photos & Videos",
+    dropDown: [],
+    img: photosVideos,
+  },
+  {
+    name: "Project Management",
+    dropDown: [],
+    img: projectManagement,
+  },
 ];
 
 export const sidebarDataArabic = [
   {
     name: "أساسيات",
-    img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
+    img: essentials,
     dropDown: [
       {
         id: 1,
@@ -990,7 +824,7 @@ export const sidebarDataArabic = [
   },
   {
     name: "أساسيات",
-    img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/24/medical-folder.png",
+    img: socials,
     dropDown: [
       {
         id: 31,
@@ -1097,215 +931,46 @@ export const sidebarDataArabic = [
       },
     ],
   },
-  // {
-  //   name: "أساسيات",
-  //   img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd274188f3ac56ef461c73/Essentials.svg",
-  //   dropDown: [
-  //     {
-  //       name: "Online backup",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-  //       mobile:
-  //         "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd150a88f3ac61106b3074/Online_20backup.png",
-  //       price: "45,045.94",
-  //       timeline: "3.0",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Request Management",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd154688f3ac61106b30ca/Request_20Management.png",
-  //       price: "59,951.90",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/289/edd1e5da-35df-447c-b94d-72e49c5a9739.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Specific Settings",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd175f88f3ac61106b391f/Service-specific_20Settings_20_Admin_.png",
-  //       price: "18,195.26",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1769/911fae96-bb10-4af5-9725-76865f694f78.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "SMS",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/583e6fd65cba2a4656829ce9/SMS.png",
-  //       price: "16,806.06",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/573/0b452c91-aac8-4c30-b24e-231604b25ad7.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Task List",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/583e6d2d5cba2a4656829ce0/Task_20Groups.png",
-  //       price: "48,057.92",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/585/f1a9d692-600b-4ae2-be97-e6f9799ec0a8.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Text Comparison",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd173b88f3ac61106b38a8/Text_20Comparison.png",
-  //       price: "47,491.92",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/939/cd971e0d-3126-441d-b921-a3a7d0e27c7c.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "محتوى",
-  //   img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd271588f3ac56ef461c64/Content.svg",
-  // },
-  // {
-  //   name: "اجتماعي",
-  //   img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd272f88f3ac56ef461c6d/Social.svg",
-  //   dropDown: [
-  //     {
-  //       name: "Ad-hoc Reporting",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd179088f3ac61106b39bd/Ad_20Hoc_20Reporting.png",
-  //       price: "7,160.36",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/999/41346089-8f8b-4066-86a8-9c87b7627870.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Archive",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd15d288f3ac61106b31c0/Archive.png",
-  //       price: "24,789.61",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_android_image/59fd15d288f3ac61106b31c0/Archive.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Content Approval",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd178c88f3ac61106b39b3/Review_20and_20approval.png",
-  //       price: "20,155.72",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/329/c2d782cd-5144-44b8-8982-3023172902d9.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Data Encryption",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd15e488f3ac61106b324c/Data_20Encryption.png",
-  //       price: "32,587.71",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1785/f5ae9781-3266-42bb-9587-84b5bfc789a9.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Email Notifications",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/583e707d5cba2a4656829cf0/Email_20Notifications.png",
-  //       price: "21,229.12",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1747/084e1683-97de-416e-8402-4cc61b632eaf.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Multi-Level Approval",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd179388f3ac61106b39cb/Multi-Level_20Approval.png",
-  //       price: "31,030.54",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1781/9a2cd66d-bfb8-49c7-af85-c800da6b1c50.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Notification Settings",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/5c5000ba1f0c64172a7f77ec/Notification_20Settings.png",
-  //       price: "10,104.98",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/579/6c42b92a-e8be-49c9-a207-684937f95fe6.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //   ],
-  // },
-  // {
-  //   name: "مسؤل",
-  //   img: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature_bundle/background/59fd273e88f3ac56ef461c72/Admin_Console.svg",
-  //   dropDown: [
-  //     {
-  //       name: "In-App Notifications",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/57e0aff95cba2a27d6af2785/Notifications.png",
-  //       price: "34,921.71",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/33/e30a0f9d-cdd0-4d9d-832c-bfa837b81329.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Roles and Permissions",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd155488f3ac61106b30d7/Roles_20_26_20Permissions.png",
-  //       price: "53,376.80",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/1743/142812b1-23fe-4250-a795-e0feb5a4775d.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Settings",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/583e6f7a5cba2a4656829ce8/Settings.png",
-  //       price: "38,394.73",
-  //       timeline: "3.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/35/614aab62-e983-4870-b3ed-4ff29a57d32f.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //     {
-  //       name: "Terms And Conditions",
-  //       icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/5c5000bc1f0c64172a7f7890/Team_20Builder.png",
-  //       price: "11,869.48",
-  //       timeline: "2.0",
-  //       mobile:
-  //         "https://builderbuckets.blob.core.windows.net/builder-now-production/uploads/production/feature_figma/image/571/339f3f33-81e8-45bf-ab82-ac5eadb7a10c.png",
-  //       category: "Healthcare compliance",
-  //       description:
-  //         "Capture actions performed by users inside the product, storing the raw data to use in product analytics. This helps to get a better insight into how users use the product.",
-  //     },
-  //   ],
-  // },
+  {
+    name: "الإنتاجية",
+    dropDown: [],
+    img: productivity,
+  },
+  {
+    name: "الأمان والخصوصية",
+    dropDown: [],
+    img: securityPrivacy,
+  },
+  {
+    name: "لوحة التحكم الإدارية",
+    dropDown: [],
+    img: adminPanel,
+  },
+  {
+    name: "المحتوى",
+    dropDown: [],
+    img: content,
+  },
+  {
+    name: "تحليلات العملاء",
+    dropDown: [],
+    img: customerInsight,
+  },
+  {
+    name: "المالية والمدفوعات",
+    dropDown: [],
+    img: financePayments,
+  },
+  {
+    name: "الصور والفيديوهات",
+    dropDown: [],
+    img: photosVideos,
+  },
+  {
+    name: "إدارة المشاريع",
+    dropDown: [],
+    img: projectManagement,
+  },
 ];
 
 export const speedLabels = ["Relaxed", "Slow", "Standard", "Fast", "Speedy"];
