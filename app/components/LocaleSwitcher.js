@@ -17,7 +17,11 @@ export default function LocaleSwitcher() {
   };
 
   return (
-    <ul className={`flex ${checkLocale === "ar" && "pl-5"} gap-x-3`}>
+    <ul
+      className={`flex ${
+        checkLocale === "ar" && "ml-5"
+      } gap-x-1 border px-0 py-2 rounded-lg border-secondary`}
+    >
       {i18n.locales.map((locale) => {
         return (
           <li key={locale}>
@@ -26,7 +30,7 @@ export default function LocaleSwitcher() {
               className={`rounded-md ${
                 checkLocale === "en" ? "p-2" : "py-0 px-2"
               } text-white ${
-                checkLocale === locale ? "bg-secondary" : "bg-primary"
+                checkLocale === locale ? "bg-secondary" : "bg-transparent"
               }`}
             >
               {locale}
