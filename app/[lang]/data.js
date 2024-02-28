@@ -34,9 +34,8 @@ export const sidebarData = [
         id: 2,
         name: "Facebook Login",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile:
-          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login.png?alt=media&token=a8e30e28-a257-49a4-9adf-11610f879da8",
-        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login-web.png?alt=media&token=78922110-6467-4d55-9aac-097da46ddbd9",
+        mobile: "http://launchswift.io/assets/mobile/login-with-facebook.png",
+        web: "http://launchswift.io/assets/web/facebook_login.png",
         price: "450.15",
         timeline: "3.0",
         description:
@@ -46,8 +45,7 @@ export const sidebarData = [
         id: 3,
         name: "Free Trial",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile:
-          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffree-trial.png?alt=media&token=b6dca1f3-47b0-4d76-bdd4-9f131d071a47",
+        mobile: "http://launchswift.io/assets/mobile/free-trial.png",
         price: "1,200",
         timeline: "3.0",
         description:
@@ -57,8 +55,8 @@ export const sidebarData = [
         id: 4,
         name: "Search",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile:
-          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fsearch-4.png?alt=media&token=87db3216-7c4e-4887-9579-a39dd0f5e80c",
+        mobile: "http://launchswift.io/assets/mobile/advanced-search.png",
+        web: "http://launchswift.io/assets/web/advanced_search.png",
         price: "850.87",
         timeline: "2.0",
         description:
@@ -68,8 +66,8 @@ export const sidebarData = [
         id: 5,
         name: "Settings",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile:
-          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Fsettings.png?alt=media&token=0497a250-5aa5-4c52-8a1d-77554d0071dd",
+        mobile: "http://launchswift.io/assets/mobile/settings.png",
+        web: "http://launchswift.io/assets/web/setting.png",
         price: "768.06",
         timeline: "3.0",
         description:
@@ -514,9 +512,8 @@ export const sidebarDataArabic = [
         id: 2,
         name: "تسجيل الدخول باستخدام فيسبوك",
         icon: "https://bstudio-assets.azureedge.net/assets-builder/uploads/feature/new_icon/59fd150a88f3ac61106b3074/Online_20backup.png",
-        mobile:
-          "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login.png?alt=media&token=a8e30e28-a257-49a4-9adf-11610f879da8",
-        web: "https://firebasestorage.googleapis.com/v0/b/app-builder-c776a.appspot.com/o/features%2Ffacebook-login-web.png?alt=media&token=78922110-6467-4d55-9aac-097da46ddbd9",
+        mobile: "http://launchswift.io/assets/mobile/login-with-facebook.png",
+        web: "http://launchswift.io/assets/web/facebook_login.png",
         price: "450.15",
         timeline: "3.0",
         description:
