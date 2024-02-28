@@ -84,40 +84,56 @@ export default function Delivery({ params }) {
     setStandardCustomizationCost(totalCustomizationCost);
   };
 
+  const phaseSelected = (name) => {
+    return buildCardDetails?.phases?.find((item) => item.name === name)
+      .selected;
+  };
+
   useEffect(() => {
-    setName(buildCardDetails?.name);
+    if (!buildCardDetails) return;
+
+    setName(buildCardDetails.name);
+
     const updatedPhases = initialPhases.map((phase) => {
+      let durationFactor, customizationFactor, fixedCostFactor;
+
       switch (phase.name) {
         case "Product Roadmap":
-          phase.duration = Math.ceil(buildCardDetails?.duration * 0.1);
-          phase.customizationCost = buildCardDetails?.customizationCost * 0.1;
-          phase.fixedCost = buildCardDetails?.fixedCost * 0.1;
+          durationFactor = 0.1;
+          customizationFactor = 0.1;
+          fixedCostFactor = 0.1;
           break;
         case "Design":
-          phase.duration = Math.ceil(buildCardDetails?.duration * 0.25);
-          phase.customizationCost = buildCardDetails?.customizationCost * 0.25;
-          phase.fixedCost = buildCardDetails?.fixedCost * 0.25;
+          durationFactor = 0.25;
+          customizationFactor = 0.25;
+          fixedCostFactor = 0.25;
           break;
         case "Professional Prototype":
-          phase.duration = Math.ceil(buildCardDetails?.duration * 0.12);
-          phase.customizationCost = buildCardDetails?.customizationCost * 0.18;
-          phase.fixedCost = buildCardDetails?.fixedCost * 0.18;
+          durationFactor = 0.12;
+          customizationFactor = 0.18;
+          fixedCostFactor = 0.18;
           break;
         case "MVP":
-          phase.duration = Math.ceil(
-            buildCardDetails?.duration - buildCardDetails?.duration * 0.25
-          );
-          phase.customizationCost = buildCardDetails?.customizationCost * 0.75;
-          phase.fixedCost = buildCardDetails?.fixedCost * 0.75;
+          durationFactor = 0.75;
+          customizationFactor = 0.75;
+          fixedCostFactor = 0.75;
           break;
         case "Full Build":
-          phase.duration = Math.ceil(buildCardDetails?.duration * 0.15);
-          phase.customizationCost = buildCardDetails?.customizationCost * 0.2;
-          phase.fixedCost = buildCardDetails?.fixedCost * 0.2;
+          durationFactor = 0.15;
+          customizationFactor = 0.2;
+          fixedCostFactor = 0.2;
           break;
         default:
-          break;
+          return phase;
       }
+
+      phase.duration = Math.ceil(buildCardDetails.duration * durationFactor);
+      phase.customizationCost =
+        buildCardDetails.customizationCost * customizationFactor;
+      phase.fixedCost = buildCardDetails.fixedCost * fixedCostFactor;
+
+      phase.selected = phaseSelected(phase.name);
+
       return phase;
     });
 
@@ -126,6 +142,54 @@ export default function Delivery({ params }) {
     calculateCustomizationCost(updatedPhases);
     setPhases(updatedPhases);
   }, [buildCardDetails]);
+
+  // useEffect(() => {
+  //   setName(buildCardDetails?.name);
+  //   const updatedPhases = initialPhases.map((phase) => {
+  //     switch (phase.name) {
+  //       case "Product Roadmap":
+  //         phase.duration = Math.ceil(buildCardDetails?.duration * 0.1);
+  //         phase.customizationCost = buildCardDetails?.customizationCost * 0.1;
+  //         phase.fixedCost = buildCardDetails?.fixedCost * 0.1;
+  //         phase.selected = phaseSelected(phase.name);
+  //         break;
+  //       case "Design":
+  //         phase.duration = Math.ceil(buildCardDetails?.duration * 0.25);
+  //         phase.customizationCost = buildCardDetails?.customizationCost * 0.25;
+  //         phase.fixedCost = buildCardDetails?.fixedCost * 0.25;
+  //         phase.selected = phaseSelected(phase.name);
+  //         break;
+  //       case "Professional Prototype":
+  //         phase.duration = Math.ceil(buildCardDetails?.duration * 0.12);
+  //         phase.customizationCost = buildCardDetails?.customizationCost * 0.18;
+  //         phase.fixedCost = buildCardDetails?.fixedCost * 0.18;
+  //         phase.selected = phaseSelected(phase.name);
+  //         break;
+  //       case "MVP":
+  //         phase.duration = Math.ceil(
+  //           buildCardDetails?.duration - buildCardDetails?.duration * 0.25
+  //         );
+  //         phase.customizationCost = buildCardDetails?.customizationCost * 0.75;
+  //         phase.fixedCost = buildCardDetails?.fixedCost * 0.75;
+  //         phase.selected = phaseSelected(phase.name);
+  //         break;
+  //       case "Full Build":
+  //         phase.duration = Math.ceil(buildCardDetails?.duration * 0.15);
+  //         phase.customizationCost = buildCardDetails?.customizationCost * 0.2;
+  //         phase.fixedCost = buildCardDetails?.fixedCost * 0.2;
+  //         phase.selected = phaseSelected(phase.name);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //     return phase;
+  //   });
+
+  //   calculateStandardDuration(updatedPhases);
+  //   calculateStandardFixedCost(updatedPhases);
+  //   calculateCustomizationCost(updatedPhases);
+  //   setPhases(updatedPhases);
+  // }, [buildCardDetails]);
 
   getDictionary(params.lang)
     .then((lang) => {
@@ -456,12 +520,11 @@ export default function Delivery({ params }) {
           );
 
           if (incompleteBuildCardIndex !== -1) {
-            // localStorage.setItem("recentBuildCardId", null);
             // userData.buildCards[incompleteBuildCardIndex].status = "incomplete";
             userData.buildCards[incompleteBuildCardIndex].features = features;
             userData.buildCards[incompleteBuildCardIndex].name = name;
-            userData.buildCards[incompleteBuildCardIndex].duration =
-              priceDuration[sliderValue - 1]?.duration;
+            // userData.buildCards[incompleteBuildCardIndex].duration =
+            //   priceDuration[sliderValue - 1]?.duration;
             userData.buildCards[incompleteBuildCardIndex].deliveryDate =
               deliveryDate.format("DD-MMM-YYYY");
             userData.buildCards[incompleteBuildCardIndex].updatedAt =
@@ -470,17 +533,19 @@ export default function Delivery({ params }) {
               cost: maxPrice,
               selected: cloudService ? true : false,
             };
-            userData.buildCards[incompleteBuildCardIndex].phases =
-              selectedPhases.map((phase) => ({
+            userData.buildCards[incompleteBuildCardIndex].phases = phases.map(
+              (phase) => ({
                 name: phase.name,
                 platforms: phase.platform,
-                // sliderValue: phase.advanced.sliderValue,
-              }));
+                selected: phase.selected,
+              })
+            );
+
             userData.buildCards[incompleteBuildCardIndex].totalCost =
               calculateTotalCost;
-            userData.buildCards[incompleteBuildCardIndex].fixedCost = fixedCost;
-            userData.buildCards[incompleteBuildCardIndex].customizationCost =
-              customizationCost;
+            // userData.buildCards[incompleteBuildCardIndex].fixedCost = fixedCost;
+            // userData.buildCards[incompleteBuildCardIndex].customizationCost =
+            //   customizationCost;
           }
 
           updateDoc(userRef, userData)

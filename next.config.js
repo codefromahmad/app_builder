@@ -6,6 +6,7 @@ const nextConfig = {
       "builderbuckets.blob.core.windows.net",
       "firebasestorage.googleapis.com",
       "www.ascii-code.com",
+      "launchswift.io",
     ],
   },
 };

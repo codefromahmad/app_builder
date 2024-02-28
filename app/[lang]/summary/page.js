@@ -26,6 +26,11 @@ import Image from "next/image";
 export default function Summary({ params }) {
   const user = useSelector((state) => state.user.user);
   const summary = useSelector((state) => state.buildcard.recentBuildCard);
+  const duration = useSelector((state) => state.buildcard.duration);
+  const fixedCost = useSelector((state) => state.buildcard.fixedCost);
+  const customizationCost = useSelector(
+    (state) => state.buildcard.customizationCost
+  );
   // const [summary, setSummary] = useState();
   const [dictionary, setDictionary] = useState({});
   const [featuresData, setFeaturesData] = useState([]);
@@ -40,6 +45,8 @@ export default function Summary({ params }) {
   const [updating, setUpdating] = useState(false);
   const promoRef = useRef(null);
   const db = getFirestore();
+
+  console.log("inside Summary", fixedCost, customizationCost, duration);
 
   const checkPromoCode = async () => {
     console.log("inside checkPromoCode");
@@ -246,13 +253,13 @@ export default function Summary({ params }) {
                   {dictionary.customizationCost}
                 </p>
                 <p className="text-black text-sm">
-                  ${summary?.customizationCost.toLocaleString()}
+                  ${customizationCost?.toLocaleString()}
                 </p>
               </div>
               <div className="flex justify-between items-center py-1">
                 <p className="text-black text-sm">{dictionary.fixedCost}</p>
                 <p className="text-black text-sm">
-                  ${summary?.fixedCost.toLocaleString()}
+                  ${fixedCost?.toLocaleString()}
                 </p>
               </div>
               <hr className="my-2" />
@@ -285,7 +292,7 @@ export default function Summary({ params }) {
                   {dictionary.indicativeDuration}
                 </p>
                 <p className="text-black text-sm font-bold">
-                  {summary?.duration} {dictionary.weeks}
+                  {duration} {dictionary.weeks}
                 </p>
               </div>
               <div className="flex justify-between items-center py-1">

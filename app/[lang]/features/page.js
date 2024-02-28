@@ -120,8 +120,31 @@ export default function Features({ params }) {
       customizationCost: customizationCost,
       totalCost: totalCost,
       cloudServiceCost: null,
+      platforms: ["ios"],
+      speed: 3,
       duration: durationLocal,
-      phases: null,
+      phases: [
+        {
+          name: "Product Roadmap",
+          selected: false,
+        },
+        {
+          name: "Design",
+          selected: true,
+        },
+        {
+          name: "Professional Prototype",
+          selected: false,
+        },
+        {
+          name: "MVP",
+          selected: true,
+        },
+        {
+          name: "Full Build",
+          selected: false,
+        },
+      ],
       deliveryDate: "",
       features: featuresIds,
       customFeatures: customFeatures,
@@ -216,21 +239,48 @@ export default function Features({ params }) {
     setSearchFeatures(results);
   };
 
-  const handleFeaturesSelection = (feature) => {
-    if (searchTerm.length > 0) {
-      console.log("searchTerm", searchTerm);
-      searchItems(searchTerm);
+  const addItIntoFeaturesData = (feature) => {
+    const updatedFeaturesData = [...featuresData];
+
+    const isCurrentlySelected = isFeatureSelected(feature);
+
+    if (isCurrentlySelected) {
+      const featureIndex = updatedFeaturesData.findIndex(
+        (item) => item.id === feature.id
+      );
+      if (featureIndex !== -1) {
+        updatedFeaturesData.splice(featureIndex, 1);
+      }
+    } else {
+      updatedFeaturesData.push(feature);
     }
+
+    setFeaturesData(updatedFeaturesData);
+  };
+
+  const handleFeaturesSelection = (feature) => {
+    // if (searchTerm.length > 0) {
+    //   console.log("searchTerm", searchTerm);
+    //   searchItems(searchTerm);
+    // }
+    console.log("totalFeaturesLength", totalFeaturesLength);
+    console.log("featuresData", featuresData);
     if (isFeatureSelected(feature)) {
+      console.log("removing feature", feature);
       dispatch({
         type: "removeFeature",
         payload: feature.id,
       });
     } else {
+      console.log("adding feature", feature);
       dispatch({
         type: "addFeature",
         payload: feature.id,
       });
+    }
+
+    if (searchTerm.length > 0) {
+      addItIntoFeaturesData(feature);
     }
   };
 

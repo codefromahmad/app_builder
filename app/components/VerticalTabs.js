@@ -176,7 +176,7 @@ const VerticalTabs = ({ dictionary, features }) => {
                 </p>
               </div>
             ) : (
-              <p className="text-black py-2 font-bold">
+              <p className="text-black py-2 text-sm">
                 {currentBuildCard?.details.length > 0
                   ? currentBuildCard?.details
                   : `${dictionary.enterDetail}`}
@@ -214,50 +214,52 @@ const VerticalTabs = ({ dictionary, features }) => {
         </p>
 
         <div className="grid grid-cols-2 gap-5">
-          {currentBuildCard.phases.map((item, index) => (
-            <div className="border border-gray-300 rounded-md" key={index}>
-              <div className="rounded-md rounded-b-none p-5 bg-slate-200">
-                <div className="flex p-5 gap-1 py-1">
-                  <p className="text-black font-bold text-sm">{item.name}</p>
+          {currentBuildCard.phases
+            .filter((item) => item.selected)
+            .map((item, index) => (
+              <div className="border border-gray-300 rounded-md" key={index}>
+                <div className="rounded-md rounded-b-none p-5 bg-slate-200">
+                  <div className="flex p-5 gap-1 py-1">
+                    <p className="text-black font-bold text-sm">{item.name}</p>
+                  </div>
                 </div>
-              </div>
-              {currentBuildCard.phases.length > 0 && (
-                <>
-                  <div className="flex p-5 justify-between pt-5">
-                    <p className="text-black text-xs font-bold">
-                      {dictionary.platform}
-                    </p>
-                  </div>
-                  <div className="flex px-5 justify-start py-4 gap-4">
-                    {item.platforms.includes("android") && (
-                      <div className="flex flex-col items-center">
-                        <BsAndroid2 className="text-2xl text-black" />
-                        <p className="text-gray-400 pt-2 text-xs">Android</p>
-                      </div>
-                    )}
-                    {item.platforms.includes("ios") && (
-                      <div className="flex flex-col items-center">
-                        <FaApple className="text-2xl text-black" />
-                        <p className="text-gray-400 pt-2 text-xs">iOS</p>
-                      </div>
-                    )}
-                    {item.platforms.includes("web") && (
-                      <div className="flex flex-col items-center">
-                        <MdWeb className="text-2xl text-black" />
-                        <p className="text-gray-400 pt-2 text-xs">Web</p>
-                      </div>
-                    )}
-                    {item.platforms.includes("desktop") && (
-                      <div className="flex flex-col items-center">
-                        <IoDesktop className="text-2xl text-black" />
-                        <p className="text-gray-400 pt-2 text-xs">Desktop</p>
-                      </div>
-                    )}
-                  </div>
-                </>
-              )}
-              <hr />
-              {/* {currentBuildCard.features.length > 0 && (
+                {currentBuildCard.phases.length > 0 && (
+                  <>
+                    <div className="flex p-5 justify-between pt-5">
+                      <p className="text-black text-xs font-bold">
+                        {dictionary.platform}
+                      </p>
+                    </div>
+                    <div className="flex px-5 justify-start py-4 gap-4">
+                      {item.platforms.includes("android") && (
+                        <div className="flex flex-col items-center">
+                          <BsAndroid2 className="text-2xl text-black" />
+                          <p className="text-gray-400 pt-2 text-xs">Android</p>
+                        </div>
+                      )}
+                      {item.platforms.includes("ios") && (
+                        <div className="flex flex-col items-center">
+                          <FaApple className="text-2xl text-black" />
+                          <p className="text-gray-400 pt-2 text-xs">iOS</p>
+                        </div>
+                      )}
+                      {item.platforms.includes("web") && (
+                        <div className="flex flex-col items-center">
+                          <MdWeb className="text-2xl text-black" />
+                          <p className="text-gray-400 pt-2 text-xs">Web</p>
+                        </div>
+                      )}
+                      {item.platforms.includes("desktop") && (
+                        <div className="flex flex-col items-center">
+                          <IoDesktop className="text-2xl text-black" />
+                          <p className="text-gray-400 pt-2 text-xs">Desktop</p>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+                {/* <hr /> */}
+                {/* {currentBuildCard.features.length > 0 && (
                 <div className="p-5">
                   <div className="flex justify-between">
                     <p className="text-black text-xs font-bold">Features</p>
@@ -268,8 +270,8 @@ const VerticalTabs = ({ dictionary, features }) => {
                 </div>
               )}
               <hr /> */}
-              <div className="py-10 px-5 relative">
-                <div className="flex justify-between items-center">
+                {/* <div className="py-10 px-5 relative"> */}
+                {/* <div className="flex justify-between items-center">
                   <p className="text-black text-xs font-bold">
                     {dictionary.workingSpeed}
                   </p>
@@ -286,7 +288,7 @@ const VerticalTabs = ({ dictionary, features }) => {
                       ? "Speedy"
                       : ""}
                   </p>
-                </div>
+                </div> */}
                 {/* <input
                   className="h-[2px] !accent-secondary w-full outline-none border-none mt-4 rounded-md cursor-pointer bg-gray-300 relative"
                   id="steps-range"
@@ -302,9 +304,9 @@ const VerticalTabs = ({ dictionary, features }) => {
                     }%, #E5E7EB ${(3 - 1) * 25}%, #E5E7EB 100%)`,
                   }}
                 /> */}
+                {/* </div> */}
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     );
@@ -323,7 +325,10 @@ const VerticalTabs = ({ dictionary, features }) => {
     },
     {
       id: 4,
-      name: `${dictionary.phases} (${currentBuildCard?.phases.length})`,
+      name: `${dictionary.phases} (${
+        currentBuildCard?.phases.filter((phase) => phase.selected === true)
+          .length
+      })`,
       content: <Phases />,
     },
   ];
