@@ -500,7 +500,7 @@ export default function App({ params }) {
       </section>
       <section className="work py-20  px-14 ">
         <div className="text-center  m2-h ">
-          <h2>Here's how it works</h2>
+          <h2>{`Here's how it works`}</h2>
         </div>
         <div className="workgrid">
           <div className="grid lg:grid-cols-2 xl:grid-cols-4 lg:gap-3 2xl:gap-20   items-center">
@@ -511,7 +511,7 @@ export default function App({ params }) {
               <div className="w-ctn p2 m3-h">
                 <h3>Match with an expert</h3>
                 <p>
-                  They'll project manage
+                  {`They'll project manage`}
                   <br />
                   everything – from kick-off to delivery.
                 </p>
@@ -524,8 +524,8 @@ export default function App({ params }) {
               <div className="w-ctn p2 m3-h">
                 <h3>Share your app idea</h3>
                 <p>
-                  Spec out your app with your expert – we'll give you a fixed
-                  price and clear timelines for your project.
+                  {`Spec out your app with your expert – we'll give you a fixed
+                  price and clear timelines for your project.`}
                 </p>
               </div>
             </div>
