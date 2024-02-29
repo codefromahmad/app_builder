@@ -143,7 +143,11 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                         {user?.name[0]}
                       </p>
                     </div>
-                    <div className="w-[11px] h-[11px] absolute flex items-center justify-center -right-[3px] top-1 z-[4] rounded-full bg-primary">
+                    <div
+                      className={`w-[11px] h-[11px] absolute flex items-center justify-center ${
+                        lang === "en" ? "-right-[3px]" : "-left-[3px]"
+                      } top-1 z-[4] rounded-full bg-primary`}
+                    >
                       <div className="w-2 h-2 rounded-full bg-[#00FF47]" />
                     </div>
                   </div>

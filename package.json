@@ -30,6 +30,7 @@
     "react-select": "^5.8.0",
     "react-slick": "^0.30.2",
     "react-timezone-select": "^3.0.2",
+    "sharp": "^0.33.2",
     "slick-carousel": "^1.8.1",
     "uuid": "^9.0.1"
   },
