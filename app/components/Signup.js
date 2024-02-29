@@ -38,17 +38,6 @@ const Signup = ({
             <p className="text-red-700 text-sm">{error}</p>
           </div>
         )}
-        <div className="flex flex-col gap-1 pt-3">
-          <p className="text-black font-bold text-sm">{dictionary.email}</p>
-          <input
-            value={email}
-            required
-            onChange={(event) => setEmail(event.target.value)}
-            type="text"
-            placeholder={dictionary.email}
-            className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
-          />
-        </div>
         <div className="flex flex-col gap-1  pt-3">
           <p className="text-black font-bold text-sm">{dictionary.name}</p>
           <input
@@ -57,6 +46,17 @@ const Signup = ({
             onChange={(event) => setName(event.target.value)}
             type="text"
             placeholder={dictionary.name}
+            className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
+          />
+        </div>
+        <div className="flex flex-col gap-1 pt-3">
+          <p className="text-black font-bold text-sm">{dictionary.email}</p>
+          <input
+            value={email}
+            required
+            onChange={(event) => setEmail(event.target.value)}
+            type="text"
+            placeholder={dictionary.email}
             className="border-[1px] border-gray-300 outline-none text-black rounded p-3"
           />
         </div>

@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import loginImage from "../images/login_image.png";
 import { IoCloseOutline } from "react-icons/io5";
 import Image from "next/image";
 import {
@@ -26,7 +25,8 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import MainHeader from "../components/MainHeader";
 import MainFooter from "../components/MainFooter";
-import builder from "../images/builder.jpg";
+import hero from "../images/screenshots/hero.png";
+import popup from "../images/screenshots/popup.jpeg";
 import dep from "../images/dep.png";
 import dep1 from "../images/dep1.png";
 import dep2 from "../images/dep2.png";
@@ -186,6 +186,16 @@ export default function App({ params }) {
   const [landing, setLanding] = useState({});
 
   useEffect(() => {
+    if (error) {
+      const timeoutId = setTimeout(() => {
+        setError(null);
+      }, 3000);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [error]);
+
+  useEffect(() => {
     if (login && pathname === `/${params.lang}`) {
       document.body.classList.add("disable-scroll");
     } else {
@@ -240,6 +250,7 @@ export default function App({ params }) {
     setName("");
     setEmail("");
     setPassword("");
+    setError(null);
   };
 
   const handleSignup = (event) => {
@@ -296,7 +307,7 @@ export default function App({ params }) {
           // Add more cases for other error codes as needed
 
           default:
-            setError("Error signing in");
+            setError("Email or password is incorrect.");
           // Show a generic error message for other cases
         }
       });
@@ -354,7 +365,7 @@ export default function App({ params }) {
       {login && (
         <div className="absolute w-4/6 h-3/4 z-50 bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 overflow-hidden">
           <div className="grid w-full h-full grid-cols-2">
-            <Image src={loginImage} className="bg-cover" alt="login image" />
+            <Image src={popup} className="bg-cover" alt="login image" />
 
             {showSignin ? (
               <Signin
@@ -435,7 +446,7 @@ export default function App({ params }) {
       <section className="builder">
         <div className="container mx-auto">
           <div className="bui-img">
-            <Image className="img" src={builder} />
+            <Image className="img w-[80%]" src={hero} />
           </div>
         </div>
       </section>
