@@ -319,6 +319,7 @@ section.builder {
 .n-box a {
   border-bottom: 1px solid #000;
   padding-bottom: 12px;
+  color: #000;
 }
 .cta-ctn h3 {
   color: #05cd99;

@@ -26,7 +26,7 @@ import "slick-carousel/slick/slick-theme.css";
 import MainHeader from "../components/MainHeader";
 import MainFooter from "../components/MainFooter";
 import hero from "../images/screenshots/hero.png";
-import popup from "../images/screenshots/popup.jpeg";
+import popup from "../images/popupImage.png";
 import dep from "../images/dep.png";
 import dep1 from "../images/dep1.png";
 import dep2 from "../images/dep2.png";
