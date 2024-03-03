@@ -19,6 +19,11 @@ const HeaderLayout = ({ children, lang }) => {
   const dispatch = useDispatch();
   const pathname = usePathname();
   const sidebarDataToUse = lang === "en" ? sidebarData : sidebarDataArabic;
+
+  useEffect(() => {
+    if (pathname != `/${lang}`)
+      document.body.classList.remove("disable-scroll");
+  }, []);
   // const [refreshed, setRefreshed] = useState(false);
 
   // useEffect(() => {

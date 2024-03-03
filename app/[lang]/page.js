@@ -29,11 +29,14 @@ import hero from "../images/screenshots/hero.png";
 import popup from "../images/popupImage.png";
 import dep from "../images/dep.png";
 import dep1 from "../images/dep1.png";
-import dep2 from "../images/dep2.png";
+// import dep2 from "../images/dep2.png";
+import dep2 from "../images/screenshots/dep2.png";
 import dep3 from "../images/dep3.png";
 import dep4 from "../images/dep4.png";
-import n from "../images/n.png";
-import a from "../images/a.png";
+import n from "../images/screenshots/n.png";
+// import n from "../images/n.png";
+import a from "../images/screenshots/a.png";
+// import a from "../images/a.png";
 import app from "../images/app.png";
 import c1 from "../images/c1.jpg";
 import c2 from "../images/c2.jpg";
@@ -672,7 +675,9 @@ export default function App({ params }) {
                   deployments,
                   <br /> organized on web dashboards for your whole team.
                 </p>
-                <Image className="img" src={dep2} />
+                <div className="bui-img">
+                  <Image className="img" src={dep2} />
+                </div>
               </div>
             </div>
             <div>
@@ -700,7 +705,7 @@ export default function App({ params }) {
       <section className="no-sec py-20">
         <div className="container mx-auto">
           <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-20 items-center">
-            <div className="n-img">
+            <div className="bui-img">
               <Image className="img" src={n} />
             </div>
             <div className="n-ctn m2-h p2">
@@ -731,7 +736,7 @@ export default function App({ params }) {
                 How we use AI
               </Link>
             </div>
-            <div className="a-img">
+            <div className="bui-img">
               <Image className="img" src={a} />
             </div>
           </div>

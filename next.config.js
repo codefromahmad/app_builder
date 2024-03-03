@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     domains: [
+      "statestreetdebating.site",
       "bstudio-assets.azureedge.net",
       "builderbuckets.blob.core.windows.net",
       "firebasestorage.googleapis.com",
