@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "../images/logo.svg";
+import arabicLogo from "../images/arabicLogo.svg";
 import person from "../images/user-image.svg";
 import Image from "next/image";
 import Link from "next/link";
@@ -105,7 +106,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
           className={`w-1/5 ${lang === "en" ? "pl-5" : "pr-5"} cursor-pointer`}
         >
           <Image
-            src={logo}
+            src={lang === "en" ? logo : arabicLogo}
             alt=""
             className="pointer-events-none inset-0 h-16 w-36"
             unoptimized

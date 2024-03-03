@@ -22,6 +22,7 @@ import { IoClose } from "react-icons/io5";
 import { IoMdPricetags } from "react-icons/io";
 import spinner from "../../images/dots-loading.gif";
 import Image from "next/image";
+import UserDetails from "../../components/UserDetails";
 
 export default function Summary({ params }) {
   const user = useSelector((state) => state.user.user);
@@ -43,6 +44,10 @@ export default function Summary({ params }) {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [show, setShow] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [company, setCompany] = useState("");
   const promoRef = useRef(null);
   const db = getFirestore();
 
@@ -119,6 +124,7 @@ export default function Summary({ params }) {
 
   const handleSave = () => {
     const userRef = doc(db, "users", user.uid);
+    setShow(false);
     setUpdating(true);
 
     console.log("userREf", userRef);
@@ -142,10 +148,11 @@ export default function Summary({ params }) {
             console.log("currentBuildCard updating");
             userData.buildCards[currentBuildCard].updatedAt =
               new Date().toISOString();
-            // userData.buildCards[currentBuildCard].cloudServiceCost = {
-            //   ...userData.buildCards[currentBuildCard].cloudServiceCost,
-            //   selected: cloudServiceSelected,
-            // };
+            userData.buildCards[currentBuildCard].userDetails = {
+              name: name,
+              email: email,
+              company: company,
+            };
             userData.buildCards[currentBuildCard].status = "complete";
           }
 
@@ -154,19 +161,31 @@ export default function Summary({ params }) {
               console.log("Build card added/updated successfully");
               localStorage.removeItem("recentBuildCardId");
               setUpdating(false);
+              setName("");
+              setEmail("");
+              setCompany("");
               dispatch(setUser(userData));
             })
             .catch((error) => {
+              setName("");
+              setEmail("");
+              setCompany("");
               setUpdating(false);
               console.error("Error updating document: ", error);
             });
         } else {
           setUpdating(false);
+          setName("");
+          setEmail("");
+          setCompany("");
           console.error("User document does not exist");
         }
       })
       .catch((error) => {
         setUpdating(false);
+        setName("");
+        setEmail("");
+        setCompany("");
         console.error("Error getting document:", error);
       });
   };
@@ -220,6 +239,28 @@ export default function Summary({ params }) {
         style={{ direction: `${params.lang === "en" ? "ltr" : "rtl"}` }}
         className="w-full flex h-[calc(100vh-4.5rem)] mt-[4.5rem]"
       >
+        {show && (
+          <div
+            onClick={() => setShow(false)}
+            className="fixed inset-0 w-full h-full z-40 bg-black/60 bg-opacity-60 top-0 left-0"
+          />
+        )}
+
+        {show && (
+          <UserDetails
+            lang={params.lang}
+            handleSubmit={handleSave}
+            dictionary={dictionary.userDetails}
+            setShow={setShow}
+            name={name}
+            setName={setName}
+            email={email}
+            setEmail={setEmail}
+            company={company}
+            setCompany={setCompany}
+          />
+        )}
+
         <div className="w-2/3">
           <div className="m-5 flex flex-col px-5">
             <p className="text-black font-medium">
@@ -424,7 +465,7 @@ export default function Summary({ params }) {
               //   cloudServiceSelected === summary?.cloudServiceCost.selected
               // }
               disabled={updating}
-              onClick={handleSave}
+              onClick={() => setShow(true)}
               className={`text-white my-1 flex items-center ${
                 !updating ? "p-3" : "py-[2px]"
               } justify-center bg-secondary rounded-md text-sm`}

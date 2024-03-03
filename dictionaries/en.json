@@ -151,6 +151,16 @@
         "additional":"Additional Services",
         "launchStudio":"Launch Swift Studio One +",
         "month":"month",
-        "launchCloud":"Launch Swift Cloud"
+        "launchCloud":"Launch Swift Cloud",
+        "userDetails":{
+            "heading":"Enter Details",
+            "name":"Name",
+            "email":"Email",
+            "company":"Company",
+            "namePlaceholder":"Enter your name",
+            "emailPlaceholder":"Enter your email",
+            "companyPlaceholder":"Enter your company name",
+            "save":"Submit"
+        }
     }
 }
