@@ -20,7 +20,7 @@ export default function LocaleSwitcher() {
     <ul
       className={`flex ${
         checkLocale === "ar" && "ml-5"
-      } gap-x-1 border px-0 py-2 rounded-lg border-secondary`}
+      } gap-x-1 px-0 py-2 rounded-lg`}
     >
       {i18n.locales.map((locale) => {
         return (

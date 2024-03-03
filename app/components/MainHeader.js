@@ -17,7 +17,7 @@ export default function MainHeader({ clickSignin }) {
                 <p>Sign in</p>
               </li>
               <li>
-                <Link className="btn-a" href={""}>
+                <Link onClick={clickSignin} className="btn-a" href={""}>
                   Get free demo
                 </Link>
               </li>

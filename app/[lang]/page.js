@@ -479,12 +479,12 @@ export default function App({ params }) {
             <p>No Code. No Delays. Launch Swift.</p>
             <ul className="blist">
               <li>
-                <Link className="btn-b" href={""}>
+                <Link onClick={clickSignin} className="btn-b" href={""}>
                   Get a free demo
                 </Link>
               </li>
               <li>
-                <Link href={""} className="btn-c">
+                <Link onClick={clickSignin} href={""} className="btn-c">
                   See solutions and pricing
                 </Link>
               </li>
@@ -569,7 +569,7 @@ export default function App({ params }) {
               </div>
             </div>
             <div className="cta-ct">
-              <Link href={""} className="btn-b">
+              <Link onClick={clickSignin} href={""} className="btn-b">
                 Help me find a plan
               </Link>
             </div>
@@ -634,12 +634,12 @@ export default function App({ params }) {
         </div>
         <ul className="blist">
           <li>
-            <Link className="btn-b" href={""}>
+            <Link onClick={clickSignin} className="btn-b" href={""}>
               Speak to an expert
             </Link>
           </li>
           <li>
-            <Link href={""} className="btn-c">
+            <Link onClick={clickSignin} href={""} className="btn-c">
               Learn how we build software
             </Link>
           </li>
@@ -727,7 +727,9 @@ export default function App({ params }) {
                 own businesses. Enjoy transparent pricing with fixed costs and
                 clear timelines based on features chosen.
               </p>
-              <Link href={""}>How we use AI</Link>
+              <Link onClick={clickSignin} href={""}>
+                How we use AI
+              </Link>
             </div>
             <div className="a-img">
               <Image className="img" src={a} />
@@ -747,7 +749,9 @@ export default function App({ params }) {
                 It takes weeks, not months to turn your idea into reality using
                 Launch Swift. No code is required.
               </p>
-              <Link href={""}>Learn More</Link>
+              <Link onClick={clickSignin} href={""}>
+                Learn More
+              </Link>
             </div>
             <div className="app-img">
               <Image className="img" src={app} />
@@ -759,7 +763,9 @@ export default function App({ params }) {
                 code, and you finally have that dream app.
               </p>
               <h3>Dr Hassan Yasin Moodit</h3>
-              <Link href={""}>Read moodit case study</Link>
+              <Link onClick={clickSignin} href={""}>
+                Read moodit case study
+              </Link>
             </div>
           </div>
         </div>
@@ -867,7 +873,7 @@ export default function App({ params }) {
             <div>
               <h2>Don’t Be Shy - Say Hi!</h2>
               <p>Head to our FAQ page for in-depth answers</p>
-              <Link href={""} className="btn-b">
+              <Link onClick={clickSignin} href={""} className="btn-b">
                 Read FAQs
               </Link>
             </div>

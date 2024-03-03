@@ -158,7 +158,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                     dropdownOpen ? "block" : "hidden"
                   } absolute top-11 right-0 py-2 w-40 bg-white rounded-md shadow-xl z-50`}
                 >
-                  <Link
+                  {/* <Link
                     href="#"
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
@@ -169,7 +169,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Setting
-                  </Link>
+                  </Link> */}
                   <Link
                     href="#"
                     onClick={handleLogout}
