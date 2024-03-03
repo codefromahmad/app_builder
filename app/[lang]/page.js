@@ -512,7 +512,7 @@ export default function App({ params }) {
                 app development journey, ensuring a tailor-made solution for
                 your business needs.
               </p>
-              <Link href={""}>Learn more</Link>
+              {/* <Link href={""}>Learn more</Link> */}
             </div>
             <div className="n-box m3-h p2 ">
               <h3>Studio Store</h3>
@@ -522,7 +522,7 @@ export default function App({ params }) {
                 business, including apps and a website, without profit-sharing
                 commitments.
               </p>
-              <Link href={""}>Learn more</Link>
+              {/* <Link href={""}>Learn more</Link> */}
             </div>
             <div className="n-box m3-h p2 ">
               <h3>Launch Swift Enterprise</h3>
@@ -532,7 +532,7 @@ export default function App({ params }) {
                 with upfront pricing, eliminating concerns about escalating
                 costs.
               </p>
-              <Link href={""}>Learn more</Link>
+              {/* <Link href={""}>Learn more</Link> */}
             </div>
             <div className="n-box m3-h p2 ">
               <h3>Launch Swift Cloud</h3>
@@ -541,9 +541,9 @@ export default function App({ params }) {
                 Cloud. Benefit from intelligent usage recommendations that
                 enhance efficiency and optimize your hosting expenses.
               </p>
-              <Link href={""}>Learn more</Link>
+              {/* <Link href={""}>Learn more</Link> */}
             </div>
-            <div className="n-box m3-h p2 ">
+            {/* <div className="n-box m3-h p2 ">
               <h3>Launch Swift Now</h3>
               <p>
                 Transform your app concept into a functional prototype within
@@ -552,7 +552,7 @@ export default function App({ params }) {
                 solutions.
               </p>
               <Link href={""}>Learn more</Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
