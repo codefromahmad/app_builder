@@ -152,7 +152,17 @@
     "additional":"خدمات إضافية",
     "launchStudio":"لانش سويفت ستوديو وان +",
     "month":"شهر",
-    "launchCloud":"لانش سويفت كلاود"
+    "launchCloud":"لانش سويفت كلاود",
+    "userDetails": {
+      "heading": "أدخل التفاصيل",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "company": "الشركة",
+      "namePlaceholder": "أدخل اسمك",
+      "emailPlaceholder": "أدخل بريدك الإلكتروني",
+      "companyPlaceholder": "أدخل اسم شركتك",
+      "save": "حفظ"
+    }
 }
 
 }

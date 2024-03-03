@@ -26,7 +26,7 @@ import "slick-carousel/slick/slick-theme.css";
 import MainHeader from "../components/MainHeader";
 import MainFooter from "../components/MainFooter";
 import hero from "../images/screenshots/hero.png";
-import popup from "../images/screenshots/popup.jpeg";
+import popup from "../images/popupImage.png";
 import dep from "../images/dep.png";
 import dep1 from "../images/dep1.png";
 import dep2 from "../images/dep2.png";
@@ -70,19 +70,27 @@ export function AccordionCustomIcon() {
       <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
         <AccordionHeader onClick={() => handleOpen(1)}>
           <div className="acc-ctn m3-h">
-            <h3> How much does it cost to build an app?</h3>
+            <h3>How much does it cost to build an app?</h3>
           </div>
         </AccordionHeader>
         <AccordionBody>
           <div className="acc-ctn p2">
             <p>
-              This depends on how complicated your app is and who you choose to
-              build it. Our ecommerce app is free and the order management
-              system we built Makro cost thousands but compared to what they
-              were using before – it was 98% cheaper! Unlike other app builders,
-              we give you an accurate delivery time and price before you start.
-              Our AI, Natasha, calculates this instantly and we’re so confident
-              in her, that we guarantee your price.
+              App development is charged depending on features offered by
+              application designers and the duration taken in designing such
+              applications hence the confusion surrounding its cost. We prefer
+              simple pricing which is why we have two options:
+            </p>
+            <br />
+            <p>
+              <b>Launch Swift Studio:</b> Affordable pre-built apps for common
+              needs like online sales, appointments, and reservations.
+            </p>
+            <br />
+            <p>
+              Customized app development for unique needs or larger projects.
+              Pricing is based on your specific features ensuring you know the
+              cost upfront.
             </p>
           </div>
         </AccordionBody>
@@ -96,13 +104,12 @@ export function AccordionCustomIcon() {
         <AccordionBody>
           <div className="acc-ctn p2">
             <p>
-              This depends on how complicated your app is and who you choose to
-              build it. Our ecommerce app is free and the order management
-              system we built Makro cost thousands but compared to what they
-              were using before – it was 98% cheaper! Unlike other app builders,
-              we give you an accurate delivery time and price before you start.
-              Our AI, Natasha, calculates this instantly and we’re so confident
-              in her, that we guarantee your price.
+              No more complex coding! Launch Swift is an innovative app builder
+              that lets you create powerful apps without writing a single line
+              of code! Unlike other builders with limited customization, it
+              offers both ease of use and full control – just perfect! It’s like
+              having an app-builder’s rapidity and flexibility of a tailored
+              build at once, but all cheaply.
             </p>
           </div>
         </AccordionBody>
@@ -110,19 +117,25 @@ export function AccordionCustomIcon() {
       <Accordion open={open === 3} icon={<Icon id={3} open={open} />}>
         <AccordionHeader onClick={() => handleOpen(3)}>
           <div className="acc-ctn m3-h">
-            <h3> Can you create an app for free?</h3>
+            <h3>Can you create an app for free?</h3>
           </div>
         </AccordionHeader>
         <AccordionBody>
           <div className="acc-ctn p2">
             <p>
-              This depends on how complicated your app is and who you choose to
-              build it. Our ecommerce app is free and the order management
-              system we built Makro cost thousands but compared to what they
-              were using before – it was 98% cheaper! Unlike other app builders,
-              we give you an accurate delivery time and price before you start.
-              Our AI, Natasha, calculates this instantly and we’re so confident
-              in her, that we guarantee your price.
+              Nevertheless, free apps are systematically bound by various
+              limitations often rendering basic functionalities only available
+              to users.
+            </p>
+            <br />
+            <p>
+              If you need something simple like a ticketing system or project
+              tracking go for low-cost options such as Google Appsheet.
+            </p>
+            <br />
+            <p>
+              Starting from scratch is more cost-effective, although it requires
+              expertise in coding.
             </p>
           </div>
         </AccordionBody>
@@ -136,13 +149,15 @@ export function AccordionCustomIcon() {
         <AccordionBody>
           <div className="acc-ctn p2">
             <p>
-              This depends on how complicated your app is and who you choose to
-              build it. Our ecommerce app is free and the order management
-              system we built Makro cost thousands but compared to what they
-              were using before – it was 98% cheaper! Unlike other app builders,
-              we give you an accurate delivery time and price before you start.
-              Our AI, Natasha, calculates this instantly and we’re so confident
-              in her, that we guarantee your price.
+              An example of a no-code/low-code platform is Launch Swift. These
+              platforms have simple interfaces and pre-built components that
+              allow users to create applications without coding skills.
+            </p>
+            <br />
+            <p>
+              Coding from scratch will take much longer and require advanced
+              programming knowledge. This means you must write the entire code
+              for your application.
             </p>
           </div>
         </AccordionBody>
@@ -156,14 +171,51 @@ export function AccordionCustomIcon() {
         <AccordionBody>
           <div className="acc-ctn p2">
             <p>
-              This depends on how complicated your app is and who you choose to
-              build it. Our ecommerce app is free and the order management
-              system we built Makro cost thousands but compared to what they
-              were using before – it was 98% cheaper! Unlike other app builders,
-              we give you an accurate delivery time and price before you start.
-              Our AI, Natasha, calculates this instantly and we’re so confident
-              in her, that we guarantee your price.
+              When using Launch Swift, making an app is just like personalizing
+              delectable meals. Choose the base, then select toppings (login,
+              shopping cart, etc.) – pre-built and ready! Absolutely no coding
+              is needed like joining Lego blocks together. Need assistance? Our
+              team is at your disposal!
             </p>
+          </div>
+        </AccordionBody>
+      </Accordion>
+      <Accordion open={open === 6} icon={<Icon id={6} open={open} />}>
+        <AccordionHeader onClick={() => handleOpen(6)}>
+          <div className="acc-ctn m3-h">
+            <h3>How do I start an app business?</h3>
+          </div>
+        </AccordionHeader>
+        <AccordionBody>
+          <div className="acc-ctn p2">
+            <p>
+              Launching apps usually involves charges including $25 for Google
+              Play Store and $99 per year for Apple App Store.
+            </p>
+            <br />
+            <p>
+              Throughout your new project, Launch Swift guides you in every path
+              you choose concerning your application development needs.
+            </p>
+            <br />
+            <p>Where do I start with my application business venture?</p>
+            <ol type="1">
+              <br />
+              <li>
+                1. Discover a point of discontinuity in the market and apply a
+                sense check to your app’s value proposition.
+              </li>
+              <li>
+                2. Concept Testing: Experiment with a free tool for prototyping
+                making it possible for users and investors to give their
+                thoughts about the idea.
+              </li>
+              <li>
+                3. Opt for an App Development Partner: Make any developer choice
+                from a thorough understanding of their competence,
+                cost-reliability, or time-constraint guarantees.
+              </li>
+            </ol>
           </div>
         </AccordionBody>
       </Accordion>
@@ -423,11 +475,8 @@ export default function App({ params }) {
       <section className="Bannner">
         <div className="container mx-auto">
           <div className="ban-ctn m1-h p1">
-            <h1>
-              We make building an app so <br />
-              easy, anyone can do it
-            </h1>
-            <p>Your vision. Your software. We just build it.</p>
+            <h1>Developing Apps Made Effortless</h1>
+            <p>No Code. No Delays. Launch Swift.</p>
             <ul className="blist">
               <li>
                 <Link className="btn-b" href={""}>
@@ -457,37 +506,53 @@ export default function App({ params }) {
           </div>
           <div className="grid lg:grid-cols-2 xl:grid-cols-4  lg:gap-3 2xl:gap-10 items-center">
             <div className="n-box m3-h p2 ">
-              <h3>Launch Studio</h3>
+              <h3>Launch Swift Studio</h3>
               <p>
-                Our product experts work with you every step of the way to build
-                the custom app your business needs.
+                Collaborate seamlessly with our product experts throughout the
+                app development journey, ensuring a tailor-made solution for
+                your business needs.
               </p>
-              <Link href={""}>Learn more</Link>
+              {/* <Link href={""}>Learn more</Link> */}
             </div>
             <div className="n-box m3-h p2 ">
               <h3>Studio Store</h3>
               <p>
-                Get all the features you need to sell online in a ready-to-go
-                package. Includes apps and website, plus we never take a cut of
+                Find ready-to-go components for your e-commerce store with
+                Launch Swift Store. Enjoy all the essential features for your
+                business, including apps and a website, without profit-sharing
+                commitments.
               </p>
-              <Link href={""}>Learn more</Link>
+              {/* <Link href={""}>Learn more</Link> */}
             </div>
             <div className="n-box m3-h p2 ">
-              <h3>Launch Enterprise</h3>
+              <h3>Launch Swift Enterprise</h3>
               <p>
-                Our product experts work with you every step of the way to build
-                the custom app your business needs.
+                Accelerate app development without relying on internal teams.
+                Launch Swift Enterprise offers AI-powered building solutions
+                with upfront pricing, eliminating concerns about escalating
+                costs.
               </p>
-              <Link href={""}>Learn more</Link>
+              {/* <Link href={""}>Learn more</Link> */}
             </div>
             <div className="n-box m3-h p2 ">
-              <h3>Launch Cloud</h3>
+              <h3>Launch Swift Cloud</h3>
               <p>
-                Our product experts work with you every step of the way to build
-                the custom app your business needs.
+                Maximize monthly savings on cloud hosting with Launch Swift
+                Cloud. Benefit from intelligent usage recommendations that
+                enhance efficiency and optimize your hosting expenses.
+              </p>
+              {/* <Link href={""}>Learn more</Link> */}
+            </div>
+            {/* <div className="n-box m3-h p2 ">
+              <h3>Launch Swift Now</h3>
+              <p>
+                Transform your app concept into a functional prototype within
+                days using LaunchSwift Now. Share it effortlessly with internal
+                teams and investors, quickly turning your ideas into tangible
+                solutions.
               </p>
               <Link href={""}>Learn more</Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -496,9 +561,11 @@ export default function App({ params }) {
           <div className="grid lg:grid-cols-1 xl:grid-cols-3 gap-4 items-center">
             <div className="lg:col-span-1 xl:col-span-2">
               <div className="cta-ctn m2-h m3-h p1">
-                <h3>Need help to decide?</h3>
-                <h2>Find out which plan is right for you</h2>
-                <p>In less than 60 seconds</p>
+                <h3>Need Help Building Your Vision?</h3>
+                <h2>
+                  Break it into smaller tasks and make your vision come to life
+                </h2>
+                <p>In just a few minutes</p>
               </div>
             </div>
             <div className="cta-ct">
@@ -511,7 +578,7 @@ export default function App({ params }) {
       </section>
       <section className="work py-20  px-14 ">
         <div className="text-center  m2-h ">
-          <h2>{`Here's how it works`}</h2>
+          <h2>{`Here's How It Works`}</h2>
         </div>
         <div className="workgrid">
           <div className="grid lg:grid-cols-2 xl:grid-cols-4 lg:gap-3 2xl:gap-20   items-center">
@@ -522,9 +589,8 @@ export default function App({ params }) {
               <div className="w-ctn p2 m3-h">
                 <h3>Match with an expert</h3>
                 <p>
-                  {`They'll project manage`}
-                  <br />
-                  everything – from kick-off to delivery.
+                  We connect you with a dedicated Launch Swift specialist to
+                  guide you through the app creation process.
                 </p>
               </div>
             </div>
@@ -535,8 +601,8 @@ export default function App({ params }) {
               <div className="w-ctn p2 m3-h">
                 <h3>Share your app idea</h3>
                 <p>
-                  {`Spec out your app with your expert – we'll give you a fixed
-                  price and clear timelines for your project.`}
+                  Describe your vision, and our team will help translate it into
+                  a real-world application.
                 </p>
               </div>
             </div>
@@ -547,8 +613,8 @@ export default function App({ params }) {
               <div className="w-ctn p2 m3-h">
                 <h3>AI assembles your app</h3>
                 <p>
-                  We select the template and you choose the features – then AI
-                  fits them together.
+                  We automate the development processes using AI, saving you
+                  valuable time and resources.
                 </p>
               </div>
             </div>
@@ -557,10 +623,10 @@ export default function App({ params }) {
                 <h1>4</h1>
               </div>
               <div className="w-ctn p2 m3-h">
-                <h3>Specialists customise your app</h3>
+                <h3>Specialists customize your app</h3>
                 <p>
-                  Designers and developers tailor your features – making your
-                  app uniquely yours.
+                  A team of experienced developers further customize it to make
+                  it unique, polished, personalized, and ready for launch.
                 </p>
               </div>
             </div>
@@ -638,12 +704,12 @@ export default function App({ params }) {
               <Image className="img" src={n} />
             </div>
             <div className="n-ctn m2-h p2">
-              <h2>No tech knowledge needed</h2>
+              <h2>Build Your Dream App, No Coding Required</h2>
               <p>
-                Need the speed and simplicity of a no-code app builder, but
-                the technical sophistication a dev shop can deliver? We’ve got
-                you covered. Builder.ai can create any app you can imagine, to
-                your exact specifications.
+                Without being a programmer, Launch Swift will help you design
+                your custom apps smoothly. Combining the simplicity of a no-code
+                app builder with the technical sophistication of a development
+                studio, Launch Swift ensures your app vision becomes a reality.
               </p>
             </div>
           </div>
@@ -653,14 +719,13 @@ export default function App({ params }) {
         <div className="container mx-auto">
           <div className="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 gap-10 items-center">
             <div className="ai-ctn m2-h p2">
-              <h2>
-                AI helps build your project quicker and more cost-effectively
-              </h2>
+              <h2>AI at Your Fingertips</h2>
               <p>
-                Need the speed and simplicity of a no-code app builder, but
-                the technical sophistication a dev shop can deliver? We’ve got
-                you covered. Builder.ai can create any app you can imagine, to
-                your exact specifications.
+                We bring in AI with Launch Swift for fast and affordable app
+                development. AI provides reusable capabilities from the selected
+                template while allowing developers to personalize it for their
+                own businesses. Enjoy transparent pricing with fixed costs and
+                clear timelines based on features chosen.
               </p>
               <Link href={""}>How we use AI</Link>
             </div>
@@ -677,11 +742,10 @@ export default function App({ params }) {
           </div>
           <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 items-center">
             <div className=" an-ctn m3-h p2">
-              <h3>Make your dream business app a reality</h3>
+              <h3>Your Dream App, Made Real</h3>
               <p>
-                Our product experts are with you every step of the way to
-                project manage your custom app build. Zero tech knowledge needed
-                and you own everything, including your code.
+                It takes weeks, not months to turn your idea into reality using
+                Launch Swift. No code is required.
               </p>
               <Link href={""}>Learn More</Link>
             </div>
@@ -690,9 +754,9 @@ export default function App({ params }) {
             </div>
             <div className="an-ctn m3-h p2">
               <p>
-                The project has felt like it is in excellent hands. The team has
-                been thoroughly responsive, engaged and genuinely interested and
-                motivated to make the project the absolute best it can be.
+                Our team will help throughout the process of customization so
+                that the app meets your vision. You now own everything including
+                code, and you finally have that dream app.
               </p>
               <h3>Dr Hassan Yasin Moodit</h3>
               <Link href={""}>Read moodit case study</Link>
@@ -801,7 +865,7 @@ export default function App({ params }) {
         <div className="container mx-auto">
           <div className="get-bx m2-h p1">
             <div>
-              <h2>Got questions?</h2>
+              <h2>Don’t Be Shy - Say Hi!</h2>
               <p>Head to our FAQ page for in-depth answers</p>
               <Link href={""} className="btn-b">
                 Read FAQs

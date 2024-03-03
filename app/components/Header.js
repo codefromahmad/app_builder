@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import logo from "../images/logo.svg";
+import arabicLogo from "../images/arabicLogo.svg";
 import person from "../images/user-image.svg";
 import Image from "next/image";
 import Link from "next/link";
@@ -105,7 +106,7 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
           className={`w-1/5 ${lang === "en" ? "pl-5" : "pr-5"} cursor-pointer`}
         >
           <Image
-            src={logo}
+            src={lang === "en" ? logo : arabicLogo}
             alt=""
             className="pointer-events-none inset-0 h-16 w-36"
             unoptimized
@@ -143,7 +144,11 @@ const Header = ({ dropdownOpen, setDropdownOpen }) => {
                         {user?.name[0]}
                       </p>
                     </div>
-                    <div className="w-[11px] h-[11px] absolute flex items-center justify-center -right-[3px] top-1 z-[4] rounded-full bg-primary">
+                    <div
+                      className={`w-[11px] h-[11px] absolute flex items-center justify-center ${
+                        lang === "en" ? "-right-[3px]" : "-left-[3px]"
+                      } top-1 z-[4] rounded-full bg-primary`}
+                    >
                       <div className="w-2 h-2 rounded-full bg-[#00FF47]" />
                     </div>
                   </div>

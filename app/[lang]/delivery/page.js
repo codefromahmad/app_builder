@@ -92,7 +92,8 @@ export default function Delivery({ params }) {
   useEffect(() => {
     if (!buildCardDetails) return;
 
-    setName(buildCardDetails.name);
+    if (buildCardDetails.name === "My Project Name") setName("");
+    else setName(buildCardDetails.name);
 
     const updatedPhases = initialPhases.map((phase) => {
       let durationFactor, customizationFactor, fixedCostFactor;
@@ -985,7 +986,9 @@ export default function Delivery({ params }) {
                         {dictionary.estimatedDuration}:{" "}
                       </p>
                       <p className="text-black text-xs font-normal">
-                        {phase.selected ? `${phase.duration} Weeks` : "---"}
+                        {phase.selected
+                          ? `${phase.duration} ${dictionary.weeks}`
+                          : "---"}
                       </p>
                       <p className="text-black text-xs font-bold pt-2">
                         {dictionary.estimatedDelivery}:{" "}
@@ -1026,7 +1029,7 @@ export default function Delivery({ params }) {
                             <p className="text-black text-xs font-bold pb-1">
                               {dictionary.estimatedDuration}:{" "}
                               <span className="text-black text-xs font-normal">
-                                {phase.duration} Weeks
+                                {phase.duration} {dictionary.weeks}
                               </span>
                             </p>
                             <p className="text-black text-xs font-bold">
@@ -1333,7 +1336,7 @@ export default function Delivery({ params }) {
               </div>
             </div>
           </div>
-          <div className="h-16 border-t-2 flex-1 items-end border-gray-300 w-full z-10 bg-white sticky bottom-0">
+          <div className="h-16 flex-1 items-end w-full z-10 bg-white sticky bottom-0">
             <BottomBar
               lang={params.lang}
               customizationCost={customizationCost}
