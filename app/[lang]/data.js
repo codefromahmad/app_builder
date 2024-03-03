@@ -20,6 +20,9 @@ import comnoti from "../images/icons/comnoti.png";
 import tools from "../images/icons/tools.png";
 import filemanagement from "../images/icons/filemanagement.png";
 import camera from "../images/icons/camera.png";
+import imageIcon from "../images/icons/imageIcon.png";
+import business from "../images/icons/business.png";
+import ecommerce from "../images/icons/ecommerce.png";
 
 export const sidebarData = [
   {
@@ -82,21 +85,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/phone-login.png",
         price: "278.00",
         timeline: "1.5",
-        description: "",
+        description:
+          "Users can log in to the product using their mobile phone numbers, removing the need for usernames and passwords. Helpful when product security isn't a priority or to make it easier to log in.",
       },
       {
         id: 6,
-        name: "OTP verification",
-        icon: "https://statestreetdebating.site/lauchswift/icons/OTP-verification.png",
-        mobile:
-          "https://statestreetdebating.site/lauchswift/mobile/OTP-verification.png",
-        web: "https://statestreetdebating.site/lauchswift/web/OTP-verification.png",
-        price: "142.00",
-        timeline: "1",
-        description: "",
-      },
-      {
-        id: 7,
         name: "Admin login",
         icon: "https://statestreetdebating.site/lauchswift/icons/admin-dashboard.png",
         mobile:
@@ -104,10 +97,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/admin-dashboard.png",
         price: "350.00",
         timeline: "3",
-        description: "",
+        description:
+          "Admin can login and easily access the application to manage administrative tasks. They can then use these details to log in. Users can also reset passwords through the forgot password function.",
       },
       {
-        id: 8,
+        id: 7,
         name: "Employee login",
         icon: "https://statestreetdebating.site/lauchswift/icons/employee-login.png",
         mobile:
@@ -115,10 +109,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/employee-login.png",
         price: "570.00",
         timeline: "3",
-        description: "",
+        description:
+          "Employees can login and easily access the application to manage tasks assigned to them. They can then use these details to log in. Employees can also reset passwords through the forgot password function.",
       },
       {
-        id: 9,
+        id: 8,
         name: "App feedback",
         icon: "https://statestreetdebating.site/lauchswift/icons/app-feedback.png",
         mobile:
@@ -130,7 +125,7 @@ export const sidebarData = [
           "Allows users to give and receive feedback on a product, service, or performance. Useful for businesses or individuals looking to improve their offerings or performance by gathering feedback from their customers or peers.",
       },
       {
-        id: 10,
+        id: 9,
         name: "Account creation",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
@@ -141,7 +136,7 @@ export const sidebarData = [
           "Create an account on behalf of users. Provide this information manually or send it automatically with the email notifications feature. Allows for authentication before granting users access.",
       },
       {
-        id: 11,
+        id: 10,
         name: "Splash screens",
         icon: "https://statestreetdebating.site/lauchswift/icons/splash-screen.png",
         mobile:
@@ -149,10 +144,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/",
         price: "250.00",
         timeline: "1.5",
-        description: "",
+        description:
+          "This is the first screen a user sees when the product opens up. It reassures them that the app is launching and can give them a short intro to the app too. In most cases, this would be a company logo and loading symbol but animations could be added in here too.",
       },
       {
-        id: 12,
+        id: 11,
         name: "Hamburger menu and drawer",
         icon: "https://statestreetdebating.site/lauchswift/icons/hamburger-menu-and-drawer.png",
         mobile:
@@ -160,10 +156,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/hamburger-menu-drawer.png",
         price: "1481.00",
         timeline: "1.5",
-        description: "",
+        description:
+          "It is a user interface feature that consists of a button with three horizontal lines stacked on top of each other which expands when the user clicks or taps it, revealing app menu and navigation options.",
       },
       {
-        id: 13,
+        id: 12,
         name: "Settings",
         icon: "https://statestreetdebating.site/lauchswift/icons/settings.png",
         mobile:
@@ -175,7 +172,7 @@ export const sidebarData = [
           "Allowing users to access and interact with a list of settings of the application. These could include personal settings or settings for how they interact with the product.",
       },
       {
-        id: 14,
+        id: 13,
         name: "Searchbar with fields popup",
         icon: "https://statestreetdebating.site/lauchswift/icons/searchbar-popup.png",
         mobile:
@@ -187,7 +184,7 @@ export const sidebarData = [
           "Allowing users the ability to find specific information or content quickly and easily. Once searched, users can select the result that best meets their requirements.",
       },
       {
-        id: 15,
+        id: 14,
         name: "Terms and Conditions",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
@@ -197,13 +194,46 @@ export const sidebarData = [
         description:
           "Asking the user to confirm they agree with terms and conditions before using the product. This feature is often used for age verification or to explain what is done with user data.",
       },
+      {
+        id: 15,
+        name: "Breadcrumb navigation",
+        icon: "https://statestreetdebating.site/lauchswift/icons/breadcrumb-navigation.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/breadcrumb_navigation.png",
+        web: "https://statestreetdebating.site/lauchswift/web/breadcrumb-navigation.png",
+        price: "542.00",
+        timeline: "2",
+        description:
+          'Helps users navigate through a website\'s structure. It appears at the top of a page and shows the user their location in the product. Each clickable "crumb" represents a different level of the structure.',
+      },
+      {
+        id: 16,
+        name: "Landing page",
+        icon: "https://statestreetdebating.site/lauchswift/icons/",
+        mobile: "https://statestreetdebating.site/lauchswift/mobile/",
+        web: "https://statestreetdebating.site/lauchswift/web/",
+        price: "198.00",
+        timeline: "2",
+        description: "",
+      },
+      {
+        id: 17,
+        name: "Logo Design",
+        icon: "https://statestreetdebating.site/lauchswift/icons/logo-design.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/logo-design.png",
+        web: "https://statestreetdebating.site/lauchswift/web/logo-design.png",
+        price: "1,245.00",
+        timeline: "2",
+        description: "",
+      },
     ],
   },
   {
     name: "Security",
     dropDown: [
       {
-        id: 16,
+        id: 18,
         name: "OTP sending through Twilio",
         icon: "https://statestreetdebating.site/lauchswift/icons/OTP-verification.png",
         mobile:
@@ -211,10 +241,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/OTP-verification.png",
         price: "547.00",
         timeline: "2",
-        description: "",
+        description:
+          "User can use thir phone number an One-Time Password to authenticate themselves in the app. This adds an extra layer of security to the product. Useful for products that hold sensitive information.",
       },
       {
-        id: 17,
+        id: 19,
         name: "Two-Factor Authentication",
         icon: "https://statestreetdebating.site/lauchswift/icons/two-factor-auth.png",
         mobile:
@@ -222,21 +253,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/two-factor-auth.png",
         price: "288.00",
         timeline: "2",
-        description: "",
+        description:
+          "Once users have entered their username and password correctly, they enter a One-Time Password (OTP) sent via SMS. This adds an extra layer of security to the product. Useful for products that hold sensitive information.",
       },
       {
-        id: 18,
-        name: "Single Device Login",
-        icon: "https://statestreetdebating.site/lauchswift/icons/employee-login.png",
-        mobile:
-          "https://statestreetdebating.site/lauchswift/mobile/employee-login.png",
-        web: "https://statestreetdebating.site/lauchswift/web/employee-login.png",
-        price: "987.00",
-        timeline: "2.5",
-        description: "",
-      },
-      {
-        id: 19,
+        id: 20,
         name: "Know Your Customer (KYC) Verification",
         icon: "https://statestreetdebating.site/lauchswift/icons/kyc-verification.png",
         mobile:
@@ -248,7 +269,7 @@ export const sidebarData = [
           "Allows you to carry out Know Your Customer verification on your users.",
       },
       {
-        id: 20,
+        id: 21,
         name: "Passcode lock",
         icon: "https://statestreetdebating.site/lauchswift/icons/passcode-lock.png",
         mobile:
@@ -260,7 +281,7 @@ export const sidebarData = [
           "A security feature that requires users to enter a passcode or PIN to access the product. Preventing unauthorised access to their account.",
       },
       {
-        id: 21,
+        id: 22,
         name: "FaceID Authentication",
         icon: "https://statestreetdebating.site/lauchswift/icons/face-id.png",
         mobile:
@@ -272,7 +293,7 @@ export const sidebarData = [
           "Offer FaceID authentication as a payment method. Gives users a fast and secure way to checkout without having to login to external platforms. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 22,
+        id: 23,
         name: "Fingerprint authentication",
         icon: "https://statestreetdebating.site/lauchswift/icons/fingerprint-auth.png",
         mobile:
@@ -284,7 +305,7 @@ export const sidebarData = [
           "Offer fingerprint authentication as a payment method. Gives users a fast and secure way to checkout without having to login to external platforms. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 23,
+        id: 24,
         name: "Privacy Settings",
         icon: "https://statestreetdebating.site/lauchswift/icons/privacy-setting.png",
         mobile:
@@ -296,7 +317,7 @@ export const sidebarData = [
           "Let users control access to their personal information. They can choose who sees their profile and posts, making them feel safer when using the product.",
       },
       {
-        id: 24,
+        id: 25,
         name: "Captcha",
         icon: "https://statestreetdebating.site/lauchswift/icons/captcha.png",
         mobile:
@@ -315,7 +336,7 @@ export const sidebarData = [
     img: socials,
     dropDown: [
       {
-        id: 25,
+        id: 26,
         name: "Add friends",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile:
@@ -327,7 +348,7 @@ export const sidebarData = [
           "Users can add other users to their networks. Particularly useful for social networking and communication apps, where users want to connect and stay in touch with their friends and contacts.",
       },
       {
-        id: 26,
+        id: 27,
         name: "Friends list",
         icon: "https://statestreetdebating.site/lauchswift/icons/friends-list.png",
         mobile:
@@ -339,7 +360,7 @@ export const sidebarData = [
           "Users can add other users to their friend list, allowing them to easily keep track of their connections and quickly access their profiles. They can also see recently added and mutual friends.",
       },
       {
-        id: 27,
+        id: 28,
         name: "List of followers",
         icon: "https://statestreetdebating.site/lauchswift/icons/list-of-followers.png",
         mobile:
@@ -351,7 +372,7 @@ export const sidebarData = [
           "Show users a list of their followers and let them track their content, such as new posts or comments. It helps in making the user experiences more tailored and relevant.",
       },
       {
-        id: 28,
+        id: 29,
         name: "Like a post",
         icon: "https://statestreetdebating.site/lauchswift/icons/like-post.png",
         mobile:
@@ -363,7 +384,7 @@ export const sidebarData = [
           "Users can show they like a piece of content that's been shared inside the product. Helps users display their interests to others, and gives useful insight when it comes to understanding their preferences and motivations.",
       },
       {
-        id: 29,
+        id: 30,
         name: "Repost",
         icon: "https://statestreetdebating.site/lauchswift/icons/repost.png",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/repost.png",
@@ -374,7 +395,7 @@ export const sidebarData = [
           "Users can repost content published inside the product on their profile. The feature is commonly used on social media platforms to increase the reach of interesting or relevant content.",
       },
       {
-        id: 30,
+        id: 31,
         name: "Creating a post",
         icon: "https://statestreetdebating.site/lauchswift/icons/create-post.png",
         mobile:
@@ -386,7 +407,7 @@ export const sidebarData = [
           "Users can create and publish content. They can customize the format and style of their posts and attach media. An essential tool for users to share their thoughts, ideas and stories with others.",
       },
       {
-        id: 31,
+        id: 32,
         name: "Block Users",
         icon: "https://statestreetdebating.site/lauchswift/icons/block-user.png",
         mobile:
@@ -398,7 +419,7 @@ export const sidebarData = [
           "Both users and admins can block users within the product. Admins can control users' access to all content, while users can prevent specific individuals from interacting with them.",
       },
       {
-        id: 32,
+        id: 33,
         name: "Invite Friends",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
@@ -409,7 +430,7 @@ export const sidebarData = [
           "Users can invite friends and contacts to join them on the product via social media, email or text message (SMS). Great for increasing the product's visibility and reach.",
       },
       {
-        id: 33,
+        id: 34,
         name: "Disable ads",
         icon: "https://statestreetdebating.site/lauchswift/icons/disable-ads.png",
         mobile:
@@ -421,7 +442,7 @@ export const sidebarData = [
           "Users can disable ads from displaying. Use this to manage different levels of offerings inside the product, such as freemium or paid-for, or with audiences of different ages.",
       },
       {
-        id: 34,
+        id: 35,
         name: "Customisable User Profile",
         icon: "https://statestreetdebating.site/lauchswift/icons/customise-user-profile.png",
         mobile:
@@ -433,7 +454,7 @@ export const sidebarData = [
           "Users can create customisable profiles with the option to add extra fields to share more information about themselves. Great for letting user share information they believe to be most relevant.",
       },
       {
-        id: 35,
+        id: 36,
         name: "Mention/Tagging",
         icon: "https://statestreetdebating.site/lauchswift/icons/tagging.png",
         mobile:
@@ -445,7 +466,7 @@ export const sidebarData = [
           "Users can tag or mention another user's profile when they create a post or write a comment. Doing so helps to build relationships and encourage conversations within the product.",
       },
       {
-        id: 36,
+        id: 37,
         name: "Advanced search",
         icon: "https://statestreetdebating.site/lauchswift/icons/advanced-search.png",
         mobile:
@@ -457,7 +478,7 @@ export const sidebarData = [
           "Delivers improved search experience, with filters and keywords to generate relevant results, even when the search does not find an exact match. Also, users can conveniently access their search history for easy reference.",
       },
       {
-        id: 37,
+        id: 38,
         name: "Affiliate URL",
         icon: "https://statestreetdebating.site/lauchswift/icons/affiliate-url.png",
         mobile:
@@ -469,7 +490,7 @@ export const sidebarData = [
           "Monetise your platform by adding affiliate URLs to listed items to generate commission. Users are redirected to the third-party website when they click the displayed link.",
       },
       {
-        id: 38,
+        id: 39,
         name: "Save Search",
         icon: "https://statestreetdebating.site/lauchswift/icons/save-search.png",
         mobile:
@@ -477,7 +498,8 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/save-search.png",
         price: "975.00",
         timeline: "2",
-        description: "",
+        description:
+          "Saving searches makes it more convinent for the user to get to thier previously searched items if they want to search them back again",
       },
     ],
   },
@@ -486,7 +508,7 @@ export const sidebarData = [
     img: chat,
     dropDown: [
       {
-        id: 39,
+        id: 40,
         name: "Chat",
         icon: "https://statestreetdebating.site/lauchswift/icons/chatscreen.png",
         mobile:
@@ -498,7 +520,7 @@ export const sidebarData = [
           "Users can live chat with each other on a 1-on-1 basis. They can write messages, share images and send and receive push notifications. Overall, an efficient way for people to communicate in real-time. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 40,
+        id: 41,
         name: "Group chat",
         icon: "https://statestreetdebating.site/lauchswift/icons/group-chat.png",
         mobile:
@@ -510,7 +532,7 @@ export const sidebarData = [
           "Users can create a group with other users, give that group a name and chat with all users within the group. Great for improving communication. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 41,
+        id: 42,
         name: "Chat Backup/Restore",
         icon: "https://statestreetdebating.site/lauchswift/icons/chat-backup.png",
         mobile:
@@ -522,7 +544,7 @@ export const sidebarData = [
           "Allows users to save and restore their chat history. Users can back up their chat messages to a cloud or locally-based storage service. They can then access these from any device they sign in on.",
       },
       {
-        id: 42,
+        id: 43,
         name: "Chatbot",
         icon: "https://statestreetdebating.site/lauchswift/icons/chatbot.png",
         mobile:
@@ -534,7 +556,7 @@ export const sidebarData = [
           "The rule-based chatbot automates frequently asked questions, providing quick and consistent responses based on predefined questions. It's an effective tool for streamlining customer service and improving efficiency. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 43,
+        id: 44,
         name: "Group Video Call",
         icon: "https://statestreetdebating.site/lauchswift/icons/group-video-calls.png",
         mobile:
@@ -546,7 +568,7 @@ export const sidebarData = [
           "Users can have a video call in groups of up to 16 others. It facilitates remote meetings, enhances teamwork, and fosters efficient group interactions. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 44,
+        id: 45,
         name: "Conversation Threading",
         icon: "https://statestreetdebating.site/lauchswift/icons/conversation-threading.png",
         mobile:
@@ -558,7 +580,7 @@ export const sidebarData = [
           "Structure conversations in a way where users can reply to specific messages. Responses are grouped and shown under the original message, making it easier for users to keep track of the discussion.",
       },
       {
-        id: 45,
+        id: 46,
         name: "Audio/video messenger",
         icon: "https://statestreetdebating.site/lauchswift/icons/audio-call.png",
         mobile:
@@ -570,7 +592,7 @@ export const sidebarData = [
           "Users can instantly send and receive audio and video messages to each other on a 1-2-1 basis. This is often used when users can't or don't want to use text. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 46,
+        id: 47,
         name: "Webinar",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
@@ -587,7 +609,7 @@ export const sidebarData = [
     img: share,
     dropDown: [
       {
-        id: 47,
+        id: 48,
         name: "Share contact",
         icon: "https://statestreetdebating.site/lauchswift/icons/share-contact.png",
         mobile:
@@ -599,7 +621,7 @@ export const sidebarData = [
           "Let users share their contact information quickly and easily, including phone numbers, email addresses, and social media profiles, promoting efficient communication.",
       },
       {
-        id: 48,
+        id: 49,
         name: "Link share",
         icon: "https://statestreetdebating.site/lauchswift/icons/share-link.png",
         mobile:
@@ -617,7 +639,7 @@ export const sidebarData = [
     img: reviews,
     dropDown: [
       {
-        id: 49,
+        id: 50,
         name: "App review prompt",
         icon: "https://statestreetdebating.site/lauchswift/icons/app-review-prompt.png",
         mobile:
@@ -629,7 +651,7 @@ export const sidebarData = [
           "Gather customer feedback, increase ratings and boost rankings in app stores by prompting customers to leave reviews. Customize the message that users see and the frequency of prompts displayed.",
       },
       {
-        id: 50,
+        id: 51,
         name: "Surveys",
         icon: "https://statestreetdebating.site/lauchswift/icons/surveys.png",
         mobile:
@@ -641,7 +663,7 @@ export const sidebarData = [
           "Gather customer insights by asking for their feedback. Users can provide ratings, answer multiple-choice questions and add comments. Use the data to improve customer experience and product offerings.",
       },
       {
-        id: 51,
+        id: 52,
         name: "Feedback dashboard",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
@@ -658,7 +680,7 @@ export const sidebarData = [
     img: audiovideo,
     dropDown: [
       {
-        id: 52,
+        id: 53,
         name: "Audio Player",
         icon: "https://statestreetdebating.site/lauchswift/icons/audio-player.png",
         mobile:
@@ -670,17 +692,18 @@ export const sidebarData = [
           "A central hub where users can manage their audio. They can easily control basic functions like playing, pausing, and controlling the volume. Advanced add-ons features like sound bass boosting and EQ can be added as well if preferred.",
       },
       {
-        id: 53,
+        id: 54,
         name: "Video player",
         icon: "https://statestreetdebating.site/lauchswift/icons/camera-video-recordin.png",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
         web: "https://statestreetdebating.site/lauchswift/web/",
         price: "743.00",
         timeline: "3",
-        description: "",
+        description:
+          "A central hub where users can manage their audio. They can easily control basic functions like playing, pausing, and controlling the volume. Advanced add-ons features like sound bass boosting and EQ can be added as well if preferred.",
       },
       {
-        id: 54,
+        id: 55,
         name: "Radio Stations",
         icon: "https://statestreetdebating.site/lauchswift/icons/radio-station.png",
         mobile:
@@ -688,10 +711,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/radio-station.png",
         price: "980.00",
         timeline: "2.5",
-        description: "",
+        description:
+          "Users can access radio stations inside the product. These can be accessed with one tap/click. This does require third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 55,
+        id: 56,
         name: "Download options",
         icon: "https://statestreetdebating.site/lauchswift/icons/download-options.png",
         mobile:
@@ -702,7 +726,7 @@ export const sidebarData = [
         description: "A feature to download documents/media/files to a device.",
       },
       {
-        id: 56,
+        id: 57,
         name: "Archive",
         icon: "https://statestreetdebating.site/lauchswift/icons/archive.png",
         mobile:
@@ -714,7 +738,7 @@ export const sidebarData = [
           "Users can archive their photos, videos, and documents without deleting them. All content is recoverable for evidence and compliance reasons or if the user wants to restore it.",
       },
       {
-        id: 57,
+        id: 58,
         name: "Video Management",
         icon: "https://statestreetdebating.site/lauchswift/icons/video-management.png",
         mobile:
@@ -726,7 +750,7 @@ export const sidebarData = [
           "Users can organize videos stored inside the product. Includes options to add, delete, and find related videos.",
       },
       {
-        id: 58,
+        id: 59,
         name: "Video Editing Tools",
         icon: "https://statestreetdebating.site/lauchswift/icons/video-editing.png",
         mobile:
@@ -743,7 +767,7 @@ export const sidebarData = [
     name: "Communications & Notifications",
     dropDown: [
       {
-        id: 59,
+        id: 60,
         name: "Audio Call",
         icon: "https://statestreetdebating.site/lauchswift/icons/audio-call.png",
         mobile:
@@ -755,7 +779,7 @@ export const sidebarData = [
           "Users can communicate with each other through voice calls while staying within the product, eliminating the need to use their traditional phone service's call allowance. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 60,
+        id: 61,
         name: "Audio Library",
         icon: "https://statestreetdebating.site/lauchswift/icons/audio-library.png",
         mobile:
@@ -767,7 +791,7 @@ export const sidebarData = [
           "Users can create a library of audio files, such as podcasts or company recordings. Store everything in one place for easy access.",
       },
       {
-        id: 61,
+        id: 62,
         name: "Call Recording",
         icon: "https://statestreetdebating.site/lauchswift/icons/call-recording.png",
         mobile:
@@ -779,7 +803,7 @@ export const sidebarData = [
           "Provide users with the ability to record calls within the product. They can use this to record the audio from voice calls or meetings. Great for keeping records of important conversations. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 62,
+        id: 63,
         name: "Voicenotes",
         icon: "https://statestreetdebating.site/lauchswift/icons/voice-notes.png",
         mobile:
@@ -791,7 +815,7 @@ export const sidebarData = [
           "Users can make and store a voice recording inside the product. Voice notes offer a way to make quick recordings that can be accessed via a library and listened to anytime.",
       },
       {
-        id: 63,
+        id: 64,
         name: "Push notifications",
         icon: "https://statestreetdebating.site/lauchswift/icons/push-notification.png",
         mobile:
@@ -803,7 +827,7 @@ export const sidebarData = [
           "Send notifications users can see and read when they are not inside the product. Helpful when you need to send important or new information and is great for increasing engagement.",
       },
       {
-        id: 64,
+        id: 65,
         name: "In app notifications",
         icon: "https://statestreetdebating.site/lauchswift/icons/in-app-notifcations.png",
         mobile:
@@ -815,7 +839,7 @@ export const sidebarData = [
           "An interface for users to view and manage notifications they receive within the product. From there, they can perform functions such as reply, mark as read and delete. Helpful for keeping users informed.",
       },
       {
-        id: 65,
+        id: 66,
         name: "Automated Email Sending",
         icon: "https://statestreetdebating.site/lauchswift/icons/automated.png",
         mobile:
@@ -827,7 +851,7 @@ export const sidebarData = [
           "Send automated emails to users. These can be based on customized rules or actions such as reminders.",
       },
       {
-        id: 66,
+        id: 67,
         name: "Notification sound and haptics",
         icon: "https://statestreetdebating.site/lauchswift/icons/notification-sound-haptics.png",
         mobile:
@@ -835,10 +859,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/",
         price: "189.00",
         timeline: "1.5",
-        description: "",
+        description:
+          "Enables customised sound and haptics in the product to provide a personlied user experience",
       },
       {
-        id: 67,
+        id: 68,
         name: "Schedule Notifications",
         icon: "https://statestreetdebating.site/lauchswift/icons/schedule-notification.png",
         mobile:
@@ -850,7 +875,7 @@ export const sidebarData = [
           "Send notifications with daily schedule details. Choose when these are sent, depending on time zone.",
       },
       {
-        id: 68,
+        id: 69,
         name: "Desktop Notifications",
         icon: "https://statestreetdebating.site/lauchswift/icons/desktop-notifications.png",
         mobile:
@@ -862,7 +887,7 @@ export const sidebarData = [
           "Send push notifications to users' desktops. Useful when sending important messages that users need to see promptly or if your audience is using desktop-based screens rather than mobile.",
       },
       {
-        id: 69,
+        id: 70,
         name: "Automatic Reminders",
         icon: "https://statestreetdebating.site/lauchswift/icons/auto-reminders.png",
         mobile:
@@ -874,7 +899,7 @@ export const sidebarData = [
           "Send automatic reminders to users. Set these up to send based on the required criteria, with time zones in mind. Send these to prompt payments, indicate a task is almost due and more.",
       },
       {
-        id: 70,
+        id: 71,
         name: "Real-time updates",
         icon: "https://statestreetdebating.site/lauchswift/icons/realtime-updates.png",
         mobile:
@@ -886,7 +911,7 @@ export const sidebarData = [
           "Any updates to data inside the product are shown instantly. Constantly update content, ensuring users always have the latest data. This feature can improve efficiency, accuracy, and user experience.",
       },
       {
-        id: 71,
+        id: 72,
         name: "Email Notifications",
         icon: "https://statestreetdebating.site/lauchswift/icons/email-notification.png",
         mobile:
@@ -898,7 +923,7 @@ export const sidebarData = [
           "Send email notifications to your users. Great for keeping in contact with them from outside the product. They can also unsubscribe from these emails if they wish.",
       },
       {
-        id: 72,
+        id: 73,
         name: "Email Subscriptions",
         icon: "https://statestreetdebating.site/lauchswift/icons/email-subscription.png",
         mobile:
@@ -917,7 +942,7 @@ export const sidebarData = [
     img: tools,
     dropDown: [
       {
-        id: 73,
+        id: 74,
         name: "Background Fetch",
         icon: "https://statestreetdebating.site/lauchswift/icons/background-fetch.png",
         mobile:
@@ -929,7 +954,7 @@ export const sidebarData = [
           "Utilising task manager we fetch background activities from within the app even when it is not in use at an interval the team would decide.",
       },
       {
-        id: 74,
+        id: 75,
         name: "Document Picker",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
@@ -940,7 +965,7 @@ export const sidebarData = [
           "Provides Native UI element to browse and select document from within the device's local and cloud storage to use it within the application.",
       },
       {
-        id: 75,
+        id: 76,
         name: "File access",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
@@ -951,7 +976,7 @@ export const sidebarData = [
           "A module that provides user access to local file system on the device.",
       },
       {
-        id: 76,
+        id: 77,
         name: "Haptics",
         icon: "https://statestreetdebating.site/lauchswift/icons/haptics.png",
         mobile:
@@ -959,10 +984,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/haptics.png",
         price: "230.00",
         timeline: "1",
-        description: "",
+        description:
+          "Enables customised haptics in the product to provide a personlied user experience on interacting with features in the product.",
       },
       {
-        id: 77,
+        id: 78,
         name: "Data Saver",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile:
@@ -970,20 +996,22 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/data-saving.png",
         price: "980.00",
         timeline: "3",
-        description: "",
+        description:
+          "Ensures users only upload/download files and media on metered networks, such as WiFi. Prevents the product from using excessive amounts of users' data allowance.",
       },
       {
-        id: 78,
+        id: 79,
         name: "Display & Theme (light mode/dark mode)",
         icon: "https://statestreetdebating.site/lauchswift/icons/theme.png",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/theme.png",
         web: "https://statestreetdebating.site/lauchswift/web/theme.png",
         price: "1,500.00",
         timeline: "4",
-        description: "",
+        description:
+          "Enables the user to customise the appearance of the product themes to choose from. Enhancing the user experience by providing personalized control over the app's look and feel.",
       },
       {
-        id: 79,
+        id: 80,
         name: "Offline Work",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
@@ -994,7 +1022,7 @@ export const sidebarData = [
           "Same as analytics with offline highlight at the top somewhere.",
       },
       {
-        id: 80,
+        id: 81,
         name: "Switch Language",
         icon: "https://statestreetdebating.site/lauchswift/icons/switch-language.png",
         mobile:
@@ -1006,7 +1034,7 @@ export const sidebarData = [
           "Switch between multiple languages. Users can select from the language options provided to view the product in their preferred option. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 81,
+        id: 82,
         name: "Cache",
         icon: "https://statestreetdebating.site/lauchswift/icons/",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/",
@@ -1017,7 +1045,7 @@ export const sidebarData = [
           "Stores and retrieves data, enhancing performance and reducing the need for repetitive processing. Some frequently accessed resources, such as pages or images, are temporarily cached (stored locally) on users' devices.",
       },
       {
-        id: 82,
+        id: 83,
         name: "Google contacts import",
         icon: "https://statestreetdebating.site/lauchswift/icons/google-contacts-import.png",
         mobile:
@@ -1025,7 +1053,19 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/google-contacts-import.png",
         price: "447.00",
         timeline: "2.5",
-        description: "",
+        description:
+          "Users can import contacts from their Google account into the product. This feature allows the is useful for users who rely on their Google contacts for communication and need up-to-date contact lists. Needs a third-party integration, so the final cost depends on their pricing.",
+      },
+      {
+        id: 84,
+        name: "Bacrcode scanning",
+        icon: "https://statestreetdebating.site/lauchswift/icons/",
+        mobile: "https://statestreetdebating.site/lauchswift/mobile/",
+        web: "https://statestreetdebating.site/lauchswift/web/",
+        price: "934.00",
+        timeline: "2.5",
+        description:
+          "Scan, read and process a barcode, using the device's camera. The scanned information would be used for inventory management or ecommerce. Thei would require third-party integration, so the final cost depends on their pricing.",
       },
     ],
   },
@@ -1033,7 +1073,7 @@ export const sidebarData = [
     name: "File Management",
     dropDown: [
       {
-        id: 83,
+        id: 85,
         name: "File compression",
         icon: "https://statestreetdebating.site/lauchswift/icons/files-manager.png",
         mobile:
@@ -1041,10 +1081,11 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/file-compression.png",
         price: "650.00",
         timeline: "1.5",
-        description: "",
+        description:
+          "Compress images (.jpg, .gif, .png) uploaded to the product. Doing so saves server space and means images load faster, improving user experience.",
       },
       {
-        id: 84,
+        id: 86,
         name: "Convert file",
         icon: "https://statestreetdebating.site/lauchswift/icons/convert-files.png",
         mobile:
@@ -1056,7 +1097,7 @@ export const sidebarData = [
           "Convert a file to a specific format. Needs a third-party integration, so the final cost depends on their pricing.",
       },
       {
-        id: 85,
+        id: 87,
         name: "Data Storage",
         icon: "https://statestreetdebating.site/lauchswift/icons/data-storage.png",
         mobile:
@@ -1082,7 +1123,8 @@ export const sidebarData = [
         web: "https://statestreetdebating.site/lauchswift/web/camera-access.png",
         price: "312.00",
         timeline: "1",
-        description: "",
+        description:
+          "Access the user device camera. Users can take photos and videos and conduct live streaming sessions and video calls via the application.",
       },
       {
         id: 87,
@@ -1098,6 +1140,475 @@ export const sidebarData = [
       },
     ],
     img: camera,
+  },
+  {
+    name: "Image",
+    dropDown: [
+      {
+        id: 88,
+        name: "Image Module",
+        icon: "https://statestreetdebating.site/lauchswift/icons/",
+        mobile: "https://statestreetdebating.site/lauchswift/mobile/",
+        web: "https://statestreetdebating.site/lauchswift/web/",
+        price: "240.00",
+        timeline: "1",
+        description:
+          "A module that allows to access multiple supported image formats to work effectively within the application including PNG, APNG, JPEG, GIF, SVG, ICO",
+      },
+      {
+        id: 89,
+        name: "Annotation",
+        icon: "https://statestreetdebating.site/lauchswift/icons/annotation.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/annotation.png",
+        web: "https://statestreetdebating.site/lauchswift/web/annotation.png",
+        price: "689.00",
+        timeline: "2",
+        description:
+          "Allows users to add text notes to documents that other users can read. Great for collaboration, as users can discuss specific points.",
+      },
+      {
+        id: 90,
+        name: "PDF Scanner",
+        icon: "https://statestreetdebating.site/lauchswift/icons/pdf_scanner.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/pdf-scanner.png",
+        web: "https://statestreetdebating.site/lauchswift/web/pdf-scanner.png",
+        price: "459.00",
+        timeline: "2",
+        description:
+          "Users can take an image of a document through their camera, then edit with crop, draw, undo/redo, resize, colour and line options. Needs a third-party integration, so the final cost depends on their pricing.",
+      },
+      {
+        id: 91,
+        name: "Screenshot Editor",
+        icon: "https://statestreetdebating.site/lauchswift/icons/screenshot-editing.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/screenshot-editing.png",
+        web: "https://statestreetdebating.site/lauchswift/web/screenshot-editing.png",
+        price: "450.00",
+        timeline: "2",
+        description:
+          "Users can take a screenshot of what's on their screen, then edit with crop, text, draw, undo/redo, resize, colour and line options. Needs a third-party integration, so the final cost depends on their pricing.",
+      },
+      {
+        id: 92,
+        name: "360 degree photo viewer",
+        icon: "https://statestreetdebating.site/lauchswift/icons/360-photo-viewer.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/360-photo-viewer.png",
+        web: "https://statestreetdebating.site/lauchswift/web/360-photo-viewer.png",
+        price: "964.00",
+        timeline: "3",
+        description:
+          "View 360-degree photos inside the product. Users can see every detail from every angle, for a fully immersive experience. Needs a third-party integration, so the final cost depends on their pricing.",
+      },
+    ],
+    img: imageIcon,
+  },
+
+  {
+    name: "Business & Productivity Features",
+    dropDown: [
+      {
+        id: 93,
+        name: "Analytics",
+        icon: "https://statestreetdebating.site/lauchswift/icons/analytics.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/analytics.png",
+        web: "https://statestreetdebating.site/lauchswift/web/analytics.png",
+        price: "730.00",
+        timeline: "3",
+        description:
+          "Gain insights into how your customers interact with the product. These insights allow business decisions to be led by data, providing the information needed to improve crucial product factors. Needs a third-party integration, so the final cost depends on their pricing.",
+      },
+      {
+        id: 94,
+        name: "Appointment creation",
+        icon: "https://statestreetdebating.site/lauchswift/icons/appointment-creation.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/appointment-creation.png",
+        web: "https://statestreetdebating.site/lauchswift/web/appointment-creation.png",
+        price: "348.00",
+        timeline: "2",
+        description:
+          "Users can set up appointments within the product. Once created, they can send appointment notifications to others via email or SMS. Vital for providing a seamless experience for users.",
+      },
+      {
+        id: 95,
+        name: "Performance Tracker",
+        icon: "https://statestreetdebating.site/lauchswift/icons/performance-tracker.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/performance-tracker.png",
+        web: "https://statestreetdebating.site/lauchswift/web/performance-tracker.png",
+        price: "1890.00",
+        timeline: "2.5",
+        description:
+          "Provide users with a way to track performance, appraisals and compensation of employees listed inside the product. Great for gaining an instant overview of trends and patterns.",
+      },
+      {
+        id: 96,
+        name: "Pin conversation",
+        icon: "https://statestreetdebating.site/lauchswift/icons/pin-conversation.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/pin-conversation.png",
+        web: "https://statestreetdebating.site/lauchswift/web/pin-conversation.png",
+        price: "641.00",
+        timeline: "1.5",
+        description:
+          "Users can pin conversations to the top of their inbox for easy access. These messages will appear first, meaning they won't need to scroll through to find them.",
+      },
+      {
+        id: 97,
+        name: "Recurring Appointments",
+        icon: "https://statestreetdebating.site/lauchswift/icons/recurring-appointments.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/recurring-appointments.png",
+        web: "https://statestreetdebating.site/lauchswift/web/recurring-appointments.png",
+        price: "630.00",
+        timeline: "1",
+        description:
+          "Create a series of appointments that happen at the same time over a specific period. Saves time compared to creating the same appointment multiple times.",
+      },
+      {
+        id: 98,
+        name: "Screen sharing",
+        icon: "https://statestreetdebating.site/lauchswift/icons/screen-sharing.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/screen-sharing.png",
+        web: "https://statestreetdebating.site/lauchswift/web/screen-sharing.png",
+        price: "780.00",
+        timeline: "3",
+        description:
+          "Users can share their screen in real-time with others. They also have the option to share a specific window/tab for added privacy and security. It's great for collaboration, technical support, and virtual presentations. Needs a third-party integration, so the final cost depends on their pricing.",
+      },
+      {
+        id: 99,
+        name: "Analytics Reporting",
+        icon: "https://statestreetdebating.site/lauchswift/icons/analytics-reporting.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/analytics-report.png",
+        web: "https://statestreetdebating.site/lauchswift/web/analytics-report.png",
+        price: "320.00",
+        timeline: "1.5",
+        description:
+          "Access and analyse historical data within the product. Compare data across different periods in a tabular format for insightful analysis. Gain valuable insights and make informed decisions.",
+      },
+      {
+        id: 100,
+        name: "Auction bidding",
+        icon: "https://statestreetdebating.site/lauchswift/icons/auction-bidding.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/auction-bidding.png",
+        web: "https://statestreetdebating.site/lauchswift/web/auction-bidding.png",
+        price: "830.00",
+        timeline: "1.5",
+        description:
+          "Users can participate in online auctions and place bids on items. They can set automatic bids, receive alerts for outbidding and track the status of their bids.",
+      },
+      {
+        id: 101,
+        name: "Kanban board",
+        icon: "https://statestreetdebating.site/lauchswift/icons/kanban-board.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/kanban-board.png",
+        web: "https://statestreetdebating.site/lauchswift/web/kanban-board.png",
+        price: "1290.00",
+        timeline: "3",
+        description:
+          "A visual tool for project and task overviews. Tasks are shown as cards and can be moved across columns, reflecting progress towards completion. It offers a flexible approach to managing work.",
+      },
+    ],
+    img: business,
+  },
+
+  {
+    name: "E-commerce & Financial Transactions",
+    dropDown: [
+      {
+        id: 102,
+        name: "Promo Codes",
+        icon: "https://statestreetdebating.site/lauchswift/icons/promo-codes.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/promo-codes.png",
+        web: "https://statestreetdebating.site/lauchswift/web/promo-codes.png",
+        price: "670.00",
+        timeline: "2",
+        description:
+          "Create coupon codes to be used for the product. This feature is often used to attract shoppers wanting a bargain, and to build brand loyalty and improve customer experience.",
+      },
+      {
+        id: 103,
+        name: "Checkout",
+        icon: "https://statestreetdebating.site/lauchswift/icons/checkout.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/checkout.png",
+        web: "https://statestreetdebating.site/lauchswift/web/checkout.png",
+        price: "1390.00",
+        timeline: "2",
+        description:
+          "Track and calculate the total cost of items in the shopping cart. The calculation includes taxes, shipping, and discounts, streamlining the checkout process.",
+      },
+      {
+        id: 104,
+        name: "Promo codes acceptance",
+        icon: "https://statestreetdebating.site/lauchswift/icons/promo-codes.png",
+        mobile: "https://statestreetdebating.site/lauchswift/mobile/",
+        web: "https://statestreetdebating.site/lauchswift/web/",
+        price: "110.00",
+        timeline: "1.5",
+        description:
+          "Accepting Promo codes to be used for the product at checkout. This feature is often used to attract shoppers wanting a bargain, and to build brand loyalty and improve customer experience.",
+      },
+      {
+        id: 105,
+        name: "Dashboard",
+        icon: "https://statestreetdebating.site/lauchswift/icons/dashboard.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/dashboard.png",
+        web: "https://statestreetdebating.site/lauchswift/web/dashboard.png",
+        price: "320.00",
+        timeline: "1",
+        description:
+          "An interface to view and digest relevant analytics data in an easy-to-understand visual format. Great for when users need to keep track of important metrics such as sales, cash flow and product performance.",
+      },
+      {
+        id: 106,
+        name: "Downloadable products",
+        icon: "https://statestreetdebating.site/lauchswift/icons/",
+        mobile: "https://statestreetdebating.site/lauchswift/mobile/",
+        web: "https://statestreetdebating.site/lauchswift/web/",
+        price: "782.00",
+        timeline: "1",
+        description:
+          "Offer users the ability to access and download items directly from the product. Distribute files, documents, or media content, triggering downloads based on rules, such as completing a form or making a payment.",
+      },
+      {
+        id: 107,
+        name: "Favorite items",
+        icon: "https://statestreetdebating.site/lauchswift/icons/favorites-list.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/favorites-list.png",
+        web: "https://statestreetdebating.site/lauchswift/web/favorites-list.png",
+        price: "209.00",
+        timeline: "1.5",
+        description:
+          "Users can tailor their experience of using the product. They might select specific friends, photos, or posts they want to see more of or refer back to whenever they wish.",
+      },
+      {
+        id: 108,
+        name: "Free Credits",
+        icon: "https://statestreetdebating.site/lauchswift/icons/free-credits.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/free-credits.png",
+        web: "https://statestreetdebating.site/lauchswift/web/free-credits.png",
+        price: "302.00",
+        timeline: "1.5",
+        description:
+          "Offer customers a specified amount of free credits for paying towards products or services. Use it to attract new customers and encourage repeat purchases, commonly used to offer discounts.",
+      },
+      {
+        id: 109,
+        name: "Guest Login",
+        icon: "https://statestreetdebating.site/lauchswift/icons/guest-login.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/guest-login.png",
+        web: "https://statestreetdebating.site/lauchswift/web/guest-login.png",
+        price: "780.00",
+        timeline: "2",
+        description:
+          "Offer users a guest account to try out the product. They can dive straight in with full access, without adding personal details.",
+      },
+      {
+        id: 110,
+        name: "Quick View",
+        icon: "https://statestreetdebating.site/lauchswift/icons/quick-view.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/quick-view.png",
+        web: "https://statestreetdebating.site/lauchswift/web/quick-view.png",
+        price: "250.00",
+        timeline: "1.5",
+        description:
+          "Allows users to view multiple images of a product or item by clicking or swiping through them. They can view from various perspectives providing them with a more immersive experience.",
+      },
+      {
+        id: 111,
+        name: "International shippings",
+        icon: "https://statestreetdebating.site/lauchswift/icons/",
+        mobile: "https://statestreetdebating.site/lauchswift/mobile/",
+        web: "https://statestreetdebating.site/lauchswift/web/",
+        price: "670.00",
+        timeline: "1",
+        description:
+          "Customers are asked to choose local or international shipping during checkout. You can select which countries to ship to, so customers can see if they're in your target region.",
+      },
+      {
+        id: 112,
+        name: "Loyalty System",
+        icon: "https://statestreetdebating.site/lauchswift/icons/loyalty-system.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/loyalty-system.png",
+        web: "https://statestreetdebating.site/lauchswift/web/loyalty-system.png",
+        price: "390.00",
+        timeline: "1",
+        description:
+          "Customers are asked to choose local or international shipping during checkout. You can select which countries to ship to, so customers can see if they're in your target region.",
+      },
+      {
+        id: 113,
+        name: "Menu/Ordering",
+        icon: "https://statestreetdebating.site/lauchswift/icons/menu.png",
+        mobile: "https://statestreetdebating.site/lauchswift/mobile/menu.png",
+        web: "https://statestreetdebating.site/lauchswift/web/menu.png",
+        price: "290.00",
+        timeline: "2",
+        description:
+          "Display a list or menu of items inside the product. Includes a basic description next to each item for users to refer to.",
+      },
+      {
+        id: 114,
+        name: "Print",
+        icon: "https://statestreetdebating.site/lauchswift/icons/print.png",
+        mobile: "https://statestreetdebating.site/lauchswift/mobile/print.png",
+        web: "https://statestreetdebating.site/lauchswift/web/print.png",
+        price: "789.00",
+        timeline: "3",
+        description:
+          "Print form inside the product. Once a file is selected, the product locates the printer and offers users options such as quantity, orientation and size.",
+      },
+      {
+        id: 115,
+        name: "Product tutorial",
+        icon: "https://statestreetdebating.site/lauchswift/icons/product-tutorial.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/product-tutorial.png",
+        web: "https://statestreetdebating.site/lauchswift/web/product-tutorial.png",
+        price: "698.00",
+        timeline: "3",
+        description:
+          "A swipe-through tutorial showing how the product works. Useful for highlighting features and giving first-time users the confidence to continue using the product.",
+      },
+      {
+        id: 116,
+        name: "Shoping cart",
+        icon: "https://statestreetdebating.site/lauchswift/icons/shopping-cart.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/shopping-cart.png",
+        web: "https://statestreetdebating.site/lauchswift/web/shopping-cart.png",
+        price: "590.00",
+        timeline: "2",
+        description:
+          "Users can view and edit items selected while browsing the product, showing all relevant information needed before checking out. Important when users might want to review items before purchasing.",
+      },
+      {
+        id: 117,
+        name: "Automatic Renewals",
+        icon: "https://statestreetdebating.site/lauchswift/icons/auto-renewals.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/auto-renewals.png",
+        web: "https://statestreetdebating.site/lauchswift/web/auto-renewal.png",
+        price: "511.00",
+        timeline: "2",
+        description:
+          "Automatically extend subscriptions or services for users, ensuring uninterrupted access. It simplifies the renewal process and enhances customer satisfaction, increasing the chance they renew.",
+      },
+      {
+        id: 118,
+        name: "Collect Transaction Fees and Taxes",
+        icon: "https://statestreetdebating.site/lauchswift/icons/collect-transactions-and-tax.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/collect-transactions-and-tax.png",
+        web: "https://statestreetdebating.site/lauchswift/web/collect-transactions-and-tax.png",
+        price: "290.00",
+        timeline: "2",
+        description:
+          "Automate fee collection for secure and transparent financial transactions. It simplifies fee management, helping you generate revenue efficiently.",
+      },
+      {
+        id: 119,
+        name: "Digital Signatures",
+        icon: "https://statestreetdebating.site/lauchswift/icons/digital-sign.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/digital-sign.png",
+        web: "https://statestreetdebating.site/lauchswift/web/digital-sign.png",
+        price: "120.00",
+        timeline: "2",
+        description:
+          "Provide users with a secure and efficient way to sign documents electronically. The feature eliminates the need for physical signatures and the associated delay. Needs a third-party integration, so the final cost depends on their pricing.",
+      },
+      {
+        id: 120,
+        name: "Donations",
+        icon: "https://statestreetdebating.site/lauchswift/icons/donation.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/donation.png",
+        web: "https://statestreetdebating.site/lauchswift/web/donations.png",
+        price: "320.00",
+        timeline: "1",
+        description:
+          "Users can make a donation at the checkout stage. They only have to enter the amount, so it integrates automatically with the total.",
+      },
+      {
+        id: 121,
+        name: "In-app purchases",
+        icon: "https://statestreetdebating.site/lauchswift/icons/",
+        mobile: "https://statestreetdebating.site/lauchswift/mobile/",
+        web: "https://statestreetdebating.site/lauchswift/web/",
+        price: "270.00",
+        timeline: "2",
+        description:
+          "Monetise your product with in-app purchases. Offer users exclusive features for a fee, such as free delivery, premium content and more.",
+      },
+      {
+        id: 122,
+        name: "Plan Comparison",
+        icon: "https://statestreetdebating.site/lauchswift/icons/plan-comparison.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/plan-comparison.png",
+        web: "https://statestreetdebating.site/lauchswift/web/plan-comparison.png",
+        price: "560.00",
+        timeline: "1.5",
+        description:
+          "Enables your audience to compare features from different plans. Highlight important features to help them decide which one to choose.",
+      },
+      {
+        id: 123,
+        name: "Refund Management",
+        icon: "https://statestreetdebating.site/lauchswift/icons/refund-management.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/refund-management.png",
+        web: "https://statestreetdebating.site/lauchswift/web/refund-management.png",
+        price: "890.00",
+        timeline: "2",
+        description:
+          "Users can request returns or exchanges. Refund the value of the returned item to their account or into a wallet on the product. Or via points that relate to a specified value.",
+      },
+      {
+        id: 124,
+        name: "Restore Purchases",
+        icon: "https://statestreetdebating.site/lauchswift/icons/restore-purchase.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/restore-purchase.png",
+        web: "https://statestreetdebating.site/lauchswift/web/restore-purchase.png",
+        price: "780.00",
+        timeline: "2",
+        description:
+          "Let users transfer their in-app purchases to other devices. Improve customer experience, simplify the user experience and provide a hassle-free purchasing journey.",
+      },
+      {
+        id: 125,
+        name: "Subscriptions Billing",
+        icon: "https://statestreetdebating.site/lauchswift/icons/subscription-billing.png",
+        mobile:
+          "https://statestreetdebating.site/lauchswift/mobile/subscription-billing.png",
+        web: "https://statestreetdebating.site/lauchswift/web/subscription-billing.png",
+        price: "220.00",
+        timeline: "1.5",
+        description:
+          "Set up recurring billing for users and choose the frequency to match your business model. This is also helpful for users, as automated payments reduce friction around fees.",
+      },
+    ],
+    img: ecommerce,
   },
 ];
 
