@@ -31,7 +31,7 @@ export const sidebarData = [
     dropDown: [
       {
         id: 1,
-        name: "Signup/login with emailaa",
+        name: "Signup/login with email",
         icon: "https://statestreetdebating.site/lauchswift/icons/login-with-google.png",
         mobile: "https://statestreetdebating.site/lauchswift/mobile/login-with-google.png",
         //web needs fixing
