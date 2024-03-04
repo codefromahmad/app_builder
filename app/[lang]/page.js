@@ -478,7 +478,7 @@ export default function App({ params }) {
       <section className="Bannner">
         <div className="container mx-auto">
           <div className="ban-ctn m1-h p1">
-            <h1>Developing Apps Made Effortless</h1>
+            <h1>Developing Apps Made Effortless!</h1>
             <p>No Code. No Delays. Launch Swift.</p>
             <ul className="blist">
               <li>
@@ -775,7 +775,7 @@ export default function App({ params }) {
           </div>
         </div>
       </section>
-      <section className="test-sec">
+      {/* <section className="test-sec">
         <div className="tet-h text-center  m2-h m3-h pb-12">
           <h3>Testimonials</h3>
           <h2>What Customer Say</h2>
@@ -860,7 +860,7 @@ export default function App({ params }) {
             </div>
           </Slider>
         </div>
-      </section>
+      </section> */}
       <section className="faqs py-20">
         <div className="container mx-auto ">
           <div className="cta-ctn m2-h m3-h p1 pb-10">

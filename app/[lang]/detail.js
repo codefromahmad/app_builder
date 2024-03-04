@@ -4,7 +4,7 @@ export const sidebarData = [
       img: "",
       dropDown: [
         {
-          name: "Account Creation",
+          name: "Account Creationaa",
           price: "from $520",
           timeline: "1.0 days",
           description: "Create an account on behalf of users. Provides authentication for the user to use the application before granting users access."
@@ -63,12 +63,12 @@ export const sidebarData = [
           timeline: "3.0 days",
           description: "Apple login creates an account on behalf of users. Providing them secure and automated authentication to allow the users to gain access to the app."
         },
-        {
-          name: "Authentication in Wear",
-          price: "from $1,559.16",
-          timeline: "3.0 days",
-          description: ""
-        },
+        // {
+        //   name: "Authentication in Wear",
+        //   price: "from $1,559.16",
+        //   timeline: "3.0 days",
+        //   description: ""
+        // },
         {
           name: "Calendar",
           price: "from $366.47",
